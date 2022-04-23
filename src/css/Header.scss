@@ -1,7 +1,8 @@
-@import './fonts.scss';
+@import '@css/fonts.scss';
 
 .header--wrapper {
   text-align: center;
+  margin-top: 30px;
 }
 
 .header--image {
@@ -10,4 +11,6 @@
 
 .header--title {
   font-family: $eng_font_regular;
+  font-size: $main_title_22;
+  // font-weight: bold;
 }

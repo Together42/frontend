@@ -1,12 +1,12 @@
+@import '@css/fonts.scss';
+
 @mixin main--wrappers {
   width: 600px;
   margin: 0 auto;
 }
 
-.main--list {
-  @include main--wrappers;
-}
-
-.main--result {
-  @include main--wrappers;
+@mixin main--titles {
+  font-weight: 500;
+  font-size: $sub_title_18;
+  color: $darkgrey_default;
 }

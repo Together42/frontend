@@ -1,0 +1,28 @@
+@import '@css/Main.scss';
+@import '@css/fonts.scss';
+
+.main--result {
+  @include main--wrappers;
+}
+
+.main--result--title {
+  @include main--titles;
+}
+
+.main--result--table {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid $darkgrey_light;
+  border-radius: 10px;
+  margin: 30px 0px;
+  height: 250px;
+  padding: 20px;
+  p {
+    color: $darkgrey_default;
+  }
+}
+
+.main--result--team_name {
+  font-weight: 500;
+  font-size: $sub_title_18;
+}

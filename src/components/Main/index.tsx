@@ -3,6 +3,9 @@ import Header from '@utils/Header';
 import Navbar from '@utils/Navbar';
 import '@css/Main.scss';
 import MainSubmit from './MainSubmit';
+import MainList from './MainList';
+import MainResult from './MainResult';
+import Footer from '@utils/Footer';
 
 function Main() {
   return (
@@ -10,13 +13,9 @@ function Main() {
       <Header />
       <Navbar />
       <MainSubmit />
-      <div className="main--list">
-        <p className="main--list--title">친바 신청 목록</p>
-        <div className="main--submit--peoples"></div>
-      </div>
-      <div className="main--result">
-        <p className="main--result--title">친바 결과보기</p>
-      </div>
+      <MainList />
+      <MainResult />
+      <Footer />
     </>
   );
 }

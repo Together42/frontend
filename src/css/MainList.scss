@@ -1,0 +1,28 @@
+@import '@css/Main.scss';
+@import '@css/fonts.scss';
+
+.main--list {
+  @include main--wrappers;
+  box-sizing: border-box;
+  min-height: 270px;
+}
+
+.main--list--title {
+  @include main--titles;
+}
+
+.main--list--peoples {
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: space-around;
+  margin: 40px 0px;
+  img {
+    width: 70px;
+    height: 87.5px;
+    margin: 0 calc((110 / 14));
+  }
+  p {
+    text-align: center;
+    color: $darkgrey_default;
+  }
+}

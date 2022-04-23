@@ -1,0 +1,27 @@
+@import '@css/Main.scss';
+@import '@css/fonts.scss';
+
+.footer {
+  @include main--wrappers;
+  position: relative;
+  height: 150px;
+  width: 600px;
+}
+
+.footer--p_wrapper {
+  position: absolute;
+  left: 0px;
+  top: 85px;
+  p {
+    margin: 0;
+    text-align: start;
+    color: $darkgrey_default;
+  }
+}
+
+.footer--image {
+  position: absolute;
+  width: 100px;
+  right: 0px;
+  top: 30px;
+}

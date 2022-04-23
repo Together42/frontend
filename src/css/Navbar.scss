@@ -1,10 +1,18 @@
+@import '@css/fonts.scss';
+@import '@css/fonts.scss';
+
 .navbar--wrapper {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 0 auto;
+  margin-top: 40px;
   width: 600px;
   height: 40px;
-  border-top: 1px solid;
-  border-bottom: 1px solid;
+  border-top: 1px solid #8080807a;
+  border-bottom: 1px solid #8080807a;
+  span {
+    font-size: $default_big_15;
+    color: $darkgrey_default;
+  }
 }
