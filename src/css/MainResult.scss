@@ -10,6 +10,7 @@
 }
 
 .main--result--table {
+  position: relative;
   display: flex;
   justify-content: space-around;
   border: 1px solid $darkgrey_light;
@@ -25,4 +26,17 @@
 .main--result--team_name {
   font-weight: 500;
   font-size: $sub_title_18;
+}
+
+.main--result--intra {
+  text-align: center;
+}
+
+.hrhr {
+  position: absolute;
+  width: 460px;
+  top: 60px;
+  border: 0;
+  height: 0.5px;
+  background-color: $darkgrey_light;
 }
