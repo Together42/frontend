@@ -3,6 +3,7 @@ import Header from '@utils/Header';
 import Navbar from '@utils/Navbar';
 import AuthForm from './AuthForm';
 import '@css/Auth/Auth.scss';
+import profile1 from '@img/profile 1.png';
 
 function Auth() {
   const [mode, setMode] = useState(false);
@@ -13,11 +14,15 @@ function Auth() {
     <>
       <Header />
       <Navbar />
-      <div className="auth--wrapper">
+      <div className={`auth--wrapper ${mode ? 'signup' : 'login'}`}>
         {mode ? (
           <>
-            <p className="auth--hello">관리자의 승인 후 로그인이 가능합니다</p>
+            <p className="auth--hello">회원가입 후 관리자 승인이 필요합니다</p>
             <p className="auth--hello">얼마 걸리지 않을거에요!</p>
+            <div className="auth--profile">
+              <img src={profile1} alt="profile" />
+              <p>프로필 변경</p>
+            </div>
           </>
         ) : (
           <p className="auth--hello">어서오세요 사서님, 친해질 시간입니다!</p>
