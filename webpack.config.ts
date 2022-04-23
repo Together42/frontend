@@ -14,8 +14,10 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: {
-      '@main': path.resolve(__dirname, 'src/Main'),
-      '@utils': path.resolve(__dirname, 'src/utils'),
+      '@main': path.resolve(__dirname, 'src/components/Main'),
+      '@utils': path.resolve(__dirname, 'src/components/utils'),
+      '@img': path.resolve(__dirname, 'src/img'),
+      '@css': path.resolve(__dirname, 'src/css'),
     },
   },
   entry: {
@@ -46,11 +48,11 @@ const config = {
         exclude: path.join(__dirname, 'node_modules'),
       },
       {
-        test: /\.css?$/,
-        use: ['css-loader'],
+        test: /\.(scss|css)?$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(svg|avif|webp)$/i,
+        test: /\.(svg|avif|webp|png|jpeg)$/i,
         loader: 'file-loader',
       },
       {

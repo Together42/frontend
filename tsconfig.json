@@ -15,10 +15,16 @@
     "allowJs": true,
     "paths": {
       "@main/*": [
-        "src/Main/*"
+        "src/components/Main/*"
       ],
       "@utils/*": [
-        "src/utils/*"
+        "src/components/utils/*"
+      ],
+      "@img/*": [
+        "src/img/*"
+      ],
+      "@css/*": [
+        "src/css/*"
       ],
     }
   }
