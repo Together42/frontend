@@ -15,6 +15,7 @@ const config = {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: {
       '@main': path.resolve(__dirname, 'src/components/Main'),
+      '@auth': path.resolve(__dirname, 'src/components/Auth'),
       '@utils': path.resolve(__dirname, 'src/components/utils'),
       '@img': path.resolve(__dirname, 'src/img'),
       '@css': path.resolve(__dirname, 'src/css'),

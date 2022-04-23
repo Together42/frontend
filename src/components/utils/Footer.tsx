@@ -1,5 +1,5 @@
 import React from 'react';
-import '@css/Footer.scss';
+import '@css/utils/Footer.scss';
 import cute from '@img/cute.png';
 
 function Footer() {

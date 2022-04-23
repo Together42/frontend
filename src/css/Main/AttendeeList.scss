@@ -1,17 +1,18 @@
-@import '@css/Main.scss';
+@import '@css/Main/Main.scss';
+@import '@css/useful.scss';
 @import '@css/fonts.scss';
 
-.main--list {
-  @include main--wrappers;
+.main--attendeeList {
+  @include basic--wrappers;
   box-sizing: border-box;
   min-height: 270px;
 }
 
-.main--list--title {
+.main--attendeeList--title {
   @include main--titles;
 }
 
-.main--list--peoples {
+.main--attendeeList--peoples {
   display: flex;
   flex-wrap: wrap;
   // justify-content: space-around;

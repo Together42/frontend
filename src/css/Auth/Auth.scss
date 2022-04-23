@@ -1,0 +1,25 @@
+@import '@css/fonts.scss';
+@import '@css/useful.scss';
+
+.auth--wrapper {
+  @include basic--wrappers;
+  font-family: $kor_font_regular;
+  height: 450px;
+  margin-top: 100px;
+  p {
+    text-align: center;
+    font-size: $default_big_15;
+    color: $darkgrey_default;
+  }
+}
+
+.auth--guide {
+  margin-top: 80px;
+}
+
+.auth--mode_change {
+  color: #1e4df5 !important;
+  &:hover {
+    cursor: pointer;
+  }
+}

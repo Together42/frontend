@@ -1,5 +1,5 @@
 import React from 'react';
-import '@css/MainList.scss';
+import '@css/Main/AttendeeList.scss';
 import profile1 from '@img/profile 1.png';
 import profile2 from '@img/profile 2.png';
 import profile3 from '@img/profile 3.png';
@@ -10,7 +10,7 @@ import profile7 from '@img/profile 7.png';
 import profile8 from '@img/profile 8.png';
 import profile9 from '@img/profile 9.png';
 
-function MainList() {
+function AttendeeList() {
   const tempNameArr = [
     'kyungsle',
     'kyungsle',
@@ -24,9 +24,9 @@ function MainList() {
   ];
   const tempProfileArr = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9];
   return (
-    <div className="main--list">
-      <p className="main--list--title">친바 신청 목록</p>
-      <div className="main--list--peoples">
+    <div className="main--attendeeList">
+      <p className="main--attendeeList--title">친바 신청 목록</p>
+      <div className="main--attendeeList--peoples">
         {tempNameArr.map((e, i) => (
           <div key={i}>
             <img src={tempProfileArr[i]} alt={`profile${i}`} />
@@ -38,4 +38,4 @@ function MainList() {
   );
 }
 
-export default MainList;
+export default AttendeeList;

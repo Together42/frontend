@@ -1,6 +1,6 @@
 import React from 'react';
 import header_image from '@img/header_image.png';
-import '@css/Header.scss';
+import '@css/utils/Header.scss';
 
 function Header() {
   return (

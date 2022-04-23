@@ -1,8 +1,9 @@
-@import '@css/Main.scss';
+@import '@css/Main/Main.scss';
+@import '@css/useful.scss';
 @import '@css/fonts.scss';
 
 .main--result {
-  @include main--wrappers;
+  @include basic--wrappers;
 }
 
 .main--result--title {

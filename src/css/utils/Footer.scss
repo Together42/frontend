@@ -1,8 +1,8 @@
-@import '@css/Main.scss';
+@import '@css/useful.scss';
 @import '@css/fonts.scss';
 
 .footer {
-  @include main--wrappers;
+  @include basic--wrappers;
   position: relative;
   height: 150px;
   width: 600px;

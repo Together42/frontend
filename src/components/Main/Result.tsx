@@ -1,7 +1,7 @@
 import React from 'react';
-import '@css/MainResult.scss';
+import '@css/Main/Result.scss';
 
-function MainResult() {
+function Result() {
   const tempArr = ['tmam', 'jwoo', 'sujikim', 'seongyle'];
   return (
     <div className="main--result">
@@ -37,4 +37,4 @@ function MainResult() {
   );
 }
 
-export default MainResult;
+export default Result;

@@ -1,29 +1,30 @@
-@import '@css/Main.scss';
+@import '@css/Main/Main.scss';
+@import '@css/useful.scss';
 @import '@css/fonts.scss';
 
-.main--submit {
-  @include main--wrappers;
+.main--apply {
+  @include basic--wrappers;
   margin-top: 90px;
 }
 
-.main--submit--title {
+.main--apply--title {
   @include main--titles;
 }
 
-.main--submit--formbox {
+.main--apply--formbox {
   height: 180px;
   text-align: center;
   position: relative;
 }
 
-.main--submit--formbox--form {
+.main--apply--formbox--form {
   position: absolute;
   left: 35%;
   top: 40%;
   font-family: $kor_font_regular;
 }
 
-.main--submit--formbox--input {
+.main--apply--formbox--input {
   // background: none;
   height: 24px;
   width: 180px;
@@ -36,7 +37,7 @@
   }
 }
 
-.main--submit--formbox--button {
+.main--apply--formbox--button {
   border: none;
   background: none;
   color: $darkgrey_default;
