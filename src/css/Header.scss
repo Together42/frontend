@@ -1,6 +1,13 @@
 @import './fonts.scss';
 
+.header--wrapper {
+  text-align: center;
+}
+
+.header--image {
+  width: 200px;
+}
+
 .header--title {
-  font-family: 'roboto en';
-  // color: red;
+  font-family: $eng_font_regular;
 }

@@ -1,13 +1,2 @@
-@font-face {
-  font-family: 'Noto Sans KR';
-  src: url('../fonts/NotoSansKR-Regular.woff') format('woff');
-  font-weight: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'roboto en';
-  src: url('../fonts/WaterBrush-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-display: swap;
-}
+$kor_font_regular: "'Noto Sans KR', sans-serif";
+$eng_font_regular: "'Roboto', sans-serif";

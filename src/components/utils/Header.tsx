@@ -4,8 +4,8 @@ import '@css/Header.scss';
 
 function Header() {
   return (
-    <div>
-      <img src={header_image} alt="header_image"></img>
+    <div className="header--wrapper">
+      <img src={header_image} alt="header_image" className="header--image"></img>
       <p className="header--title">Together 42</p>
     </div>
   );

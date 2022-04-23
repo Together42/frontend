@@ -1,0 +1,12 @@
+@mixin main--wrappers {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.main--list {
+  @include main--wrappers;
+}
+
+.main--result {
+  @include main--wrappers;
+}

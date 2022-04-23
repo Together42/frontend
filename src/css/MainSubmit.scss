@@ -1,0 +1,31 @@
+@import '@css/Main.scss';
+
+.main--submit {
+  @include main--wrappers;
+}
+
+.main--submit--formbox {
+  height: 220;
+  text-align: center;
+  position: relative;
+}
+
+.main--submit--formbox--form {
+  position: absolute;
+  left: 40%;
+  top: 40%;
+}
+
+.main--submit--formbox--input {
+  background: none;
+  height: 24px;
+  width: 130px;
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 13px;
+  text-align: center;
+}
+
+.main--submit--formbox--button {
+  border: none;
+}
