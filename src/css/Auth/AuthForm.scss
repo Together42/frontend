@@ -7,20 +7,34 @@
   margin-top: 50px;
 }
 
+.authForm--forFlex {
+  display: flex;
+}
+
+.authForm--label {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  font-size: $default_medium_13;
+  width: 50px;
+}
+
 .authForm--input {
   // background: none;
   height: 24px;
-  width: 300px;
+  width: 240px;
   border: none;
   border-bottom: 1px solid $darkgrey_default;
   font-size: $default_medium_13;
   text-align: center;
+  margin-left: 10px;
   &:focus {
     outline: none;
   }
 }
 
-.password {
+.password,
+.passCheck {
   margin-top: 20px;
 }
 
@@ -28,6 +42,7 @@
   position: absolute;
   right: 0;
   bottom: -40px;
+  padding: 0;
   border: none;
   background: none;
   color: $darkgrey_default;
