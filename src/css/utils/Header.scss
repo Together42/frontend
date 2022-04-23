@@ -7,10 +7,17 @@
 
 .header--image {
   width: 200px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .header--title {
+  width: 150px;
+  margin: 20px auto;
   font-family: $eng_font_regular;
   font-size: $main_title_22;
-  // font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
 }
