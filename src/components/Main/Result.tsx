@@ -15,7 +15,7 @@ function Result() {
             </p>
           ))}
         </div>
-        <hr className="hrhr"></hr>
+        <hr className="main--result--hr"></hr>
         <div>
           <p className="main--result--team_name">team two</p>
           {tempArr.map((e, i) => (

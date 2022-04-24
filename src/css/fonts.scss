@@ -5,9 +5,23 @@ $eng_font_regular: 'Roboto', sans-serif;
 // color
 $darkgrey_default: rgb(80, 80, 80);
 $darkgrey_light: #b2babb;
+$lightblue: #73b2ed;
 
 //size
 $main_title_22: 22px;
 $sub_title_18: 18px;
-$default_big_15: 15px;
-$default_medium_13: 13px;
+$default_medium_15: 15px;
+$default_small_13: 13px;
+
+// font-set
+@mixin medium_kor {
+  font-family: $kor_font_regular;
+  font-size: $default_medium_15;
+  color: $darkgrey_default;
+}
+
+@mixin small_kor {
+  font-family: $kor_font_regular;
+  font-size: $default_small_13;
+  color: $darkgrey_default;
+}

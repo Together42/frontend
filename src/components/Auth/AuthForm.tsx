@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '@css/Auth/AuthForm.scss';
-
+import ProfileModal from '@auth/ProfileModal';
+import { useRecoilValue } from 'recoil';
+import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 interface Props {
   mode: boolean;
 }
@@ -10,6 +12,7 @@ function AuthForm(props: Props) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passCheck, setPassCheck] = useState('');
+  const openProfileModal = useRecoilValue(ProfileChangeModalShow);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -24,6 +27,7 @@ function AuthForm(props: Props) {
 
   return (
     <div className="authForm">
+      {openProfileModal && <ProfileModal />}
       <form className="authForm--form" onSubmit={onSubmit}>
         <div className="authForm--forFlex">
           <div className="authForm--label">

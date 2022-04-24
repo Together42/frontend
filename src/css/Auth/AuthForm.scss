@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   justify-content: end;
-  font-size: $default_medium_13;
+  font-size: $default_small_13;
   width: 50px;
 }
 
@@ -25,7 +25,7 @@
   width: 240px;
   border: none;
   border-bottom: 1px solid $darkgrey_default;
-  font-size: $default_medium_13;
+  font-size: $default_small_13;
   text-align: center;
   margin-left: 10px;
   &:focus {

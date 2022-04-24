@@ -4,11 +4,17 @@ import Navbar from '@utils/Navbar';
 import AuthForm from './AuthForm';
 import '@css/Auth/Auth.scss';
 import profile1 from '@img/profile 1.png';
+import { useSetRecoilState } from 'recoil';
+import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 
 function Auth() {
   const [mode, setMode] = useState(false);
+  const setOpenProfileModal = useSetRecoilState(ProfileChangeModalShow);
   const onClickMode = () => {
     setMode((prev) => !prev);
+  };
+  const onClickOpenProfile = () => {
+    setOpenProfileModal(true);
   };
   return (
     <>
@@ -21,7 +27,7 @@ function Auth() {
             <p className="auth--hello">얼마 걸리지 않을거에요!</p>
             <div className="auth--profile">
               <img src={profile1} alt="profile" />
-              <p>프로필 변경</p>
+              <p onClick={onClickOpenProfile}>프로필 변경</p>
             </div>
           </>
         ) : (

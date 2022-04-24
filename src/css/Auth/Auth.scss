@@ -8,7 +8,7 @@
   min-height: 450px;
   p {
     text-align: center;
-    font-size: $default_big_15;
+    font-size: $default_medium_15;
     color: $darkgrey_default;
   }
 }
@@ -24,7 +24,7 @@
     width: 80px;
   }
   p {
-    font-size: $default_medium_13;
+    font-size: $default_small_13;
     color: #73b2ed !important;
     &:hover {
       cursor: pointer;

@@ -23,6 +23,9 @@
       "@utils/*": [
         "src/components/utils/*"
       ],
+      "@recoil/*": [
+        "src/recoil/*"
+      ],
       "@img/*": [
         "src/img/*"
       ],

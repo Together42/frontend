@@ -11,10 +11,11 @@
   border-top: 1px solid #8080807a;
   border-bottom: 1px solid #8080807a;
   a {
-    font-size: $default_big_15;
+    font-family: $kor_font_regular;
+    font-size: $default_medium_15;
     color: $darkgrey_default;
     text-decoration: none;
-    width: 65px;
+    width: 70px;
     text-align: center;
   }
 }

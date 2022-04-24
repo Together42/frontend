@@ -1,5 +1,6 @@
 import React from 'react';
 import '@css/Main/AttendeeList.scss';
+// 이하의 import는 이미지 불러오기 임시용
 import profile1 from '@img/profile 1.png';
 import profile2 from '@img/profile 2.png';
 import profile3 from '@img/profile 3.png';

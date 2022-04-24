@@ -17,6 +17,7 @@ const config = {
       '@main': path.resolve(__dirname, 'src/components/Main'),
       '@auth': path.resolve(__dirname, 'src/components/Auth'),
       '@utils': path.resolve(__dirname, 'src/components/utils'),
+      '@recoil': path.resolve(__dirname, 'src/recoil'),
       '@img': path.resolve(__dirname, 'src/img'),
       '@css': path.resolve(__dirname, 'src/css'),
     },

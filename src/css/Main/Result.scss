@@ -25,15 +25,18 @@
 }
 
 .main--result--team_name {
+  font-family: $eng_font_regular;
   font-weight: 500;
   font-size: $sub_title_18;
 }
 
 .main--result--intra {
+  font-family: $eng_font_regular;
+  font-size: $default_medium_15;
   text-align: center;
 }
 
-.hrhr {
+.main--result--hr {
   position: absolute;
   width: 460px;
   top: 60px;

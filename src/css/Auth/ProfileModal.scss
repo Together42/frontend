@@ -1,0 +1,51 @@
+@import '@css/fonts.scss';
+
+.profileModal {
+  position: absolute;
+  background-color: white;
+  width: 510px;
+  height: 300px;
+  border: 0.5px solid $darkgrey_light;
+  // border-radius: 10px;
+  left: 30%;
+  top: 40%;
+  padding: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  // 스크롤바는 호환성 문제 발생시 삭제
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $darkgrey_light;
+    border-radius: 20px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    box-shadow: inset 0px 0px 3px white;
+  }
+}
+
+.profileModal--title {
+  @include medium_kor;
+  margin-top: 5px;
+}
+
+.profileModal--profileWrapper {
+  width: 480px;
+}
+
+.profileModal--profileImg {
+  width: 60px;
+  margin: 0 10px;
+}
+
+.profileModal--cancle {
+  @include medium_kor;
+  color: $lightblue;
+  text-align: end;
+}
