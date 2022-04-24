@@ -9,6 +9,7 @@ import Navbar from '@utils/Navbar';
 const Main = loadable(() => import('@main/index'));
 const Auth = loadable(() => import('@auth/index'));
 const Review = loadable(() => import('@review/index'));
+const Result = loadable(() => import('@result/index'));
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/result" element={<Result />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/review" element={<Review />} />
         </Routes>

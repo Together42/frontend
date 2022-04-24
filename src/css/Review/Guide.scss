@@ -1,0 +1,37 @@
+@import '@css/useful.scss';
+@import '@css/fonts.scss';
+
+.review--posting--guide {
+  @include medium_kor;
+  position: absolute;
+  right: 0;
+  width: 300px;
+}
+
+.review--posting--guide--title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.review--posting--guide--letters {
+  font-size: 14px;
+  color: #99a3a4;
+  margin-top: 20px;
+}
+
+.review--posting--guide--buttonWrapper {
+  display: flex;
+  margin-top: 30px;
+  span {
+    font-size: 14px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.review--posting--guide--diffRound {
+  span {
+    margin-left: 40px;
+  }
+}

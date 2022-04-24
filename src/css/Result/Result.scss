@@ -2,43 +2,44 @@
 @import '@css/useful.scss';
 @import '@css/fonts.scss';
 
-.main--result {
+$table_padding: 20px;
+
+.result {
   @include basic--wrappers;
 }
 
-.main--result--title {
+.result--title {
   @include main--titles;
 }
 
-.main--result--table {
+.result--table {
   position: relative;
   display: flex;
   justify-content: space-around;
   border: 1px solid $darkgrey_light;
   border-radius: 10px;
-  margin: 30px 0px;
-  height: 250px;
-  padding: 20px;
+  margin-top: 30px;
+  padding: $table_padding;
   p {
     color: $darkgrey_default;
   }
 }
 
-.main--result--team_name {
+.result--team_name {
   font-family: $eng_font_regular;
   font-weight: 500;
   font-size: $sub_title_18;
 }
 
-.main--result--intra {
+.result--intra {
   font-family: $eng_font_regular;
   font-size: $default_medium_15;
   text-align: center;
 }
 
-.main--result--hr {
+.result--hr {
   position: absolute;
-  width: 460px;
+  width: 515px;
   top: 60px;
   border: 0;
   height: 0.5px;

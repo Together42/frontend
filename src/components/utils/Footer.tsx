@@ -1,14 +1,15 @@
 import React from 'react';
 import '@css/utils/Footer.scss';
-import cute from '@img/cute.png';
 
 function Footer() {
   return (
     <div className="footer">
-      <div className="footer--p_wrapper">
-        <p>Made by Kyungsle & tkim</p>
+      <div className="footer--wrapper">
+        <p className="footer--madeby">
+          <span>Made by Kyungsle & Tkim</span>
+        </p>
+        <p className="footer--for">For Jiphyeonjeon</p>
       </div>
-      <img src={cute} alt="cute" className="footer--image" />
     </div>
   );
 }

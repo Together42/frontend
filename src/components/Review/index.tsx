@@ -23,7 +23,13 @@ function Review() {
   return (
     <>
       {tempIgmArr.map((img, i) => (
-        <Posting image={img} teamName={tempArr[i]} comment={tempCommentArr[i]} memberArr={tempMemberArr} />
+        <Posting
+          image={img}
+          teamName={tempArr[i]}
+          comment={tempCommentArr[i]}
+          memberArr={tempMemberArr}
+          elemNum={i + 1}
+        />
       ))}
     </>
   );

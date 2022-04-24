@@ -14,7 +14,35 @@ import { useSetRecoilState } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 
 function ProfileModal() {
-  const tempProfileArr = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9];
+  const tempProfileArr = [
+    profile1,
+    profile2,
+    profile3,
+    profile4,
+    profile5,
+    profile6,
+    profile7,
+    profile8,
+    profile9,
+    profile1,
+    profile2,
+    profile3,
+    profile4,
+    profile5,
+    profile6,
+    profile7,
+    profile8,
+    profile9,
+    profile1,
+    profile2,
+    profile3,
+    profile4,
+    profile5,
+    profile6,
+    profile7,
+    profile8,
+    profile9,
+  ];
   const setOpenProfileModal = useSetRecoilState(ProfileChangeModalShow);
   return (
     <div className="profileModal">

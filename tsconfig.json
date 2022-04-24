@@ -17,6 +17,9 @@
       "@main/*": [
         "src/components/Main/*"
       ],
+      "@result/*": [
+        "src/components/Result/*"
+      ],
       "@auth/*": [
         "src/components/Auth/*"
       ],

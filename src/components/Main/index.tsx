@@ -2,7 +2,6 @@ import React from 'react';
 import '@css/Main/Main.scss';
 import Apply from './Apply';
 import AttendeeList from './AttendeeList';
-import Result from './Result';
 import Footer from '@utils/Footer';
 
 function Main() {
@@ -10,7 +9,6 @@ function Main() {
     <>
       <Apply />
       <AttendeeList />
-      <Result />
       <Footer />
     </>
   );

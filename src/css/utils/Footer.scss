@@ -4,23 +4,30 @@
 .footer {
   @include basic--wrappers;
   position: relative;
-  height: 150px;
+  margin-top: 50px;
+  height: 110px;
 }
 
-.footer--p_wrapper {
+.footer--wrapper {
   position: absolute;
-  left: 0px;
-  top: 85px;
-  p {
-    margin: 0;
-    text-align: start;
-    color: $darkgrey_default;
+  right: 0;
+  width: 200px;
+  span {
+    padding-top: 10px;
+    border-top: 1px solid $darkgrey_light;
   }
 }
 
-.footer--image {
-  position: absolute;
-  width: 100px;
-  right: 0px;
-  top: 30px;
+.footer--madeby,
+.footer--for {
+  @include small_kor;
+  text-align: end;
+}
+
+.footer--madeby {
+  margin-bottom: 5px;
+}
+
+.footer--for {
+  margin-top: 5px;
 }

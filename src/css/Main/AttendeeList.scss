@@ -2,6 +2,8 @@
 @import '@css/useful.scss';
 @import '@css/fonts.scss';
 
+$oneline_img_count: 7;
+
 .main--attendeeList {
   @include basic--wrappers;
   box-sizing: border-box;
@@ -20,7 +22,7 @@
   img {
     width: 70px;
     height: 87.5px;
-    margin: 0 calc((110 / 14));
+    margin: 0 calc(($basic_width - (70 * $oneline_img_count * 1px)) / ($oneline_img_count * 2));
   }
   p {
     font-family: $eng_font_regular;

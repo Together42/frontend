@@ -1,6 +1,8 @@
 @import '@css/fonts.scss';
 
+$basic_width: 700px;
+
 @mixin basic--wrappers {
-  width: 800px;
+  width: $basic_width;
   margin: 0 auto;
 }

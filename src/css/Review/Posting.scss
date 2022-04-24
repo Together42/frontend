@@ -1,40 +1,74 @@
 @import '@css/useful.scss';
+@import '@css/fonts.scss';
 
 .review--posting--forFlex {
   @include basic--wrappers;
+  position: relative;
   height: 50px;
   display: flex;
-  justify-content: start;
-  margin-bottom: 400px;
+  margin-bottom: 200px;
 }
 
 .review--posting--shownWrapper {
-  height: 400px;
+  height: 440px;
   width: 300px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid;
+  border: 1px solid $darkgrey_light;
 }
 
 .review--posting--title {
   display: flex;
   justify-content: space-between;
+  margin: 10px;
 }
 
 .review--posting--members {
+  border-bottom: 1px solid $darkgrey_default;
   img {
     width: 30px;
   }
 }
 
 .review--posting--image {
-  width: 290px;
+  text-align: center;
+  img {
+    width: 290px;
+    height: 290px;
+    object-fit: cover;
+  }
 }
 
-.left {
-  left: 0;
+.justify-left {
+  justify-content: start;
 }
 
-.right {
-  right: 0;
+.justify-right {
+  justify-content: end;
+}
+
+.review--posting--comments {
+  margin: 10px;
+  p {
+    margin: 0;
+  }
+}
+
+.review--posting--maincomment {
+  @include medium_kor;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review--posting--subcomment {
+  margin-top: 5px;
+  line-height: 1.7;
+  span {
+    @include small_kor;
+    color: $darkgrey_light;
+  }
+}
+
+.footer--empty {
+  margin-bottom: 550px;
 }

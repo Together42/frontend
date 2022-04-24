@@ -6,7 +6,7 @@ $image_margin: 10px;
   position: absolute;
   background-color: white;
   width: 510px;
-  height: 300px;
+  height: 350px;
   border: 0.5px solid $darkgrey_light;
   // border-radius: 10px;
   left: -100px;
@@ -41,18 +41,18 @@ $image_margin: 10px;
 
 .profileModal--profileWrapper {
   width: 480px;
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
 .profileModal--profileImg {
   width: 60px;
-  margin: 0 $image_margin;
+  margin: $image_margin;
 }
 
 .profileModal--cancleWrapper {
   display: flex;
   justify-content: end;
-  margin-top: $image_margin;
+  margin-bottom: 10px;
 }
 
 .profileModal--cancle {
