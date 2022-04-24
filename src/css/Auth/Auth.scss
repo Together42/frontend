@@ -6,15 +6,15 @@
   font-family: $kor_font_regular;
   margin-top: 90px;
   min-height: 450px;
-  p {
-    text-align: center;
-    font-size: $default_medium_15;
-    color: $darkgrey_default;
-  }
+}
+
+.auth--hello {
+  @include medium_kor;
+  text-align: center;
 }
 
 .signup {
-  margin-bottom: 90px;
+  margin-bottom: 180px;
 }
 
 .auth--profile {
@@ -24,6 +24,8 @@
     width: 80px;
   }
   p {
+    width: 100px;
+    margin: 10px auto;
     font-size: $default_small_13;
     color: #73b2ed !important;
     &:hover {
@@ -33,10 +35,14 @@
 }
 
 .auth--guide {
+  @include medium_kor;
+  text-align: center;
   margin-top: 80px;
 }
 
 .auth--mode_change {
+  @include medium_kor;
+  text-align: center;
   color: #1e4df5 !important;
   &:hover {
     cursor: pointer;

@@ -24,9 +24,11 @@ function ProfileModal() {
           <img src={e} alt={e} key={i} className="profileModal--profileImg" />
         ))}
       </div>
-      <p className="profileModal--cancle" onClick={() => setOpenProfileModal(false)}>
-        변경취소
-      </p>
+      <div className="profileModal--cancleWrapper">
+        <span className="profileModal--cancle" onClick={() => setOpenProfileModal(false)}>
+          변경취소
+        </span>
+      </div>
     </div>
   );
 }

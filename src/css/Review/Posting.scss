@@ -1,0 +1,40 @@
+@import '@css/useful.scss';
+
+.review--posting--forFlex {
+  @include basic--wrappers;
+  height: 50px;
+  display: flex;
+  justify-content: start;
+  margin-bottom: 400px;
+}
+
+.review--posting--shownWrapper {
+  height: 400px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+}
+
+.review--posting--title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review--posting--members {
+  img {
+    width: 30px;
+  }
+}
+
+.review--posting--image {
+  width: 290px;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}

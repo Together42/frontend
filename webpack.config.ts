@@ -16,6 +16,7 @@ const config = {
     alias: {
       '@main': path.resolve(__dirname, 'src/components/Main'),
       '@auth': path.resolve(__dirname, 'src/components/Auth'),
+      '@review': path.resolve(__dirname, 'src/components/Review'),
       '@utils': path.resolve(__dirname, 'src/components/utils'),
       '@recoil': path.resolve(__dirname, 'src/recoil'),
       '@img': path.resolve(__dirname, 'src/img'),
@@ -58,7 +59,7 @@ const config = {
         loader: 'file-loader',
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        test: /\.(woff|woff2|eot|ttf|otf|jpg)$/i,
         loader: 'file-loader',
       },
     ],

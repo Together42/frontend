@@ -12,6 +12,7 @@ function AuthForm(props: Props) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passCheck, setPassCheck] = useState('');
+  const [email, setEmail] = useState('');
   const openProfileModal = useRecoilValue(ProfileChangeModalShow);
 
   const onSubmit = (e: any) => {
@@ -22,6 +23,7 @@ function AuthForm(props: Props) {
   const onChange = (e: any) => {
     if (e.target.id === 'id') setId(e.target.value);
     else if (e.target.id === 'password') setPassword(e.target.value);
+    else if (e.target.id === 'email') setEmail(e.target.value);
     else setPassCheck(e.target.value);
   };
 
@@ -48,24 +50,38 @@ function AuthForm(props: Props) {
           <input
             className="authForm--input password"
             id="password"
-            placeholder="문자+숫자로 9자 이상"
+            placeholder="9 글자 이상"
             onChange={onChange}
             value={password}
           ></input>
         </div>
         {mode && (
-          <div className="authForm--forFlex">
-            <div className="authForm--label">
-              <span>비번확인</span>
+          <>
+            <div className="authForm--forFlex">
+              <div className="authForm--label">
+                <span>비번확인</span>
+              </div>
+              <input
+                className="authForm--input passCheck"
+                id="passCheck"
+                placeholder="비밀번호 재입력"
+                onChange={onChange}
+                value={passCheck}
+              ></input>
             </div>
-            <input
-              className="authForm--input passCheck"
-              id="passCheck"
-              placeholder="비밀번호 재입력"
-              onChange={onChange}
-              value={passCheck}
-            ></input>
-          </div>
+            <div className="authForm--forFlex">
+              <div className="authForm--label">
+                <span>이메일</span>
+              </div>
+              <input
+                className="authForm--input email"
+                id="email"
+                placeholder="개인이메일 가능"
+                onChange={onChange}
+                value={email}
+              ></input>
+            </div>
+          </>
         )}
         <button className="authForm--button">{mode ? '회원가입' : '로그인'}</button>
       </form>

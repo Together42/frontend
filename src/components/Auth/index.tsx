@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Header from '@utils/Header';
-import Navbar from '@utils/Navbar';
 import AuthForm from './AuthForm';
 import '@css/Auth/Auth.scss';
 import profile1 from '@img/profile 1.png';
@@ -14,12 +12,10 @@ function Auth() {
     setMode((prev) => !prev);
   };
   const onClickOpenProfile = () => {
-    setOpenProfileModal(true);
+    setOpenProfileModal((prev) => !prev);
   };
   return (
     <>
-      <Header />
-      <Navbar />
       <div className={`auth--wrapper ${mode ? 'signup' : 'login'}`}>
         {mode ? (
           <>

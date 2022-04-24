@@ -20,6 +20,9 @@
       "@auth/*": [
         "src/components/Auth/*"
       ],
+      "@review/*": [
+        "src/components/Review/*"
+      ],
       "@utils/*": [
         "src/components/utils/*"
       ],

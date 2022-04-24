@@ -1,5 +1,7 @@
 @import '@css/fonts.scss';
 
+$image_margin: 10px;
+
 .profileModal {
   position: absolute;
   background-color: white;
@@ -7,9 +9,10 @@
   height: 300px;
   border: 0.5px solid $darkgrey_light;
   // border-radius: 10px;
-  left: 30%;
-  top: 40%;
+  left: -100px;
+  top: -40px;
   padding: 10px;
+  z-index: 2;
   overflow-y: scroll;
   overflow-x: hidden;
   // 스크롤바는 호환성 문제 발생시 삭제
@@ -33,19 +36,31 @@
 .profileModal--title {
   @include medium_kor;
   margin-top: 5px;
+  margin-left: $image_margin;
 }
 
 .profileModal--profileWrapper {
   width: 480px;
+  margin: 20px 0;
 }
 
 .profileModal--profileImg {
   width: 60px;
-  margin: 0 10px;
+  margin: 0 $image_margin;
+}
+
+.profileModal--cancleWrapper {
+  display: flex;
+  justify-content: end;
+  margin-top: $image_margin;
 }
 
 .profileModal--cancle {
   @include medium_kor;
   color: $lightblue;
   text-align: end;
+  margin-right: $image_margin;
+  &:hover {
+    cursor: pointer;
+  }
 }
