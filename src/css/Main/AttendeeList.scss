@@ -14,19 +14,34 @@ $oneline_img_count: 7;
   @include main--titles;
 }
 
-.main--attendeeList--peoples {
+.main--attendeeList--profiles {
   display: flex;
   flex-wrap: wrap;
-  // justify-content: space-around;
   margin: 40px 0px;
-  img {
-    width: 70px;
-    height: 87.5px;
-    margin: 0 calc(($basic_width - (70 * $oneline_img_count * 1px)) / ($oneline_img_count * 2));
-  }
   p {
     font-family: $eng_font_regular;
     text-align: center;
     color: $darkgrey_default;
   }
+}
+
+.main--attendeeList--profile_wrapper {
+  position: relative;
+}
+
+.main--attendeeList--profile_image {
+  width: 70px;
+  height: 87.5px;
+  margin: 0 calc(($basic_width - (70 * $oneline_img_count * 1px)) / ($oneline_img_count * 2));
+}
+
+.main--attendeeList--xmark {
+  width: 10px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.show {
+  visibility: initial;
 }

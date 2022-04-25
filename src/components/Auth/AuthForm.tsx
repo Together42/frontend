@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import '@css/Auth/AuthForm.scss';
 import ProfileModal from '@auth/ProfileModal';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
+import LoginState from '@recoil/LoginState';
 import axios from 'axios';
 
 interface Props {
@@ -17,6 +18,7 @@ function AuthForm(props: Props) {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const openProfileModal = useRecoilValue(ProfileChangeModalShow);
+  const setLoginState = useSetRecoilState(LoginState);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -40,6 +42,16 @@ function AuthForm(props: Props) {
         .post(`${process.env.SERVER_ADR}/login`, {
           id,
           pw: password,
+        })
+        .then(() => {
+          setLoginState((prev) => {
+            prev.id = id;
+            prev.email = email;
+            prev.isLogin = true;
+            prev.isAdmin = id === 'tkim';
+            prev.profileUrl = '';
+            return prev;
+          });
         })
         .catch((error) => {
           setErrorMessage(error.response.data);

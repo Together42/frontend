@@ -1,11 +1,19 @@
 import React, { useRef, useState } from 'react';
 import '@css/Main/Apply.scss';
+import axios from 'axios';
 
 function Apply() {
   const [intraID, setIntraID] = useState('');
   const inputRef = useRef(null);
   const onSubmit = (e: any) => {
     e.preventDefault();
+    axios
+      .post(`${process.env.SERVER_ADR}/register`, {
+        togetherId: intraID,
+      })
+      .catch((error) => {
+        alert(error.response.data);
+      });
     setIntraID('');
   };
 
