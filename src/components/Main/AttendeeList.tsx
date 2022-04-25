@@ -11,6 +11,7 @@ import profile6 from '@img/profile 6.png';
 import profile7 from '@img/profile 7.png';
 import profile8 from '@img/profile 8.png';
 import profile9 from '@img/profile 9.png';
+import AttendeeListProfile from './AttendeeListProfile';
 
 function AttendeeList() {
   const tempNameArr = [
@@ -22,19 +23,16 @@ function AttendeeList() {
     'kyungsle',
     'kyungsle',
     'kyungsle',
-    'kyungsle',
+    'Tkim',
   ];
   const tempProfileArr = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9];
+
   return (
     <div className="main--attendeeList">
       <p className="main--attendeeList--title">친바를 신청한 사람들</p>
       <div className="main--attendeeList--profiles">
         {tempNameArr.map((e, i) => (
-          <div className="main--attendeeList--profile_wrapper" key={i}>
-            <img className="main--attendeeList--profile_image" src={tempProfileArr[i]} alt={`profile${i}`} />
-            <p>{e}</p>
-            <img className={`main--attendeeList--xmark`} src={Xmark} alt={Xmark} />
-          </div>
+          <AttendeeListProfile intraID={e} index={i} image={tempProfileArr[i]} />
         ))}
       </div>
     </div>
