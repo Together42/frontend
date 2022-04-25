@@ -3,24 +3,52 @@ import '@css/Auth/AuthForm.scss';
 import ProfileModal from '@auth/ProfileModal';
 import { useRecoilValue } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
+import axios from 'axios';
+
 interface Props {
-  mode: boolean;
+  signUpMode: boolean;
 }
 
 function AuthForm(props: Props) {
-  const { mode } = props;
+  const { signUpMode } = props;
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passCheck, setPassCheck] = useState('');
   const [email, setEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const openProfileModal = useRecoilValue(ProfileChangeModalShow);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    // write this code with data!
+    setErrorMessage('');
+    if (signUpMode) {
+      if (password === passCheck) {
+        axios
+          .post(`${process.env.SERVER_ADR}/register`, {
+            id,
+            pw: password,
+            email,
+          })
+          .catch((error) => {
+            setErrorMessage(error.response.data);
+          });
+      } else {
+        setErrorMessage('비밀번호 재입력이 다릅니다!');
+      }
+    } else {
+      axios
+        .post(`${process.env.SERVER_ADR}/login`, {
+          id,
+          pw: password,
+        })
+        .catch((error) => {
+          setErrorMessage(error.response.data);
+        });
+    }
   };
 
   const onChange = (e: any) => {
+    setErrorMessage('');
     if (e.target.id === 'id') setId(e.target.value);
     else if (e.target.id === 'password') setPassword(e.target.value);
     else if (e.target.id === 'email') setEmail(e.target.value);
@@ -52,6 +80,7 @@ function AuthForm(props: Props) {
           <input
             className="authForm--input password"
             id="password"
+            type="password"
             placeholder="9 글자 이상"
             onFocus={(e) => (e.target.placeholder = '')}
             onBlur={(e) => (e.target.placeholder = '9 글자 이상')}
@@ -59,7 +88,7 @@ function AuthForm(props: Props) {
             value={password}
           ></input>
         </div>
-        {mode && (
+        {signUpMode && (
           <>
             <div className="authForm--forFlex">
               <div className="authForm--label">
@@ -68,6 +97,7 @@ function AuthForm(props: Props) {
               <input
                 className="authForm--input passCheck"
                 id="passCheck"
+                type="password"
                 placeholder="비밀번호 재입력"
                 onFocus={(e) => (e.target.placeholder = '')}
                 onBlur={(e) => (e.target.placeholder = '비밀번호 재입력')}
@@ -82,6 +112,7 @@ function AuthForm(props: Props) {
               <input
                 className="authForm--input email"
                 id="email"
+                type="email"
                 placeholder="개인이메일 가능"
                 onFocus={(e) => (e.target.placeholder = '')}
                 onBlur={(e) => (e.target.placeholder = '개인이메일 가능')}
@@ -91,7 +122,12 @@ function AuthForm(props: Props) {
             </div>
           </>
         )}
-        <button className="authForm--button">{mode ? '회원가입' : '로그인'}</button>
+        <div className="authForm--buttonWrapper">
+          <div className="authForm--error_message">
+            <span>{errorMessage}</span>
+          </div>
+          <button className="authForm--button">{signUpMode ? '회원가입' : '로그인'}</button>
+        </div>
       </form>
     </div>
   );

@@ -6,18 +6,18 @@ import { useRecoilState } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 
 function Auth() {
-  const [mode, setMode] = useState(false);
+  const [signUpMode, setSignUpMode] = useState(false);
   const [, setOpenProfileModal] = useRecoilState(ProfileChangeModalShow);
   const onClickMode = () => {
-    setMode((prev) => !prev);
+    setSignUpMode((prev) => !prev);
   };
   const onClickOpenProfile = () => {
     setOpenProfileModal((prev) => !prev);
   };
   return (
     <>
-      <div className={`auth--wrapper ${mode ? 'signup' : 'login'} `}>
-        {mode ? (
+      <div className={`auth--wrapper ${signUpMode ? 'signup' : 'login'} `}>
+        {signUpMode ? (
           <>
             <p className="auth--hello">회원가입 후 관리자 승인이 필요합니다</p>
             <p className="auth--hello">얼마 걸리지 않을거에요!</p>
@@ -29,12 +29,12 @@ function Auth() {
         ) : (
           <p className="auth--hello">어서오세요 사서님, 친해질 시간입니다!</p>
         )}
-        <AuthForm mode={mode} />
+        <AuthForm signUpMode={signUpMode} />
         <p className="auth--guide">
-          {mode ? '알고 보니 회원가입을 하셨다면?' : '아직 가입을 안 하신 사서님은 여기로!'}
+          {signUpMode ? '알고 보니 회원가입을 하셨다면?' : '아직 가입을 안 하신 사서님은 여기로!'}
         </p>
         <p className="auth--mode_change" onClick={onClickMode}>
-          {mode ? '로그인' : '회원가입'}
+          {signUpMode ? '로그인' : '회원가입'}
         </p>
       </div>
     </>

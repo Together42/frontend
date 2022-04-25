@@ -20,7 +20,6 @@
 }
 
 .authForm--input {
-  // background: none;
   height: 24px;
   width: 240px;
   border: none;
@@ -39,10 +38,20 @@
   margin-top: 20px;
 }
 
+.authForm--buttonWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.authForm--error_message {
+  @include medium_kor;
+  color: $pinkred;
+  display: flex;
+  align-items: center;
+}
+
 .authForm--button {
-  position: absolute;
-  right: 0;
-  bottom: -40px;
   padding: 0;
   border: none;
   color: $darkgrey_default;
