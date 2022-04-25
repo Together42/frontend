@@ -18,7 +18,6 @@ function Posting(props: Props) {
         elemNum === 4 && 'footer--empty'
       }`}
     >
-      {elemNum === 1 && <Guide />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
           <span>{teamName}</span>

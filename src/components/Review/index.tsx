@@ -1,5 +1,6 @@
 import React from 'react';
 import Posting from '@review/Posting';
+import Guide from '@review/Guide';
 // 이하의 import는 이미지 불러오기 임시용
 import reviewImage1 from '@img/review1.jpg';
 import reviewImage2 from '@img/review2.jpg';
@@ -13,6 +14,7 @@ import profile4 from '@img/profile 4.png';
 function Review() {
   const tempArr = ['team1', 'team1', 'team1', 'team1'];
   const tempIgmArr = [reviewImage1, reviewImage2, reviewImage3, reviewImage4];
+  // const tempIgmArr = [];
   const tempCommentArr = [
     '친해지기 바라!!!👍',
     '저번에 못올린 친바 3회차!',
@@ -22,6 +24,7 @@ function Review() {
   const tempMemberArr = [profile1, profile2, profile3, profile4];
   return (
     <>
+      <Guide isElemExist={tempIgmArr.length > 0 ? true : false} />
       {tempIgmArr.map((img, i) => (
         <Posting
           image={img}
