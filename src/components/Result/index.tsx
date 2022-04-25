@@ -7,7 +7,7 @@ function Result() {
   return (
     <>
       <div className="result">
-        <p className="result--title">친바 결과보기</p>
+        {/* <p className="result--title">친바의 결과는</p> */}
         <div className="result--table">
           <div>
             <p className="result--team_name">team one</p>

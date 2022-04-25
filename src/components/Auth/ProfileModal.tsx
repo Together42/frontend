@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '@css/Auth/ProfileModal.scss';
 // 이하의 import는 이미지 불러오기 임시용
 import profile1 from '@img/profile 1.png';
@@ -44,6 +44,11 @@ function ProfileModal() {
     profile9,
   ];
   const setOpenProfileModal = useSetRecoilState(ProfileChangeModalShow);
+  useEffect(() => {
+    return () => {
+      setOpenProfileModal(false);
+    };
+  }, [setOpenProfileModal]);
   return (
     <div className="profileModal">
       <p className="profileModal--title">원하시는 프로필을 클릭하세요</p>

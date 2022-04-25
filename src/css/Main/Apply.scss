@@ -10,16 +10,20 @@
   @include main--titles;
 }
 
-.main--apply--formbox {
-  height: 180px;
-  text-align: center;
+.main--apply--wrapper {
+  height: 250px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main--apply--formbox {
+  display: flex;
 }
 
 .main--apply--formbox--form {
-  position: absolute;
-  left: 35%;
-  top: 40%;
+  display: flex;
   font-family: $kor_font_regular;
 }
 
@@ -37,10 +41,16 @@
 }
 
 .main--apply--formbox--button {
-  border: none;
-  background: none;
-  color: $darkgrey_default;
-  &:hover {
-    cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  padding-left: 5px;
+  button {
+    border: none;
+    background: none;
+    color: $darkgrey_default;
+    font-size: 14px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

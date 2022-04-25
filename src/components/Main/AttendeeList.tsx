@@ -26,7 +26,7 @@ function AttendeeList() {
   const tempProfileArr = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9];
   return (
     <div className="main--attendeeList">
-      <p className="main--attendeeList--title">친바 신청 목록</p>
+      <p className="main--attendeeList--title">친바를 신청한 사람들</p>
       <div className="main--attendeeList--peoples">
         {tempNameArr.map((e, i) => (
           <div key={i}>

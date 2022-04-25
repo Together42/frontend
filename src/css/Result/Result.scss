@@ -10,15 +10,16 @@ $table_padding: 20px;
 
 .result--title {
   @include main--titles;
+  // text-align: center;
 }
 
 .result--table {
   position: relative;
   display: flex;
   justify-content: space-around;
-  border: 1px solid $darkgrey_light;
-  border-radius: 10px;
-  margin-top: 30px;
+  background-color: #b2babb3d;
+  // border: 1px solid $darkgrey_light;
+  // border-radius: 10px;
   padding: $table_padding;
   p {
     color: $darkgrey_default;
