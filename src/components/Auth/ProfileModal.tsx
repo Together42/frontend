@@ -50,17 +50,24 @@ function ProfileModal() {
     };
   }, [setOpenProfileModal]);
   return (
-    <div className="profileModal">
-      <p className="profileModal--title">원하시는 프로필을 클릭하세요</p>
-      <div className="profileModal--profileWrapper">
-        {tempProfileArr.map((e, i) => (
-          <img src={e} alt={e} key={i} className="profileModal--profileImg" />
-        ))}
-      </div>
-      <div className="profileModal--cancleWrapper">
-        <span className="profileModal--cancle" onClick={() => setOpenProfileModal(false)}>
-          변경취소
-        </span>
+    <div
+      className="auth--profileModal--background"
+      onClick={() => {
+        setOpenProfileModal(false);
+      }}
+    >
+      <div className="auth--profileModal" onClick={(e) => e.stopPropagation()}>
+        <p className="auth--profileModal--title">원하시는 프로필을 클릭하세요</p>
+        <div className="auth--profileModal--profileWrapper">
+          {tempProfileArr.map((e, i) => (
+            <img src={e} alt={e} key={i} className="auth--profileModal--profileImg" />
+          ))}
+        </div>
+        <div className="auth--profileModal--cancleWrapper">
+          <span className="auth--profileModal--cancle" onClick={() => setOpenProfileModal(false)}>
+            변경취소
+          </span>
+        </div>
       </div>
     </div>
   );

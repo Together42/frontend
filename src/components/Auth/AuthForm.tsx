@@ -39,6 +39,8 @@ function AuthForm(props: Props) {
             className="authForm--input"
             id="id"
             placeholder="인트라 id 입력"
+            onFocus={(e) => (e.target.placeholder = '')}
+            onBlur={(e) => (e.target.placeholder = '인트라 id 입력')}
             onChange={onChange}
             value={id}
           ></input>
@@ -51,6 +53,8 @@ function AuthForm(props: Props) {
             className="authForm--input password"
             id="password"
             placeholder="9 글자 이상"
+            onFocus={(e) => (e.target.placeholder = '')}
+            onBlur={(e) => (e.target.placeholder = '9 글자 이상')}
             onChange={onChange}
             value={password}
           ></input>
@@ -65,6 +69,8 @@ function AuthForm(props: Props) {
                 className="authForm--input passCheck"
                 id="passCheck"
                 placeholder="비밀번호 재입력"
+                onFocus={(e) => (e.target.placeholder = '')}
+                onBlur={(e) => (e.target.placeholder = '비밀번호 재입력')}
                 onChange={onChange}
                 value={passCheck}
               ></input>
@@ -77,6 +83,8 @@ function AuthForm(props: Props) {
                 className="authForm--input email"
                 id="email"
                 placeholder="개인이메일 가능"
+                onFocus={(e) => (e.target.placeholder = '')}
+                onBlur={(e) => (e.target.placeholder = '개인이메일 가능')}
                 onChange={onChange}
                 value={email}
               ></input>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import '@css/Main/Apply.scss';
 
 function Apply() {
   const [intraID, setIntraID] = useState('');
+  const inputRef = useRef(null);
   const onSubmit = (e: any) => {
     e.preventDefault();
     setIntraID('');
@@ -22,6 +23,9 @@ function Apply() {
               className="main--apply--formbox--input"
               placeholder="인트라 id를 입력해주세용"
               onChange={onChange}
+              ref={inputRef}
+              onFocus={(e) => (e.target.placeholder = '')}
+              onBlur={(e) => (e.target.placeholder = '인트라 id를 입력해주세용')}
               value={intraID}
             ></input>
             <div className="main--apply--formbox--button">

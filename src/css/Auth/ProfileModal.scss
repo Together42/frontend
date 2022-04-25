@@ -2,17 +2,26 @@
 
 $image_margin: 10px;
 
-.profileModal {
-  position: absolute;
+.auth--profileModal--background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.auth--profileModal {
   background-color: white;
   width: 510px;
   height: 350px;
   border: 0.5px solid $darkgrey_light;
-  // border-radius: 10px;
-  left: -100px;
-  top: -40px;
   padding: 10px;
-  z-index: 2;
+  z-index: 3;
   overflow-y: scroll;
   overflow-x: hidden;
   // 스크롤바는 호환성 문제 발생시 삭제
@@ -33,29 +42,29 @@ $image_margin: 10px;
   }
 }
 
-.profileModal--title {
+.auth--profileModal--title {
   @include medium_kor;
   margin-top: 5px;
   margin-left: $image_margin;
 }
 
-.profileModal--profileWrapper {
+.auth--profileModal--profileWrapper {
   width: 480px;
   margin-top: 20px;
 }
 
-.profileModal--profileImg {
+.auth--profileModal--profileImg {
   width: 60px;
   margin: $image_margin;
 }
 
-.profileModal--cancleWrapper {
+.auth--profileModal--cancleWrapper {
   display: flex;
   justify-content: end;
   margin-bottom: 10px;
 }
 
-.profileModal--cancle {
+.auth--profileModal--cancle {
   @include medium_kor;
   color: $lightblue;
   text-align: end;

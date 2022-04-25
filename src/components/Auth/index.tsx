@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import AuthForm from './AuthForm';
 import '@css/Auth/Auth.scss';
 import profile1 from '@img/profile 1.png';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 
 function Auth() {
   const [mode, setMode] = useState(false);
-  const setOpenProfileModal = useSetRecoilState(ProfileChangeModalShow);
+  const [, setOpenProfileModal] = useRecoilState(ProfileChangeModalShow);
   const onClickMode = () => {
     setMode((prev) => !prev);
   };
@@ -16,7 +16,7 @@ function Auth() {
   };
   return (
     <>
-      <div className={`auth--wrapper ${mode ? 'signup' : 'login'}`}>
+      <div className={`auth--wrapper ${mode ? 'signup' : 'login'} `}>
         {mode ? (
           <>
             <p className="auth--hello">회원가입 후 관리자 승인이 필요합니다</p>
