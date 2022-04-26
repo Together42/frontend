@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '@css/Main/Apply.scss';
 import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
@@ -6,8 +6,6 @@ import { useRecoilValue } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
 
 function Apply() {
-  const [intraID, setIntraID] = useState('');
-  const inputRef = useRef(null);
   const LoginState = useRecoilValue(GlobalLoginState);
   const [EventList, setEventList] = useState([
     {
@@ -26,7 +24,7 @@ function Apply() {
         .post(
           `${process.env.SERVER_ADR}/api/together/register`,
           {
-            eventId: 23,
+            eventId: selectedEvent.id,
           },
           {
             headers: {
@@ -37,17 +35,20 @@ function Apply() {
         .catch((error) => {
           alert(error.response.data);
         });
+    } else {
+      alert('로그인을 하셔야 신청 가능합니다!');
     }
-    setIntraID('');
   };
 
   const onClickEventList = (e) => {
     setSelectedEvent(EventList.find((ev) => ev.id === parseInt(e.target.id, 10)));
   };
 
-  const onChange = (e: any) => {
-    setIntraID(e.target.value);
-  };
+  useEffect(() => {
+    axios.get(`${process.env.SERVER_ADR}/api/together`).then((res) => {
+      setEventList(res.data.EventList);
+    });
+  }, []);
 
   return (
     <div className="main--apply">
@@ -61,7 +62,7 @@ function Apply() {
             EventList.map((e, i) => (
               <p className="main--apply--list--event" key={i}>
                 <span id={`${e.id}`} onClick={onClickEventList}>
-                  {e?.title}
+                  - {e?.title}
                 </span>
               </p>
             ))
@@ -76,7 +77,7 @@ function Apply() {
                 <p className="main--apply--eventInfo--title">{selectedEvent.title}</p>
                 <span className="main--apply--eventInfo--description">{selectedEvent.description}</span>
                 <div className="main--apply--eventInfo--submit">
-                  <span>신청하기</span>
+                  <span onClick={onSubmit}>신청하기</span>
                 </div>
               </>
             ) : (
@@ -84,22 +85,6 @@ function Apply() {
             )}
           </div>
         )}
-        {/* <div className="main--apply--formbox">
-          <form onSubmit={onSubmit} className="main--apply--formbox--form">
-            <input
-              className="main--apply--formbox--input"
-              placeholder="인트라 id를 입력해주세용"
-              onChange={onChange}
-              ref={inputRef}
-              onFocus={(e) => (e.target.placeholder = '')}
-              onBlur={(e) => (e.target.placeholder = '인트라 id를 입력해주세용')}
-              value={intraID}
-            ></input>
-            <div className="main--apply--formbox--button">
-              <button>신청</button>
-            </div>
-          </form>
-        </div> */}
       </div>
     </div>
   );

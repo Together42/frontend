@@ -28,6 +28,22 @@ $list_wrapper_padding: 20px;
 .main--apply--list {
   width: $list_width;
   padding: $list_wrapper_padding;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $darkgrey_light;
+    border-radius: 20px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    box-shadow: inset 0px 0px 3px white;
+  }
 }
 
 .main--apply--list--title {
@@ -88,40 +104,3 @@ $list_wrapper_padding: 20px;
   left: 30%;
   top: 37%;
 }
-
-// .main--apply--formbox {
-//   display: flex;
-// }
-
-// .main--apply--formbox--form {
-//   display: flex;
-//   font-family: $kor_font_regular;
-// }
-
-// .main--apply--formbox--input {
-//   // background: none;
-//   height: 24px;
-//   width: 180px;
-//   border: none;
-//   border-bottom: 1px solid $darkgrey_default;
-//   font-size: $default_small_13;
-//   text-align: center;
-//   &:focus {
-//     outline: none;
-//   }
-// }
-
-// .main--apply--formbox--button {
-//   display: flex;
-//   align-items: flex-end;
-//   padding-left: 5px;
-//   button {
-//     border: none;
-//     background: none;
-//     color: $darkgrey_default;
-//     font-size: 14px;
-//     &:hover {
-//       cursor: pointer;
-//     }
-//   }
-// }
