@@ -16,6 +16,7 @@ $image_margin: 10px;
 }
 
 .auth--profileModal {
+  position: relative;
   background-color: white;
   width: 510px;
   height: 350px;
@@ -48,6 +49,16 @@ $image_margin: 10px;
   margin-left: $image_margin;
 }
 
+.auth--profileModal--xmark {
+  width: 15px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .auth--profileModal--profileWrapper {
   width: 480px;
   margin-top: 20px;
@@ -56,6 +67,9 @@ $image_margin: 10px;
 .auth--profileModal--profileImg {
   width: 60px;
   margin: $image_margin;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .auth--profileModal--cancleWrapper {

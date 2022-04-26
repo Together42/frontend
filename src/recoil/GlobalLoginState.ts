@@ -6,7 +6,6 @@ const GlobalLoginState = atom({
     isLogin: false,
     isAdmin: false,
     id: '',
-    email: '',
     profileUrl: '',
   },
 });

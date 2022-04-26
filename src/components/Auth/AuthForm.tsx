@@ -7,6 +7,7 @@ import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import { saveToken } from '@cert/TokenStorage';
 import { useNavigate } from 'react-router';
+import SignUpProfileState from '@recoil/SignUpProfileState';
 
 interface Props {
   signUpMode: boolean;
@@ -22,6 +23,7 @@ function AuthForm(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const openProfileModal = useRecoilValue(ProfileChangeModalShow);
   const setLoginState = useSetRecoilState(GlobalLoginState);
+  const profileImageUrl = useRecoilValue(SignUpProfileState);
   const navigate = useNavigate();
 
   const onSubmit = (e: any) => {
@@ -34,13 +36,14 @@ function AuthForm(props: Props) {
             loginId: id,
             pw: password,
             email,
-            url: '',
+            url: profileImageUrl,
           })
           .then((res) => {
             saveToken(res.data);
             alert('회원가입 되셨습니다!');
             setSignUpMode(false);
             setPassCheck('');
+            setEmail('');
           })
           .catch((error) => {
             setErrorMessage(error.response.data);
@@ -58,10 +61,9 @@ function AuthForm(props: Props) {
           setLoginState(() => {
             return {
               id,
-              email,
               isLogin: true,
               isAdmin: id === 'tkim',
-              profileUrl: '',
+              profileUrl: res.data.url,
             };
           });
           saveToken(res.data);
@@ -108,9 +110,9 @@ function AuthForm(props: Props) {
             className="authForm--input password"
             id="password"
             type="password"
-            placeholder="9 글자 이상"
+            placeholder="8 글자 이상"
             onFocus={(e) => (e.target.placeholder = '')}
-            onBlur={(e) => (e.target.placeholder = '9 글자 이상')}
+            onBlur={(e) => (e.target.placeholder = '8 글자 이상')}
             onChange={onChange}
             value={password}
           ></input>

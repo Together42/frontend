@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthForm from './AuthForm';
 import '@css/Auth/Auth.scss';
-import profile1 from '@img/profile 1.png';
 import { useRecoilState } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
+import SignUpProfileState from '@recoil/SignUpProfileState';
+// temporary imports
+import tempImgarr from '../../ProfileImageArr';
 
 function Auth() {
   const [signUpMode, setSignUpMode] = useState(false);
   const [, setOpenProfileModal] = useRecoilState(ProfileChangeModalShow);
+  const [profileImage, setProfileImage] = useRecoilState(SignUpProfileState);
+
   const onClickMode = () => {
     setSignUpMode((prev) => !prev);
   };
   const onClickOpenProfile = () => {
     setOpenProfileModal((prev) => !prev);
   };
+  useEffect(() => {
+    setProfileImage(tempImgarr[Math.floor(Math.random() * 28)]);
+  }, [setProfileImage]);
   return (
     <>
       <div className={`auth--wrapper ${signUpMode ? 'signup' : 'login'} `}>
@@ -22,7 +29,7 @@ function Auth() {
             <p className="auth--hello">회원가입 후 관리자 승인이 필요합니다</p>
             <p className="auth--hello">얼마 걸리지 않을거에요!</p>
             <div className="auth--profile">
-              <img src={profile1} alt="profile" />
+              <img src={profileImage} alt="profile" />
               <p onClick={onClickOpenProfile}>프로필 변경</p>
             </div>
           </>
