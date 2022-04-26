@@ -11,7 +11,7 @@ interface Props {
 function AttendeeListProfile(props: Props) {
   const { intraID, index, image } = props;
   const xMarkRef = useRef(null);
-  console.log(xMarkRef);
+  // console.log(xMarkRef);
   return (
     <div
       className="main--attendeeList--profile_wrapper"

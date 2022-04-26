@@ -29,7 +29,7 @@ function Auth() {
         ) : (
           <p className="auth--hello">어서오세요 사서님, 친해질 시간입니다!</p>
         )}
-        <AuthForm signUpMode={signUpMode} />
+        <AuthForm signUpMode={signUpMode} setSignUpMode={setSignUpMode} />
         <p className="auth--guide">
           {signUpMode ? '알고 보니 회원가입을 하셨다면?' : '아직 가입을 안 하신 사서님은 여기로!'}
         </p>

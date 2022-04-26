@@ -32,7 +32,7 @@ function AttendeeList() {
       <p className="main--attendeeList--title">친바를 신청한 사람들</p>
       <div className="main--attendeeList--profiles">
         {tempNameArr.map((e, i) => (
-          <AttendeeListProfile intraID={e} index={i} image={tempProfileArr[i]} />
+          <AttendeeListProfile intraID={e} index={i} image={tempProfileArr[i]} key={i} />
         ))}
       </div>
     </div>

@@ -6,13 +6,15 @@ import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import { saveToken } from '@cert/TokenStorage';
+import { useNavigate } from 'react-router';
 
 interface Props {
   signUpMode: boolean;
+  setSignUpMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function AuthForm(props: Props) {
-  const { signUpMode } = props;
+  const { signUpMode, setSignUpMode } = props;
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passCheck, setPassCheck] = useState('');
@@ -20,6 +22,7 @@ function AuthForm(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const openProfileModal = useRecoilValue(ProfileChangeModalShow);
   const setLoginState = useSetRecoilState(GlobalLoginState);
+  const navigate = useNavigate();
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -27,13 +30,17 @@ function AuthForm(props: Props) {
     if (signUpMode) {
       if (password === passCheck) {
         axios
-          .post(`${process.env.SERVER_ADR}/register`, {
-            id,
+          .post(`${process.env.SERVER_ADR}/api/auth/signup`, {
+            loginId: id,
             pw: password,
             email,
+            url: '',
           })
           .then((res) => {
             saveToken(res.data);
+            alert('회원가입 되셨습니다!');
+            setSignUpMode(false);
+            setPassCheck('');
           })
           .catch((error) => {
             setErrorMessage(error.response.data);
@@ -43,20 +50,23 @@ function AuthForm(props: Props) {
       }
     } else {
       axios
-        .post(`${process.env.SERVER_ADR}/login`, {
-          id,
+        .post(`${process.env.SERVER_ADR}/api/auth/login`, {
+          loginId: id,
           pw: password,
         })
         .then((res) => {
-          setLoginState((prev) => {
-            prev.id = id;
-            prev.email = email;
-            prev.isLogin = true;
-            prev.isAdmin = id === 'tkim';
-            prev.profileUrl = '';
-            return prev;
+          setLoginState(() => {
+            return {
+              id,
+              email,
+              isLogin: true,
+              isAdmin: id === 'tkim',
+              profileUrl: '',
+            };
           });
           saveToken(res.data);
+          alert('로그인 되셨습니다.!');
+          navigate('/');
         })
         .catch((error) => {
           setErrorMessage(error.response.data);
