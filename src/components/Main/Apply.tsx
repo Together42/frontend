@@ -2,20 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import '@css/Main/Apply.scss';
 import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
+import SelectedEvent from '@recoil/SelectedEvent';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
-  const [EventList, setEventList] = useState([
-    {
-      title: '친바 4회차',
-      id: 23,
-      description:
-        '사서 사람들끼리 친해지기 위해서 제 7회 친해지길 바래 프로젝트를 진행합니다. 많은 참여 부탁드립니다.',
-    },
-  ]);
+  const [EventList, setEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
+  const setGlobalSectedEvent = useSetRecoilState(SelectedEvent);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -41,19 +36,24 @@ function Apply() {
   };
 
   const onClickEventList = (e) => {
-    setSelectedEvent(EventList.find((ev) => ev.id === parseInt(e.target.id, 10)));
+    const clickedEvent = EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
+    setSelectedEvent(clickedEvent);
+    setGlobalSectedEvent(clickedEvent);
   };
 
   useEffect(() => {
     axios.get(`${process.env.SERVER_ADR}/api/together`).then((res) => {
       setEventList(res.data.EventList);
     });
-  }, []);
+    return () => {
+      setGlobalSectedEvent({});
+    };
+  }, [setGlobalSectedEvent]);
 
   return (
     <div className="main--apply">
       <p className="main--apply--title">
-        {LoginState.id === '' ? '로그인 후 신청 가능' : `${LoginState.id}님, 신청하시죠?`}
+        {LoginState.id === '' ? '로그인 후 신청 가능!' : `${LoginState.id}님, 신청하시죠?`}
       </p>
       <div className="main--apply--wrapper">
         <div className="main--apply--list">

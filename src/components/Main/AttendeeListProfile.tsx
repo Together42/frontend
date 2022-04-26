@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Xmark from '@img/xmark-solid.svg';
 import '@css/Main/AttendeeListProfile.scss';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 
 interface Props {
   intraID: string;
@@ -16,9 +15,6 @@ function AttendeeListProfile(props: Props) {
   const xMarkRef = useRef(null);
   const LoginState = useRecoilValue(GlobalLoginState);
   // console.log(LoginState.profileUrl);
-  useEffect(() => {
-    // axios.get(`${process.env.SERVER_ADR}/api/matching`);
-  }, []);
   return (
     <div
       className="main--attendeeList--profile_wrapper"

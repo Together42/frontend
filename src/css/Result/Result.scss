@@ -10,7 +10,29 @@ $table_padding: 20px;
 
 .result--title {
   @include main--titles;
-  // text-align: center;
+}
+
+.result--event_list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25%, auto));
+  row-gap: 15px;
+  margin-bottom: 40px;
+}
+
+.selected {
+  color: black !important;
+}
+
+.result--event {
+  @include medium_kor;
+  color: #5050508f;
+  span {
+    border-bottom: 1px solid $darkgrey_light;
+    // padding-bottom: 2px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .result--table {
@@ -18,8 +40,6 @@ $table_padding: 20px;
   display: flex;
   justify-content: space-around;
   background-color: #b2babb3d;
-  // border: 1px solid $darkgrey_light;
-  // border-radius: 10px;
   padding: $table_padding;
   p {
     color: $darkgrey_default;
