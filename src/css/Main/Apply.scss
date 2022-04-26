@@ -1,6 +1,8 @@
 @import '@css/Main/Main.scss';
 @import '@css/useful.scss';
-@import '@css/fonts.scss';
+
+$list_width: 300px;
+$list_wrapper_padding: 20px;
 
 .main--apply {
   @include basic--wrappers;
@@ -8,49 +10,118 @@
 
 .main--apply--title {
   @include main--titles;
+  margin-bottom: 30px;
 }
 
 .main--apply--wrapper {
-  height: 250px;
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 250px;
+  width: 700px;
+  background-color: rgb(237, 238, 239);
+  margin-bottom: 70px;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 }
 
-.main--apply--formbox {
-  display: flex;
+.main--apply--list {
+  width: $list_width;
+  padding: $list_wrapper_padding;
 }
 
-.main--apply--formbox--form {
-  display: flex;
-  font-family: $kor_font_regular;
+.main--apply--list--title {
+  @include medium_kor;
+  font-size: $sub_title_18;
+  font-weight: 600;
+  margin: 0;
 }
 
-.main--apply--formbox--input {
-  // background: none;
-  height: 24px;
-  width: 180px;
-  border: none;
-  border-bottom: 1px solid $darkgrey_default;
-  font-size: $default_small_13;
-  text-align: center;
-  &:focus {
-    outline: none;
-  }
-}
-
-.main--apply--formbox--button {
-  display: flex;
-  align-items: flex-end;
-  padding-left: 5px;
-  button {
-    border: none;
-    background: none;
-    color: $darkgrey_default;
-    font-size: 14px;
+.main--apply--list--event {
+  @include medium_kor;
+  span {
     &:hover {
       cursor: pointer;
     }
   }
 }
+
+.main--apply--list--empty {
+  position: absolute;
+  left: 40%;
+  top: 40%;
+}
+
+.main--apply--eventInfo {
+  position: relative;
+  width: $basic_width - $list_width;
+  border-left: 1px solid;
+  padding: $list_wrapper_padding;
+}
+
+.main--apply--eventInfo--title {
+  @include medium_kor;
+  font-size: $sub_title_18;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: $list_wrapper_padding;
+}
+
+.main--apply--eventInfo--description {
+  @include medium_kor;
+}
+
+.main--apply--eventInfo--submit {
+  @include medium_kor;
+  color: #9f062ba3;
+  position: absolute;
+  bottom: $list_wrapper_padding;
+  right: $list_wrapper_padding;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.main--apply--eventInfo--empty {
+  @include medium_kor;
+  position: relative;
+  left: 30%;
+  top: 37%;
+}
+
+// .main--apply--formbox {
+//   display: flex;
+// }
+
+// .main--apply--formbox--form {
+//   display: flex;
+//   font-family: $kor_font_regular;
+// }
+
+// .main--apply--formbox--input {
+//   // background: none;
+//   height: 24px;
+//   width: 180px;
+//   border: none;
+//   border-bottom: 1px solid $darkgrey_default;
+//   font-size: $default_small_13;
+//   text-align: center;
+//   &:focus {
+//     outline: none;
+//   }
+// }
+
+// .main--apply--formbox--button {
+//   display: flex;
+//   align-items: flex-end;
+//   padding-left: 5px;
+//   button {
+//     border: none;
+//     background: none;
+//     color: $darkgrey_default;
+//     font-size: 14px;
+//     &:hover {
+//       cursor: pointer;
+//     }
+//   }
+// }
