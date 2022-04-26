@@ -22,6 +22,7 @@ const config = {
       '@recoil': path.resolve(__dirname, 'src/recoil'),
       '@img': path.resolve(__dirname, 'src/img'),
       '@css': path.resolve(__dirname, 'src/css'),
+      '@cert': path.resolve(__dirname, 'src/cert'),
     },
   },
   entry: {

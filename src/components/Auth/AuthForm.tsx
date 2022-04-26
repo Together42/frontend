@@ -3,8 +3,9 @@ import '@css/Auth/AuthForm.scss';
 import ProfileModal from '@auth/ProfileModal';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
-import LoginState from '@recoil/LoginState';
+import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
+import { saveToken } from '@cert/TokenStorage';
 
 interface Props {
   signUpMode: boolean;
@@ -18,7 +19,7 @@ function AuthForm(props: Props) {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const openProfileModal = useRecoilValue(ProfileChangeModalShow);
-  const setLoginState = useSetRecoilState(LoginState);
+  const setLoginState = useSetRecoilState(GlobalLoginState);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -30,6 +31,9 @@ function AuthForm(props: Props) {
             id,
             pw: password,
             email,
+          })
+          .then((res) => {
+            saveToken(res.data);
           })
           .catch((error) => {
             setErrorMessage(error.response.data);
@@ -43,7 +47,7 @@ function AuthForm(props: Props) {
           id,
           pw: password,
         })
-        .then(() => {
+        .then((res) => {
           setLoginState((prev) => {
             prev.id = id;
             prev.email = email;
@@ -52,6 +56,7 @@ function AuthForm(props: Props) {
             prev.profileUrl = '';
             return prev;
           });
+          saveToken(res.data);
         })
         .catch((error) => {
           setErrorMessage(error.response.data);
