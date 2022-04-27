@@ -39,7 +39,7 @@ function AuthForm(props: Props) {
             url: profileImageUrl,
           })
           .then((res) => {
-            saveToken(res.data);
+            saveToken(res.data.token);
             alert('회원가입 되셨습니다!');
             setSignUpMode(false);
             setPassCheck('');
@@ -66,7 +66,7 @@ function AuthForm(props: Props) {
               profileUrl: res.data.url,
             };
           });
-          saveToken(res.data);
+          saveToken(res.data.token);
           alert('로그인 되셨습니다.!');
           navigate('/');
         })
