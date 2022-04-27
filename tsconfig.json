@@ -33,10 +33,16 @@
         "src/recoil/*"
       ],
       "@img/*": [
-        "src/img/*"
+        "src/assets/img/*"
       ],
       "@css/*": [
-        "src/css/*"
+        "src/assets/css/*"
+      ],
+      "@usefulObj/*": [
+        "src/assets/usefulObj/*"
+      ],
+      "@types": [
+        "src/assets/usefulObj/types"
       ],
       "@cert/*": [
         "src/cert/*"

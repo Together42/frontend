@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import AuthForm from './AuthForm';
+import AuthForm from '@auth/AuthForm';
 import '@css/Auth/Auth.scss';
 import { useRecoilState } from 'recoil';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 import SignUpProfileState from '@recoil/SignUpProfileState';
 // temporary imports
-import tempImgarr from '../../ProfileImageArr';
+import tempImgarr from '@usefulObj/ProfileImageArr';
 
 function Auth() {
   const [signUpMode, setSignUpMode] = useState(false);

@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
+import { userData } from '@types';
 
-const GlobalLoginState = atom({
+const GlobalLoginState = atom<userData>({
   key: 'GlobalLoginState',
   default: {
     isLogin: false,

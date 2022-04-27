@@ -3,32 +3,47 @@ import Xmark from '@img/xmark-solid.svg';
 import '@css/Main/AttendeeListProfile.scss';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 
 interface Props {
   intraID: string;
-  index: number;
   image: string;
 }
 
 function AttendeeListProfile(props: Props) {
-  const { intraID, index, image } = props;
+  const { intraID, image } = props;
   const xMarkRef = useRef(null);
   const LoginState = useRecoilValue(GlobalLoginState);
-  // console.log(LoginState.profileUrl);
+
+  const onClickXmark = () => {
+    if (LoginState.id === intraID) {
+      axios
+        .delete(`${process.env.SERVER_ADR}/api/together/${LoginState.id}`)
+        .then(() => {
+          alert('삭제되었습니다');
+        })
+        .catch(() => {
+          alert('삭제에 실패했습니다..');
+        });
+    } else {
+      alert('본인만 삭제가 가능해요');
+    }
+  };
+
   return (
     <div
       className="main--attendeeList--profile_wrapper"
-      key={index}
+      key={intraID}
       onMouseOver={() => {
-        if (LoginState.profileUrl === image) xMarkRef.current.style.visibility = 'visible';
+        if (LoginState.id === intraID) xMarkRef.current.style.visibility = 'visible';
       }}
       onMouseOut={() => {
         xMarkRef.current.style.visibility = 'hidden';
       }}
     >
-      <img className="main--attendeeList--profile_image" src={image} alt={`profile${index}`} />
+      <img className="main--attendeeList--profile_image" src={image} alt={intraID} />
       <p>{intraID}</p>
-      <img className={`main--attendeeList--xmark`} src={Xmark} alt={Xmark} ref={xMarkRef} />
+      <img className={`main--attendeeList--xmark`} src={Xmark} alt={Xmark} ref={xMarkRef} onClick={onClickXmark} />
     </div>
   );
 }

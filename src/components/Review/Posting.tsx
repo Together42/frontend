@@ -1,6 +1,5 @@
 import React from 'react';
 import '@css/Review/Posting.scss';
-import Guide from './Guide';
 
 interface Props {
   image: string;
