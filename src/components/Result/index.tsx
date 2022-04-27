@@ -13,10 +13,30 @@ function Result() {
     createdBy: null,
   });
   const [selectedTeamObj, setSelectedTeamObj] = useState({});
+  const [teamLen, setTeamLen] = useState(null);
 
   const onClickEvent = (e: any) => {
     const clickedEvent = EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
     setSelectedEvent(clickedEvent);
+  };
+
+  const onClickSubmit = () => {
+    if (teamLen)
+      axios
+        .post(`${process.env.SERVER_ADR}/api/together/matching`, {
+          eventId: selectedEvent.id,
+          teamNum: teamLen,
+        })
+        .then((res) => {
+          setSelectedTeamObj(res.data['teamList']);
+        })
+        .catch(() => {
+          alert('알 수 없는 오류 발생..');
+        });
+  };
+
+  const onChangeInput = (e: any) => {
+    setTeamLen(e.target.value);
   };
 
   useEffect(() => {
@@ -39,7 +59,7 @@ function Result() {
     }
   }, [EventList.length, selectedEvent]);
 
-  console.log(selectedTeamObj);
+  // console.log(selectedTeamObj);
 
   return (
     <>
@@ -55,24 +75,43 @@ function Result() {
             ))}
           </div>
         )}
-        <div className="result--table">
+        <div
+          className={`${!Object.keys(selectedTeamObj).find((e) => e === 'null') ? 'result--table' : 'result--submit'}`}
+        >
           {!Object.keys(selectedTeamObj).find((e) => e === 'null') &&
           Object.keys(selectedTeamObj).length &&
-          EventList.length
-            ? Object.entries(selectedTeamObj).map((elem, idx) => (
-                <>
-                  <div key={elem[0]}>
-                    <p className="result--team_name">{elem[0]}</p>
-                    {elem[1].map((e, i) => (
-                      <p key={i} className="result--intra">
-                        {e.loginId}
-                      </p>
-                    ))}
-                  </div>
-                  {!idx && <hr className="result--hr"></hr>}
-                </>
-              ))
-            : null}
+          EventList.length ? (
+            Object.entries(selectedTeamObj).map((elem, idx) => (
+              <>
+                <div key={elem[0]}>
+                  <p className="result--team_name">{elem[0]}</p>
+                  {elem[1].map((e, i) => (
+                    <p key={i} className="result--intra">
+                      {e.loginId}
+                    </p>
+                  ))}
+                </div>
+                {!idx && <hr className="result--hr"></hr>}
+              </>
+            ))
+          ) : Object.keys(selectedTeamObj).find((e) => e === 'null') ? (
+            <>
+              <div className="result--submit--info_wrapper">
+                <p className="result--submit--info">아직 팀매칭이 이루어지지 않았습니다.</p>
+                <p className="result--submit--info">원하는 팀원수를 적고 매칭을 눌러주세요!</p>
+                <p className="result--submit--info">{`현재 신청 인원은 ${selectedTeamObj['null'].length}명입니다.`}</p>
+              </div>
+              <div className="result--submit--form_wrapper">
+                <form onSubmit={onClickSubmit} className="result--submit--form">
+                  <input className="result--submit--input" onChange={onChangeInput} value={teamLen}></input>
+                  <span className="result--submit--label">명으로 </span>
+                  <span className="result--submit--button">매칭하기</span>
+                </form>
+              </div>
+            </>
+          ) : (
+            <span className="result--no_attend">신청하신 분이 없습니다..</span>
+          )}
         </div>
       </div>
       <Footer />

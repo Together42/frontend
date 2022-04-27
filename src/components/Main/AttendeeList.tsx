@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '@css/Main/AttendeeList.scss';
 import AttendeeListProfile from '@main/AttendeeListProfile';
 import { useRecoilValue } from 'recoil';
@@ -8,6 +8,7 @@ import axios from 'axios';
 function AttendeeList() {
   const selectedEvent = useRecoilValue(SelectedEvent);
   const [teamList, setTeamList] = useState([]);
+  const showAttendeeList = selectedEvent.title && teamList.length;
 
   useEffect(() => {
     if (selectedEvent.id) {
@@ -22,14 +23,14 @@ function AttendeeList() {
     }
   }, [selectedEvent.id]);
 
+  // console.log(showAttendeeList);
+
   return (
-    <div className="main--attendeeList">
-      <p className={`main--attendeeList--title ${!(selectedEvent.title && teamList.length) && 'data_none'}`}>
-        {selectedEvent.title && teamList.length
-          ? `${selectedEvent.title} 에 신청한 사서는?`
-          : '친바 많이 신청해주세요..'}
+    <div className={`main--attendeeList ${!showAttendeeList && 'data_none_div'}`}>
+      <p className={`main--attendeeList--title ${!showAttendeeList && 'data_none_title'}`}>
+        {showAttendeeList ? `${selectedEvent.title} 에 신청한 사서는?` : '친바 많이 신청해주세요..'}
       </p>
-      {selectedEvent.title && teamList.length && (
+      {showAttendeeList && (
         <div className="main--attendeeList--profiles">
           {teamList.map((e) => (
             <AttendeeListProfile intraID={e.loginId} image={e.url} key={e.loginId} />

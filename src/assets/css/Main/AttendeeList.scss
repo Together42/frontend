@@ -18,7 +18,11 @@ $oneline_img_count: 7;
   visibility: initial;
 }
 
-.data_none {
+.data_none_div {
+  min-height: inherit;
+}
+
+.data_none_title {
   text-align: end;
   font-size: 14px;
 }

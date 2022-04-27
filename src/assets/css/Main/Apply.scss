@@ -89,7 +89,7 @@ $list_wrapper_padding: 20px;
 
 .main--apply--eventInfo--submit {
   @include medium_kor;
-  color: #9f062ba3;
+  color: $red_for_submit;
   position: absolute;
   bottom: $list_wrapper_padding;
   right: $list_wrapper_padding;

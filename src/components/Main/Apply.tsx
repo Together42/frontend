@@ -10,7 +10,7 @@ function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
   const [EventList, setEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
-  const setGlobalSectedEvent = useSetRecoilState(SelectedEvent);
+  const setGlobalSelectedEvent = useSetRecoilState(SelectedEvent);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -38,17 +38,18 @@ function Apply() {
   const onClickEventList = (e) => {
     const clickedEvent = EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
     setSelectedEvent(clickedEvent);
-    setGlobalSectedEvent(clickedEvent);
+    setGlobalSelectedEvent(clickedEvent);
   };
 
   useEffect(() => {
     axios.get(`${process.env.SERVER_ADR}/api/together`).then((res) => {
+      // console.log(res);
       setEventList(res.data.EventList);
     });
     return () => {
-      setGlobalSectedEvent({});
+      setGlobalSelectedEvent({});
     };
-  }, [setGlobalSectedEvent]);
+  }, [setGlobalSelectedEvent]);
 
   return (
     <div className="main--apply">

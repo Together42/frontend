@@ -1,6 +1,5 @@
 @import '@css/Main/Main.scss';
 @import '@css/useful.scss';
-@import '@css/fonts.scss';
 
 $table_padding: 20px;
 
@@ -46,6 +45,44 @@ $table_padding: 20px;
   }
 }
 
+.result--submit {
+  background-color: #b2babb3d;
+  padding: 30px 100px;
+}
+
+.result--submit--info {
+  @include medium_kor;
+}
+
+.result--submit--form_wrapper {
+  text-align: end;
+}
+
+.result--submit--input {
+  width: 40px;
+  border: none;
+  border-bottom: 1px solid $darkgrey_default;
+  font-size: $default_medium_15;
+  text-align: center;
+  background: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.result--submit--label {
+  @include medium_kor;
+}
+
+.result--submit--button {
+  @include medium_kor;
+  font-size: 16px;
+  color: $red_for_submit;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .result--team_name {
   font-family: $eng_font_regular;
   font-weight: 500;
@@ -61,9 +98,15 @@ $table_padding: 20px;
 
 .result--hr {
   position: absolute;
-  width: 515px;
+  width: 600px;
   top: 60px;
   border: 0;
   height: 0.5px;
   background-color: $darkgrey_light;
+}
+
+.result--no_attend {
+  @include medium_kor;
+  font-size: 16px;
+  margin: 30px 0;
 }

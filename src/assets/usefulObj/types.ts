@@ -6,7 +6,7 @@ export interface EventType {
 }
 
 export interface userData {
-  id: number;
+  id: string;
   isLogin: boolean;
   isAdmin: boolean;
   profileUrl: string;
