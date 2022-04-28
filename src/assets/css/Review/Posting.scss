@@ -25,12 +25,25 @@
   display: flex;
   justify-content: space-between;
   margin: 10px;
+  span {
+    display: block;
+  }
+}
+
+.review--posting--title--team {
+  @include medium_kor;
+  // font-weight: 700;
+  color: $darkgrey_darker;
+}
+
+.review--posting--title--location {
+  @include small_kor;
 }
 
 .title-modal_show-in_web {
-  width: 400px;
+  width: 390px;
   position: relative;
-  left: 280px;
+  left: 290px;
 }
 
 .review--posting--members {
@@ -47,6 +60,38 @@
     height: 290px;
     object-fit: cover;
   }
+}
+
+.review--posting--image--background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 440px;
+  width: 290px;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: -1;
+}
+
+.review--posting--detail_comments {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  width: 400px;
+  height: 250px;
+}
+
+.review--posting--full_comment {
+  @include medium_kor;
+  display: block;
+}
+
+.review--posting--visitor {
+  @include medium_kor;
+  color: $darkgrey_darker;
+}
+
+.review--posting--visitor_comment {
+  @include medium_kor;
 }
 
 .image-modal_show-in_web {
