@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@css/Review/Posting.scss';
+import caret_right from '@img/caret-right-solid.svg';
+import { useRecoilState } from 'recoil';
+import ReviewDetailModalShow from '@recoil/ReviewDetailModalShow';
 
 interface Props {
   image: string;
@@ -11,14 +14,20 @@ interface Props {
 
 function Posting(props: Props) {
   const { image, teamName, comment, memberArr, elemNum } = props;
+  const [modalShow, setModalShow] = useState(false);
+
+  const onClickMoreButton = (e) => {
+    setModalShow(true);
+  };
+
   return (
     <div
       className={`review--posting--forFlex ${elemNum % 2 === 0 ? 'justify-right' : 'justify-left'} ${
         elemNum === 4 && 'footer--empty'
       }`}
     >
-      <div className="review--posting--shownWrapper">
-        <div className="review--posting--title">
+      <div className={`review--posting--shownWrapper ${modalShow && 'wrapper-modal_show-in_web'}`}>
+        <div className={`review--posting--title ${modalShow && 'title-modal_show-in_web'}`}>
           <span>{teamName}</span>
           <div className="review--posting--members">
             {memberArr.map((e, i) => (
@@ -26,7 +35,7 @@ function Posting(props: Props) {
             ))}
           </div>
         </div>
-        <div className="review--posting--image">
+        <div className={`review--posting--image ${modalShow && 'image-modal_show-in_web'}`}>
           <img src={image} alt={image} />
         </div>
         <div className="review--posting--comments">
@@ -39,6 +48,13 @@ function Posting(props: Props) {
               <span>04.12</span>
             </p>
           </div>
+        </div>
+        <div
+          className={`review--posting--open_modal ${elemNum % 2 === 0 ? 'position-right' : 'position-left'}`}
+          onClick={onClickMoreButton}
+        >
+          <span>더보기</span>
+          <img src={caret_right} alt={caret_right} />
         </div>
       </div>
     </div>

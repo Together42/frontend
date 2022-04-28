@@ -14,7 +14,7 @@ const Result = loadable(() => import('@result/index'));
 const App = () => {
   return (
     <RecoilRoot>
-      <Router basename={process.env.NODE_ENV === 'production' ? 'Together42' : ''}>
+      <Router basename={process.env.NODE_ENV === 'production' ? 'frontend' : ''}>
         <Header />
         <Navbar />
         <Routes>

@@ -15,10 +15,22 @@
   border: 1px solid $darkgrey_light;
 }
 
+.wrapper-modal_show-in_web {
+  width: 700px;
+  background-color: white;
+  z-index: 10;
+}
+
 .review--posting--title {
   display: flex;
   justify-content: space-between;
   margin: 10px;
+}
+
+.title-modal_show-in_web {
+  width: 400px;
+  position: relative;
+  left: 280px;
 }
 
 .review--posting--members {
@@ -35,6 +47,10 @@
     height: 290px;
     object-fit: cover;
   }
+}
+
+.image-modal_show-in_web {
+  text-align: start;
 }
 
 .justify-left {
@@ -67,6 +83,31 @@
     @include small_kor;
     color: $darkgrey_light;
   }
+}
+
+.review--posting--open_modal {
+  position: absolute;
+  left: 245px;
+  top: 405px;
+  display: flex;
+  align-items: center;
+  span {
+    @include small_kor;
+    color: $darkgrey_light;
+  }
+  img {
+    width: 8px;
+    padding-top: 1px;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.position-right {
+  // right: inherit;
+  left: inherit;
+  right: 10px;
 }
 
 .footer--empty {
