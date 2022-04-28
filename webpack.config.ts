@@ -4,11 +4,11 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const projectName = 'Together_42_project';
+const projectName = 'frontend';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const config = {
-  name: 'bookcommentweb',
+  name: 'togetherfront',
   mode: isDevelopment ? 'development' : 'production',
   devtool: !isDevelopment ? 'hidden-source-map' : 'eval',
   resolve: {
