@@ -39,14 +39,19 @@ function AuthForm(props: Props) {
             url: profileImageUrl,
           })
           .then((res) => {
-            saveToken(res.data.token);
-            alert('회원가입 되셨습니다!');
-            setSignUpMode(false);
-            setPassCheck('');
-            setEmail('');
+            if (res.data.token) {
+              saveToken(res.data.token);
+              alert('회원가입 되셨습니다!');
+              setSignUpMode(false);
+              setPassCheck('');
+              setEmail('');
+            } else {
+              alert('서버에서 잘못된 데이터가 들어왔습니다');
+            }
           })
           .catch((error) => {
-            setErrorMessage(error.response.data);
+            if (error && error.response && error.response.data) setErrorMessage(error.response.data);
+            else alert('서버 통신 에러');
           });
       } else {
         setErrorMessage('비밀번호 재입력이 다릅니다!');
@@ -58,20 +63,25 @@ function AuthForm(props: Props) {
           pw: password,
         })
         .then((res) => {
-          setLoginState(() => {
-            return {
-              id,
-              isLogin: true,
-              isAdmin: id === 'tkim',
-              profileUrl: res.data.url,
-            };
-          });
-          saveToken(res.data.token);
-          alert('로그인 되셨습니다.!');
-          navigate('/');
+          if (res.data.token) {
+            setLoginState(() => {
+              return {
+                id,
+                isLogin: true,
+                isAdmin: id === 'tkim',
+                profileUrl: res.data.url,
+              };
+            });
+            saveToken(res.data.token);
+            alert('로그인 되셨습니다.!');
+            navigate('/');
+          } else {
+            alert('서버에서 잘못된 데이터가 들어왔습니다');
+          }
         })
         .catch((error) => {
-          setErrorMessage(error.response.data);
+          if (error && error.response && error.response.data) setErrorMessage(error.response.data);
+          else alert('서버 통신 에러');
         });
     }
   };
@@ -99,7 +109,6 @@ function AuthForm(props: Props) {
             onFocus={(e) => (e.target.placeholder = '')}
             onBlur={(e) => (e.target.placeholder = '인트라 id 입력')}
             onChange={onChange}
-            value={id}
           ></input>
         </div>
         <div className="authForm--forFlex">
@@ -114,7 +123,6 @@ function AuthForm(props: Props) {
             onFocus={(e) => (e.target.placeholder = '')}
             onBlur={(e) => (e.target.placeholder = '8 글자 이상')}
             onChange={onChange}
-            value={password}
           ></input>
         </div>
         {signUpMode && (
@@ -131,7 +139,6 @@ function AuthForm(props: Props) {
                 onFocus={(e) => (e.target.placeholder = '')}
                 onBlur={(e) => (e.target.placeholder = '비밀번호 재입력')}
                 onChange={onChange}
-                value={passCheck}
               ></input>
             </div>
             <div className="authForm--forFlex">
