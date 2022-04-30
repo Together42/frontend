@@ -6,10 +6,10 @@ import reviewImage1 from '@img/review1.jpg';
 import reviewImage2 from '@img/review2.jpg';
 import reviewImage3 from '@img/review3.jpg';
 import reviewImage4 from '@img/review4.jpg';
-import profile1 from '@img/profile 1.png';
-import profile2 from '@img/profile 2.png';
-import profile3 from '@img/profile 3.png';
-import profile4 from '@img/profile 4.png';
+import profile1 from '@img/profile-1.webp';
+import profile2 from '@img/profile-2.webp';
+import profile3 from '@img/profile-3.webp';
+import profile4 from '@img/profile-4.webp';
 
 function Review() {
   const tempArr = ['team1', 'team1', 'team1', 'team1'];
