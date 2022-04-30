@@ -77,7 +77,7 @@ function Apply() {
           )}
         </div>
         {EventList.length > 0 && (
-          <div className="main--apply--eventInfo">
+          <div className={`main--apply--eventInfo ${!EventList.length && 'empty'}`}>
             {selectedEvent.id ? (
               <>
                 <p className="main--apply--eventInfo--title">{selectedEvent.title}</p>

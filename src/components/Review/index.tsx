@@ -21,7 +21,7 @@ function Review() {
     '"사"팀  광수육회 갔습니당',
     '사서의 날은 지났지만.. 친바 진행했습니다!! 장독묵은지 왔어요~',
   ];
-  const tempLocaArr = ['개포 순대국집', '개포 고기집', '광수육회', '어딘지 모름'];
+  const tempLocaArr = ['개포 순대국집', '개포 고기집', '광수육회', '어딘가에서'];
   const tempMemberArr = [profile1, profile2, profile3, profile4];
   return (
     <>
