@@ -1,0 +1,79 @@
+@import '@css/useful.scss';
+@import '@css/fonts.scss';
+
+.review--posting--image--background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 440px;
+  width: 290px;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: -1;
+}
+
+.review--posting--detail_comments {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  width: 400px;
+  height: 280px;
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+.review--posting--full_comment {
+  @include medium_kor;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.review--posting--visitor--wrapper {
+  margin: 10px 0;
+}
+
+.review--posting--visitor {
+  @include medium_kor;
+  color: $darkgrey_darker;
+}
+
+.review--posting--visitor_comment {
+  @include medium_kor;
+}
+
+.review--posting--post_comment--wrapper {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 400px;
+}
+
+.review--posting--form {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+
+.review--posting--input {
+  @include medium_kor;
+  height: 24px;
+  width: 340px;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.review--posting--button {
+  @include medium_kor;
+  color: $lightblue;
+  background: none;
+  padding: 0;
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
