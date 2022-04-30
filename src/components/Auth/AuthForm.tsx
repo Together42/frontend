@@ -8,6 +8,7 @@ import axios from 'axios';
 import { saveToken } from '@cert/TokenStorage';
 import { useNavigate } from 'react-router';
 import SignUpProfileState from '@recoil/SignUpProfileState';
+import ProfileImgArr from '@usefulObj/ProfileImageArr';
 
 interface Props {
   signUpMode: boolean;
@@ -23,7 +24,7 @@ function AuthForm(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const openProfileModal = useRecoilValue(ProfileChangeModalShow);
   const setLoginState = useSetRecoilState(GlobalLoginState);
-  const profileImageUrl = useRecoilValue(SignUpProfileState);
+  const profileImageState = useRecoilValue(SignUpProfileState);
   const navigate = useNavigate();
 
   const onSubmit = (e: any) => {
@@ -36,7 +37,7 @@ function AuthForm(props: Props) {
             loginId: id,
             pw: password,
             email,
-            url: profileImageUrl,
+            url: profileImageState['imageNum'],
           })
           .then((res) => {
             if (res.data.token) {
@@ -69,7 +70,7 @@ function AuthForm(props: Props) {
                 id,
                 isLogin: true,
                 isAdmin: id === 'tkim',
-                profileUrl: res.data.url,
+                profileUrl: ProfileImgArr[res.data.url],
               };
             });
             saveToken(res.data.token);

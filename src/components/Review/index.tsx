@@ -34,6 +34,7 @@ function Review() {
           memberArr={tempMemberArr}
           location={tempLocaArr[i]}
           elemNum={i + 1}
+          key={i}
         />
       ))}
     </>

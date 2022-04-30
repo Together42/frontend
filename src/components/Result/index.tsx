@@ -13,7 +13,7 @@ function Result() {
     createdBy: null,
   });
   const [selectedTeamObj, setSelectedTeamObj] = useState({});
-  const [teamLen, setTeamLen] = useState(null);
+  const [teamLen, setTeamLen] = useState('');
 
   const onClickEvent = (e: any) => {
     const clickedEvent = EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
@@ -21,14 +21,15 @@ function Result() {
   };
 
   const onClickSubmit = () => {
-    if (teamLen)
+    if (teamLen !== '')
       axios
         .post(`${process.env.SERVER_ADR}/api/together/matching`, {
           eventId: selectedEvent.id,
           teamNum: teamLen,
         })
         .then((res) => {
-          setSelectedTeamObj(res.data['teamList']);
+          // setSelectedTeamObj(res.data['teamList']);
+          setSelectedTeamObj(res.data['test']);
         })
         .catch(() => {
           alert('알 수 없는 오류 발생..');
@@ -51,15 +52,14 @@ function Result() {
       axios
         .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
         .then((res) => {
-          setSelectedTeamObj(res.data['teamList']);
+          // setSelectedTeamObj(res.data['teamList']);
+          setSelectedTeamObj(res.data['test']);
         })
         .catch(() => {
           alert('알 수 없는 오류가..');
         });
     }
   }, [EventList.length, selectedEvent]);
-
-  // console.log(selectedTeamObj);
 
   return (
     <>

@@ -5,7 +5,7 @@ import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 import SignUpProfileState from '@recoil/SignUpProfileState';
 import xMark from '@img/xmark-solid.svg';
 // 이하의 import는 이미지 불러오기 임시용
-import tempImgarr from '@usefulObj/ProfileImageArr';
+import ProfileImgArr from '@usefulObj/ProfileImageArr';
 
 function ProfileModal() {
   const setOpenProfileModal = useSetRecoilState(ProfileChangeModalShow);
@@ -13,7 +13,7 @@ function ProfileModal() {
 
   const onClickProfileImg = (e) => {
     // console.log(e.target.id);
-    setSignUpProfileImage(e.target.id);
+    setSignUpProfileImage({ image: e.target.id, imageNum: e.target.key });
     setOpenProfileModal(false);
   };
 
@@ -38,7 +38,7 @@ function ProfileModal() {
         <p className="auth--profileModal--title">원하시는 프로필을 클릭하세요</p>
         <img src={xMark} alt={xMark} className="auth--profileModal--xmark" onClick={onClickXmark} />
         <div className="auth--profileModal--profileWrapper">
-          {tempImgarr.map((e, i) => (
+          {ProfileImgArr.map((e, i) => (
             <img
               src={e}
               alt={e}
