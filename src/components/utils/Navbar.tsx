@@ -26,8 +26,8 @@ function Navbar() {
 
   return (
     <div className="navbar--wrapper">
-      <Link to={`/`}>신청하기</Link>
-      <Link to={`/Result`}>결과보기</Link>
+      <Link to={`/`}>생성/신청</Link>
+      <Link to={`/Result`}>매칭/결과</Link>
       <Link to={`/review`}>친스타그램</Link>
       {LoginState.isLogin ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
     </div>

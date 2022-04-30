@@ -17,6 +17,11 @@
   top: 80px;
   width: 400px;
   height: 280px;
+  overflow-y: scroll;
+  padding-right: 10px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .scroll {
@@ -36,6 +41,7 @@
 .review--posting--visitor {
   @include medium_kor;
   color: $darkgrey_darker;
+  margin-right: 10px;
 }
 
 .review--posting--visitor_comment {

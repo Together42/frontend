@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@css/Review/DetailComments.scss';
 
 interface Props {
@@ -27,6 +27,10 @@ function DetailComments(props: Props) {
     setTempVisName((prev) => [...prev, 'tkim']);
     setMyComment('');
   };
+
+  useEffect(() => {
+    document.getElementsByClassName('review--posting--detail_comments');
+  }, [tempVistComment]);
 
   return (
     <>
