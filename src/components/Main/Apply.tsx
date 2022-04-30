@@ -49,10 +49,19 @@ function Apply() {
 
   useEffect(() => {
     axios.get(`${process.env.SERVER_ADR}/api/together`).then((res) => {
-      setEventList(res.data.EventList);
+      res.data.EventList.forEach((e: EventType) => {
+        axios.get(`${process.env.SERVER_ADR}/api/together/matching/${e.id}`).then((res) => {
+          if (res.data.teamList && res.data.teamList['null']) setEventList((prev) => [...prev, e]);
+        });
+      });
     });
     return () => {
-      setGlobalSelectedEvent({});
+      setGlobalSelectedEvent({
+        id: null,
+        title: null,
+        description: null,
+        createdBy: null,
+      });
     };
   }, [setGlobalSelectedEvent]);
 
@@ -68,7 +77,7 @@ function Apply() {
             EventList.map((e, i) => (
               <p className="main--apply--list--event" key={i}>
                 <span id={`${e.id}`} onClick={onClickEventList}>
-                  - {e?.title}
+                  - {e.title}
                 </span>
               </p>
             ))
