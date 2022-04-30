@@ -4,10 +4,11 @@ import AttendeeListProfile from '@main/AttendeeListProfile';
 import { useRecoilValue } from 'recoil';
 import SelectedEvent from '@recoil/SelectedEvent';
 import axios from 'axios';
+import { teamMemInfo } from '@usefulObj/types';
 
 function AttendeeList() {
   const selectedEvent = useRecoilValue(SelectedEvent);
-  const [teamList, setTeamList] = useState([]);
+  const [teamList, setTeamList] = useState<teamMemInfo[]>([]);
   const showAttendeeList = selectedEvent.title && teamList.length;
 
   useEffect(() => {
@@ -22,8 +23,6 @@ function AttendeeList() {
         });
     }
   }, [selectedEvent.id]);
-
-  // console.log(showAttendeeList);
 
   return (
     <div className={`main--attendeeList ${!showAttendeeList && 'data_none_div'}`}>

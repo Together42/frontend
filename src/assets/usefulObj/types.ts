@@ -17,7 +17,8 @@ export interface EvnetListType {
   EventList: Event[];
 }
 
-// export interface teamMemInfo {
-//   loginId: string;
-//   url: string;
-// }
+export interface teamMemInfo {
+  loginId: string;
+  url: string;
+  teamId: number;
+}

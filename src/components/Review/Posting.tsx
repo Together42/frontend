@@ -25,7 +25,7 @@ function Posting(props: Props) {
   ];
   const tempVisName = ['jwoo', 'jwoo', 'jwoo', 'jwoo', 'jwoo'];
 
-  const onClickMoreButton = (e) => {
+  const onClickMoreButton = (e: any) => {
     setModalShow(true);
   };
 

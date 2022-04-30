@@ -12,10 +12,3 @@ const SelectedEvent = atom<EventType>({
 });
 
 export default SelectedEvent;
-
-// {
-//   "id": 22,
-//   "title": "친바 ㄲㄲㄲ111!",
-//   "description": "한잔 꼬",
-//   "createdBy": 17
-// }
