@@ -16,3 +16,8 @@ export interface EvnetListType {
   statusCode: number;
   EventList: Event[];
 }
+
+// export interface teamMemInfo {
+//   loginId: string;
+//   url: string;
+// }

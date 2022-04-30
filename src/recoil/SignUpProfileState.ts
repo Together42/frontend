@@ -3,12 +3,9 @@ import ProfileImgArr from '@usefulObj/ProfileImageArr';
 
 const randomNum = Math.floor(Math.random() * 28);
 
-const SignUpProfileState = atom<{ image: string; imageNum: number }>({
+const SignUpProfileState = atom<string>({
   key: 'SignUpProfileState',
-  default: {
-    image: ProfileImgArr[randomNum],
-    imageNum: randomNum,
-  },
+  default: ProfileImgArr[randomNum],
 });
 
 export default SignUpProfileState;

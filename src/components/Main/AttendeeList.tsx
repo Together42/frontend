@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@css/Main/AttendeeList.scss';
 import AttendeeListProfile from '@main/AttendeeListProfile';
 import { useRecoilValue } from 'recoil';

@@ -24,7 +24,7 @@ function Auth() {
             <p className="auth--hello">회원가입 후 관리자 승인이 필요합니다</p>
             <p className="auth--hello">얼마 걸리지 않을거에요!</p>
             <div className="auth--profile">
-              <img src={profileImage['image']} alt="profile" />
+              <img src={profileImage} alt="profile" />
               <p onClick={onClickOpenProfile}>프로필 변경</p>
             </div>
           </>

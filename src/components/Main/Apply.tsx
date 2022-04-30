@@ -1,15 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@css/Main/Apply.scss';
 import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/SelectedEvent';
+import { EventType } from '@usefulObj/types';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
-  const [EventList, setEventList] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState({});
+  const [EventList, setEventList] = useState<EventType[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<EventType>({
+    id: null,
+    title: null,
+    description: null,
+    createdBy: null,
+  });
   const setGlobalSelectedEvent = useSetRecoilState(SelectedEvent);
 
   const onSubmit = (e: any) => {
@@ -43,7 +49,6 @@ function Apply() {
 
   useEffect(() => {
     axios.get(`${process.env.SERVER_ADR}/api/together`).then((res) => {
-      // console.log(res);
       setEventList(res.data.EventList);
     });
     return () => {
@@ -73,7 +78,7 @@ function Apply() {
         </div>
         {EventList.length > 0 && (
           <div className="main--apply--eventInfo">
-            {selectedEvent?.id ? (
+            {selectedEvent.id ? (
               <>
                 <p className="main--apply--eventInfo--title">{selectedEvent.title}</p>
                 <span className="main--apply--eventInfo--description">{selectedEvent.description}</span>

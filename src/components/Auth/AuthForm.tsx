@@ -37,7 +37,7 @@ function AuthForm(props: Props) {
             loginId: id,
             pw: password,
             email,
-            url: profileImageState['imageNum'],
+            url: profileImageState,
           })
           .then((res) => {
             if (res.data.token) {

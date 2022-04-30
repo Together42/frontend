@@ -28,8 +28,7 @@ function Result() {
           teamNum: teamLen,
         })
         .then((res) => {
-          // setSelectedTeamObj(res.data['teamList']);
-          setSelectedTeamObj(res.data['test']);
+          setSelectedTeamObj(res.data['teamList']);
         })
         .catch(() => {
           alert('알 수 없는 오류 발생..');
@@ -52,8 +51,7 @@ function Result() {
       axios
         .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
         .then((res) => {
-          // setSelectedTeamObj(res.data['teamList']);
-          setSelectedTeamObj(res.data['test']);
+          setSelectedTeamObj(res.data['teamList']);
         })
         .catch(() => {
           alert('알 수 없는 오류가..');

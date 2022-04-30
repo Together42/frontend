@@ -12,8 +12,7 @@ function ProfileModal() {
   const setSignUpProfileImage = useSetRecoilState(SignUpProfileState);
 
   const onClickProfileImg = (e) => {
-    // console.log(e.target.id);
-    setSignUpProfileImage({ image: e.target.id, imageNum: e.target.key });
+    setSignUpProfileImage(e.target.id);
     setOpenProfileModal(false);
   };
 
