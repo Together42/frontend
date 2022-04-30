@@ -57,7 +57,7 @@ function Apply() {
         {LoginState.id === '' ? '로그인 후 신청 가능!' : `${LoginState.id}님, 신청하시죠?`}
       </p>
       <div className="main--apply--wrapper">
-        <div className="main--apply--list">
+        <div className={`main--apply--list ${EventList.length >= 6 && 'scroll'}`}>
           <p className="main--apply--list--title">신청 가능 목록</p>
           {EventList.length > 0 ? (
             EventList.map((e, i) => (

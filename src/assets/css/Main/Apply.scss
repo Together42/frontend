@@ -29,6 +29,9 @@ $list_wrapper_padding: 20px;
   width: $list_width;
   padding: $list_wrapper_padding;
   overflow-y: scroll;
+}
+
+.scroll {
   &::-webkit-scrollbar {
     width: 10px;
   }
