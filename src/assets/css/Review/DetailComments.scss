@@ -1,31 +1,87 @@
 @import '@css/useful.scss';
 @import '@css/fonts.scss';
 
-.review--posting--image--background {
-  position: absolute;
+.review--posting--background {
+  position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.review--posting--xmark {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  width: 25px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--posting-devision {
+  display: flex;
+  width: 700px;
+  background-color: white;
+  z-index: 10;
+}
+
+.review--posting--left_division {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 290px;
+  height: 440px;
+}
+
+.review--posting--image--background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
   height: 440px;
   width: 290px;
   background-color: rgba(0, 0, 0, 0.15);
   z-index: -1;
 }
 
-.review--posting--detail_comments {
-  position: absolute;
-  right: 0;
-  top: 80px;
-  width: 400px;
-  height: 280px;
-  overflow-y: scroll;
-  padding-right: 10px;
-  &::-webkit-scrollbar {
-    display: none;
+.review--posting--modal_image {
+  img {
+    width: 290px;
+    height: 290px;
+    object-fit: cover;
   }
 }
 
-.scroll {
+.review--posting--right_division {
+  width: 410px;
+  display: flex;
+  flex-direction: column;
+}
+
+.review--posting--modal_title {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  span {
+    display: block;
+  }
+}
+
+.review--posting--detail_comments {
+  width: 410px;
+  height: 280px;
+  margin-top: 20px;
+  padding: 0px 10px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .review--posting--full_comment {
@@ -49,16 +105,18 @@
 }
 
 .review--posting--post_comment--wrapper {
-  position: absolute;
-  right: 0px;
-  bottom: 0px;
-  width: 400px;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  width: 410px;
+  height: 80px;
 }
 
 .review--posting--form {
   display: flex;
   justify-content: space-between;
-  margin-right: 10px;
+  width: 390px;
+  margin: 10px;
 }
 
 .review--posting--input {

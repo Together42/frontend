@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '@css/Review/DetailComments.scss';
+import Xmark from '@img/xmark-solid-white.svg';
+import { useRecoilState } from 'recoil';
+import PostingDetail from '@recoil/PostingDetail';
 
 interface Props {
-  comment: string;
+  setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function DetailComments(props: Props) {
-  const { comment } = props;
-  const [tempVistComment, setTempVistComment] = useState([
-    '자주 가는 순대국집이네요ㅎㅎ',
-    '자주 가는 순대국집이네요ㅎㅎ',
-    '자주 가는 순대국집이네요ㅎㅎ',
-    '자주 가는 순대국집이네요ㅎㅎ',
-    '자주 가는 순대국집이네요ㅎㅎ',
-  ]);
-  const [tempVisName, setTempVisName] = useState(['jwoo', 'jwoo', 'jwoo', 'jwoo', 'jwoo']);
+  const { setModalShow } = props;
+  const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
+
   const [myComment, setMyComment] = useState('');
 
   const onChangeMyComment = (e: any) => {
@@ -23,43 +20,67 @@ function DetailComments(props: Props) {
 
   const onSubmitMyComment = (e: any) => {
     e.preventDefault();
-    setTempVistComment((prev) => [...prev, myComment]);
-    setTempVisName((prev) => [...prev, 'tkim']);
+    setPostingDetail((prev) => {
+      let newObj = {
+        ...prev,
+        commentList: [...prev['commentList'], { intraId: 'tkim', content: myComment, time: null }],
+      };
+      // newObj['commentList'].push({ intraId: 'tkim', content: myComment, time: null });
+      return newObj;
+    });
     setMyComment('');
   };
 
-  useEffect(() => {
-    document.getElementsByClassName('review--posting--detail_comments');
-  }, [tempVistComment]);
-
   return (
-    <>
-      <div className="review--posting--image--background"></div>
-      <div className={`review--posting--detail_comments ${tempVisName.length >= 8 && 'scroll'}`}>
-        <span className="review--posting--full_comment">{comment}</span>
-        {tempVisName.map((e, i) => (
-          <div className="review--posting--visitor--wrapper">
-            <span className="review--posting--visitor">{e}</span>
-            <span className="review--posting--visitor_comment">{tempVistComment[i]}</span>
+    <div className="review--posting--background" onClick={() => setModalShow(false)}>
+      <img className="review--posting--xmark" src={Xmark} alt={Xmark}></img>
+      <div className="review--posting-devision" onClick={(e) => e.stopPropagation()}>
+        <div className="review--posting--left_division">
+          <div className="review--posting--image--background"></div>
+          <div className="review--posting--modal_image">
+            <img src={postingDetail['picture']} alt={postingDetail['picture']} />
           </div>
-        ))}
+        </div>
+        <div className="review--posting--right_division">
+          <div className={`review--posting--title`}>
+            <div>
+              <span className="review--posting--title--team">{postingDetail['teamName']}</span>
+              <span className="review--posting--title--location">{postingDetail['location']}</span>
+            </div>
+            <div className="review--posting--members">
+              {postingDetail['memList'].map((e, i) => (
+                <img src={e['url']} key={i} alt={e['url']} />
+              ))}
+            </div>
+          </div>
+          <div className="review--posting--detail_comments">
+            <span className="review--posting--full_comment">{postingDetail['posting']}</span>
+            {postingDetail['commentList'].map((e, i) => (
+              <div className="review--posting--visitor--wrapper" key={i}>
+                <span className="review--posting--visitor">{e['intraId']}</span>
+                <span className="review--posting--visitor_comment">{e['content']}</span>
+              </div>
+            ))}
+          </div>
+          <div className="review--posting--post_comment--wrapper">
+            <form className="review--posting--form" onSubmit={onSubmitMyComment}>
+              <input
+                className="review--posting--input"
+                id="myComment"
+                placeholder="댓글을 입력해주세요"
+                onFocus={(e) => (e.target.placeholder = '')}
+                onBlur={(e) => (e.target.placeholder = '댓글을 입력해주세요')}
+                value={myComment}
+                onChange={onChangeMyComment}
+              ></input>
+              <button className="review--posting--button">
+                <span>게시</span>
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div className="review--posting--post_comment--wrapper">
-        <form className="review--posting--form" onSubmit={onSubmitMyComment}>
-          <input
-            className="review--posting--input"
-            id="myComment"
-            placeholder="댓글을 입력해주세요"
-            onFocus={(e) => (e.target.placeholder = '')}
-            onBlur={(e) => (e.target.placeholder = '댓글을 입력해주세요')}
-            onChange={onChangeMyComment}
-          ></input>
-          <button className="review--posting--button">
-            <span>게시</span>
-          </button>
-        </form>
-      </div>
-    </>
+    </div>
   );
 }
 

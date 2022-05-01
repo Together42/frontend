@@ -8,6 +8,8 @@ interface Props {
 function Guide(props: Props) {
   const { isElemExist } = props;
 
+  const onClickAddPosting = () => {};
+
   return (
     <div className={`review--forPositioning`}>
       <div className={`review--guide  ${!isElemExist && 'position_unset'}`}>
@@ -19,7 +21,7 @@ function Guide(props: Props) {
         </div>
         <div className={`review--guide--buttonWrapper ${!isElemExist && 'position_unset'}`}>
           <div>
-            <span>게시글 쓰기</span>
+            <span onClick={onClickAddPosting}>게시글 쓰기</span>
           </div>
           <div className="review--guide--diffRound">
             <span>다른 회차 보기</span>

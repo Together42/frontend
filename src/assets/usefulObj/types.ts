@@ -22,3 +22,14 @@ export interface teamMemInfo {
   url: string;
   teamId: number;
 }
+
+export interface PostingType {
+  eventId: number;
+  teamName: string;
+  location: string;
+  memList: { intraId: string; url: string }[];
+  posting: string;
+  commentList: { intraId: string; content: string; time: string }[];
+  date: string;
+  picture: string;
+}
