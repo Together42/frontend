@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
 import DetailComments from './DetailComments';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/PostingDetail';
 import { PostingType } from '@usefulObj/types';
+import ReviewModalShow from '@recoil/ReviewModalShow';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -12,7 +13,7 @@ interface Props extends PostingType {
 
 function Posting(props: Props) {
   const { eventId, picture, teamName, posting, memList, elemNum, location, commentList, date } = props;
-  const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
   const setPostingDetail = useSetRecoilState(PostingDetail);
 
   const onClickMoreButton = (e: any) => {
@@ -26,10 +27,10 @@ function Posting(props: Props) {
       date,
       picture,
     });
-    setModalShow(true);
+    setModalShow({ mode: 'detailComment', show: true });
   };
 
-  return !modalShow ? (
+  return !modalShow['show'] ? (
     <div
       className={`review--posting--forFlex ${elemNum % 2 === 0 ? 'justify-right' : 'justify-left'} ${
         elemNum === 4 && 'footer--empty'
@@ -71,7 +72,7 @@ function Posting(props: Props) {
       </div>
     </div>
   ) : (
-    <DetailComments setModalShow={setModalShow} />
+    <DetailComments />
   );
 }
 

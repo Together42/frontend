@@ -1,5 +1,7 @@
 import React from 'react';
 import '@css/Review/Guide.scss';
+import { useSetRecoilState } from 'recoil';
+import ReviewModalShow from '@recoil/ReviewModalShow';
 
 interface Props {
   isElemExist: boolean;
@@ -7,8 +9,11 @@ interface Props {
 
 function Guide(props: Props) {
   const { isElemExist } = props;
+  const setModalShow = useSetRecoilState(ReviewModalShow);
 
-  const onClickAddPosting = () => {};
+  const onClickAddPosting = () => {
+    setModalShow({ mode: 'posting', show: true });
+  };
 
   return (
     <div className={`review--forPositioning`}>

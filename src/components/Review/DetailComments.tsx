@@ -1,17 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '@css/Review/DetailComments.scss';
 import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilState } from 'recoil';
 import PostingDetail from '@recoil/PostingDetail';
+import ReviewModalShow from '@recoil/ReviewModalShow';
+import TextareaAutosize from 'react-textarea-autosize';
 
-interface Props {
-  setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function DetailComments(props: Props) {
-  const { setModalShow } = props;
-  const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
+function DetailComments() {
   const scrollRef = useRef(null);
+  const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
+  const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
+  const isDetailCommentMode = modalShow['mode'] === 'detailComment';
 
   const [myComment, setMyComment] = useState('');
 
@@ -32,6 +31,22 @@ function DetailComments(props: Props) {
     setMyComment('');
   };
 
+  useEffect(() => {
+    return () => {
+      setPostingDetail({
+        eventId: null,
+        teamName: null,
+        location: null,
+        memList: null,
+        posting: null,
+        commentList: null,
+        date: null,
+        picture: null,
+      });
+      setModalShow({ mode: null, show: null });
+    };
+  }, [setModalShow, setPostingDetail]);
+
   return (
     <div className="review--posting--background" onClick={() => setModalShow(false)}>
       <img className="review--posting--xmark" src={Xmark} alt={Xmark}></img>
@@ -39,46 +54,75 @@ function DetailComments(props: Props) {
         <div className="review--posting--left_division">
           <div className="review--posting--image--background"></div>
           <div className="review--posting--modal_image">
-            <img src={postingDetail['picture']} alt={postingDetail['picture']} />
+            {isDetailCommentMode ? (
+              <img src={postingDetail['picture']} alt={postingDetail['picture']} />
+            ) : (
+              <div>
+                <div>
+                  <span>파일을 업로드 혹은 드래그</span>
+                  <button>업로드</button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="review--posting--right_division">
-          <div className={`review--posting--title`}>
+          <div className="review--posting--title">
             <div>
-              <span className="review--posting--title--team">{postingDetail['teamName']}</span>
-              <span className="review--posting--title--location">{postingDetail['location']}</span>
+              <span className="review--posting--title--team">
+                {isDetailCommentMode ? postingDetail['teamName'] : '팀네임 검색'}
+              </span>
+              <span className="review--posting--title--location">
+                {isDetailCommentMode ? postingDetail['location'] : '장소를 입력해주세요'}
+              </span>
             </div>
             <div className="review--posting--members">
-              {postingDetail['memList'].map((e, i) => (
-                <img src={e['url']} key={i} alt={e['url']} />
-              ))}
+              {postingDetail['memList'] &&
+                postingDetail['memList'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
             </div>
           </div>
           <div className="review--posting--detail_comments" ref={scrollRef}>
-            <span className="review--posting--full_comment">{postingDetail['posting']}</span>
-            {postingDetail['commentList'].map((e, i) => (
-              <div className="review--posting--visitor--wrapper" key={i}>
-                <span className="review--posting--visitor">{e['intraId']}</span>
-                <span className="review--posting--visitor_comment">{e['content']}</span>
-              </div>
-            ))}
+            {isDetailCommentMode ? (
+              postingDetail['commentList'] && (
+                <>
+                  <span className="review--posting--full_comment">{postingDetail['posting']}</span>
+                  {postingDetail['commentList'].map((e, i) => (
+                    <div className="review--posting--visitor--wrapper" key={i}>
+                      <span className="review--posting--visitor">{e['intraId']}</span>
+                      <span className="review--posting--visitor_comment">{e['content']}</span>
+                    </div>
+                  ))}
+                </>
+              )
+            ) : (
+              <>
+                <TextareaAutosize className="review--posting--posting" minRows={10} placeholder="글을 작성해주세요" />
+                <div className="review--posting--button--forFlex">
+                  <button className="review--posting--button">
+                    <span>게시</span>
+                  </button>
+                </div>
+              </>
+            )}
           </div>
-          <div className="review--posting--post_comment--wrapper">
-            <form className="review--posting--form" onSubmit={onSubmitMyComment}>
-              <input
-                className="review--posting--input"
-                id="myComment"
-                placeholder="댓글을 입력해주세요"
-                onFocus={(e) => (e.target.placeholder = '')}
-                onBlur={(e) => (e.target.placeholder = '댓글을 입력해주세요')}
-                value={myComment}
-                onChange={onChangeMyComment}
-              ></input>
-              <button className="review--posting--button">
-                <span>게시</span>
-              </button>
-            </form>
-          </div>
+          {isDetailCommentMode && (
+            <div className="review--posting--post_comment--wrapper">
+              <form className="review--posting--form" onSubmit={onSubmitMyComment}>
+                <input
+                  className="review--posting--input"
+                  id="myComment"
+                  placeholder="댓글을 입력해주세요"
+                  onFocus={(e) => (e.target.placeholder = '')}
+                  onBlur={(e) => (e.target.placeholder = '댓글을 입력해주세요')}
+                  value={myComment}
+                  onChange={onChangeMyComment}
+                ></input>
+                <button className="review--posting--button">
+                  <span>게시</span>
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </div>

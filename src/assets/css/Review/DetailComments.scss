@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: #00000026;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,6 +104,15 @@
   @include medium_kor;
 }
 
+.review--posting--posting {
+  @include medium_kor;
+  width: 390px;
+  border: 1px solid $darkgrey_light;
+  &:focus {
+    outline: none;
+  }
+}
+
 .review--posting--post_comment--wrapper {
   display: flex;
   justify-content: end;
@@ -127,6 +136,11 @@
   &:focus {
     outline: none;
   }
+}
+
+.review--posting--button--forFlex {
+  display: flex;
+  justify-content: end;
 }
 
 .review--posting--button {

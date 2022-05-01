@@ -20,18 +20,17 @@
   display: flex;
   justify-content: space-between;
   margin: 10px;
-  span {
-    display: block;
-  }
 }
 
 .review--posting--title--team {
   @include medium_kor;
   color: $darkgrey_darker;
+  display: block;
 }
 
 .review--posting--title--location {
   @include small_kor;
+  display: block;
 }
 
 .review--posting--members {

@@ -33,3 +33,8 @@ export interface PostingType {
   date: string;
   picture: string;
 }
+
+export interface ReviewModalShowType {
+  mode: string;
+  show: boolean;
+}
