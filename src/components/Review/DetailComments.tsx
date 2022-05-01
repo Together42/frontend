@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import '@css/Review/DetailComments.scss';
 import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilState } from 'recoil';
@@ -11,6 +11,7 @@ interface Props {
 function DetailComments(props: Props) {
   const { setModalShow } = props;
   const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
+  const scrollRef = useRef(null);
 
   const [myComment, setMyComment] = useState('');
 
@@ -25,9 +26,9 @@ function DetailComments(props: Props) {
         ...prev,
         commentList: [...prev['commentList'], { intraId: 'tkim', content: myComment, time: null }],
       };
-      // newObj['commentList'].push({ intraId: 'tkim', content: myComment, time: null });
       return newObj;
     });
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     setMyComment('');
   };
 
@@ -53,7 +54,7 @@ function DetailComments(props: Props) {
               ))}
             </div>
           </div>
-          <div className="review--posting--detail_comments">
+          <div className="review--posting--detail_comments" ref={scrollRef}>
             <span className="review--posting--full_comment">{postingDetail['posting']}</span>
             {postingDetail['commentList'].map((e, i) => (
               <div className="review--posting--visitor--wrapper" key={i}>
