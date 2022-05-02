@@ -52,7 +52,7 @@ function AuthForm(props: Props) {
             }
           })
           .catch((error) => {
-            if (error && error.response && error.response.data) {
+            if (error?.response?.data) {
               setErrorMessage(error.response.data.message);
             } else setErrorMessage('알 수 없는 에러..');
           });
@@ -84,7 +84,7 @@ function AuthForm(props: Props) {
           }
         })
         .catch((error) => {
-          if (error && error.response && error.response.data) setErrorMessage(error.response.data.message);
+          if (error?.response?.data) setErrorMessage(error.response.data.message);
           else setErrorMessage('알 수 없는 에러..');
         });
     }

@@ -7,6 +7,7 @@ import axios from 'axios';
 import SelectedEvent from '@recoil/SelectedEvent';
 import { getToken } from '@cert/TokenStorage';
 import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
+import errorAlert from '@utils/errorAlert';
 
 interface Props {
   intraID: string;
@@ -36,13 +37,9 @@ function AttendeeListProfile(props: Props) {
               if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
               else setTeamList([]);
             })
-            .catch(() => {
-              alert('알 수 없는 오류가..');
-            });
+            .catch((err) => errorAlert(err));
         })
-        .catch(() => {
-          alert('삭제에 실패했습니다..');
-        });
+        .catch((err) => errorAlert(err));
     } else {
       alert('본인만 삭제가 가능해요');
     }

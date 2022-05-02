@@ -3,6 +3,7 @@ import '@css/Result/Result.scss';
 import Footer from '@result/Footer';
 import axios from 'axios';
 import { EventType } from '@types';
+import errorAlert from '@utils/errorAlert';
 
 function Result() {
   const [EventList, setEventList] = useState<EventType[]>([]);
@@ -31,9 +32,7 @@ function Result() {
           alert('매칭성공');
           setSelectedTeamObj(res.data['teamList']);
         })
-        .catch(() => {
-          alert('알 수 없는 오류 발생..');
-        });
+        .catch((err) => errorAlert(err));
   };
 
   const onChangeInput = (e: any) => {
@@ -41,10 +40,13 @@ function Result() {
   };
 
   useEffect(() => {
-    axios.get(`${process.env.SERVER_ADR}/api/together`).then((res) => {
-      setEventList(res.data.EventList);
-      if (res.data.EventList.length > 0) setSelectedEvent(res.data.EventList[0]);
-    });
+    axios
+      .get(`${process.env.SERVER_ADR}/api/together`)
+      .then((res) => {
+        setEventList(res.data.EventList);
+        if (res.data.EventList.length > 0) setSelectedEvent(res.data.EventList[0]);
+      })
+      .catch((err) => errorAlert(err));
   }, []);
 
   useEffect(() => {
@@ -54,9 +56,7 @@ function Result() {
         .then((res) => {
           setSelectedTeamObj(res.data['teamList']);
         })
-        .catch(() => {
-          alert('알 수 없는 오류가..');
-        });
+        .catch((err) => errorAlert(err));
     }
   }, [EventList.length, selectedEvent]);
 

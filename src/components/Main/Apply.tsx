@@ -7,6 +7,7 @@ import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/SelectedEvent';
 import { EventType } from '@usefulObj/types';
 import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
+import errorAlert from '@utils/errorAlert';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
@@ -48,10 +49,7 @@ function Apply() {
           alert('생성되었습니다');
           setCreateMode(false);
         })
-        .catch((error) => {
-          if (error && error.response && error.response.data) alert(error.response.data);
-          else alert('알 수 없는 오류 발생');
-        });
+        .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 하셔야 생성 가능합니다!');
     }
@@ -88,13 +86,9 @@ function Apply() {
               if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
               else setTeamList([]);
             })
-            .catch(() => {
-              alert('알 수 없는 오류가..');
-            });
+            .catch((err) => errorAlert(err));
         })
-        .catch((error) => {
-          alert(error.response.data);
-        });
+        .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 하셔야 신청 가능합니다!');
     }
@@ -108,23 +102,29 @@ function Apply() {
   };
 
   useEffect(() => {
-    axios.get(`${process.env.SERVER_ADR}/api/together`).then((response) => {
-      response.data.EventList.forEach((e: EventType) => {
-        axios.get(`${process.env.SERVER_ADR}/api/together/matching/${e.id}`).then((res) => {
-          if (
-            (res.data.teamList && res.data.teamList['null']) ||
-            (res.data.teamList && Object.keys(res.data.teamList).length === 0)
-          )
-            setEventList((prev) => {
-              let rtnArr = [...prev];
-              if (!prev.find((prevElem) => prevElem['id'] === e['id'])) {
-                rtnArr.push(e);
-              }
-              return rtnArr;
-            });
+    axios
+      .get(`${process.env.SERVER_ADR}/api/together`)
+      .then((response) => {
+        response.data.EventList.forEach((e: EventType) => {
+          axios
+            .get(`${process.env.SERVER_ADR}/api/together/matching/${e.id}`)
+            .then((res) => {
+              if (
+                (res.data.teamList && res.data.teamList['null']) ||
+                (res.data.teamList && Object.keys(res.data.teamList).length === 0)
+              )
+                setEventList((prev) => {
+                  let rtnArr = [...prev];
+                  if (!prev.find((prevElem) => prevElem['id'] === e['id'])) {
+                    rtnArr.push(e);
+                  }
+                  return rtnArr;
+                });
+            })
+            .catch((matchingErr) => errorAlert(matchingErr));
         });
-      });
-    });
+      })
+      .catch((err) => errorAlert(err));
     return () => {
       setGlobalSelectedEvent({
         id: null,
@@ -147,9 +147,7 @@ function Apply() {
           if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
           else setTeamList([]);
         })
-        .catch(() => {
-          alert('알 수 없는 오류가..');
-        });
+        .catch((err) => errorAlert(err));
     }
   }, [selectedEvent.id, setTeamList]);
 
