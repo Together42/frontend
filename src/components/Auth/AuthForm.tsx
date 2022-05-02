@@ -60,37 +60,33 @@ function AuthForm(props: Props) {
         setErrorMessage('비밀번호 재입력이 다릅니다!');
       }
     } else {
-      if (getAuth()) {
-        navigate('/');
-      } else {
-        axios
-          .post(`${process.env.SERVER_ADR}/api/auth/login`, {
-            loginId: id,
-            pw: password,
-          })
-          .then((res) => {
-            if (res.data.token) {
-              setLoginState(() => {
-                return {
-                  id,
-                  isLogin: true,
-                  isAdmin: id === 'tkim',
-                  profileUrl: res.data.url,
-                };
-              });
-              saveToken(res.data.token);
-              saveAuth({ id, url: res.data.url });
-              alert('로그인 되셨습니다.!');
-              navigate('/');
-            } else {
-              alert('서버에서 잘못된 데이터가 들어왔습니다');
-            }
-          })
-          .catch((error) => {
-            if (error && error.response && error.response.data) setErrorMessage(error.response.data);
-            else alert('서버 통신 에러');
-          });
-      }
+      axios
+        .post(`${process.env.SERVER_ADR}/api/auth/login`, {
+          loginId: id,
+          pw: password,
+        })
+        .then((res) => {
+          if (res.data.token) {
+            setLoginState(() => {
+              return {
+                id,
+                isLogin: true,
+                isAdmin: id === 'tkim',
+                profileUrl: res.data.url,
+              };
+            });
+            saveToken(res.data.token);
+            saveAuth({ id, url: res.data.url });
+            alert('로그인 되셨습니다');
+            navigate('/');
+          } else {
+            alert('서버에서 잘못된 데이터가 들어왔습니다');
+          }
+        })
+        .catch((error) => {
+          if (error && error.response && error.response.data) setErrorMessage(error.response.data);
+          else alert('서버 통신 에러');
+        });
     }
   };
 
@@ -101,8 +97,6 @@ function AuthForm(props: Props) {
     else if (e.target.id === 'email') setEmail(e.target.value);
     else setPassCheck(e.target.value);
   };
-
-  // console.log(profileImageState);
 
   return (
     <div className="authForm">
