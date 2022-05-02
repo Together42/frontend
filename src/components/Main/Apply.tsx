@@ -6,6 +6,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/SelectedEvent';
 import { EventType } from '@usefulObj/types';
+import { getAuth } from '@cert/AuthStorage';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
@@ -17,6 +18,50 @@ function Apply() {
     createdBy: null,
   });
   const setGlobalSelectedEvent = useSetRecoilState(SelectedEvent);
+  const [createMode, setCreateMode] = useState(false);
+  const [createTitle, setCreateTitle] = useState('');
+  const [createDescription, setCreateDescription] = useState('');
+
+  const onClickCreateModal = (e) => {
+    setCreateMode(true);
+  };
+
+  const onSubmitCreate = (e) => {
+    e.preventDefault();
+    if (LoginState.isLogin) {
+      axios
+        .post(
+          `${process.env.SERVER_ADR}/api/together`,
+          {
+            title: createTitle,
+            description: createDescription,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
+        .then(() => {
+          alert('생성되었습니다');
+          setCreateMode(false);
+        })
+        .catch((error) => {
+          if (error && error.response && error.response.data) alert(error.response.data);
+          else alert('알 수 없는 오류 발생');
+        });
+    } else {
+      alert('로그인을 하셔야 생성 가능합니다!');
+    }
+  };
+
+  const onChange = (e) => {
+    if (e.target.id === 'title') {
+      setCreateTitle(e.target.value);
+    } else {
+      setCreateDescription(e.target.value);
+    }
+  };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -33,6 +78,9 @@ function Apply() {
             },
           },
         )
+        .then(() => {
+          alert('신청되셨습니다');
+        })
         .catch((error) => {
           alert(error.response.data);
         });
@@ -48,10 +96,21 @@ function Apply() {
   };
 
   useEffect(() => {
-    axios.get(`${process.env.SERVER_ADR}/api/together`).then((res) => {
-      res.data.EventList.forEach((e: EventType) => {
+    axios.get(`${process.env.SERVER_ADR}/api/together`).then((response) => {
+      response.data.EventList.forEach((e: EventType) => {
         axios.get(`${process.env.SERVER_ADR}/api/together/matching/${e.id}`).then((res) => {
-          if (res.data.teamList && res.data.teamList['null']) setEventList((prev) => [...prev, e]);
+          // console.log(res);
+          if (
+            (res.data.teamList && res.data.teamList['null']) ||
+            (res.data.teamList && Object.keys(res.data.teamList).length === 0)
+          )
+            setEventList((prev) => {
+              let tempArr = [...prev];
+              if (!prev.find((prevElem) => prevElem['id'] === e['id'])) {
+                tempArr.push(e);
+              }
+              return tempArr;
+            });
         });
       });
     });
@@ -63,7 +122,10 @@ function Apply() {
         createdBy: null,
       });
     };
-  }, [setGlobalSelectedEvent]);
+  }, [setGlobalSelectedEvent, createMode]);
+
+  // console.log(selectedEvent);
+  // console.log(getAuth());
 
   return (
     <div className="main--apply">
@@ -71,6 +133,9 @@ function Apply() {
         {LoginState.id === '' ? '로그인 후 신청 가능!' : `${LoginState.id}님, 신청하시죠?`}
       </p>
       <div className="main--apply--wrapper">
+        <div className="main--apply--create_modal_button">
+          <span onClick={onClickCreateModal}>친바 생성하기</span>
+        </div>
         <div className="main--apply--list">
           <p className="main--apply--list--title">신청 가능 목록</p>
           {EventList.length > 0 ? (
@@ -85,7 +150,7 @@ function Apply() {
             <p className="main--apply--list--empty">이벤트가 없습니다</p>
           )}
         </div>
-        {EventList.length > 0 && (
+        {EventList.length > 0 && !createMode ? (
           <div className="main--apply--eventInfo">
             {selectedEvent.id ? (
               <>
@@ -99,7 +164,44 @@ function Apply() {
               <p className="main--apply--eventInfo--empty">이벤트를 클릭해주세요</p>
             )}
           </div>
-        )}
+        ) : createMode ? (
+          <div className="main--apply--create_wrapper">
+            <form className="main--apply--create_form" onSubmit={onSubmitCreate}>
+              <div className="main--apply--create_input_wrapper">
+                <div className="main--apply--create_input_label">
+                  <span>친바제목</span>
+                </div>
+                <input
+                  className="main--apply--create_input"
+                  id="title"
+                  placeholder="친바제목입력"
+                  onFocus={(e) => (e.target.placeholder = '')}
+                  onBlur={(e) => (e.target.placeholder = '친바제목입력')}
+                  onChange={onChange}
+                ></input>
+              </div>
+              <div className="main--apply--create_textarea_wrapper">
+                <div className="main--apply--create_textarea_label">
+                  <span>친바설명</span>
+                </div>
+                <textarea
+                  className="main--apply--create_textarea"
+                  id="description"
+                  placeholder="친바설명입력"
+                  onFocus={(e) => (e.target.placeholder = '')}
+                  onBlur={(e) => (e.target.placeholder = '친바설명입력')}
+                  rows={5}
+                  onChange={onChange}
+                ></textarea>
+              </div>
+              <div className="main--apply--create_button_wrapper">
+                <button className="main--apply--create_button">
+                  <span>친바생성</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : null}
       </div>
     </div>
   );

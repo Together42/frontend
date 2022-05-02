@@ -4,6 +4,8 @@ import '@css/Main/AttendeeListProfile.scss';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
+import SelectedEvent from '@recoil/SelectedEvent';
+import { getToken } from '@cert/TokenStorage';
 
 interface Props {
   intraID: string;
@@ -14,15 +16,20 @@ function AttendeeListProfile(props: Props) {
   const { intraID, image } = props;
   const xMarkRef = useRef(null);
   const LoginState = useRecoilValue(GlobalLoginState);
+  const selectedEvent = useRecoilValue(SelectedEvent);
 
   const onClickXmark = () => {
     if (LoginState.id === intraID) {
       axios
-        .delete(`${process.env.SERVER_ADR}/api/together/${LoginState.id}`)
+        .delete(`${process.env.SERVER_ADR}/api/together/unregister/${selectedEvent['id']}`, {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        })
         .then(() => {
           alert('삭제되었습니다');
         })
-        .catch(() => {
+        .catch((err) => {
           alert('삭제에 실패했습니다..');
         });
     } else {

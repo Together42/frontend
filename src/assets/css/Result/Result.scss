@@ -78,6 +78,7 @@ $table_padding: 20px;
   @include medium_kor;
   font-size: 16px;
   color: $red_for_submit;
+  border: none;
   &:hover {
     cursor: pointer;
   }

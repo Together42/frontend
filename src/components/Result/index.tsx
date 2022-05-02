@@ -28,6 +28,7 @@ function Result() {
           teamNum: teamLen,
         })
         .then((res) => {
+          alert('매칭성공');
           setSelectedTeamObj(res.data['teamList']);
         })
         .catch(() => {
@@ -102,8 +103,8 @@ function Result() {
               <div className="result--submit--form_wrapper">
                 <form onSubmit={onClickSubmit} className="result--submit--form">
                   <input className="result--submit--input" onChange={onChangeInput} value={teamLen}></input>
-                  <span className="result--submit--label">명으로 </span>
-                  <span className="result--submit--button">매칭하기</span>
+                  <span className="result--submit--label">팀으로 </span>
+                  <button className="result--submit--button">매칭하기</button>
                 </form>
               </div>
             </>
