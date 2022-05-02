@@ -48,13 +48,13 @@ function AuthForm(props: Props) {
               setPassCheck('');
               setEmail('');
             } else {
-              alert('서버에서 잘못된 데이터가 들어왔습니다');
+              setErrorMessage('토큰 받아오기 실패');
             }
           })
           .catch((error) => {
             if (error && error.response && error.response.data) {
               setErrorMessage(error.response.data.message);
-            } else alert('서버 통신 에러');
+            } else setErrorMessage('알 수 없는 에러..');
           });
       } else {
         setErrorMessage('비밀번호 재입력이 다릅니다!');
@@ -80,12 +80,12 @@ function AuthForm(props: Props) {
             alert('로그인 되셨습니다');
             navigate('/');
           } else {
-            alert('서버에서 잘못된 데이터가 들어왔습니다');
+            setErrorMessage('토큰 받아오기 실패');
           }
         })
         .catch((error) => {
-          if (error && error.response && error.response.data) setErrorMessage(error.response.data);
-          else alert('서버 통신 에러');
+          if (error && error.response && error.response.data) setErrorMessage(error.response.data.message);
+          else setErrorMessage('알 수 없는 에러..');
         });
     }
   };
