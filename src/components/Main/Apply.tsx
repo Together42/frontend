@@ -82,6 +82,15 @@ function Apply() {
         )
         .then(() => {
           alert('신청되셨습니다');
+          axios
+            .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
+            .then((res) => {
+              if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
+              else setTeamList([]);
+            })
+            .catch(() => {
+              alert('알 수 없는 오류가..');
+            });
         })
         .catch((error) => {
           alert(error.response.data);
@@ -142,7 +151,7 @@ function Apply() {
           alert('알 수 없는 오류가..');
         });
     }
-  }, [selectedEvent.id, setTeamList, teamList]);
+  }, [selectedEvent.id, setTeamList]);
 
   return (
     <div className="main--apply">

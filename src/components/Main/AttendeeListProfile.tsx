@@ -11,11 +11,10 @@ import { teamMemInfo } from '@usefulObj/types';
 interface Props {
   intraID: string;
   image: string;
-  setTeamList: React.Dispatch<React.SetStateAction<teamMemInfo[]>>;
 }
 
 function AttendeeListProfile(props: Props) {
-  const { intraID, image, setTeamList } = props;
+  const { intraID, image } = props;
   const xMarkRef = useRef(null);
   const LoginState = useRecoilValue(GlobalLoginState);
   const selectedEvent = useRecoilValue(SelectedEvent);
