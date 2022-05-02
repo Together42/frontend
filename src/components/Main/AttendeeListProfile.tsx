@@ -6,20 +6,22 @@ import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import SelectedEvent from '@recoil/SelectedEvent';
 import { getToken } from '@cert/TokenStorage';
+import { teamMemInfo } from '@usefulObj/types';
 
 interface Props {
   intraID: string;
   image: string;
+  setTeamList: React.Dispatch<React.SetStateAction<teamMemInfo[]>>;
 }
 
 function AttendeeListProfile(props: Props) {
-  const { intraID, image } = props;
+  const { intraID, image, setTeamList } = props;
   const xMarkRef = useRef(null);
   const LoginState = useRecoilValue(GlobalLoginState);
   const selectedEvent = useRecoilValue(SelectedEvent);
 
   const onClickXmark = () => {
-    if (LoginState.id === intraID) {
+    if (LoginState.id === intraID && selectedEvent.id) {
       axios
         .delete(`${process.env.SERVER_ADR}/api/together/unregister/${selectedEvent['id']}`, {
           headers: {
@@ -29,7 +31,7 @@ function AttendeeListProfile(props: Props) {
         .then(() => {
           alert('삭제되었습니다');
         })
-        .catch((err) => {
+        .catch(() => {
           alert('삭제에 실패했습니다..');
         });
     } else {

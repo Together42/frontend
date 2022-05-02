@@ -1,35 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import '@css/Main/AttendeeList.scss';
 import AttendeeListProfile from '@main/AttendeeListProfile';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import SelectedEvent from '@recoil/SelectedEvent';
-import axios from 'axios';
-import { teamMemInfo } from '@usefulObj/types';
+import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
 
 function AttendeeList() {
   const selectedEvent = useRecoilValue(SelectedEvent);
-  const [teamList, setTeamList] = useState<teamMemInfo[]>([]);
+  const [teamList, setTeamList] = useRecoilState(ApplyTeamMemArr);
   const [showAttendeeList, setShowAttendeeList] = useState(selectedEvent.title && teamList.length);
-
-  useEffect(() => {
-    if (selectedEvent.id) {
-      axios
-        .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
-        .then((res) => {
-          if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
-          else setTeamList([]);
-        })
-        .catch(() => {
-          alert('알 수 없는 오류가..');
-        });
-    }
-  }, [selectedEvent.id]);
 
   useMemo(() => {
     setShowAttendeeList(selectedEvent.title && teamList.length);
   }, [selectedEvent.title, teamList.length]);
-
-  // console.log(teamList);
 
   return (
     <div className={`main--attendeeList ${!showAttendeeList && 'data_none_div'}`}>
@@ -39,7 +22,7 @@ function AttendeeList() {
       {showAttendeeList ? (
         <div className="main--attendeeList--profiles">
           {teamList.map((e) => (
-            <AttendeeListProfile intraID={e.loginId} image={e.url} key={e.loginId} />
+            <AttendeeListProfile intraID={e.loginId} image={e.url} key={e.loginId} setTeamList={setTeamList} />
           ))}
         </div>
       ) : null}

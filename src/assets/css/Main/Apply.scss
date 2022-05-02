@@ -28,6 +28,9 @@ $list_wrapper_padding: 20px;
   top: -30px;
   span {
     @include medium_kor;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 

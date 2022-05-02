@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '@css/Main/Apply.scss';
 import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/SelectedEvent';
 import { EventType } from '@usefulObj/types';
-import { getAuth } from '@cert/AuthStorage';
+import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
@@ -17,12 +17,14 @@ function Apply() {
     description: null,
     createdBy: null,
   });
-  const setGlobalSelectedEvent = useSetRecoilState(SelectedEvent);
+  const [globalSelectedEvent, setGlobalSelectedEvent] = useRecoilState(SelectedEvent);
+  const [teamList, setTeamList] = useRecoilState(ApplyTeamMemArr);
   const [createMode, setCreateMode] = useState(false);
   const [createTitle, setCreateTitle] = useState('');
   const [createDescription, setCreateDescription] = useState('');
+  const ListWrapperRef = useRef(null);
 
-  const onClickCreateModal = (e) => {
+  const onClickCreateModal = () => {
     setCreateMode(true);
   };
 
@@ -91,6 +93,7 @@ function Apply() {
 
   const onClickEventList = (e) => {
     const clickedEvent = EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
+    setCreateMode(false);
     setSelectedEvent(clickedEvent);
     setGlobalSelectedEvent(clickedEvent);
   };
@@ -99,17 +102,16 @@ function Apply() {
     axios.get(`${process.env.SERVER_ADR}/api/together`).then((response) => {
       response.data.EventList.forEach((e: EventType) => {
         axios.get(`${process.env.SERVER_ADR}/api/together/matching/${e.id}`).then((res) => {
-          // console.log(res);
           if (
             (res.data.teamList && res.data.teamList['null']) ||
             (res.data.teamList && Object.keys(res.data.teamList).length === 0)
           )
             setEventList((prev) => {
-              let tempArr = [...prev];
+              let rtnArr = [...prev];
               if (!prev.find((prevElem) => prevElem['id'] === e['id'])) {
-                tempArr.push(e);
+                rtnArr.push(e);
               }
-              return tempArr;
+              return rtnArr;
             });
         });
       });
@@ -124,12 +126,27 @@ function Apply() {
     };
   }, [setGlobalSelectedEvent, createMode]);
 
-  // console.log(selectedEvent);
-  // console.log(getAuth());
+  useEffect(() => {
+    window.scrollTo(0, ListWrapperRef.current.offsetTop);
+  }, [teamList]);
+
+  useEffect(() => {
+    if (selectedEvent.id) {
+      axios
+        .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
+        .then((res) => {
+          if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
+          else setTeamList([]);
+        })
+        .catch(() => {
+          alert('알 수 없는 오류가..');
+        });
+    }
+  }, [selectedEvent.id, setTeamList, teamList]);
 
   return (
     <div className="main--apply">
-      <p className="main--apply--title">
+      <p className="main--apply--title" ref={ListWrapperRef}>
         {LoginState.id === '' ? '로그인 후 신청 가능!' : `${LoginState.id}님, 신청하시죠?`}
       </p>
       <div className="main--apply--wrapper">
