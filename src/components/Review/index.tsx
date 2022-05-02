@@ -30,9 +30,9 @@ function Review() {
   const tempArr = ['team1', 'team1', 'team1', 'team1'];
   const tempSomeoneComment = [
     { intraId: 'jwoo', content: '자주 가는 순대국집이네요ㅎㅎ', time: null },
-    { intraId: 'jwoo', content: '자주 가는 순대국집이네요ㅎㅎ', time: null },
-    { intraId: 'jwoo', content: '자주 가는 순대국집이네요ㅎㅎ', time: null },
-    { intraId: 'jwoo', content: '자주 가는 순대국집이네요ㅎㅎ', time: null },
+    { intraId: 'tkim', content: '친해지는 모습이 보기 좋습니다', time: null },
+    { intraId: 'seongyle', content: '선글 선글 선글라스', time: null },
+    { intraId: 'seunam', content: '새우 새우 새우남', time: null },
   ];
 
   // 추후에는 이런 식으로 만들어집니다.

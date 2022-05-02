@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '@css/Review/DetailComments.scss';
 import Xmark from '@img/xmark-solid-white.svg';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import PostingDetail from '@recoil/PostingDetail';
 import ReviewModalShow from '@recoil/ReviewModalShow';
 import TextareaAutosize from 'react-textarea-autosize';
+import GlobalLoginState from '@recoil/GlobalLoginState';
 
 function DetailComments() {
   const scrollRef = useRef(null);
   const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
   const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
+  const LoginState = useRecoilValue(GlobalLoginState);
   const isDetailCommentMode = modalShow['mode'] === 'detailComment';
 
   const [myComment, setMyComment] = useState('');
@@ -20,15 +22,20 @@ function DetailComments() {
 
   const onSubmitMyComment = (e: any) => {
     e.preventDefault();
-    setPostingDetail((prev) => {
-      let newObj = {
-        ...prev,
-        commentList: [...prev['commentList'], { intraId: 'tkim', content: myComment, time: null }],
-      };
-      return newObj;
-    });
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    setMyComment('');
+    if (LoginState['id'] !== '') {
+      setPostingDetail((prev) => {
+        let newObj = {
+          ...prev,
+          commentList: [...prev['commentList'], { intraId: LoginState['id'], content: myComment, time: null }],
+        };
+        return newObj;
+      });
+      alert('현재 게시판은 댓글이 저장되지는 않습니다..');
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      setMyComment('');
+    } else {
+      alert('로그인을 하셔야 이용 가능합니다.');
+    }
   };
 
   useEffect(() => {
