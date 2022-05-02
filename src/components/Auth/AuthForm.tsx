@@ -8,7 +8,7 @@ import axios from 'axios';
 import { saveToken } from '@cert/TokenStorage';
 import { useNavigate } from 'react-router';
 import SignUpProfileState from '@recoil/SignUpProfileState';
-import { getAuth, saveAuth } from '@cert/AuthStorage';
+import { saveAuth } from '@cert/AuthStorage';
 
 interface Props {
   signUpMode: boolean;
@@ -52,9 +52,9 @@ function AuthForm(props: Props) {
             }
           })
           .catch((error) => {
-            // console.log(error.response);
-            if (error && error.response && error.response.data) setErrorMessage(error.response.data);
-            else alert('서버 통신 에러');
+            if (error && error.response && error.response.data) {
+              setErrorMessage(error.response.data.message);
+            } else alert('서버 통신 에러');
           });
       } else {
         setErrorMessage('비밀번호 재입력이 다릅니다!');
