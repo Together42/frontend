@@ -109,9 +109,9 @@ function AuthForm(props: Props) {
           <input
             className="authForm--input"
             id="id"
-            placeholder="인트라 id 입력"
+            placeholder="인트라 id 소문자"
             onFocus={(e) => (e.target.placeholder = '')}
-            onBlur={(e) => (e.target.placeholder = '인트라 id 입력')}
+            onBlur={(e) => (e.target.placeholder = '인트라 id 소문자')}
             onChange={onChange}
           ></input>
         </div>

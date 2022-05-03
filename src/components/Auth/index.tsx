@@ -21,8 +21,8 @@ function Auth() {
       <div className={`auth--wrapper ${signUpMode ? 'signup' : 'login'} `}>
         {signUpMode ? (
           <>
-            <p className="auth--hello">회원가입 후 관리자 승인이 필요합니다</p>
-            <p className="auth--hello">얼마 걸리지 않을거에요!</p>
+            {/* <p className="auth--hello">22년 3월 기준 사서님들만 가입이 가능합니다</p> */}
+            <p className="auth--hello">문의는 tkim에게 해주세요</p>
             <div className="auth--profile">
               <img src={profileImage} alt="profile" />
               <p onClick={onClickOpenProfile}>프로필 변경</p>
