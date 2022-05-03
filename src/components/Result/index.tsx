@@ -4,6 +4,7 @@ import Footer from '@result/Footer';
 import axios from 'axios';
 import { EventType } from '@types';
 import errorAlert from '@utils/errorAlert';
+import { getToken } from '@cert/TokenStorage';
 
 function Result() {
   const [EventList, setEventList] = useState<EventType[]>([]);
@@ -24,10 +25,18 @@ function Result() {
   const onClickSubmit = () => {
     if (teamLen !== '')
       axios
-        .post(`${process.env.SERVER_ADR}/api/together/matching`, {
-          eventId: selectedEvent.id,
-          teamNum: teamLen,
-        })
+        .post(
+          `${process.env.SERVER_ADR}/api/together/matching`,
+          {
+            eventId: selectedEvent.id,
+            teamNum: teamLen,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
         .then((res) => {
           alert('매칭성공');
           setSelectedTeamObj(res.data['teamList']);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 // 이하의 import는 이미지 불러오기 임시용
@@ -52,6 +52,10 @@ function Review() {
   //   {},
   //   {},
   // ];
+
+  useEffect(() => {
+    alert('아직 개발 전입니다 눈으로만 봐주세용...');
+  }, []);
 
   return (
     <>
