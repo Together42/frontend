@@ -48,6 +48,17 @@ $table_padding: 20px;
 .result--submit {
   background-color: #b2babb3d;
   padding: 30px 100px;
+  position: relative;
+}
+
+.result--submit--delete_event {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  width: 15px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .result--submit--info {

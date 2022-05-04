@@ -5,6 +5,7 @@ import axios from 'axios';
 import { EventType } from '@types';
 import errorAlert from '@utils/errorAlert';
 import { getToken } from '@cert/TokenStorage';
+import Xmark from '@img/xmark-solid.svg';
 
 function Result() {
   const [EventList, setEventList] = useState<EventType[]>([]);
@@ -16,6 +17,16 @@ function Result() {
   });
   const [selectedTeamObj, setSelectedTeamObj] = useState({});
   const [teamLen, setTeamLen] = useState('');
+
+  const getEventList = () => {
+    axios
+      .get(`${process.env.SERVER_ADR}/api/together`)
+      .then((res) => {
+        setEventList(res.data.EventList);
+        if (res.data.EventList.length > 0) setSelectedEvent(res.data.EventList[0]);
+      })
+      .catch((err) => errorAlert(err));
+  };
 
   const onClickEvent = (e: any) => {
     const clickedEvent = EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
@@ -48,14 +59,24 @@ function Result() {
     setTeamLen(e.target.value);
   };
 
+  const onClickDeleteEvent = (e) => {
+    if (window.confirm('이벤트를 삭제하시겠습니까?')) {
+      axios
+        .delete(`${process.env.SERVER_ADR}/api/together/${selectedEvent['id']}`, {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        })
+        .then(() => {
+          alert('삭제되었습니다');
+          getEventList();
+        })
+        .catch((err) => errorAlert(err));
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`${process.env.SERVER_ADR}/api/together`)
-      .then((res) => {
-        setEventList(res.data.EventList);
-        if (res.data.EventList.length > 0) setSelectedEvent(res.data.EventList[0]);
-      })
-      .catch((err) => errorAlert(err));
+    getEventList();
   }, []);
 
   useEffect(() => {
@@ -86,6 +107,7 @@ function Result() {
         <div
           className={`${!Object.keys(selectedTeamObj).find((e) => e === 'null') ? 'result--table' : 'result--submit'}`}
         >
+          <img className="result--submit--delete_event" src={Xmark} alt={Xmark} onClick={onClickDeleteEvent}></img>
           {!Object.keys(selectedTeamObj).find((e) => e === 'null') &&
           Object.keys(selectedTeamObj).length &&
           EventList.length ? (
