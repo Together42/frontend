@@ -23,23 +23,32 @@ function AttendeeListProfile(props: Props) {
 
   const onClickXmark = () => {
     if (LoginState.id === intraID && selectedEvent.id) {
-      axios
-        .delete(`${process.env.SERVER_ADR}/api/together/unregister/${selectedEvent['id']}`, {
-          headers: {
-            Authorization: 'Bearer ' + getToken(),
-          },
-        })
-        .then(() => {
-          alert('삭제되었습니다');
+      if (window.confirm('정말로 취소하시나여?')) {
+        if (window.confirm('진짜로요?')) {
           axios
-            .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
-            .then((res) => {
-              if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
-              else setTeamList([]);
+            .delete(`${process.env.SERVER_ADR}/api/together/unregister/${selectedEvent['id']}`, {
+              headers: {
+                Authorization: 'Bearer ' + getToken(),
+              },
+            })
+            .then(() => {
+              alert('삭제되었습니다');
+              axios
+                .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
+                .then((res) => {
+                  if (res.data.teamList && Object.keys(res.data.teamList).length)
+                    setTeamList(res.data.teamList['null']);
+                  else setTeamList([]);
+                })
+                .catch((err) => errorAlert(err));
             })
             .catch((err) => errorAlert(err));
-        })
-        .catch((err) => errorAlert(err));
+        } else {
+          alert('잘생각했어요>,.<');
+        }
+      } else {
+        alert('감사합니다^&^');
+      }
     } else {
       alert('본인만 삭제가 가능해요');
     }
