@@ -23,7 +23,7 @@ function Apply() {
     setCreateMode(true);
   };
 
-  const onSubmitCreate = (e) => {
+  const onSubmitCreate = (e: any) => {
     e.preventDefault();
     if (LoginState.isLogin) {
       axios
@@ -49,7 +49,7 @@ function Apply() {
     }
   };
 
-  const onChange = (e) => {
+  const onChange = (e: any) => {
     if (e.target.id === 'title') {
       setCreateTitle(e.target.value);
     } else {
@@ -75,7 +75,7 @@ function Apply() {
         .then(() => {
           alert('신청되셨습니다');
           axios
-            .get(`${process.env.SERVER_ADR}/api/together/matching/${globalSelectedEvent.id}`)
+            .get(`${process.env.SERVER_ADR}/api/together/${globalSelectedEvent.id}`)
             .then((res) => {
               if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
               else setTeamList([]);
@@ -88,7 +88,7 @@ function Apply() {
     }
   };
 
-  const onClickEventList = (e) => {
+  const onClickEventList = (e: any) => {
     const clickedEvent = EventList.filter((ev) => ev.id === parseInt(e.target.id, 10))[0];
     setCreateMode(false);
     setGlobalSelectedEvent(clickedEvent);
@@ -146,7 +146,7 @@ function Apply() {
   useEffect(() => {
     if (globalSelectedEvent.id) {
       axios
-        .get(`${process.env.SERVER_ADR}/api/together/matching/${globalSelectedEvent.id}`)
+        .get(`${process.env.SERVER_ADR}/api/together/${globalSelectedEvent.id}`)
         .then((res) => {
           if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
           else setTeamList([]);
