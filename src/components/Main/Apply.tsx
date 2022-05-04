@@ -113,14 +113,6 @@ function Apply() {
             });
         })
         .catch((err) => errorAlert(err));
-      return () => {
-        setGlobalSelectedEvent({
-          id: null,
-          title: null,
-          description: null,
-          createdBy: null,
-        });
-      };
     }
   }, [setGlobalSelectedEvent, createMode, globalSelectedEvent.id]);
 

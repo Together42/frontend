@@ -37,12 +37,15 @@ function AuthForm(props: Props) {
             loginId: id,
             pw: password,
             email,
-            url: profileImageState,
+            url: `https://together42.github.io${profileImageState}`,
           })
           .then((res) => {
             if (res.data && res.data.token) {
               saveToken(res.data.token);
-              saveAuth({ id, url: profileImageState });
+              saveAuth({
+                id,
+                url: `https://together42.github.io${profileImageState}`,
+              });
               alert('회원가입 되셨습니다!');
               setSignUpMode(false);
               setPassCheck('');
@@ -97,6 +100,8 @@ function AuthForm(props: Props) {
     else if (e.target.id === 'email') setEmail(e.target.value);
     else setPassCheck(e.target.value);
   };
+
+  console.log(profileImageState);
 
   return (
     <div className="authForm">
