@@ -29,7 +29,7 @@
     <img src="https://img.shields.io/badge/Express-v4.17.3-green?style=flat&logo=Express&logoColor=white"/>
     <img src="https://img.shields.io/badge/Amazon AWS-deploy-FF9900?logo=Amazon AWS">
     <img src="https://img.shields.io/badge/JSON Web Tokens-deploy-CC2927?logo=JSON Web Tokens">
-    <img src="https://img.shields.io/badge/MySQL-v2.3.3-4479A1?logo=MySQL">
+    <img src="https://img.shields.io/badge/MySQL-v8.0.28-4479A1?logo=MySQL">
     <img src="https://img.shields.io/badge/GitHub Actions-deploy-5B0BB5?logo=GitHub Actions">
 </p>
 
