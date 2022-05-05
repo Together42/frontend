@@ -73,7 +73,7 @@ $list_wrapper_padding: 20px;
   padding: $list_wrapper_padding;
 }
 
-.main--apply--eventInfo--title {
+.main--apply--eventInfo--title_wrapper {
   @include medium_kor;
   display: flex;
   justify-content: space-between;
@@ -84,6 +84,13 @@ $list_wrapper_padding: 20px;
   margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px solid #50505057;
+}
+
+.main--apply--eventInfo--title {
+  max-width: 230px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .main--apply--eventInfo--maker {

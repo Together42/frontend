@@ -182,8 +182,8 @@ function Apply() {
           <div className="main--apply--eventInfo">
             {globalSelectedEvent.id ? (
               <>
-                <p className="main--apply--eventInfo--title">
-                  <span> {globalSelectedEvent.title}</span>
+                <p className="main--apply--eventInfo--title_wrapper">
+                  <span className="main--apply--eventInfo--title"> {globalSelectedEvent.title}</span>
                   <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['createdBy']}`}</span>
                 </p>
                 <span className="main--apply--eventInfo--description">{globalSelectedEvent.description}</span>
