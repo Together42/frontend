@@ -37,14 +37,20 @@ function AuthForm(props: Props) {
             loginId: id,
             pw: password,
             email,
-            url: `https://together42.github.io${profileImageState}`,
+            url:
+              process.env.NODE_ENV === 'production'
+                ? `https://together42.github.io${profileImageState}`
+                : profileImageState,
           })
           .then((res) => {
             if (res.data && res.data.token) {
               saveToken(res.data.token);
               saveAuth({
                 id,
-                url: `https://together42.github.io${profileImageState}`,
+                url:
+                  process.env.NODE_ENV === 'production'
+                    ? `https://together42.github.io${profileImageState}`
+                    : profileImageState,
               });
               alert('회원가입 되셨습니다!');
               setSignUpMode(false);
