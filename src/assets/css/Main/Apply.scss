@@ -75,14 +75,29 @@ $list_wrapper_padding: 20px;
 
 .main--apply--eventInfo--title {
   @include medium_kor;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   font-size: $sub_title_18;
   font-weight: 600;
   margin: 0;
-  margin-bottom: $list_wrapper_padding;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #50505057;
+}
+
+.main--apply--eventInfo--maker {
+  @include small_kor;
+  margin: 0;
+  vertical-align: bottom;
 }
 
 .main--apply--eventInfo--description {
   @include medium_kor;
+  font-size: $sub_title_18;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: $list_wrapper_padding;
 }
 
 .main--apply--eventInfo--submit {

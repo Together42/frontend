@@ -2,7 +2,7 @@ export interface EventType {
   id: number;
   title: string;
   description: string;
-  createdBy: number;
+  createdBy: string;
 }
 
 export interface userData {
