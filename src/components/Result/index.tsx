@@ -82,7 +82,7 @@ function Result() {
   }, []);
 
   useEffect(() => {
-    if (selectedEvent.id && EventList.length) {
+    if (selectedEvent.id) {
       axios
         .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
         .then((res) => {
@@ -90,7 +90,7 @@ function Result() {
         })
         .catch((err) => errorAlert(err));
     }
-  }, [EventList.length, selectedEvent]);
+  }, [selectedEvent]);
 
   return (
     <>
@@ -119,7 +119,7 @@ function Result() {
                   <p className="result--team_name">{elem[0]}</p>
                   {elem[1].map((e, i) => (
                     <p key={i} className="result--intra">
-                      {e.loginId}
+                      {e.intraId}
                     </p>
                   ))}
                 </div>
