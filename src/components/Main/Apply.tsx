@@ -132,7 +132,9 @@ function Apply() {
         id: null,
         title: null,
         description: null,
-        createdBy: null,
+        intraId: null,
+        createdId: null,
+        isMatching: null,
       });
       setEventList([]);
     };
@@ -184,7 +186,7 @@ function Apply() {
               <>
                 <p className="main--apply--eventInfo--title_wrapper">
                   <span className="main--apply--eventInfo--title"> {globalSelectedEvent.title}</span>
-                  <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['createdBy']}`}</span>
+                  <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['intraId']}`}</span>
                 </p>
                 <span className="main--apply--eventInfo--description">{globalSelectedEvent.description}</span>
                 <div className="main--apply--eventInfo--submit">

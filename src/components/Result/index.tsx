@@ -13,7 +13,9 @@ function Result() {
     id: null,
     title: null,
     description: null,
-    createdBy: null,
+    intraId: null,
+    createdId: null,
+    isMatching: null,
   });
   const [selectedTeamObj, setSelectedTeamObj] = useState({});
   const [teamLen, setTeamLen] = useState('');

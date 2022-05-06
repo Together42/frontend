@@ -34,8 +34,8 @@ function AuthForm(props: Props) {
       if (password === passCheck) {
         axios
           .post(`${process.env.SERVER_ADR}/api/auth/signup`, {
-            loginId: id,
-            pw: password,
+            intraId: id,
+            password,
             email,
             url:
               process.env.NODE_ENV === 'production'
@@ -61,7 +61,7 @@ function AuthForm(props: Props) {
             }
           })
           .catch((error) => {
-            if (error?.response?.data) {
+            if (error?.response?.data?.message) {
               setErrorMessage(error.response.data.message);
             } else setErrorMessage('알 수 없는 에러..');
           });
@@ -71,8 +71,8 @@ function AuthForm(props: Props) {
     } else {
       axios
         .post(`${process.env.SERVER_ADR}/api/auth/login`, {
-          loginId: id,
-          pw: password,
+          intraId: id,
+          password,
         })
         .then((res) => {
           if (res.data.token) {
@@ -106,8 +106,6 @@ function AuthForm(props: Props) {
     else if (e.target.id === 'email') setEmail(e.target.value);
     else setPassCheck(e.target.value);
   };
-
-  console.log(profileImageState);
 
   return (
     <div className="authForm">

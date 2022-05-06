@@ -2,7 +2,9 @@ export interface EventType {
   id: number;
   title: string;
   description: string;
-  createdBy: string;
+  createdId: number;
+  intraId: string;
+  isMatching: number;
 }
 
 export interface userData {
