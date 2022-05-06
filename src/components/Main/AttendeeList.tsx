@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import '@css/Main/AttendeeList.scss';
 import AttendeeListProfile from '@main/AttendeeListProfile';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import SelectedEvent from '@recoil/SelectedEvent';
 import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
 
 function AttendeeList() {
   const selectedEvent = useRecoilValue(SelectedEvent);
-  const [teamList, setTeamList] = useRecoilState(ApplyTeamMemArr);
+  const teamList = useRecoilValue(ApplyTeamMemArr);
   const [showAttendeeList, setShowAttendeeList] = useState(selectedEvent.title && teamList.length);
 
   useMemo(() => {
@@ -22,7 +22,7 @@ function AttendeeList() {
       {showAttendeeList ? (
         <div className="main--attendeeList--profiles">
           {teamList.map((e) => (
-            <AttendeeListProfile intraID={e.loginId} image={e.url} key={e.loginId} />
+            <AttendeeListProfile intraID={e.intraId} image={e.url} key={e.intraId} />
           ))}
         </div>
       ) : null}

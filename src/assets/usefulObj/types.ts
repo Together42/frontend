@@ -20,7 +20,7 @@ export interface EvnetListType {
 }
 
 export interface teamMemInfo {
-  loginId: string;
+  intraId: string;
   url: string;
   teamId: number;
 }
