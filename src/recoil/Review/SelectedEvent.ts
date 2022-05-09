@@ -1,11 +1,7 @@
 import { atom } from 'recoil';
-import { EventType, teamMemInfo } from '@types';
+import { ReviewSelectedEventType } from '@types';
 
-interface SelectedEventType extends EventType {
-  teamList: teamMemInfo[];
-}
-
-const SelectedEvent = atom<SelectedEventType>({
+const SelectedEvent = atom<ReviewSelectedEventType>({
   key: 'ReviewSelectedEvent',
   default: null,
 });

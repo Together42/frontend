@@ -1,8 +1,10 @@
 import React from 'react';
 import '@css/Review/Guide.scss';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import ModalShow from '@recoil/Review/CommentModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
+import EventListModalShow from '@recoil/Review/EventListModalShow';
+import EventListModal from '@review/EventListModal';
 
 interface Props {
   isElemExist: boolean;
@@ -12,6 +14,7 @@ function Guide(props: Props) {
   const { isElemExist } = props;
   const setModalShow = useSetRecoilState(ModalShow);
   const loginState = useRecoilValue(GlobalLoginState);
+  const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
 
   const onClickAddPosting = () => {
     if (loginState['id'] !== '') {
@@ -19,9 +22,11 @@ function Guide(props: Props) {
     } else alert('로그인 후 이용해주세요');
   };
 
-  const onClickSelectEvent = (e: any) => {
-    // setSelectedEvent()
+  const onClickSelectEvent = () => {
+    setEventListModalShow(true);
   };
+
+  console.log(eventListModalShow);
 
   return (
     <div className={`review--forPositioning`}>
@@ -36,8 +41,11 @@ function Guide(props: Props) {
           <div>
             <span onClick={onClickAddPosting}>게시글 쓰기</span>
           </div>
-          <div className="review--guide--diffRound" onClick={onClickSelectEvent}>
-            <span>다른 회차 보기</span>
+          <div className="review--guide--eventList">
+            <span className="review--guide--eventList--button" onClick={onClickSelectEvent}>
+              다른 회차 보기
+            </span>
+            {eventListModalShow && <EventListModal />}
           </div>
         </div>
       </div>

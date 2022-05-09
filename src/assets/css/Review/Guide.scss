@@ -1,5 +1,4 @@
 @import '@css/useful.scss';
-@import '@css/fonts.scss';
 
 .review--forPositioning {
   @include basic--wrappers;
@@ -35,10 +34,12 @@
   }
 }
 
-.review--guide--diffRound {
-  span {
-    margin-left: 40px;
-  }
+.review--guide--eventList {
+  position: relative;
+}
+
+.review--guide--eventList--button {
+  margin-left: 40px;
 }
 
 .position_unset {
