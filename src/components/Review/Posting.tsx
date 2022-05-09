@@ -1,11 +1,11 @@
 import React from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
-import CommentModal from './CommentModal';
+// import CommentModal from './CommentModal';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import PostingDetail from '@recoil/PostingDetail';
+import PostingDetail from '@recoil/Review/PostingDetail';
 import { PostingType } from '@usefulObj/types';
-import ReviewModalShow from '@recoil/ReviewModalShow';
+import ModalShow from '@recoil/Review/ModalShow';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -14,7 +14,7 @@ interface Props extends PostingType {
 function Posting(props: Props) {
   const { boardId, eventId, title, writer, contents, createAt, updateAt, image, attendMembers, comments, elemNum } =
     props;
-  const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
+  const [modalShow, setModalShow] = useRecoilState(ModalShow);
   const setPostingDetail = useSetRecoilState(PostingDetail);
 
   const onClickMoreButton = () => {

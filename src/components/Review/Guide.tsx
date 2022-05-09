@@ -1,7 +1,7 @@
 import React from 'react';
 import '@css/Review/Guide.scss';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import ReviewModalShow from '@recoil/ReviewModalShow';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import ModalShow from '@recoil/Review/ModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 function Guide(props: Props) {
   const { isElemExist } = props;
-  const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
+  const setModalShow = useSetRecoilState(ModalShow);
   const loginState = useRecoilValue(GlobalLoginState);
 
   const onClickAddPosting = () => {
