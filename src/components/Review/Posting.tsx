@@ -12,22 +12,23 @@ interface Props extends PostingType {
 }
 
 function Posting(props: Props) {
-  const { boardId, eventId, title, writer, contents, createAt, updateAt, image, attendMembers, comments } = props;
+  const { boardId, eventId, title, writer, contents, createAt, updateAt, image, attendMembers, comments, elemNum } =
+    props;
   const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
   const setPostingDetail = useSetRecoilState(PostingDetail);
 
   const onClickMoreButton = (e: any) => {
     setPostingDetail({
-      boardId: null,
+      boardId,
       eventId,
-      title: teamName,
-      writer: null, // createBy
-      contents: null,
-      createAt: null,
-      updateAt: null,
-      image: null,
-      attendMembers: null,
-      comments: null,
+      title,
+      writer,
+      contents,
+      createAt,
+      updateAt,
+      image,
+      attendMembers,
+      comments,
     });
     setModalShow({ mode: 'detailComment', show: true });
   };
@@ -41,26 +42,26 @@ function Posting(props: Props) {
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
           <div>
-            <span className="review--posting--title--team">{teamName}</span>
-            <span className="review--posting--title--location">{location}</span>
+            <span className="review--posting--title--team">{title}</span>
+            <span className="review--posting--title--location">temp</span>
           </div>
           <div className="review--posting--members">
-            {memList.map((e, i) => (
+            {attendMembers.map((e, i) => (
               <img src={e['url']} key={i} alt={e['url']} />
             ))}
           </div>
         </div>
         <div className="review--posting--image">
-          <img src={picture} alt={picture} />
+          <img src={image} alt={image} />
         </div>
         <div className="review--posting--comments">
-          <p className="review--posting--maincomment">{posting}</p>
+          <p className="review--posting--maincomment">{contents}</p>
           <div className="review--posting--subcomment">
             <p>
-              <span>{`댓글 ${commentList.length}개 모두 보기`}</span>
+              <span>{comments.length > 0 ? `댓글 ${comments.length}개 모두 보기` : '댓글이 없습니다..'}</span>
             </p>
             <p>
-              <span>{date}</span>
+              <span>{createAt}</span>
             </p>
           </div>
         </div>

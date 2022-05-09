@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 // 이하의 import는 이미지 불러오기 임시용
-import reviewImage1 from '@img/review1.webp';
-import reviewImage2 from '@img/review2.webp';
-import reviewImage3 from '@img/review3.webp';
-import reviewImage4 from '@img/review4.webp';
-import profile1 from '@img/profile-1.webp';
-import profile2 from '@img/profile-2.webp';
-import profile3 from '@img/profile-3.webp';
-import profile4 from '@img/profile-4.webp';
+// import reviewImage1 from '@img/review1.webp';
+// import reviewImage2 from '@img/review2.webp';
+// import reviewImage3 from '@img/review3.webp';
+// import reviewImage4 from '@img/review4.webp';
+// import profile1 from '@img/profile-1.webp';
+// import profile2 from '@img/profile-2.webp';
+// import profile3 from '@img/profile-3.webp';
+// import profile4 from '@img/profile-4.webp';
 import errorAlert from '@utils/errorAlert';
 import { PostingType } from '@usefulObj/types';
 import axios from 'axios';
@@ -42,7 +42,7 @@ function Review() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.SERVER_ADR}/api/board/?event-id=${1}`)
+      .get(`${process.env.SERVER_ADR}/api/board/?event-id=${18}`)
       .then((res) => {
         setBoardsObj(res.data);
       })

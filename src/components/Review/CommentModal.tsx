@@ -26,11 +26,10 @@ function CommentModal() {
       setPostingDetail((prev) => {
         let newObj = {
           ...prev,
-          commentList: [...prev['commentList'], { intraId: LoginState['id'], content: myComment, time: null }],
+          commentList: [...prev['commentList'], { intraId: LoginState['id'], content: myComment, time: new Date() }],
         };
         return newObj;
       });
-      alert('현재 게시판은 댓글이 저장되지는 않습니다..');
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       setMyComment('');
     } else {
