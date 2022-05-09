@@ -12,14 +12,16 @@ const tempMemArr = [
 const PostingDetail = atom<PostingType>({
   key: 'PostingDetail',
   default: {
+    boardId: null,
     eventId: null,
-    teamName: null,
-    location: null,
-    memList: null,
-    posting: null,
-    commentList: null,
-    date: null,
-    picture: null,
+    title: null,
+    writer: null, // createBy
+    contents: null,
+    createAt: null,
+    updateAt: null,
+    image: null,
+    attendMembers: null,
+    comments: null,
   },
 });
 

@@ -7,7 +7,7 @@ import ReviewModalShow from '@recoil/ReviewModalShow';
 import TextareaAutosize from 'react-textarea-autosize';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 
-function DetailComments() {
+function CommentModal() {
   const scrollRef = useRef(null);
   const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
   const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
@@ -136,4 +136,4 @@ function DetailComments() {
   );
 }
 
-export default DetailComments;
+export default CommentModal;

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
-import DetailComments from './DetailComments';
+import CommentModal from './CommentModal';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/PostingDetail';
 import { PostingType } from '@usefulObj/types';
@@ -12,20 +12,22 @@ interface Props extends PostingType {
 }
 
 function Posting(props: Props) {
-  const { eventId, picture, teamName, posting, memList, elemNum, location, commentList, date } = props;
+  const { boardId, eventId, title, writer, contents, createAt, updateAt, image, attendMembers, comments } = props;
   const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
   const setPostingDetail = useSetRecoilState(PostingDetail);
 
   const onClickMoreButton = (e: any) => {
     setPostingDetail({
+      boardId: null,
       eventId,
-      teamName,
-      location,
-      memList,
-      posting,
-      commentList,
-      date,
-      picture,
+      title: teamName,
+      writer: null, // createBy
+      contents: null,
+      createAt: null,
+      updateAt: null,
+      image: null,
+      attendMembers: null,
+      comments: null,
     });
     setModalShow({ mode: 'detailComment', show: true });
   };
@@ -72,7 +74,7 @@ function Posting(props: Props) {
       </div>
     </div>
   ) : (
-    <DetailComments />
+    <CommentModal />
   );
 }
 
