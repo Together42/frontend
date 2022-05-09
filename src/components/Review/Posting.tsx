@@ -17,7 +17,7 @@ function Posting(props: Props) {
   const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
   const setPostingDetail = useSetRecoilState(PostingDetail);
 
-  const onClickMoreButton = (e: any) => {
+  const onClickMoreButton = () => {
     setPostingDetail({
       boardId,
       eventId,
@@ -52,7 +52,7 @@ function Posting(props: Props) {
           </div>
         </div>
         <div className="review--posting--image">
-          <img src={image} alt={image} />
+          <img src={image[0]} alt={image[0]} />
         </div>
         <div className="review--posting--comments">
           <p className="review--posting--maincomment">{contents}</p>

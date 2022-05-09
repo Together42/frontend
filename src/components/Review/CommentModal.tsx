@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '@css/Review/DetailComments.scss';
 import Xmark from '@img/xmark-solid-white.svg';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/PostingDetail';
 import ReviewModalShow from '@recoil/ReviewModalShow';
 import TextareaAutosize from 'react-textarea-autosize';
 import GlobalLoginState from '@recoil/GlobalLoginState';
+import axios from 'axios';
+import errorAlert from '@utils/errorAlert';
+import ReviewBoardsObj from '@recoil/ReviewBoardsObj';
 
 function CommentModal() {
   const scrollRef = useRef(null);
@@ -13,6 +16,7 @@ function CommentModal() {
   const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
   const isDetailCommentMode = modalShow['mode'] === 'detailComment';
+  const setBoardsObj = useSetRecoilState(ReviewBoardsObj);
 
   const [myComment, setMyComment] = useState('');
 
@@ -23,31 +27,65 @@ function CommentModal() {
   const onSubmitMyComment = (e: any) => {
     e.preventDefault();
     if (LoginState['id'] !== '') {
-      setPostingDetail((prev) => {
-        let newObj = {
-          ...prev,
-          commentList: [...prev['commentList'], { intraId: LoginState['id'], content: myComment, time: new Date() }],
-        };
-        return newObj;
-      });
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      setMyComment('');
+      axios
+        .post(`${process.env.SERVER_ADR}/api/board/comment`, {
+          boardId: postingDetail['boardId'],
+          comment: myComment,
+        })
+        .then(() => {
+          setPostingDetail((prev) => {
+            let newObj = {
+              ...prev,
+              comments: [...prev['comments'], { intraId: LoginState['id'], content: myComment, time: new Date() }],
+            };
+            return newObj;
+          });
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+          setMyComment('');
+        })
+        .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 하셔야 이용 가능합니다.');
     }
   };
 
+  const onSubmitNewPosting = () => {
+    axios
+      .post(`${process.env.SERVER_ADR}/api/board`, {
+        eventId: postingDetail['eventId'],
+        title: postingDetail['title'],
+        contents: postingDetail['contents'],
+        image: postingDetail['image'],
+        attendMembers: null,
+      })
+      .then((res) => {
+        setBoardsObj((prev) => {
+          const newPostingDetail = Object.assign({}, postingDetail);
+          newPostingDetail.boardId = res.data.boardId;
+          let newObj = {
+            ...prev,
+            [res.data.boardId.toString()]: newPostingDetail,
+          };
+          return newObj;
+        });
+        alert('성공적으로 게시되었습니다');
+      })
+      .catch((err) => errorAlert(err));
+  };
+
   useEffect(() => {
     return () => {
       setPostingDetail({
+        boardId: null,
         eventId: null,
-        teamName: null,
-        location: null,
-        memList: null,
-        posting: null,
-        commentList: null,
-        date: null,
-        picture: null,
+        title: null,
+        writer: null,
+        contents: null,
+        createAt: null,
+        updateAt: null,
+        image: null,
+        attendMembers: null,
+        comments: null,
       });
       setModalShow({ mode: null, show: null });
     };
@@ -61,7 +99,7 @@ function CommentModal() {
           <div className="review--posting--image--background"></div>
           <div className="review--posting--modal_image">
             {isDetailCommentMode ? (
-              <img src={postingDetail['picture']} alt={postingDetail['picture']} />
+              <img src={postingDetail['image'][0]} alt={postingDetail['image'][0]} />
             ) : (
               <div>
                 <div>
@@ -76,23 +114,21 @@ function CommentModal() {
           <div className="review--posting--title">
             <div>
               <span className="review--posting--title--team">
-                {isDetailCommentMode ? postingDetail['teamName'] : '팀네임 검색'}
+                {isDetailCommentMode ? postingDetail['title'] : '팀네임 검색'}
               </span>
-              <span className="review--posting--title--location">
-                {isDetailCommentMode ? postingDetail['location'] : '장소를 입력해주세요'}
-              </span>
+              <span className="review--posting--title--location">temp</span>
             </div>
             <div className="review--posting--members">
-              {postingDetail['memList'] &&
-                postingDetail['memList'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
+              {postingDetail['attendMembers'] &&
+                postingDetail['attendMembers'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
             </div>
           </div>
           <div className="review--posting--detail_comments" ref={scrollRef}>
             {isDetailCommentMode ? (
-              postingDetail['commentList'] && (
+              postingDetail['comments'] && (
                 <>
                   <span className="review--posting--full_comment">{postingDetail['posting']}</span>
-                  {postingDetail['commentList'].map((e, i) => (
+                  {postingDetail['comments'].map((e, i) => (
                     <div className="review--posting--visitor--wrapper" key={i}>
                       <span className="review--posting--visitor">{e['intraId']}</span>
                       <span className="review--posting--visitor_comment">{e['content']}</span>
@@ -104,7 +140,7 @@ function CommentModal() {
               <>
                 <TextareaAutosize className="review--posting--posting" minRows={10} placeholder="글을 작성해주세요" />
                 <div className="review--posting--button--forFlex">
-                  <button className="review--posting--button">
+                  <button className="review--posting--button" onClick={onSubmitNewPosting}>
                     <span>게시</span>
                   </button>
                 </div>

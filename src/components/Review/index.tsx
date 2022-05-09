@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 // 이하의 import는 이미지 불러오기 임시용
@@ -11,12 +11,13 @@ import Guide from '@review/Guide';
 // import profile3 from '@img/profile-3.webp';
 // import profile4 from '@img/profile-4.webp';
 import errorAlert from '@utils/errorAlert';
-import { PostingType } from '@usefulObj/types';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import ReviewBoardsObj from '@recoil/ReviewBoardsObj';
 // import { PostingType } from '@usefulObj/types';
 
 function Review() {
-  const [boardsObj, setBoardsObj] = useState<{ string: PostingType }>(null);
+  const [boardsObj, setBoardsObj] = useRecoilState(ReviewBoardsObj);
 
   // const tempLocaArr = ['개포 순대국집', '개포 고기집', '광수육회', '어딘가에서'];
   // const tempCommentArr = [
@@ -47,7 +48,7 @@ function Review() {
         setBoardsObj(res.data);
       })
       .catch((err) => errorAlert(err));
-  }, []);
+  }, [setBoardsObj]);
 
   return (
     <>

@@ -35,7 +35,7 @@ export interface PostingType {
   updateAt: Date;
   image: string[];
   attendMembers: { intraId: string; url: string }[];
-  comments: [{ intraId: string; content: string; time: Date }];
+  comments: { intraId: string; content: string; time: Date }[];
 }
 
 export interface ReviewModalShowType {
