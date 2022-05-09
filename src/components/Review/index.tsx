@@ -12,12 +12,15 @@ import Guide from '@review/Guide';
 // import profile4 from '@img/profile-4.webp';
 import errorAlert from '@utils/errorAlert';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import ReviewBoardsObj from '@recoil/ReviewBoardsObj';
+import CommentModal from './CommentModal';
+import ReviewModalShow from '@recoil/ReviewModalShow';
 // import { PostingType } from '@usefulObj/types';
 
 function Review() {
   const [boardsObj, setBoardsObj] = useRecoilState(ReviewBoardsObj);
+  const commnetModalShow = useRecoilValue(ReviewModalShow);
 
   // const tempLocaArr = ['개포 순대국집', '개포 고기집', '광수육회', '어딘가에서'];
   // const tempCommentArr = [
@@ -53,6 +56,7 @@ function Review() {
   return (
     <>
       <Guide isElemExist={boardsObj ? true : false} />
+      {commnetModalShow['show'] && <CommentModal />}
       {boardsObj &&
         Object.values(boardsObj).map((board, i) => (
           <Posting

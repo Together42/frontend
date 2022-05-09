@@ -1,6 +1,6 @@
 import React from 'react';
 import '@css/Review/Guide.scss';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import ReviewModalShow from '@recoil/ReviewModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 
@@ -10,12 +10,13 @@ interface Props {
 
 function Guide(props: Props) {
   const { isElemExist } = props;
-  const setModalShow = useSetRecoilState(ReviewModalShow);
+  const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
   const loginState = useRecoilValue(GlobalLoginState);
 
   const onClickAddPosting = () => {
-    if (loginState['id'] !== '') setModalShow({ mode: 'posting', show: true });
-    else alert('로그인 후 이용해주세요');
+    if (loginState['id'] !== '') {
+      setModalShow({ mode: 'posting', show: true });
+    } else alert('로그인 후 이용해주세요');
   };
 
   return (

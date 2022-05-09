@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import '@css/Review/DetailComments.scss';
+import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/PostingDetail';

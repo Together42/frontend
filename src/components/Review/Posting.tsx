@@ -33,49 +33,49 @@ function Posting(props: Props) {
     setModalShow({ mode: 'detailComment', show: true });
   };
 
-  return !modalShow['show'] ? (
-    <div
-      className={`review--posting--forFlex ${elemNum % 2 === 0 ? 'justify-right' : 'justify-left'} ${
-        elemNum === 4 && 'footer--empty'
-      }`}
-    >
-      <div className="review--posting--shownWrapper">
-        <div className="review--posting--title">
-          <div>
-            <span className="review--posting--title--team">{title}</span>
-            <span className="review--posting--title--location">temp</span>
+  return (
+    !modalShow['show'] && (
+      <div
+        className={`review--posting--forFlex ${elemNum % 2 === 0 ? 'justify-right' : 'justify-left'} ${
+          elemNum === 4 && 'footer--empty'
+        }`}
+      >
+        <div className="review--posting--shownWrapper">
+          <div className="review--posting--title">
+            <div>
+              <span className="review--posting--title--team">{title}</span>
+              <span className="review--posting--title--location">temp</span>
+            </div>
+            <div className="review--posting--members">
+              {attendMembers.map((e, i) => (
+                <img src={e['url']} key={i} alt={e['url']} />
+              ))}
+            </div>
           </div>
-          <div className="review--posting--members">
-            {attendMembers.map((e, i) => (
-              <img src={e['url']} key={i} alt={e['url']} />
-            ))}
+          <div className="review--posting--image">
+            <img src={image[0]} alt={image[0]} />
           </div>
-        </div>
-        <div className="review--posting--image">
-          <img src={image[0]} alt={image[0]} />
-        </div>
-        <div className="review--posting--comments">
-          <p className="review--posting--maincomment">{contents}</p>
-          <div className="review--posting--subcomment">
-            <p>
-              <span>{comments.length > 0 ? `댓글 ${comments.length}개 모두 보기` : '댓글이 없습니다..'}</span>
-            </p>
-            <p>
-              <span>{createAt}</span>
-            </p>
+          <div className="review--posting--comments">
+            <p className="review--posting--maincomment">{contents}</p>
+            <div className="review--posting--subcomment">
+              <p>
+                <span>{comments.length > 0 ? `댓글 ${comments.length}개 모두 보기` : '댓글이 없습니다..'}</span>
+              </p>
+              <p>
+                <span>{createAt}</span>
+              </p>
+            </div>
           </div>
-        </div>
-        <div
-          className={`review--posting--open_modal ${elemNum % 2 === 0 ? 'position-right' : 'position-left'}`}
-          onClick={onClickMoreButton}
-        >
-          <span>더보기</span>
-          <img src={caret_right} alt={caret_right} />
+          <div
+            className={`review--posting--open_modal ${elemNum % 2 === 0 ? 'position-right' : 'position-left'}`}
+            onClick={onClickMoreButton}
+          >
+            <span>더보기</span>
+            <img src={caret_right} alt={caret_right} />
+          </div>
         </div>
       </div>
-    </div>
-  ) : (
-    <CommentModal />
+    )
   );
 }
 
