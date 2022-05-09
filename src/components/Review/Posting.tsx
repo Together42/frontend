@@ -5,7 +5,7 @@ import caret_right from '@img/caret-right-solid.svg';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/Review/PostingDetail';
 import { PostingType } from '@usefulObj/types';
-import ModalShow from '@recoil/Review/ModalShow';
+import ModalShow from '@recoil/Review/CommentModalShow';
 
 interface Props extends PostingType {
   elemNum: number;

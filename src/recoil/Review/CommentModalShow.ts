@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { ReviewModalShowType } from '@usefulObj/types';
 
-const ModalShow = atom<ReviewModalShowType>({
+const CommentModalShow = atom<ReviewModalShowType>({
   key: 'ReviewModalShow',
   default: {
     mode: null,
@@ -9,4 +9,6 @@ const ModalShow = atom<ReviewModalShowType>({
   },
 });
 
-export default ModalShow;
+export default CommentModalShow;
+
+// mode : detailComment or newPost

@@ -3,7 +3,7 @@ import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/Review/PostingDetail';
-import ReviewModalShow from '@recoil/Review/ModalShow';
+import ReviewModalShow from '@recoil/Review/CommentModalShow';
 import TextareaAutosize from 'react-textarea-autosize';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
