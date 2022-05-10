@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
-import Xmark from '@img/xmark-solid-white.svg';
+import Xmark from '@img/xmark-solid.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/Review/PostingDetail';
 import ReviewModalShow from '@recoil/Review/CommentModalShow';
