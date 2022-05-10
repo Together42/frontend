@@ -16,22 +16,41 @@
 .review--eventModal--header {
   height: 30px;
   display: flex;
+  width: 170px;
   justify-content: space-between;
   align-items: center;
-  margin: 0 10px 10px 10px;
-  border-bottom: 1px solid $darkgrey_default;
+  margin: 10px 15px 15px 15px;
+  border-bottom: 1px solid $darkgrey_light;
 }
 
 .review--eventModal--header--title {
   @include medium_kor;
+  border: none;
+  width: 155px;
   &:hover {
     cursor: inherit !important;
   }
+  &:focus {
+    outline: none;
+  }
+}
+
+.review--eventModal--header--glass {
+  width: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--eventModal--header--xbtn_wrapper {
+  text-align: end;
 }
 
 .review--eventModal--header--xbtn {
   width: 20px;
   height: 20px;
+  margin-top: 5px;
+  margin-right: 5px;
   &:hover {
     cursor: pointer;
   }
@@ -39,7 +58,7 @@
 
 .review--eventModal--event {
   @include small_kor;
-  margin: 0 10px 5px 10px;
+  margin: 0 15px 5px 15px;
   &:hover {
     cursor: pointer;
   }

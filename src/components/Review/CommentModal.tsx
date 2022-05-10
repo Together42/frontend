@@ -10,6 +10,7 @@ import axios from 'axios';
 import errorAlert from '@utils/errorAlert';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
+import SelectedEvent from '@recoil/Review/SelectedEvent';
 
 function CommentModal() {
   const scrollRef = useRef(null);
@@ -18,6 +19,9 @@ function CommentModal() {
   const LoginState = useRecoilValue(GlobalLoginState);
   const isDetailCommentMode = modalShow['mode'] === 'detailComment';
   const setBoardsObj = useSetRecoilState(BoardsObj);
+  const selectedEvent = useRecoilValue(SelectedEvent);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const [myComment, setMyComment] = useState('');
 
@@ -29,10 +33,18 @@ function CommentModal() {
     e.preventDefault();
     if (LoginState['id'] !== '') {
       axios
-        .post(`${process.env.SERVER_ADR}/api/board/comment`, {
-          boardId: postingDetail['boardId'],
-          comment: myComment,
-        })
+        .post(
+          `${process.env.SERVER_ADR}/api/board/comment`,
+          {
+            boardId: postingDetail['boardId'],
+            comment: myComment,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
         .then(() => {
           setPostingDetail((prev) => {
             let newObj = {
@@ -53,13 +65,21 @@ function CommentModal() {
   const onSubmitNewPosting = () => {
     if (getToken()) {
       axios
-        .post(`${process.env.SERVER_ADR}/api/board`, {
-          eventId: postingDetail['eventId'],
-          title: postingDetail['title'],
-          contents: postingDetail['contents'],
-          image: postingDetail['image'],
-          attendMembers: null,
-        })
+        .post(
+          `${process.env.SERVER_ADR}/api/board`,
+          {
+            eventId: selectedEvent['eventId'],
+            title: postingDetail['title'],
+            contents: postingDetail['contents'],
+            image: postingDetail['image'],
+            attendMembers: null,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
         .then((res) => {
           setBoardsObj((prev) => {
             const newPostingDetail = Object.assign({}, postingDetail);

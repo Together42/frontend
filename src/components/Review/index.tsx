@@ -9,10 +9,13 @@ import CommentModal from './CommentModal';
 import ModalShow from '@recoil/Review/CommentModalShow';
 import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
+import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
+import NewPostingModal from './NewPostingModal';
 
 function Review() {
   const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
   const commentModalShow = useRecoilValue(ModalShow);
+  const newPostingModalShow = useRecoilValue(NewPostingModalShow);
   const setEventList = useSetRecoilState(EventList);
   const selectedEvent = useRecoilValue(SelectedEvent);
 
@@ -45,7 +48,7 @@ function Review() {
   return (
     <>
       <Guide isElemExist={boardsObj ? true : false} />
-      {commentModalShow['show'] && <CommentModal />}
+      {newPostingModalShow ? <NewPostingModal /> : commentModalShow['show'] ? <CommentModal /> : null}
       {boardsObj &&
         Object.values(boardsObj).map((board, i) => (
           <Posting

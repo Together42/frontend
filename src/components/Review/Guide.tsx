@@ -1,10 +1,10 @@
 import React from 'react';
 import '@css/Review/Guide.scss';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import ModalShow from '@recoil/Review/CommentModalShow';
-import GlobalLoginState from '@recoil/GlobalLoginState';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import EventListModalShow from '@recoil/Review/EventListModalShow';
 import EventListModal from '@review/EventListModal';
+import { getToken } from '@cert/TokenStorage';
 
 interface Props {
   isElemExist: boolean;
@@ -12,21 +12,18 @@ interface Props {
 
 function Guide(props: Props) {
   const { isElemExist } = props;
-  const setModalShow = useSetRecoilState(ModalShow);
-  const loginState = useRecoilValue(GlobalLoginState);
+  const setNewPostingModalShow = useSetRecoilState(NewPostingModalShow);
   const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
 
   const onClickAddPosting = () => {
-    if (loginState['id'] !== '') {
-      setModalShow({ mode: 'posting', show: true });
+    if (getToken()) {
+      setNewPostingModalShow(true);
     } else alert('로그인 후 이용해주세요');
   };
 
   const onClickSelectEvent = () => {
     setEventListModalShow(true);
   };
-
-  console.log(eventListModalShow);
 
   return (
     <div className={`review--forPositioning`}>
