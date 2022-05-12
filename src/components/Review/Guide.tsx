@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@css/Review/Guide.scss';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
-import EventListModalShow from '@recoil/Review/EventListModalShow';
-import EventListModal from '@review/EventListModal';
+import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
+import SelectSomeModal from '@review/SelectSomeModal';
 import { getToken } from '@cert/TokenStorage';
 
 interface Props {
@@ -14,14 +14,17 @@ function Guide(props: Props) {
   const { isElemExist } = props;
   const setNewPostingModalShow = useSetRecoilState(NewPostingModalShow);
   const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
+  const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
 
   const onClickAddPosting = () => {
+    setIsEventBtnClicked(false);
     if (getToken()) {
       setNewPostingModalShow(true);
     } else alert('로그인 후 이용해주세요');
   };
 
   const onClickSelectEvent = () => {
+    setIsEventBtnClicked(true);
     setEventListModalShow(true);
   };
 
@@ -42,7 +45,7 @@ function Guide(props: Props) {
             <span className="review--guide--eventList--button" onClick={onClickSelectEvent}>
               다른 회차 보기
             </span>
-            {eventListModalShow && <EventListModal />}
+            {eventListModalShow && isEventBtnClicked && <SelectSomeModal mode="main_event" />}
           </div>
         </div>
       </div>

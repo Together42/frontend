@@ -70,7 +70,6 @@
 
 .review--newposting--header--title {
   @include medium_kor;
-  color: $darkgrey_light;
   border: none;
   border-left: 3px solid $darkgrey_light;
   padding-left: 3px;
@@ -86,9 +85,12 @@
 
 .review--newposting--header--eventSelector,
 .review--newposting--header--addTeamMem {
-  @include small_kor;
-  &:hover {
-    cursor: pointer;
+  position: relative;
+  span {
+    @include small_kor;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 

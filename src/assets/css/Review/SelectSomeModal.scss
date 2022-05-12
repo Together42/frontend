@@ -1,0 +1,106 @@
+@import '@css/fonts.scss';
+
+$modalHeight: 250px;
+$modalWidth: 200px;
+$headerHeight: 27px;
+$footerHeight: 27px;
+$xBtnDivHeight: 25px;
+$modalPadding: 15px;
+$modalUpperMargin: 10px;
+$borderThick: 1px;
+$addMemDivHeight: calc(
+  $modalHeight - $xBtnDivHeight - $headerHeight - $footerHeight - $modalUpperMargin - $modalPadding - ($borderThick * 2)
+);
+
+.review--eventModal--wrapper {
+  position: absolute;
+  top: 30px;
+  right: 0px;
+  width: $modalWidth;
+  height: $modalHeight;
+  border: 1px solid $darkgrey_default;
+  background-color: white;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.review--eventModal--header {
+  height: $headerHeight;
+  width: 170px;
+
+  margin: 10px $modalPadding $modalPadding $modalPadding;
+  border-bottom: 1px solid $darkgrey_light;
+}
+
+.review--eventModal--form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+
+.review--eventModal--header--title {
+  @include medium_kor;
+  border: none;
+  width: 155px;
+  &:hover {
+    cursor: inherit !important;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.review--eventModal--header--glass {
+  width: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--eventModal--header--xbtn_wrapper {
+  text-align: end;
+  height: $xBtnDivHeight;
+}
+
+.review--eventModal--header--xbtn {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+  margin-right: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--eventModal--event_wrapper {
+  height: $addMemDivHeight;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.review--eventModal--event {
+  @include small_kor;
+  margin: 0 $modalPadding 5px $modalPadding;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--eventModal--submit_addMem {
+  height: $footerHeight;
+  display: flex;
+  justify-content: end;
+  padding-right: $modalPadding;
+}
+
+.review--eventModal--submit_addMem--btn {
+  span {
+    @include medium_kor;
+    color: $red_for_submit;
+  }
+}
