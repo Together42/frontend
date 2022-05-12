@@ -32,28 +32,34 @@
 
 .review--newposting--left_division {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
   position: relative;
   width: 290px;
   height: 440px;
+  padding-left: 10px;
 }
 
-.review--newposting--image--background {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 440px;
-  width: 290px;
-  // background-color: rgba(0, 0, 0, 0.15);
-  z-index: -1;
+.review--newposting--add_files {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 300px;
+  width: 100%;
+  border: 2px dashed $darkgrey_light;
+  span {
+    @include medium_kor;
+  }
 }
 
-.review--newposting--modal_image {
-  img {
-    width: 290px;
-    height: 290px;
-    object-fit: cover;
+.review--newposting--add_files--btn_wrapper {
+  margin-top: 20px;
+  button {
+    @include small_kor;
+    background: none;
+    box-shadow: 1px 1px 1px;
+    border: 1px solid $darkgrey_light;
+    width: 70px;
   }
 }
 

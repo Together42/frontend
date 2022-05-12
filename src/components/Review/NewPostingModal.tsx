@@ -98,13 +98,10 @@ function NewPostingModal() {
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--newposting--left_division">
-          <div className="review--newposting--image--background"></div>
-          <div className="review--newposting--modal_image">
-            <div>
-              <div>
-                <span>파일을 업로드 혹은 드래그</span>
-                <button>업로드</button>
-              </div>
+          <div className="review--newposting--add_files">
+            <span>파일을 업로드 혹은 드래그</span>
+            <div className="review--newposting--add_files--btn_wrapper">
+              <button>업로드</button>
             </div>
           </div>
         </div>
