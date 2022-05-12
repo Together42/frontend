@@ -106,7 +106,7 @@ $list_wrapper_padding: 20px;
   margin: 0;
   margin-bottom: $list_wrapper_padding;
   max-height: 140px;
-  overflow-y: hidden;
+  overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
   }
