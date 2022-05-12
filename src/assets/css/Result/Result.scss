@@ -25,6 +25,8 @@ $table_padding: 20px;
 .result--event {
   @include medium_kor;
   color: #5050508f;
+  overflow-wrap: break-word;
+  padding-right: 10px;
   span {
     border-bottom: 1px solid $darkgrey_light;
     // padding-bottom: 2px;

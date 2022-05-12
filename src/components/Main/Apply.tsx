@@ -188,7 +188,9 @@ function Apply() {
                   <span className="main--apply--eventInfo--title"> {globalSelectedEvent.title}</span>
                   <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['intraId']}`}</span>
                 </p>
-                <span className="main--apply--eventInfo--description">{globalSelectedEvent.description}</span>
+                <div className="main--apply--eventInfo--description">
+                  <span>{globalSelectedEvent.description}</span>
+                </div>
                 <div className="main--apply--eventInfo--submit">
                   <span onClick={onSubmit}>신청하기</span>
                 </div>
@@ -210,6 +212,7 @@ function Apply() {
                   placeholder="친바제목입력"
                   onFocus={(e) => (e.target.placeholder = '')}
                   onBlur={(e) => (e.target.placeholder = '친바제목입력')}
+                  maxLength={40}
                   onChange={onChange}
                 ></input>
               </div>
@@ -224,6 +227,7 @@ function Apply() {
                   onFocus={(e) => (e.target.placeholder = '')}
                   onBlur={(e) => (e.target.placeholder = '친바설명입력')}
                   rows={5}
+                  maxLength={200}
                   onChange={onChange}
                 ></textarea>
               </div>

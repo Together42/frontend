@@ -105,6 +105,11 @@ $list_wrapper_padding: 20px;
   font-weight: 600;
   margin: 0;
   margin-bottom: $list_wrapper_padding;
+  max-height: 140px;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .main--apply--eventInfo--submit {

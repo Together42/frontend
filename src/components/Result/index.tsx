@@ -99,7 +99,7 @@ function Result() {
           <div className="result--event_list">
             {EventList.map((e, i) => (
               <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
-                <span id={e.id} onClick={onClickEvent}>
+                <span id={e.id.toString()} onClick={onClickEvent}>
                   {e.title}
                 </span>
               </div>
