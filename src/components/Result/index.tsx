@@ -107,7 +107,11 @@ function Result() {
           </div>
         )}
         <div
-          className={`${!Object.keys(selectedTeamObj).find((e) => e === 'null') ? 'result--table' : 'result--submit'}`}
+          className={`${
+            !Object.keys(selectedTeamObj).find((e) => e === 'null') && Object.keys(selectedTeamObj).length
+              ? 'result--table'
+              : 'result--submit'
+          }`}
         >
           <img className="result--submit--delete_event" src={Xmark} alt={Xmark} onClick={onClickDeleteEvent}></img>
           {!Object.keys(selectedTeamObj).find((e) => e === 'null') &&
@@ -129,6 +133,9 @@ function Result() {
           ) : Object.keys(selectedTeamObj).find((e) => e === 'null') ? (
             <>
               <div className="result--submit--info_wrapper">
+                <p className="result--submit--event_title">{selectedEvent['title']}</p>
+                <p className="result--submit--event_description">{selectedEvent['description']}</p>
+                <hr className="result--submit--event_bot_line"></hr>
                 <p className="result--submit--info">아직 팀매칭이 이루어지지 않았습니다.</p>
                 <p className="result--submit--info">원하는 팀원수를 적고 매칭을 눌러주세요!</p>
                 <p className="result--submit--info">{`현재 신청 인원은 ${selectedTeamObj['null'].length}명입니다.`}</p>
@@ -142,7 +149,12 @@ function Result() {
               </div>
             </>
           ) : (
-            <span className="result--no_attend">신청하신 분이 없습니다..</span>
+            <div className="result--submit--info_wrapper">
+              <p className="result--submit--event_title">{selectedEvent['title']}</p>
+              <p className="result--submit--event_description">{selectedEvent['description']}</p>
+              <hr className="result--submit--event_bot_line"></hr>
+              <p className="result--submit--info">신청하신 분이 없습니다..</p>
+            </div>
           )}
         </div>
       </div>

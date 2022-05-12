@@ -13,7 +13,7 @@ $table_padding: 20px;
 
 .result--event_list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25%, auto));
+  grid-template-columns: repeat(auto-fit, minmax(calc(100% / 4), auto));
   row-gap: 15px;
   margin-bottom: 40px;
 }
@@ -25,11 +25,13 @@ $table_padding: 20px;
 .result--event {
   @include medium_kor;
   color: #5050508f;
-  overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding-right: 10px;
   span {
     border-bottom: 1px solid $darkgrey_light;
-    // padding-bottom: 2px;
+
     &:hover {
       cursor: pointer;
     }
@@ -61,6 +63,27 @@ $table_padding: 20px;
   &:hover {
     cursor: pointer;
   }
+}
+
+.test {
+  border: 1px solid;
+}
+
+.result--submit--event_title {
+  @include medium_kor;
+  // font-weight: bold;
+}
+
+.result--submit--event_description {
+  @include medium_kor;
+  color: $darkgrey_medium;
+}
+
+.result--submit--event_bot_line {
+  border: 0;
+  height: 0.5px;
+  background-color: $darkgrey_light;
+  // border: 0.5px solid $darkgrey_light;
 }
 
 .result--submit--info {
