@@ -102,9 +102,9 @@ function AuthForm(props: Props) {
   const onChange = (e: any) => {
     setErrorMessage('');
     if (e.target.id === 'id') setId(e.target.value);
-    else if (e.target.id === 'password') setPassword(e.target.value);
+    else if (e.target.id === 'password' && password.length < 15) setPassword(e.target.value);
     else if (e.target.id === 'email') setEmail(e.target.value);
-    else setPassCheck(e.target.value);
+    else if (e.target.id === 'passCheck') setPassCheck(e.target.value);
   };
 
   return (
@@ -122,6 +122,7 @@ function AuthForm(props: Props) {
             onFocus={(e) => (e.target.placeholder = '')}
             onBlur={(e) => (e.target.placeholder = '인트라 id 소문자')}
             onChange={onChange}
+            maxLength={15}
           ></input>
         </div>
         <div className="authForm--forFlex">
@@ -136,6 +137,7 @@ function AuthForm(props: Props) {
             onFocus={(e) => (e.target.placeholder = '')}
             onBlur={(e) => (e.target.placeholder = '8 글자 이상')}
             onChange={onChange}
+            maxLength={15}
           ></input>
         </div>
         {signUpMode && (
@@ -152,6 +154,7 @@ function AuthForm(props: Props) {
                 onFocus={(e) => (e.target.placeholder = '')}
                 onBlur={(e) => (e.target.placeholder = '비밀번호 재입력')}
                 onChange={onChange}
+                maxLength={15}
               ></input>
             </div>
             <div className="authForm--forFlex">
@@ -167,6 +170,7 @@ function AuthForm(props: Props) {
                 onBlur={(e) => (e.target.placeholder = '개인이메일 가능')}
                 onChange={onChange}
                 value={email}
+                maxLength={30}
               ></input>
             </div>
           </>
