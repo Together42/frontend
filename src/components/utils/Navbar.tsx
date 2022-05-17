@@ -3,7 +3,7 @@ import '@css/utils/Navbar.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
-import { clearToken } from '@cert/TokenStorage';
+import { clearToken, getToken } from '@cert/TokenStorage';
 
 function Navbar() {
   const [LoginState, setLoginState] = useRecoilState(GlobalLoginState);
@@ -29,7 +29,7 @@ function Navbar() {
       <Link to={`/`}>생성/신청</Link>
       <Link to={`/Result`}>매칭/결과</Link>
       <Link to={`/review`}>친스타그램</Link>
-      {LoginState.isLogin ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
+      {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
     </div>
   );
 }

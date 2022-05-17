@@ -20,12 +20,16 @@ function Apply() {
   const ListWrapperRef = useRef(null);
 
   const onClickCreateModal = () => {
-    setCreateMode(true);
+    if (getToken()) {
+      setCreateMode(true);
+    } else {
+      alert('로그인을 해주세요!');
+    }
   };
 
   const onSubmitCreate = (e: any) => {
     e.preventDefault();
-    if (LoginState.isLogin) {
+    if (getToken() && LoginState.isLogin) {
       axios
         .post(
           `${process.env.SERVER_ADR}/api/together`,
@@ -57,9 +61,9 @@ function Apply() {
     }
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmitApply = (e: any) => {
     e.preventDefault();
-    if (LoginState.isLogin) {
+    if (getToken() && LoginState.isLogin) {
       axios
         .post(
           `${process.env.SERVER_ADR}/api/together/register`,
@@ -160,7 +164,7 @@ function Apply() {
   return (
     <div className="main--apply">
       <p className="main--apply--title" ref={ListWrapperRef}>
-        {LoginState.id === '' ? '로그인 후 신청 가능!' : `${LoginState.id}님, 신청하시죠?`}
+        {getToken() ? `${LoginState.id}님, 신청하시죠?` : '로그인 후 신청 가능!' }
       </p>
       <div className="main--apply--wrapper">
         <div className="main--apply--create_modal_button">
@@ -192,7 +196,7 @@ function Apply() {
                   <span>{globalSelectedEvent.description}</span>
                 </div>
                 <div className="main--apply--eventInfo--submit">
-                  <span onClick={onSubmit}>신청하기</span>
+                  <span onClick={onSubmitApply}>신청하기</span>
                 </div>
               </>
             ) : (

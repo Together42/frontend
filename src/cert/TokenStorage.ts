@@ -1,5 +1,5 @@
 const TOKEN = 'token';
-const expireHour = 2;
+const expireHour = 0;
 
 export function clearToken() {
   localStorage.clear();
