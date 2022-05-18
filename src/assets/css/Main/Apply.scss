@@ -123,6 +123,10 @@ $list_wrapper_padding: 20px;
   }
 }
 
+.attended {
+  color: $darkgrey_default;
+}
+
 .main--apply--eventInfo--empty {
   @include medium_kor;
   position: relative;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Main/Apply.scss';
 import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
@@ -19,90 +19,60 @@ function Apply() {
   const [createDescription, setCreateDescription] = useState('');
   const ListWrapperRef = useRef(null);
 
-  const onClickCreateModal = () => {
-    if (getToken()) {
-      setCreateMode(true);
-    } else {
-      alert('로그인을 해주세요!');
-    }
-  };
+  const updateSelecetEvent = useCallback(
+    (eventId: number) => {
+      const clickedEvent = EventList.filter((ev) => ev.id === eventId)[0];
+      setGlobalSelectedEvent(clickedEvent);
+    },
+    [EventList, setGlobalSelectedEvent],
+  );
 
-  const onSubmitCreate = (e: any) => {
-    e.preventDefault();
-    if (getToken() && LoginState.isLogin) {
-      axios
-        .post(
-          `${process.env.SERVER_ADR}/api/together`,
-          {
-            title: createTitle,
-            description: createDescription,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
+  const createTeamList = useCallback(
+    (eventId: number) => {
+      if (eventId) {
+        axios
+          .get(`${process.env.SERVER_ADR}/api/together/${eventId}`)
+          .then((res) => {
+            if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
+            else setTeamList([]);
+          })
+          .catch((err) => errorAlert(err));
+      }
+    },
+    [setTeamList],
+  );
+
+  const registerEvent = useCallback(
+    (eventId: number) => {
+      if (getToken() && LoginState.isLogin) {
+        axios
+          .post(
+            `${process.env.SERVER_ADR}/api/together/register`,
+            {
+              eventId: eventId,
             },
-          },
-        )
-        .then(() => {
-          alert('생성되었습니다');
-          setCreateMode(false);
-        })
-        .catch((err) => errorAlert(err));
-    } else {
-      alert('로그인을 하셔야 생성 가능합니다!');
-    }
-  };
-
-  const onChange = (e: any) => {
-    if (e.target.id === 'title') {
-      setCreateTitle(e.target.value);
-    } else {
-      setCreateDescription(e.target.value);
-    }
-  };
-
-  const onSubmitApply = (e: any) => {
-    e.preventDefault();
-    if (getToken() && LoginState.isLogin) {
-      axios
-        .post(
-          `${process.env.SERVER_ADR}/api/together/register`,
-          {
-            eventId: globalSelectedEvent.id,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
+            {
+              headers: {
+                Authorization: 'Bearer ' + getToken(),
+              },
             },
-          },
-        )
-        .then(() => {
-          alert('신청되셨습니다');
-          axios
-            .get(`${process.env.SERVER_ADR}/api/together/${globalSelectedEvent.id}`)
-            .then((res) => {
-              if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
-              else setTeamList([]);
-            })
-            .catch((err) => errorAlert(err));
-        })
-        .catch((err) => errorAlert(err));
-    } else {
-      alert('로그인을 하셔야 신청 가능합니다!');
-    }
-  };
+          )
+          .then(() => {
+            alert('신청되셨습니다');
+            createTeamList(eventId);
+          })
+          .catch((err) => errorAlert(err));
+      } else {
+        alert('로그인을 하셔야 신청 가능합니다!');
+      }
+    },
+    [LoginState.isLogin, createTeamList],
+  );
 
-  const onClickEventList = (e: any) => {
-    const clickedEvent = EventList.filter((ev) => ev.id === parseInt(e.target.id, 10))[0];
-    setCreateMode(false);
-    setGlobalSelectedEvent(clickedEvent);
-  };
-
-  // Event List update when createMode or selected event changed
-  useEffect(() => {
-    if (globalSelectedEvent.id) {
+  const updateEventList = useCallback((eventId: number) => {
+    if (eventId) {
       axios
-        .get(`${process.env.SERVER_ADR}/api/together/${globalSelectedEvent.id}`)
+        .get(`${process.env.SERVER_ADR}/api/together/${eventId}`)
         .then((response) => {
           if (
             (response.data.teamList && response.data.teamList['null']) ||
@@ -118,10 +88,9 @@ function Apply() {
         })
         .catch((err) => errorAlert(err));
     }
-  }, [setGlobalSelectedEvent, createMode, globalSelectedEvent.id]);
+  }, []);
 
-  // Event List setter when component start
-  useEffect(() => {
+  const getEventList = () => {
     axios
       .get(`${process.env.SERVER_ADR}/api/together`)
       .then((response) => {
@@ -131,6 +100,75 @@ function Apply() {
         }
       })
       .catch((err) => errorAlert(err));
+  };
+
+  const postCreateEvent = useCallback(() => {
+    if (getToken() && LoginState.isLogin) {
+      axios
+        .post(
+          `${process.env.SERVER_ADR}/api/together`,
+          {
+            title: createTitle,
+            description: createDescription,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
+        .then((res) => {
+          alert('생성되었습니다');
+          registerEvent(res.data.event);
+          setCreateDescription('');
+          setCreateTitle('');
+          setCreateMode(false);
+        })
+        .catch((err) => errorAlert(err));
+    } else {
+      alert('로그인을 하셔야 생성 가능합니다!');
+    }
+  }, [LoginState.isLogin, createDescription, createTitle, registerEvent]);
+
+  const onSubmitApply = (e: any) => {
+    e.preventDefault();
+    registerEvent(globalSelectedEvent['id']);
+  };
+
+  const onClickCreateModal = () => {
+    if (getToken()) {
+      setCreateMode(true);
+    } else {
+      alert('로그인을 해주세요!');
+    }
+  };
+
+  const onSubmitCreate = (e: any) => {
+    e.preventDefault();
+    postCreateEvent();
+  };
+
+  const onChange = (e: any) => {
+    if (e.target.id === 'title') {
+      setCreateTitle(e.target.value);
+    } else {
+      setCreateDescription(e.target.value);
+    }
+  };
+
+  const onClickEventList = (e: any) => {
+    updateSelecetEvent(parseInt(e.target.id, 10));
+    setCreateMode(false);
+  };
+
+  // Event List updated when createMode or selected event changed
+  useEffect(() => {
+    updateEventList(globalSelectedEvent.id);
+  }, [createMode, updateEventList, globalSelectedEvent.id]);
+
+  // Event List created when component start & createMode end
+  useEffect(() => {
+    getEventList();
     return () => {
       setGlobalSelectedEvent({
         id: null,
@@ -148,23 +186,15 @@ function Apply() {
     window.scrollTo(0, ListWrapperRef.current.offsetTop);
   }, [teamList]);
 
-  // Team List setter
+  // Team List created when component start & globalSelectedEvent changed
   useEffect(() => {
-    if (globalSelectedEvent.id) {
-      axios
-        .get(`${process.env.SERVER_ADR}/api/together/${globalSelectedEvent.id}`)
-        .then((res) => {
-          if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
-          else setTeamList([]);
-        })
-        .catch((err) => errorAlert(err));
-    }
-  }, [globalSelectedEvent.id, setTeamList]);
+    createTeamList(globalSelectedEvent.id);
+  }, [createTeamList, globalSelectedEvent.id]);
 
   return (
     <div className="main--apply">
       <p className="main--apply--title" ref={ListWrapperRef}>
-        {getToken() ? `${LoginState.id}님, 신청하시죠?` : '로그인 후 신청 가능!' }
+        {getToken() ? `${LoginState.id}님, 신청하시죠?` : '로그인 후 신청 가능!'}
       </p>
       <div className="main--apply--wrapper">
         <div className="main--apply--create_modal_button">
@@ -195,8 +225,14 @@ function Apply() {
                 <div className="main--apply--eventInfo--description">
                   <span>{globalSelectedEvent.description}</span>
                 </div>
-                <div className="main--apply--eventInfo--submit">
-                  <span onClick={onSubmitApply}>신청하기</span>
+                <div
+                  className={`main--apply--eventInfo--submit ${
+                    teamList.find((memInfo) => memInfo['intraId'] === LoginState['id']) ? 'attended' : ''
+                  }`}
+                >
+                  <span onClick={onSubmitApply}>
+                    {teamList.find((memInfo) => memInfo['intraId'] === LoginState['id']) ? '신청완료' : '신청하기'}
+                  </span>
                 </div>
               </>
             ) : (

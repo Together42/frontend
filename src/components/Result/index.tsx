@@ -36,7 +36,7 @@ function Result() {
   };
 
   const onClickSubmit = () => {
-    if (teamLen !== '')
+    if (teamLen !== '' && getToken())
       axios
         .post(
           `${process.env.SERVER_ADR}/api/together/matching`,
