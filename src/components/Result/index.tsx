@@ -36,7 +36,7 @@ function Result() {
   };
 
   const onClickSubmit = () => {
-    if (teamLen !== '' && getToken())
+    if (teamLen !== '' && getToken()) {
       axios
         .post(
           `${process.env.SERVER_ADR}/api/together/matching`,
@@ -55,6 +55,11 @@ function Result() {
           setSelectedTeamObj(res.data['teamList']);
         })
         .catch((err) => errorAlert(err));
+    } else if (!getToken()) {
+      alert('로그인 하셔야 사용 가능합니다');
+    } else if (teamLen === '') {
+      alert('몇 명으로 매칭하실 건지 적어주세요');
+    }
   };
 
   const onChangeInput = (e: any) => {
