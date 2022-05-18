@@ -29,3 +29,15 @@ $default_small_13: 13px;
   font-size: $default_small_13;
   color: $darkgrey_default;
 }
+
+@mixin medium_eng {
+  font-family: $eng_font_regular;
+  font-size: $default_medium_15;
+  color: $darkgrey_default;
+}
+
+@mixin small_eng {
+  font-family: $eng_font_regular;
+  font-size: $default_small_13;
+  color: $darkgrey_default;
+}

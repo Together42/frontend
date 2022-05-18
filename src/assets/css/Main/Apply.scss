@@ -46,7 +46,7 @@ $list_wrapper_padding: 20px;
 .main--apply--list--title {
   @include medium_kor;
   font-size: $sub_title_18;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
 }
 
@@ -78,8 +78,8 @@ $list_wrapper_padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: $sub_title_18;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   margin: 0;
   margin-bottom: 10px;
   padding-bottom: 5px;
@@ -101,8 +101,7 @@ $list_wrapper_padding: 20px;
 
 .main--apply--eventInfo--description {
   @include medium_kor;
-  font-size: $default_medium_15;
-  font-weight: 600;
+  font-size: 14px;
   margin: 0;
   margin-bottom: $list_wrapper_padding;
   max-height: 140px;
@@ -153,24 +152,25 @@ $list_wrapper_padding: 20px;
 
 .main--apply--create_textarea_label,
 .main--apply--create_input_label {
-  font-size: $default_medium_15;
+  @include medium_kor;
   width: 60px;
   margin-bottom: 10px;
 }
 
 .main--apply--create_input {
+  @include small_kor;
   height: 24px;
   width: 350px;
   background: none;
   border: none;
   border-bottom: 1px solid $darkgrey_default;
-  font-size: $default_small_13;
   &:focus {
     outline: none;
   }
 }
 
 .main--apply--create_textarea {
+  @include small_kor;
   width: 350px;
   border: 1px solid $darkgrey_default;
   background: none;
@@ -182,9 +182,12 @@ $list_wrapper_padding: 20px;
 }
 
 .main--apply--create_button {
+  font-family: $kor_font_regular;
+  font-size: 14px;
+  color: $red_for_submit;
+  background: none;
   padding: 0;
   border: none;
-  color: $red_for_submit;
   &:hover {
     cursor: pointer;
   }

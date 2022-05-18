@@ -4,15 +4,15 @@
   display: flex;
   flex-wrap: wrap;
   margin: 40px 0px;
+}
+
+.main--attendeeList--profile_wrapper {
+  position: relative;
   p {
     font-family: $eng_font_regular;
     text-align: center;
     color: $darkgrey_default;
   }
-}
-
-.main--attendeeList--profile_wrapper {
-  position: relative;
 }
 
 .main--attendeeList--profile_image {

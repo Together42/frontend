@@ -266,7 +266,7 @@ function Apply() {
                   placeholder="친바설명입력"
                   onFocus={(e) => (e.target.placeholder = '')}
                   onBlur={(e) => (e.target.placeholder = '친바설명입력')}
-                  rows={5}
+                  rows={4}
                   maxLength={200}
                   onChange={onChange}
                 ></textarea>

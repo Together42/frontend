@@ -111,9 +111,10 @@ $table_padding: 20px;
 }
 
 .result--submit--button {
-  @include medium_kor;
+  font-family: $kor_font_regular;
   font-size: 16px;
   color: $red_for_submit;
+  background: none;
   border: none;
   &:hover {
     cursor: pointer;
@@ -121,15 +122,14 @@ $table_padding: 20px;
 }
 
 .result--team_name {
-  font-family: $eng_font_regular;
+  @include medium_eng;
   font-weight: 500;
   font-size: $sub_title_18;
   text-align: center;
 }
 
 .result--intra {
-  font-family: $eng_font_regular;
-  font-size: $default_medium_15;
+  @include medium_eng;
   text-align: center;
 }
 
