@@ -25,6 +25,7 @@ const config = {
       '@usefulObj': path.resolve(__dirname, 'src/assets/usefulObj'),
       '@types': path.resolve(__dirname, 'src/assets/usefulObj/types'),
       '@cert': path.resolve(__dirname, 'src/cert'),
+      '@globalObj': path.resolve(__dirname, 'src/globalObj'),
     },
   },
   entry: {

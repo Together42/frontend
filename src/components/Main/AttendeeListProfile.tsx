@@ -8,6 +8,7 @@ import SelectedEvent from '@recoil/SelectedEvent';
 import { getToken } from '@cert/TokenStorage';
 import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
 import errorAlert from '@utils/errorAlert';
+import getAddress from '@globalObj/func/getAddress';
 
 interface Props {
   intraID: string;
@@ -21,27 +22,34 @@ function AttendeeListProfile(props: Props) {
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setTeamList = useSetRecoilState(ApplyTeamMemArr);
 
+  const getTeamList = useCallback(
+    (eventId: number) => {
+      axios
+        .get(`${getAddress()}/api/together/matching/${eventId}`)
+        .then((res) => {
+          if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
+          else setTeamList([]);
+        })
+        .catch((err) => errorAlert(err));
+    },
+    [setTeamList],
+  );
+
   const cancleEventAttend = useCallback(
     (eventId: number) => {
       axios
-        .delete(`${process.env.SERVER_ADR}/api/together/unregister/${eventId}`, {
+        .delete(`${getAddress()}/api/together/unregister/${eventId}`, {
           headers: {
             Authorization: 'Bearer ' + getToken(),
           },
         })
         .then(() => {
           alert('삭제되었습니다');
-          axios
-            .get(`${process.env.SERVER_ADR}/api/together/matching/${eventId}`)
-            .then((res) => {
-              if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
-              else setTeamList([]);
-            })
-            .catch((err) => errorAlert(err));
+          getTeamList(eventId);
         })
         .catch((err) => errorAlert(err));
     },
-    [setTeamList],
+    [getTeamList],
   );
 
   const onClickXmark = () => {

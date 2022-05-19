@@ -9,6 +9,7 @@ import { saveToken } from '@cert/TokenStorage';
 import { useNavigate } from 'react-router';
 import SignUpProfileState from '@recoil/SignUpProfileState';
 import { saveAuth } from '@cert/AuthStorage';
+import getAddress from '@globalObj/func/getAddress';
 
 interface Props {
   signUpMode: boolean;
@@ -27,76 +28,79 @@ function AuthForm(props: Props) {
   const profileImageState = useRecoilValue(SignUpProfileState);
   const navigate = useNavigate();
 
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-    setErrorMessage('');
-    if (signUpMode) {
-      if (password === passCheck) {
-        axios
-          .post(`${process.env.SERVER_ADR}/api/auth/signup`, {
-            intraId: id,
-            password,
-            email,
+  const login = () => {
+    axios
+      .post(`${getAddress()}/api/auth/login`, {
+        intraId: id,
+        password,
+      })
+      .then((res) => {
+        if (res.data.token) {
+          setLoginState(() => {
+            return {
+              id,
+              isLogin: true,
+              isAdmin: id === 'tkim',
+              profileUrl: res.data.url,
+            };
+          });
+          saveToken(res.data.token);
+          saveAuth({ id, url: res.data.url });
+          alert('로그인 되셨습니다');
+          navigate('/');
+        } else {
+          setErrorMessage('토큰 받아오기 실패');
+        }
+      })
+      .catch((error) => {
+        if (error?.response?.data) setErrorMessage(error.response.data.message);
+        else setErrorMessage('알 수 없는 에러..');
+      });
+  };
+
+  const signUp = () => {
+    axios
+      .post(`${getAddress()}/api/auth/signup`, {
+        intraId: id,
+        password,
+        email,
+        url:
+          process.env.NODE_ENV === 'production'
+            ? `https://together42.github.io${profileImageState}`
+            : profileImageState,
+      })
+      .then((res) => {
+        if (res.data && res.data.token) {
+          saveToken(res.data.token);
+          saveAuth({
+            id,
             url:
               process.env.NODE_ENV === 'production'
                 ? `https://together42.github.io${profileImageState}`
                 : profileImageState,
-          })
-          .then((res) => {
-            if (res.data && res.data.token) {
-              saveToken(res.data.token);
-              saveAuth({
-                id,
-                url:
-                  process.env.NODE_ENV === 'production'
-                    ? `https://together42.github.io${profileImageState}`
-                    : profileImageState,
-              });
-              alert('회원가입 되셨습니다!');
-              setSignUpMode(false);
-              setPassCheck('');
-              setEmail('');
-            } else {
-              setErrorMessage('토큰 받아오기 실패');
-            }
-          })
-          .catch((error) => {
-            if (error?.response?.data?.message) {
-              setErrorMessage(error.response.data.message);
-            } else setErrorMessage('알 수 없는 에러..');
           });
-      } else {
-        setErrorMessage('비밀번호 재입력이 다릅니다!');
-      }
-    } else {
-      axios
-        .post(`${process.env.SERVER_ADR}/api/auth/login`, {
-          intraId: id,
-          password,
-        })
-        .then((res) => {
-          if (res.data.token) {
-            setLoginState(() => {
-              return {
-                id,
-                isLogin: true,
-                isAdmin: id === 'tkim',
-                profileUrl: res.data.url,
-              };
-            });
-            saveToken(res.data.token);
-            saveAuth({ id, url: res.data.url });
-            alert('로그인 되셨습니다');
-            navigate('/');
-          } else {
-            setErrorMessage('토큰 받아오기 실패');
-          }
-        })
-        .catch((error) => {
-          if (error?.response?.data) setErrorMessage(error.response.data.message);
-          else setErrorMessage('알 수 없는 에러..');
-        });
-    }
+          alert('회원가입 되셨습니다!');
+          setSignUpMode(false);
+          setPassCheck('');
+          setEmail('');
+        } else {
+          setErrorMessage('토큰 받아오기 실패');
+        }
+      })
+      .catch((error) => {
+        if (error?.response?.data?.message) {
+          setErrorMessage(error.response.data.message);
+        } else setErrorMessage('알 수 없는 에러..');
+      });
+  };
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    setErrorMessage('');
+    if (signUpMode) {
+      if (password === passCheck) signUp();
+      else setErrorMessage('비밀번호 재입력이 다릅니다!');
+    } else login();
   };
 
   const onChange = (e: any) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -11,6 +11,7 @@ import errorAlert from '@utils/errorAlert';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
+import getAddress from '@globalObj/func/getAddress';
 
 function CommentModal() {
   const scrollRef = useRef(null);
@@ -20,10 +21,68 @@ function CommentModal() {
   const isDetailCommentMode = modalShow['mode'] === 'detailComment';
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
 
   const [myComment, setMyComment] = useState('');
+
+  const postComment = useCallback(() => {
+    axios
+      .post(
+        `${getAddress()}/api/board/comment`,
+        {
+          boardId: postingDetail['boardId'],
+          comment: myComment,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        },
+      )
+      .then(() => {
+        setPostingDetail((prev) => {
+          let newObj = {
+            ...prev,
+            comments: [...prev['comments'], { intraId: LoginState['id'], content: myComment, time: new Date() }],
+          };
+          return newObj;
+        });
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        setMyComment('');
+      })
+      .catch((err) => errorAlert(err));
+  }, [LoginState, myComment, postingDetail, setPostingDetail]);
+
+  const postNewPosting = useCallback(() => {
+    axios
+      .post(
+        `${getAddress()}/api/board`,
+        {
+          eventId: selectedEvent['eventId'],
+          title: postingDetail['title'],
+          contents: postingDetail['contents'],
+          image: postingDetail['image'],
+          attendMembers: null,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        },
+      )
+      .then((res) => {
+        setBoardsObj((prev) => {
+          const newPostingDetail = Object.assign({}, postingDetail);
+          newPostingDetail.boardId = res.data.boardId;
+          let newObj = {
+            ...prev,
+            [res.data.boardId.toString()]: newPostingDetail,
+          };
+          return newObj;
+        });
+        alert('성공적으로 게시되었습니다');
+      })
+      .catch((err) => errorAlert(err));
+  }, [postingDetail, selectedEvent, setBoardsObj]);
 
   const onChangeMyComment = (e: any) => {
     setMyComment(e.target.value);
@@ -31,71 +90,13 @@ function CommentModal() {
 
   const onSubmitMyComment = (e: any) => {
     e.preventDefault();
-    if (LoginState['id'] !== '') {
-      axios
-        .post(
-          `${process.env.SERVER_ADR}/api/board/comment`,
-          {
-            boardId: postingDetail['boardId'],
-            comment: myComment,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
-            },
-          },
-        )
-        .then(() => {
-          setPostingDetail((prev) => {
-            let newObj = {
-              ...prev,
-              comments: [...prev['comments'], { intraId: LoginState['id'], content: myComment, time: new Date() }],
-            };
-            return newObj;
-          });
-          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-          setMyComment('');
-        })
-        .catch((err) => errorAlert(err));
-    } else {
-      alert('로그인을 하셔야 이용 가능합니다.');
-    }
+    if (LoginState['id'] !== '') postComment();
+    else alert('로그인을 하셔야 이용 가능합니다.');
   };
 
   const onSubmitNewPosting = () => {
-    if (getToken()) {
-      axios
-        .post(
-          `${process.env.SERVER_ADR}/api/board`,
-          {
-            eventId: selectedEvent['eventId'],
-            title: postingDetail['title'],
-            contents: postingDetail['contents'],
-            image: postingDetail['image'],
-            attendMembers: null,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
-            },
-          },
-        )
-        .then((res) => {
-          setBoardsObj((prev) => {
-            const newPostingDetail = Object.assign({}, postingDetail);
-            newPostingDetail.boardId = res.data.boardId;
-            let newObj = {
-              ...prev,
-              [res.data.boardId.toString()]: newPostingDetail,
-            };
-            return newObj;
-          });
-          alert('성공적으로 게시되었습니다');
-        })
-        .catch((err) => errorAlert(err));
-    } else {
-      alert('로그인 토큰 오류');
-    }
+    if (getToken()) postNewPosting();
+    else alert('로그인 토큰 오류');
   };
 
   useEffect(() => {

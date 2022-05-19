@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Review/NewPostingModal.scss';
 import Xmark from '@img/xmark-solid.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -11,6 +11,7 @@ import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
+import getAddress from '@globalObj/func/getAddress';
 
 function NewPostingModal() {
   const setModalShow = useSetRecoilState(NewPostingModalShow);
@@ -22,6 +23,38 @@ function NewPostingModal() {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [selectSomeModalShow, setSelecSomeModalShow] = useRecoilState(SelectSomeModalShow);
+
+  const postNewPosting = useCallback(() => {
+    axios
+      .post(
+        `${getAddress()}/api/board`,
+        {
+          eventId: selectedEvent['eventId'],
+          title: title,
+          contents: content,
+          image: imageArr,
+          attendMembers: null,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        },
+      )
+      .then((res) => {
+        setBoardsObj((prev) => {
+          const newPostingDetail = Object.assign({}, postingDetail);
+          newPostingDetail.boardId = res.data.boardId;
+          let newObj = {
+            ...prev,
+            [res.data.boardId.toString()]: newPostingDetail,
+          };
+          return newObj;
+        });
+        alert('성공적으로 게시되었습니다');
+      })
+      .catch((err) => errorAlert(err));
+  }, [content, imageArr, selectedEvent, setBoardsObj, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -44,39 +77,8 @@ function NewPostingModal() {
   };
 
   const onSubmitNewPosting = () => {
-    if (getToken()) {
-      axios
-        .post(
-          `${process.env.SERVER_ADR}/api/board`,
-          {
-            eventId: selectedEvent['eventId'],
-            title: title,
-            contents: content,
-            image: imageArr,
-            attendMembers: null,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
-            },
-          },
-        )
-        .then((res) => {
-          setBoardsObj((prev) => {
-            const newPostingDetail = Object.assign({}, postingDetail);
-            newPostingDetail.boardId = res.data.boardId;
-            let newObj = {
-              ...prev,
-              [res.data.boardId.toString()]: newPostingDetail,
-            };
-            return newObj;
-          });
-          alert('성공적으로 게시되었습니다');
-        })
-        .catch((err) => errorAlert(err));
-    } else {
-      alert('로그인 토큰 오류');
-    }
+    if (getToken()) postNewPosting();
+    else alert('로그인 토큰 오류');
   };
 
   useEffect(() => {

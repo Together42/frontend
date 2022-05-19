@@ -47,6 +47,9 @@
       "@cert/*": [
         "src/cert/*"
       ],
+      "@globalObj/*": [
+        "src/globalObj/*"
+      ]
     }
   }
 }

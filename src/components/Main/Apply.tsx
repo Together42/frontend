@@ -8,6 +8,7 @@ import SelectedEvent from '@recoil/SelectedEvent';
 import { EventType } from '@usefulObj/types';
 import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
 import errorAlert from '@utils/errorAlert';
+import getAddress from '@globalObj/func/getAddress';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
@@ -31,7 +32,7 @@ function Apply() {
     (eventId: number) => {
       if (eventId) {
         axios
-          .get(`${process.env.SERVER_ADR}/api/together/${eventId}`)
+          .get(`${getAddress()}/api/together/${eventId}`)
           .then((res) => {
             if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
             else setTeamList([]);
@@ -47,7 +48,7 @@ function Apply() {
       if (getToken() && LoginState.isLogin) {
         axios
           .post(
-            `${process.env.SERVER_ADR}/api/together/register`,
+            `${getAddress()}/api/together/register`,
             {
               eventId: eventId,
             },
@@ -72,7 +73,7 @@ function Apply() {
   const updateEventList = useCallback((eventId: number) => {
     if (eventId) {
       axios
-        .get(`${process.env.SERVER_ADR}/api/together/${eventId}`)
+        .get(`${getAddress()}/api/together/${eventId}`)
         .then((response) => {
           if (
             (response.data.teamList && response.data.teamList['null']) ||
@@ -92,7 +93,7 @@ function Apply() {
 
   const getEventList = () => {
     axios
-      .get(`${process.env.SERVER_ADR}/api/together`)
+      .get(`${getAddress()}/api/together`)
       .then((response) => {
         if (response.data.EventList.length > 0) {
           const rtnArr = response.data.EventList.filter((e) => !e['isMatching']);
@@ -106,7 +107,7 @@ function Apply() {
     if (getToken() && LoginState.isLogin) {
       axios
         .post(
-          `${process.env.SERVER_ADR}/api/together`,
+          `${getAddress()}/api/together`,
           {
             title: createTitle,
             description: createDescription,
