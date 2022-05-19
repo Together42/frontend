@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import Xmark from '@img/xmark-solid.svg';
 import '@css/Main/AttendeeListProfile.scss';
 import GlobalLoginState from '@recoil/GlobalLoginState';
@@ -21,37 +21,36 @@ function AttendeeListProfile(props: Props) {
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setTeamList = useSetRecoilState(ApplyTeamMemArr);
 
+  const cancleEventAttend = useCallback(
+    (eventId: number) => {
+      axios
+        .delete(`${process.env.SERVER_ADR}/api/together/unregister/${eventId}`, {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        })
+        .then(() => {
+          alert('삭제되었습니다');
+          axios
+            .get(`${process.env.SERVER_ADR}/api/together/matching/${eventId}`)
+            .then((res) => {
+              if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
+              else setTeamList([]);
+            })
+            .catch((err) => errorAlert(err));
+        })
+        .catch((err) => errorAlert(err));
+    },
+    [setTeamList],
+  );
+
   const onClickXmark = () => {
     if (LoginState.id === intraID && selectedEvent.id) {
       if (window.confirm('정말로 취소하시나여?')) {
-        if (window.confirm('진짜로요?')) {
-          axios
-            .delete(`${process.env.SERVER_ADR}/api/together/unregister/${selectedEvent['id']}`, {
-              headers: {
-                Authorization: 'Bearer ' + getToken(),
-              },
-            })
-            .then(() => {
-              alert('삭제되었습니다');
-              axios
-                .get(`${process.env.SERVER_ADR}/api/together/matching/${selectedEvent.id}`)
-                .then((res) => {
-                  if (res.data.teamList && Object.keys(res.data.teamList).length)
-                    setTeamList(res.data.teamList['null']);
-                  else setTeamList([]);
-                })
-                .catch((err) => errorAlert(err));
-            })
-            .catch((err) => errorAlert(err));
-        } else {
-          alert('잘생각했어요>,.<');
-        }
-      } else {
-        alert('감사합니다^&^');
-      }
-    } else {
-      alert('본인만 삭제가 가능해요');
-    }
+        if (window.confirm('진짜로요?')) cancleEventAttend(selectedEvent['id']);
+        else alert('잘생각했어요>,.<');
+      } else alert('감사합니다^&^');
+    } else alert('본인만 삭제가 가능해요');
   };
 
   return (
