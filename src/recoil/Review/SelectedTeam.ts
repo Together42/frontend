@@ -1,8 +1,8 @@
-import { teamMemInfo } from '@usefulObj/types';
+import { ReviewSelectedTeamType } from '@usefulObj/types';
 import { atom } from 'recoil';
 
-const SelectedTeam = atom<teamMemInfo[]>({
-  key: 'ReviewSelectedEvent',
+const SelectedTeam = atom<ReviewSelectedTeamType>({
+  key: 'ReviewSelectedTeam',
   default: null,
 });
 

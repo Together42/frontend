@@ -43,6 +43,10 @@ export interface ReviewModalShowType {
   show: boolean;
 }
 
+export interface ReviewSelectedTeamType {
+  [x: string]: teamMemInfo[];
+}
+
 export interface ReviewSelectedEventType extends EventType {
-  teamList: { (key: string): teamMemInfo[] };
+  teamList: ReviewSelectedTeamType;
 }

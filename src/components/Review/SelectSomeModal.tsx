@@ -2,7 +2,7 @@ import EventList from '@recoil/Review/EventList';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Xmark from '@img/xmark-solid.svg';
-import { ReviewSelectedEventType, teamMemInfo } from '@usefulObj/types';
+import { ReviewSelectedEventType, ReviewSelectedTeamType, teamMemInfo } from '@usefulObj/types';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import '@css/Review/SelectSomeModal.scss';
 import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
@@ -38,14 +38,14 @@ function EventListModal(prop: { mode: string }) {
       setEventListModalShow(false);
     } else if (mode === 'modal_event') {
       setSelectedEvent(event);
-      setModalTeamList(event['teamList']);
       setMode('modal_team');
     }
   };
 
   const onClickTeam = (event: string) => {
     if (mode === 'modal_team') {
-      setGlobalSelectedTeam(selectedEvent['teamList'][event]);
+      const memArr: teamMemInfo[] = selectedEvent['teamList'][event];
+      setGlobalSelectedTeam({ [event]: memArr });
       setEventListModalShow(false);
     }
   };
@@ -59,14 +59,24 @@ function EventListModal(prop: { mode: string }) {
   };
 
   const onClickGlobalAddMem = () => {
-    setGlobalSelectedTeam((prev) => [...prev, { intraId: inputText, url: null, teamId: null }]);
+    setGlobalSelectedTeam((prev) => {
+      const ObjtoArr: any = Object.entries(prev);
+      const ObjKey: string = ObjtoArr[0][1];
+      const memArr: teamMemInfo[] = ObjtoArr[0][1];
+      addMemArr.forEach((memStr) => memArr.push({ intraId: memStr, url: null, teamId: parseInt(ObjKey, 10) }));
+      return { [ObjKey]: memArr };
+    });
+    setAddMemArr(null);
     setInputText('');
     setEventListModalShow(false);
   };
 
   useEffect(() => {
     if (mode === 'main_event' || mode === 'modal_event') setModalEventList(eventList);
-  }, [eventList, mode]);
+    if (mode === 'modal_team' && selectedEvent) setModalTeamList(selectedEvent['teamList']);
+  }, [eventList, mode, selectedEvent]);
+
+  // console.log(selectedEvent);
 
   return (
     <div className="review--eventModal--wrapper">
@@ -106,7 +116,7 @@ function EventListModal(prop: { mode: string }) {
       {modalEventList && (mode === 'main_event' || mode === 'modal_event') ? (
         modalEventList
           .filter((event1) => event1['title'].includes(inputText))
-          .map((event2) => (
+          ?.map((event2) => (
             <p className="review--eventModal--event" key={event2['id']} onClick={() => onClickEvent(event2)}>
               {event2['title']}
             </p>
@@ -114,7 +124,7 @@ function EventListModal(prop: { mode: string }) {
       ) : mode === 'modal_team' && modalTeamList ? (
         Object.keys(modalTeamList)
           .filter((event1) => event1.includes(inputText))
-          .map((event2) => (
+          ?.map((event2) => (
             <p className="review--eventModal--event" key={event2} onClick={() => onClickTeam(event2)}>
               {event2}
             </p>

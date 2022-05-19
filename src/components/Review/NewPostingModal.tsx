@@ -12,17 +12,19 @@ import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/func/getAddress';
+import SelectedTeam from '@recoil/Review/SelectedTeam';
 
 function NewPostingModal() {
   const setModalShow = useSetRecoilState(NewPostingModalShow);
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
+  const selectedTeam = useRecoilValue(SelectedTeam);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageArr, setImageArr] = useState<string[]>([]);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
-  const [selectSomeModalShow, setSelecSomeModalShow] = useRecoilState(SelectSomeModalShow);
+  const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
 
   const postNewPosting = useCallback(() => {
     axios
@@ -63,13 +65,13 @@ function NewPostingModal() {
   const onClickEventModalOpen = () => {
     setIsAddMemBtnClicked(false);
     setIsEventBtnClicked(true);
-    setSelecSomeModalShow(true);
+    setSelectSomeModalShow(true);
   };
 
   const onClickAddMemModalOpen = () => {
     setIsEventBtnClicked(false);
     setIsAddMemBtnClicked(true);
-    setSelecSomeModalShow(true);
+    setSelectSomeModalShow(true);
   };
 
   const onChangeContent = (e: any) => {
@@ -91,9 +93,11 @@ function NewPostingModal() {
   useEffect(() => {
     return () => {
       setModalShow(false);
-      setSelecSomeModalShow(false);
+      setSelectSomeModalShow(false);
     };
-  }, [setModalShow, setSelecSomeModalShow]);
+  }, [setModalShow, setSelectSomeModalShow]);
+
+  console.log(selectedTeam);
 
   return (
     <div className="review--newposting--background" onClick={() => setModalShow(false)}>
@@ -127,6 +131,26 @@ function NewPostingModal() {
                 {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
               </div>
             </div>
+          </div>
+          <div className="review--newposting--selectedInfo">
+            {selectedEvent && (
+              <>
+                <span>이벤트 </span>
+                <span>{selectedEvent['title']}</span>
+              </>
+            )}
+            {selectedTeam && (
+              <>
+                <span>팀</span>
+                <span>team {Object.keys(selectedTeam)[0]}</span>
+                <span>팀원</span>
+                <div>
+                  {Object.values(selectedTeam)[0].map((member) => (
+                    <span>{member['intraId']} </span>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
           <div className="review--newposting--newposting_wrapper">
             <TextareaAutosize

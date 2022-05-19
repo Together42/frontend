@@ -54,9 +54,9 @@ function Review() {
   }, [getMatching]);
 
   // 임시용!
-  useEffect(() => {
-    alert('아직 개발 전입니다..!');
-  }, []);
+  // useEffect(() => {
+  //   alert('아직 개발 전입니다..!');
+  // }, []);
 
   return (
     <>

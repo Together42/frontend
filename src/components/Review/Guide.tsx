@@ -18,9 +18,8 @@ function Guide(props: Props) {
 
   const onClickAddPosting = () => {
     setIsEventBtnClicked(false);
-    if (getToken()) {
-      setNewPostingModalShow(true);
-    } else alert('로그인 후 이용해주세요');
+    if (getToken()) setNewPostingModalShow(true);
+    else alert('로그인 후 이용해주세요');
   };
 
   const onClickSelectEvent = () => {

@@ -1,5 +1,10 @@
 @import '@css/fonts.scss';
 
+$margin_margin_medium: 15px;
+$total_width: 700px;
+$left_devision_width: 290px;
+$right_devision_width: calc($total_width - $left_devision_width - ($margin_margin_medium * 2));
+
 .review--newposting--background {
   position: fixed;
   top: 0;
@@ -25,7 +30,7 @@
 
 .review--newposting-devision {
   display: flex;
-  width: 700px;
+  width: $total_width;
   background-color: white;
   z-index: 10;
 }
@@ -34,8 +39,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  width: 290px;
-  height: 440px;
+  width: $left_devision_width;
   padding-left: 10px;
 }
 
@@ -64,14 +68,15 @@
 }
 
 .review--newposting--right_division {
-  width: 410px;
+  width: $right_devision_width;
+  margin: $margin_margin_medium;
 }
 
 .review--newposting--header {
   display: flex;
   justify-content: space-between;
-  padding: 0 10px;
-  margin: 20px 0;
+  // padding: 0 $margin_margin_medium;
+  // margin: $margin_margin_medium 0;
 }
 
 .review--newposting--header--title {
@@ -93,7 +98,7 @@
 .review--newposting--header--addTeamMem {
   position: relative;
   span {
-    @include small_kor;
+    @include medium_kor;
     &:hover {
       cursor: pointer;
     }
@@ -105,8 +110,8 @@
 }
 
 .review--newposting--newposting_wrapper {
-  width: 390px;
-  margin: 0 auto;
+  width: $right_devision_width;
+  // padding: 0 $margin_margin_medium;
 }
 
 .review--newposting--newposting {
@@ -116,6 +121,16 @@
   &:focus {
     outline: none;
   }
+}
+
+.review--newposting--selectedInfo {
+  @include small_kor;
+  width: 100%;
+  // padding: 0 $margin_margin_medium;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  row-gap: 10px;
+  // margin: $margin_margin_medium 0;
 }
 
 .review--newposting--button--forFlex {
