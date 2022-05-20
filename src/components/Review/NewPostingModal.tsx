@@ -104,8 +104,6 @@ function NewPostingModal() {
     };
   }, [setModalShow, setSelectSomeModalShow, setSelectedTeam]);
 
-  // console.log(selectedTeam);
-
   return (
     <div className="review--newposting--background" onClick={() => setModalShow(false)}>
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>

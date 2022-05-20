@@ -1,27 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid.svg';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import PostingDetail from '@recoil/Review/PostingDetail';
-import ReviewModalShow from '@recoil/Review/CommentModalShow';
-import TextareaAutosize from 'react-textarea-autosize';
+import commentModalShow from '@recoil/Review/CommentModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import errorAlert from '@utils/errorAlert';
-import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
-import SelectedEvent from '@recoil/Review/SelectedEvent';
 import getAddress from '@globalObj/func/getAddress';
 
 function CommentModal() {
   const scrollRef = useRef(null);
   const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
-  const [modalShow, setModalShow] = useRecoilState(ReviewModalShow);
+  const [modalShow, setModalShow] = useRecoilState(commentModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
-  const isDetailCommentMode = modalShow['mode'] === 'detailComment';
-  const setBoardsObj = useSetRecoilState(BoardsObj);
-  const selectedEvent = useRecoilValue(SelectedEvent);
-
   const [myComment, setMyComment] = useState('');
 
   const postComment = useCallback(() => {
@@ -40,7 +33,7 @@ function CommentModal() {
       )
       .then(() => {
         setPostingDetail((prev) => {
-          let newObj = {
+          const newObj = {
             ...prev,
             comments: [...prev['comments'], { intraId: LoginState['id'], content: myComment, time: new Date() }],
           };
@@ -52,38 +45,6 @@ function CommentModal() {
       .catch((err) => errorAlert(err));
   }, [LoginState, myComment, postingDetail, setPostingDetail]);
 
-  const postNewPosting = useCallback(() => {
-    axios
-      .post(
-        `${getAddress()}/api/board`,
-        {
-          eventId: selectedEvent['eventId'],
-          title: postingDetail['title'],
-          contents: postingDetail['contents'],
-          image: postingDetail['image'],
-          attendMembers: null,
-        },
-        {
-          headers: {
-            Authorization: 'Bearer ' + getToken(),
-          },
-        },
-      )
-      .then((res) => {
-        setBoardsObj((prev) => {
-          const newPostingDetail = Object.assign({}, postingDetail);
-          newPostingDetail.boardId = res.data.boardId;
-          let newObj = {
-            ...prev,
-            [res.data.boardId.toString()]: newPostingDetail,
-          };
-          return newObj;
-        });
-        alert('성공적으로 게시되었습니다');
-      })
-      .catch((err) => errorAlert(err));
-  }, [postingDetail, selectedEvent, setBoardsObj]);
-
   const onChangeMyComment = (e: any) => {
     setMyComment(e.target.value);
   };
@@ -94,17 +55,13 @@ function CommentModal() {
     else alert('로그인을 하셔야 이용 가능합니다.');
   };
 
-  const onSubmitNewPosting = () => {
-    if (getToken()) postNewPosting();
-    else alert('로그인 토큰 오류');
-  };
-
   useEffect(() => {
     return () => {
       setPostingDetail({
         boardId: null,
         eventId: null,
         title: null,
+        teamId: null,
         writer: null,
         contents: null,
         createAt: null,
@@ -113,67 +70,42 @@ function CommentModal() {
         attendMembers: null,
         comments: null,
       });
-      setModalShow({ mode: null, show: null });
+      setModalShow(false);
     };
   }, [setModalShow, setPostingDetail]);
 
   return (
-    <div className="review--posting--background" onClick={() => setModalShow(false)}>
-      <img className="review--posting--xmark" src={Xmark} alt={Xmark}></img>
-      <div className="review--posting-devision" onClick={(e) => e.stopPropagation()}>
-        <div className="review--posting--left_division">
-          <div className="review--posting--image--background"></div>
-          <div className="review--posting--modal_image">
-            {isDetailCommentMode ? (
-              <img src={postingDetail['image'][0]} alt={postingDetail['image'][0]} />
-            ) : (
+    modalShow && (
+      <div className="review--posting--background" onClick={() => setModalShow(false)}>
+        <img className="review--posting--xmark" src={Xmark} alt={Xmark}></img>
+        <div className="review--posting-devision" onClick={(e) => e.stopPropagation()}>
+          <div className="review--posting--left_division">
+            <div className="review--posting--image--background"></div>
+            <div className="review--posting--modal_image">
+              {postingDetail['image'] && <img src={postingDetail['image'][0]} alt={postingDetail['image'][0]} />}
+            </div>
+          </div>
+          <div className="review--posting--right_division">
+            <div className="review--posting--title">
               <div>
-                <div>
-                  <span>파일을 업로드 혹은 드래그</span>
-                  <button>업로드</button>
-                </div>
+                <span className="review--posting--title--team">{postingDetail['title']}</span>
+                <span className="review--posting--title--location">temp</span>
               </div>
-            )}
-          </div>
-        </div>
-        <div className="review--posting--right_division">
-          <div className="review--posting--title">
-            <div>
-              <span className="review--posting--title--team">
-                {isDetailCommentMode ? postingDetail['title'] : '팀네임 검색'}
-              </span>
-              <span className="review--posting--title--location">temp</span>
+              {/* <div className="review--posting--members">
+                {postingDetail['attendMembers'] &&
+                  postingDetail['attendMembers'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
+              </div> */}
             </div>
-            <div className="review--posting--members">
-              {postingDetail['attendMembers'] &&
-                postingDetail['attendMembers'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
+            <div className="review--posting--detail_comments" ref={scrollRef}>
+              <span className="review--posting--full_comment">{postingDetail['posting']}</span>
+              {postingDetail['comments'] &&
+                postingDetail['comments'].map((e, i) => (
+                  <div className="review--posting--visitor--wrapper" key={i}>
+                    <span className="review--posting--visitor">{e['intraId']}</span>
+                    <span className="review--posting--visitor_comment">{e['content']}</span>
+                  </div>
+                ))}
             </div>
-          </div>
-          <div className="review--posting--detail_comments" ref={scrollRef}>
-            {isDetailCommentMode ? (
-              postingDetail['comments'] && (
-                <>
-                  <span className="review--posting--full_comment">{postingDetail['posting']}</span>
-                  {postingDetail['comments'].map((e, i) => (
-                    <div className="review--posting--visitor--wrapper" key={i}>
-                      <span className="review--posting--visitor">{e['intraId']}</span>
-                      <span className="review--posting--visitor_comment">{e['content']}</span>
-                    </div>
-                  ))}
-                </>
-              )
-            ) : (
-              <>
-                <TextareaAutosize className="review--posting--posting" minRows={10} placeholder="글을 작성해주세요" />
-                <div className="review--posting--button--forFlex">
-                  <button className="review--posting--button" onClick={onSubmitNewPosting}>
-                    <span>게시</span>
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-          {isDetailCommentMode && (
             <div className="review--posting--post_comment--wrapper">
               <form className="review--posting--form" onSubmit={onSubmitMyComment}>
                 <input
@@ -190,10 +122,10 @@ function CommentModal() {
                 </button>
               </form>
             </div>
-          )}
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 }
 

@@ -22,22 +22,15 @@
   margin: 10px;
 }
 
-.review--posting--title--team {
+.review--posting--title--title {
   @include medium_kor;
+  // font-size: $sub_title_18;
   color: $darkgrey_darker;
   display: block;
 }
 
-.review--posting--title--location {
-  @include small_kor;
-  display: block;
-}
-
-.review--posting--members {
-  border-bottom: 1px solid $darkgrey_default;
-  img {
-    width: 30px;
-  }
+.review--posting--actions {
+  width: 20px;
 }
 
 .review--posting--image {
@@ -60,11 +53,11 @@
 .review--posting--comments {
   margin: 10px;
   p {
-    margin: 0;
+    margin: 5px;
   }
 }
 
-.review--posting--maincomment {
+.review--posting--content {
   @include medium_kor;
   font-size: 14px;
   overflow: hidden;
@@ -72,13 +65,15 @@
   white-space: nowrap;
 }
 
-.review--posting--subcomment {
-  margin-top: 5px;
-  line-height: 1.7;
-  span {
-    @include small_kor;
-    color: $darkgrey_light;
-  }
+.review--posting--commentLength {
+  @include small_kor;
+  color: $darkgrey_medium;
+}
+
+.review--posting--createdAt {
+  @include small_kor;
+  color: $darkgrey_light;
+  font-size: 12px;
 }
 
 .review--posting--open_modal {

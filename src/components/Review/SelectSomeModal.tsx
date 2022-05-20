@@ -72,8 +72,6 @@ function EventListModal(prop: { mode: string }) {
     if (mode === 'modal_team' && selectedEvent) setModalTeamList(selectedEvent['teamList']);
   }, [eventList, mode, selectedEvent]);
 
-  console.log(modalTeamList);
-
   return (
     <div className="review--eventModal--wrapper">
       <div className="review--eventModal--header--xbtn_wrapper">

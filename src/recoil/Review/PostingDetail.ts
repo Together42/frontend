@@ -7,6 +7,7 @@ const PostingDetail = atom<PostingType>({
     boardId: null,
     eventId: null,
     title: null,
+    teamId: null,
     writer: null, // createBy
     contents: null,
     createAt: null,

@@ -28,6 +28,7 @@ export interface teamMemInfo {
 export interface PostingType {
   boardId: number;
   eventId: number;
+  teamId: number;
   title: string;
   writer: string; // createBy
   contents: string;
