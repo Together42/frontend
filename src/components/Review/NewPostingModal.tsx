@@ -27,6 +27,15 @@ function NewPostingModal() {
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const setSelectedTeam = useSetRecoilState(SelectedTeam);
 
+  const getBoards = useCallback(() => {
+    axios
+      .get(`${getAddress()}/api/board/?event-id=${selectedEvent['id']}`)
+      .then((res) => {
+        setBoardsObj(res.data);
+      })
+      .catch((err) => errorAlert(err));
+  }, [selectedEvent, setBoardsObj]);
+
   const postNewPosting = useCallback(() => {
     axios
       .post(
@@ -36,7 +45,7 @@ function NewPostingModal() {
           title: title,
           contents: content,
           image: imageArr,
-          attendMembers: null,
+          attendMembers: Object.values(selectedTeam)[0][1],
         },
         {
           headers: {
@@ -44,20 +53,12 @@ function NewPostingModal() {
           },
         },
       )
-      .then((res) => {
-        setBoardsObj((prev) => {
-          const newPostingDetail = Object.assign({}, postingDetail);
-          newPostingDetail.boardId = res.data.boardId;
-          let newObj = {
-            ...prev,
-            [res.data.boardId.toString()]: newPostingDetail,
-          };
-          return newObj;
-        });
+      .then(() => {
+        getBoards();
         alert('성공적으로 게시되었습니다');
       })
       .catch((err) => errorAlert(err));
-  }, [content, imageArr, selectedEvent, setBoardsObj, title]);
+  }, [content, getBoards, imageArr, selectedEvent, selectedTeam, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);

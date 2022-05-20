@@ -29,7 +29,7 @@ function Review() {
       .catch((err) => errorAlert(err));
   }, [selectedEvent, setBoardsObj]);
 
-  const getMatching = useCallback(() => {
+  const getEventList = useCallback(() => {
     axios
       .get(`${getAddress()}/api/together/matching`)
       .then((res) => {
@@ -50,8 +50,8 @@ function Review() {
 
   // when component created
   useEffect(() => {
-    getMatching();
-  }, [getMatching]);
+    getEventList();
+  }, [getEventList]);
 
   // 임시용!
   // useEffect(() => {
