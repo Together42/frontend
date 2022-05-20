@@ -25,6 +25,7 @@ function NewPostingModal() {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
+  const setSelectedTeam = useSetRecoilState(SelectedTeam);
 
   const postNewPosting = useCallback(() => {
     axios
@@ -69,9 +70,13 @@ function NewPostingModal() {
   };
 
   const onClickAddMemModalOpen = () => {
-    setIsEventBtnClicked(false);
-    setIsAddMemBtnClicked(true);
-    setSelectSomeModalShow(true);
+    if (selectedEvent) {
+      setIsEventBtnClicked(false);
+      setIsAddMemBtnClicked(true);
+      setSelectSomeModalShow(true);
+    } else {
+      alert('이벤트 선택을 먼저 해주세요');
+    }
   };
 
   const onChangeContent = (e: any) => {
@@ -92,12 +97,13 @@ function NewPostingModal() {
 
   useEffect(() => {
     return () => {
+      setSelectedTeam(null);
       setModalShow(false);
       setSelectSomeModalShow(false);
     };
-  }, [setModalShow, setSelectSomeModalShow]);
+  }, [setModalShow, setSelectSomeModalShow, setSelectedTeam]);
 
-  console.log(selectedTeam);
+  // console.log(selectedTeam);
 
   return (
     <div className="review--newposting--background" onClick={() => setModalShow(false)}>

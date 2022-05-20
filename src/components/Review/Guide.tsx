@@ -5,6 +5,7 @@ import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import { getToken } from '@cert/TokenStorage';
+import SelectedEvent from '@recoil/Review/SelectedEvent';
 
 interface Props {
   isElemExist: boolean;
@@ -12,17 +13,20 @@ interface Props {
 
 function Guide(props: Props) {
   const { isElemExist } = props;
+  const setSelectedEvent = useSetRecoilState(SelectedEvent);
   const setNewPostingModalShow = useSetRecoilState(NewPostingModalShow);
   const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
 
   const onClickAddPosting = () => {
+    setSelectedEvent(null);
     setIsEventBtnClicked(false);
     if (getToken()) setNewPostingModalShow(true);
     else alert('로그인 후 이용해주세요');
   };
 
   const onClickSelectEvent = () => {
+    setSelectedEvent(null);
     setIsEventBtnClicked(true);
     setEventListModalShow(true);
   };

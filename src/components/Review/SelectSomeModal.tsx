@@ -9,17 +9,13 @@ import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
 import glassImg from '@img/magnifying-glass-solid.svg';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 
-interface modalTeamListType {
-  (key: string): teamMemInfo[];
-}
-
 function EventListModal(prop: { mode: string }) {
   const eventList = useRecoilValue(EventList);
-  const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const setEventListModalShow = useSetRecoilState(EventListModalShow);
-  const setGlobalSelectedTeam = useSetRecoilState(SelectedTeam);
+  const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
+  const setSelectedTeam = useSetRecoilState(SelectedTeam);
   const [modalEventList, setModalEventList] = useState<ReviewSelectedEventType[]>(null);
-  const [modalTeamList, setModalTeamList] = useState<modalTeamListType>(null);
+  const [modalTeamList, setModalTeamList] = useState<ReviewSelectedTeamType>(null);
   const [inputText, setInputText] = useState('');
   const [mode, setMode] = useState(prop['mode']);
   const [addMemArr, setAddMemArr] = useState<string[]>(null);
@@ -28,7 +24,7 @@ function EventListModal(prop: { mode: string }) {
     setEventListModalShow(false);
   };
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: any) => {
     setInputText(e.target.value);
   };
 
@@ -45,7 +41,7 @@ function EventListModal(prop: { mode: string }) {
   const onClickTeam = (event: string) => {
     if (mode === 'modal_team') {
       const memArr: teamMemInfo[] = selectedEvent['teamList'][event];
-      setGlobalSelectedTeam({ [event]: memArr });
+      setSelectedTeam({ [event]: memArr });
       setEventListModalShow(false);
     }
   };
@@ -58,11 +54,11 @@ function EventListModal(prop: { mode: string }) {
     }
   };
 
-  const onClickGlobalAddMem = () => {
-    setGlobalSelectedTeam((prev) => {
+  const onSubmitGlobalAddMem = () => {
+    setSelectedTeam((prev) => {
       const ObjtoArr: any = Object.entries(prev);
-      const ObjKey: string = ObjtoArr[0][1];
-      const memArr: teamMemInfo[] = ObjtoArr[0][1];
+      const ObjKey: string = ObjtoArr[0][0];
+      let memArr: teamMemInfo[] = Array.from(ObjtoArr[0][1]);
       addMemArr.forEach((memStr) => memArr.push({ intraId: memStr, url: null, teamId: parseInt(ObjKey, 10) }));
       return { [ObjKey]: memArr };
     });
@@ -76,7 +72,7 @@ function EventListModal(prop: { mode: string }) {
     if (mode === 'modal_team' && selectedEvent) setModalTeamList(selectedEvent['teamList']);
   }, [eventList, mode, selectedEvent]);
 
-  // console.log(selectedEvent);
+  console.log(modalTeamList);
 
   return (
     <div className="review--eventModal--wrapper">
@@ -139,7 +135,7 @@ function EventListModal(prop: { mode: string }) {
             ))}
           </div>
           <div className="review--eventModal--submit_addMem">
-            <div className="review--eventModal--submit_addMem--btn" onClick={onClickGlobalAddMem}>
+            <div className="review--eventModal--submit_addMem--btn" onClick={onSubmitGlobalAddMem}>
               <span>추가완료</span>
             </div>
           </div>
