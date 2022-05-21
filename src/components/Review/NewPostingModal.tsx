@@ -18,6 +18,7 @@ import GetBoards from '@globalObj/func/getBoards';
 import { ReviewBoardType } from '@usefulObj/types';
 import getDetailBoard from '@globalObj/func/getDetailBoard';
 
+// mode : new or edit
 function NewPostingModal(props: { mode: string; boardId?: number }) {
   const { mode, boardId } = props;
   const setNewModalShow = useSetRecoilState(NewPostingModalShow);
@@ -109,16 +110,16 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
 
   const onSubmitPosting = () => {
     if (getToken()) {
-      if (mode === 'new') {
-        postNewPosting();
-      } else if (mode === 'edit') {
-        postEditPosting();
-      }
-    } else alert('로그인 토큰 오류');
+      if (mode === 'new') postNewPosting();
+      else if (mode === 'edit') postEditPosting();
+    } else alert('로그인을 하셔야 포스팅 하실 수 있습니다');
   };
 
   const onClickUpload = (e: any) => {
-    console.log(e.target.files[0]);
+    // const formData = new FormData();
+    // formData.append('image', e.target.files[0]);
+    // formData.append('image', e.target.files[1]);
+    // axios.post(`${getAddress()}/api/auth/selfies`, formData).then((res) => console.log(res));
   };
 
   useEffect(() => {
@@ -129,12 +130,12 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
   }, [selectSomeModalShow]);
 
   useEffect(() => {
-    getDetailBoard(boardId, setBoardObj);
+    if (mode === 'edit') getDetailBoard(boardId, setBoardObj);
     return () => {
       setSelectedTeam(null);
       closeModal();
     };
-  }, [boardId, closeModal, setSelectedTeam]);
+  }, [boardId, closeModal, mode, setSelectedTeam]);
 
   useEffect(() => {
     if (mode === 'edit' && boardObj) {
@@ -151,7 +152,7 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
         <div className="review--newposting--left_division">
           {mode === 'new' ? (
             <div className="review--newposting--add_files">
-              <span>파일을 업로드 혹은 드래그</span>
+              <span>파일을 업로드</span>
               <div className="review--newposting--add_files--input_wrapper">
                 <input
                   type="file"
@@ -159,6 +160,7 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
                   accept="image/*"
                   placeholder="업로드"
                   onChange={onClickUpload}
+                  multiple
                   required
                 />
               </div>

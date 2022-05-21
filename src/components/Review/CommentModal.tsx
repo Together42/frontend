@@ -77,7 +77,7 @@ function CommentModal(props: { boardId: number }) {
     return () => setModalShow(false);
   }, [setModalShow, setBoardObj, boardId]);
 
-  console.log(boardObj && boardObj['comments']);
+  // console.log(boardObj && boardObj['comments']);
 
   return (
     boardObj && (
@@ -106,7 +106,7 @@ function CommentModal(props: { boardId: number }) {
               </div>
               {boardObj['comments'] &&
                 boardObj['comments'].map((e, i) => (
-                  <CommentBox intraId={e['intraId']} comments={e['comments']} key={i} />
+                  <CommentBox intraId={e['intraId']} comments={e['comments']} commentId={e['id']} key={i} />
                 ))}
             </div>
             <div className="review--detail--post_comment--wrapper">

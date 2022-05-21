@@ -12,8 +12,8 @@ import SelectedEvent from '@recoil/SelectedEvent';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 
-function ActionModal(props: { mode: string; boardId?: number }) {
-  const { mode, boardId } = props;
+function ActionModal(props: { mode: string; boardId?: number; commentId?: number }) {
+  const { mode, boardId, commentId } = props;
   const setActionModalShow = useSetRecoilState(ActionModalShow);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setBoardsObj = useSetRecoilState(BoardsObj);
@@ -39,7 +39,7 @@ function ActionModal(props: { mode: string; boardId?: number }) {
   const deleteComment = useCallback(() => {
     if (getToken()) {
       axios
-        .delete(`${getAddress()}/api/board/comment/${boardId}`, {
+        .delete(`${getAddress()}/api/board/comment/${commentId}`, {
           headers: {
             Authorization: 'Bearer ' + getToken(),
           },
@@ -51,7 +51,7 @@ function ActionModal(props: { mode: string; boardId?: number }) {
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [boardId, setActionModalShow]);
+  }, [commentId, setActionModalShow]);
 
   const onClickUpdate = () => {
     setEditPostingModalShow(true);
