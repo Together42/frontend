@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
 const CommentModalShow = atom<boolean>({
-  key: 'ReviewModalShow',
+  key: 'ReviewCommentModalShow',
   default: false,
 });
 

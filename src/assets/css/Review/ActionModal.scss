@@ -1,0 +1,56 @@
+@import '@css/fonts.scss';
+
+.review--actionModal--background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00000026;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.review--actionModal {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 200px;
+  width: 250px;
+  border: 1px solid $darkgrey_default;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.review--actionModal--edit {
+  @include medium_kor;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--actionModal--delete {
+  @include medium_kor;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--actionModal--hr {
+  width: 150px;
+}
+
+.review--actionModal--xbtn {
+  text-align: center;
+  img {
+    width: 15px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

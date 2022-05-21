@@ -6,6 +6,8 @@ import PostingDetail from '@recoil/Review/PostingDetail';
 import { PostingType } from '@usefulObj/types';
 import CommentModalShow from '@recoil/Review/CommentModalShow';
 import elipsisImg from '@img/ellipsis-solid.svg';
+import ActionModalShow from '@recoil/Review/ActionModalShow';
+import ActionModal from './ActionModal';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -28,6 +30,7 @@ function Posting(props: Props) {
   } = props;
   const [modalShow, setModalShow] = useRecoilState(CommentModalShow);
   const setPostingDetail = useSetRecoilState(PostingDetail);
+  const [actionModalShow, setActionModalShow] = useRecoilState(ActionModalShow);
 
   const onClickMoreButton = () => {
     setPostingDetail({
@@ -46,6 +49,10 @@ function Posting(props: Props) {
     setModalShow(true);
   };
 
+  const onClickElipsis = () => {
+    setActionModalShow(true);
+  };
+
   return (
     !modalShow['show'] && (
       <div
@@ -56,8 +63,9 @@ function Posting(props: Props) {
         <div className="review--posting--shownWrapper">
           <div className="review--posting--title">
             <span className="review--posting--title--title">{title && title.length ? title : '제목이 없습니다'}</span>
-            <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg}></img>
+            <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
           </div>
+          {actionModalShow && <ActionModal mode="post" />}
           <div className="review--posting--image">{image && <img src={image[0]} alt={image[0]} />}</div>
           <div className="review--posting--comments">
             <p className="review--posting--content">{contents && contents.length ? contents : '글을 안 다셨군요?'}</p>

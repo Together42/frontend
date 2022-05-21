@@ -12,7 +12,8 @@ import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import NewPostingModal from './NewPostingModal';
 import getAddress from '@globalObj/func/getAddress';
-import defaultImg from '@img/IMG_1086.png';
+import defaultImg from '@img/defaultImg.png';
+import ActionModalShow from '@recoil/Review/ActionModalShow';
 
 function Review() {
   const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
@@ -63,24 +64,27 @@ function Review() {
     <>
       <Guide isElemExist={boardsObj ? true : false} />
       {newPostingModalShow ? <NewPostingModal /> : commentModalShow ? <CommentModal /> : null}
-      {boardsObj &&
-        Object.values(boardsObj).map((board, i) => (
-          <Posting
-            boardId={board['boardId']}
-            eventId={board['eventId']}
-            title={board['title']}
-            teamId={board['teamId']}
-            writer={board['writer']}
-            contents={board['contents']}
-            createAt={board['createAt']}
-            updateAt={board['updateAt']}
-            image={board['image'] ? board['image'] : [defaultImg]}
-            attendMembers={board['attendMembers']}
-            comments={board['comments']}
-            elemNum={i + 1}
-            key={i}
-          />
-        ))}
+      {boardsObj && (
+        <div style={{ 'min-height': '600px', 'padding-bottom': '200px' }}>
+          {Object.values(boardsObj).map((board, i) => (
+            <Posting
+              boardId={board['boardId']}
+              eventId={board['eventId']}
+              title={board['title']}
+              teamId={board['teamId']}
+              writer={board['writer']}
+              contents={board['contents']}
+              createAt={board['createAt']}
+              updateAt={board['updateAt']}
+              image={board['image'] ? board['image'] : [defaultImg]}
+              attendMembers={board['attendMembers']}
+              comments={board['comments']}
+              elemNum={i + 1}
+              key={i}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }
