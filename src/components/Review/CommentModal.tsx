@@ -83,16 +83,17 @@ function CommentModal(props: { boardId: number }) {
           </div>
           <div className="review--detail--right_division">
             <div className="review--detail--header">
-              <div>
-                <span className="review--detail--title--team">{boardObj['title']}</span>
-              </div>
-              {/* <div className="review--detail--members">
+              <div className="review--detail--title">{boardObj['title']}</div>
+              <div className="review--detail--members">
                 {boardObj['attendMembers'] &&
                   boardObj['attendMembers'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
-              </div> */}
+              </div>
             </div>
             <div className="review--detail--detail_comments" ref={scrollRef}>
-              <span className="review--detail--full_comment">{boardObj['posting']}</span>
+              <div className="review--detail--comment_wrapper">
+                <span className="review--detail--writter">{boardObj['intraId']}</span>
+                <span className="review--detail--full_comment">{boardObj['contents']}</span>
+              </div>
               {boardObj['comments'] &&
                 boardObj['comments'].map((e, i) => (
                   <div className="review--detail--visitor--wrapper" key={i}>

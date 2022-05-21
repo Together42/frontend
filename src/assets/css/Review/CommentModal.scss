@@ -1,6 +1,6 @@
 @import '@css/fonts.scss';
 
-$right_devision_margin: 10px;
+$right_devision_margin: 15px;
 
 .review--detail--background {
   position: fixed;
@@ -28,6 +28,7 @@ $right_devision_margin: 10px;
 .review--detail-devision {
   display: flex;
   width: 700px;
+  height: 440px;
   background-color: white;
   z-index: 10;
 }
@@ -54,7 +55,6 @@ $right_devision_margin: 10px;
 .review--detail--modal_image {
   img {
     width: 290px;
-    height: 290px;
     object-fit: cover;
   }
 }
@@ -68,38 +68,63 @@ $right_devision_margin: 10px;
 .review--detail--header {
   display: flex;
   justify-content: space-between;
-  margin: 10px;
+  align-items: flex-end;
+  margin: 20px $right_devision_margin;
   border-bottom: 1px solid $darkgrey_light;
   span {
     display: block;
   }
 }
 
+.review--detail--title {
+  @include medium_kor;
+  font-size: 16px;
+  max-width: 250px;
+  display: flex;
+  align-items: end;
+  padding-bottom: 7px;
+}
+
+.review--detail--members {
+  img {
+    width: 30px;
+    margin-left: 6px;
+  }
+}
+
 .review--detail--detail_comments {
   width: 410px;
-  height: 280px;
-  margin-top: 20px;
-  padding: 0px 10px;
+  height: 290px;
+  margin-top: 10px;
+  padding: 0px $right_devision_margin;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
+.review--detail--comment_wrapper {
+  margin-bottom: 30px;
+}
+
+.review--detail--writter {
+  @include medium_eng;
+  font-weight: bold;
+  margin-right: 7px;
+}
+
 .review--detail--full_comment {
   @include medium_kor;
-  display: block;
-  margin-bottom: 20px;
 }
 
 .review--detail--visitor--wrapper {
-  margin: 10px 0;
+  margin: $right_devision_margin 0;
 }
 
 .review--detail--visitor {
-  @include medium_kor;
-  color: $darkgrey_darker;
-  margin-right: 10px;
+  @include medium_eng;
+  font-weight: bold;
+  margin-right: $right_devision_margin;
 }
 
 .review--detail--visitor_comment {
@@ -120,14 +145,15 @@ $right_devision_margin: 10px;
   justify-content: end;
   align-items: flex-end;
   width: 410px;
-  height: 80px;
+  height: 60px;
 }
 
 .review--detail--form {
   display: flex;
   justify-content: space-between;
+  align-content: center;
   width: 390px;
-  margin: 10px;
+  margin: 0 15px 5px 15px;
 }
 
 .review--detail--input {
