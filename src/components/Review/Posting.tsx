@@ -29,7 +29,7 @@ function Posting(props: Props) {
     setActionModalShow(true);
   };
 
-  console.log(createdAt);
+  // console.log(createdAt);
 
   return (
     <div

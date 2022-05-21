@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid.svg';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import commentModalShow from '@recoil/Review/CommentModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
@@ -11,12 +11,17 @@ import getAddress from '@globalObj/func/getAddress';
 import { ReviewBoardType } from '@usefulObj/types';
 import getDetailBoard from '@globalObj/func/getDetailBoard';
 import defaultImg from '@img/defaultImg.png';
+import ActionModalShow from '@recoil/Review/ActionModalShow';
+import ellipsisImg from '@img/ellipsis-solid.svg';
+import ActionModal from './ActionModal';
+import CommentBox from './CommentBox';
 
 function CommentModal(props: { boardId: number }) {
   const { boardId } = props;
   const scrollRef = useRef(null);
-  const [modalShow, setModalShow] = useRecoilState(commentModalShow);
+  const setModalShow = useSetRecoilState(commentModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
+  const [actionModalShow, setActionModalShow] = useRecoilState(ActionModalShow);
   const [myComment, setMyComment] = useState('');
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
 
@@ -53,6 +58,10 @@ function CommentModal(props: { boardId: number }) {
     } else alert('로그인을 해주셔야 댓글 달 수 있습니다');
   }, [LoginState, myComment, boardObj, setBoardObj]);
 
+  const onClickElipsis = () => {
+    setActionModalShow(true);
+  };
+
   const onChangeMyComment = (e: any) => {
     setMyComment(e.target.value);
   };
@@ -68,11 +77,12 @@ function CommentModal(props: { boardId: number }) {
     return () => setModalShow(false);
   }, [setModalShow, setBoardObj, boardId]);
 
-  console.log(boardObj);
+  console.log(boardObj && boardObj['comments']);
 
   return (
     boardObj && (
       <div className="review--detail--background" onClick={() => setModalShow(false)}>
+        {actionModalShow && <ActionModal mode="comment" boardId={boardObj['boardId']} />}
         <img className="review--detail--xmark" src={Xmark} alt={Xmark}></img>
         <div className="review--detail-devision" onClick={(e) => e.stopPropagation()}>
           <div className="review--detail--left_division">
@@ -96,10 +106,7 @@ function CommentModal(props: { boardId: number }) {
               </div>
               {boardObj['comments'] &&
                 boardObj['comments'].map((e, i) => (
-                  <div className="review--detail--visitor--wrapper" key={i}>
-                    <span className="review--detail--visitor">{e['intraId']}</span>
-                    <span className="review--detail--visitor_comment">{e['comments']}</span>
-                  </div>
+                  <CommentBox intraId={e['intraId']} comments={e['comments']} key={i} />
                 ))}
             </div>
             <div className="review--detail--post_comment--wrapper">

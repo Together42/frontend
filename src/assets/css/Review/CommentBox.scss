@@ -1,0 +1,31 @@
+@import '@css/fonts.scss';
+
+$right_devision_margin: 15px;
+
+.review--commentbox {
+  position: relative;
+  padding: 8px 0;
+}
+
+.review--commentbox--visitor {
+  @include medium_eng;
+  font-weight: bold;
+  margin-right: $right_devision_margin;
+}
+
+.review--commentbox--comment {
+  @include medium_kor;
+}
+
+.review--commentbox--ellipsis {
+  display: none;
+  width: 15px;
+  margin-left: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.show {
+  display: inherit;
+}

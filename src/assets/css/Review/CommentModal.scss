@@ -117,20 +117,6 @@ $right_devision_margin: 15px;
   @include medium_kor;
 }
 
-.review--detail--visitor--wrapper {
-  margin: $right_devision_margin 0;
-}
-
-.review--detail--visitor {
-  @include medium_eng;
-  font-weight: bold;
-  margin-right: $right_devision_margin;
-}
-
-.review--detail--visitor_comment {
-  @include medium_kor;
-}
-
 .review--detail--posting {
   @include medium_kor;
   width: 390px;
