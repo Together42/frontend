@@ -7,11 +7,11 @@ import getAddress from './getAddress';
 function GetBoards(
   eventId: number,
   setBoardsObj: SetterOrUpdater<{
-    [x: string]: PostingType;
+    [x: string]: PostingType[];
   }>,
 ) {
   axios
-    .get(`${getAddress()}/api/board/?event-id=${eventId}`)
+    .get(`${getAddress()}/api/board/?eventId=${eventId}`)
     .then((res) => {
       setBoardsObj(res.data);
     })

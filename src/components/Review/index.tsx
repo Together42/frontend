@@ -5,8 +5,6 @@ import errorAlert from '@utils/errorAlert';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import BoardsObj from '@recoil/Review/BoardsObj';
-import CommentModal from './CommentModal';
-import ModalShow from '@recoil/Review/CommentModalShow';
 import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
@@ -17,7 +15,6 @@ import getBoards from '@globalObj/func/getBoards';
 
 function Review() {
   const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
-  const commentModalShow = useRecoilValue(ModalShow);
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
   const setEventList = useSetRecoilState(EventList);
   const selectedEvent = useRecoilValue(SelectedEvent);
@@ -47,21 +44,21 @@ function Review() {
   //   alert('아직 개발 전입니다..!');
   // }, []);
 
+  // console.log(boardsObj);
+
   return (
     <>
       <Guide isElemExist={boardsObj ? true : false} />
-      {newPostingModalShow ? <NewPostingModal mode="new" /> : commentModalShow ? <CommentModal /> : null}
+      {newPostingModalShow && <NewPostingModal mode="new" />}
       {boardsObj && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
-          {Object.values(boardsObj).map((board, i) => (
+          {Object.values(boardsObj)[0].map((board, i) => (
             <Posting
               boardId={board['boardId']}
-              eventId={board['eventId']}
               title={board['title']}
               intraId={board['writer']}
               contents={board['contents']}
-              createAt={board['createAt']}
-              updateAt={board['updateAt']}
+              createdAt={board['createdAt']}
               image={board['image'] ? board['image'] : defaultImg}
               commentNum={board['comments']}
               url={board['url']}

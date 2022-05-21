@@ -1,19 +1,21 @@
 @import '@css/fonts.scss';
 
-.review--posting--background {
+$right_devision_margin: 10px;
+
+.review--detail--background {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #00000026;
+  background-color: #bebebe2e;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2;
 }
 
-.review--posting--xmark {
+.review--detail--xmark {
   position: absolute;
   right: 50px;
   top: 50px;
@@ -23,14 +25,14 @@
   }
 }
 
-.review--posting-devision {
+.review--detail-devision {
   display: flex;
   width: 700px;
   background-color: white;
   z-index: 10;
 }
 
-.review--posting--left_division {
+.review--detail--left_division {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,17 +41,17 @@
   height: 440px;
 }
 
-.review--posting--image--background {
+.review--detail--image--background {
   position: absolute;
   top: 0px;
   left: 0px;
   height: 440px;
   width: 290px;
-  // background-color: rgba(0, 0, 0, 0.15);
+  background-color: $darkgrey_light;
   z-index: -1;
 }
 
-.review--posting--modal_image {
+.review--detail--modal_image {
   img {
     width: 290px;
     height: 290px;
@@ -57,22 +59,23 @@
   }
 }
 
-.review--posting--right_division {
+.review--detail--right_division {
   width: 410px;
   display: flex;
   flex-direction: column;
 }
 
-.review--posting--modal_title {
+.review--detail--header {
   display: flex;
   justify-content: space-between;
   margin: 10px;
+  border-bottom: 1px solid $darkgrey_light;
   span {
     display: block;
   }
 }
 
-.review--posting--detail_comments {
+.review--detail--detail_comments {
   width: 410px;
   height: 280px;
   margin-top: 20px;
@@ -83,27 +86,27 @@
   }
 }
 
-.review--posting--full_comment {
+.review--detail--full_comment {
   @include medium_kor;
   display: block;
   margin-bottom: 20px;
 }
 
-.review--posting--visitor--wrapper {
+.review--detail--visitor--wrapper {
   margin: 10px 0;
 }
 
-.review--posting--visitor {
+.review--detail--visitor {
   @include medium_kor;
   color: $darkgrey_darker;
   margin-right: 10px;
 }
 
-.review--posting--visitor_comment {
+.review--detail--visitor_comment {
   @include medium_kor;
 }
 
-.review--posting--posting {
+.review--detail--posting {
   @include medium_kor;
   width: 390px;
   border: 1px solid $darkgrey_light;
@@ -112,7 +115,7 @@
   }
 }
 
-.review--posting--post_comment--wrapper {
+.review--detail--post_comment--wrapper {
   display: flex;
   justify-content: end;
   align-items: flex-end;
@@ -120,14 +123,14 @@
   height: 80px;
 }
 
-.review--posting--form {
+.review--detail--form {
   display: flex;
   justify-content: space-between;
   width: 390px;
   margin: 10px;
 }
 
-.review--posting--input {
+.review--detail--input {
   @include medium_kor;
   height: 24px;
   width: 340px;
@@ -137,12 +140,12 @@
   }
 }
 
-.review--posting--button--forFlex {
+.review--detail--button--forFlex {
   display: flex;
   justify-content: end;
 }
 
-.review--posting--button {
+.review--detail--button {
   @include medium_kor;
   color: $lightblue;
   background: none;

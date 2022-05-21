@@ -2,48 +2,56 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid.svg';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import PostingDetail from '@recoil/Review/PostingDetail';
 import commentModalShow from '@recoil/Review/CommentModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import errorAlert from '@utils/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/func/getAddress';
+import { ReviewBoardType } from '@usefulObj/types';
+import getDetailBoard from '@globalObj/func/getDetailBoard';
+import defaultImg from '@img/defaultImg.png';
 
-function CommentModal() {
+function CommentModal(props: { boardId: number }) {
+  const { boardId } = props;
   const scrollRef = useRef(null);
-  const [postingDetail, setPostingDetail] = useRecoilState(PostingDetail);
   const [modalShow, setModalShow] = useRecoilState(commentModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
   const [myComment, setMyComment] = useState('');
+  const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
 
   const postComment = useCallback(() => {
-    axios
-      .post(
-        `${getAddress()}/api/board/comment`,
-        {
-          boardId: postingDetail['boardId'],
-          comment: myComment,
-        },
-        {
-          headers: {
-            Authorization: 'Bearer ' + getToken(),
+    if (getToken()) {
+      axios
+        .post(
+          `${getAddress()}/api/board/comment`,
+          {
+            boardId: boardObj['boardId'],
+            comment: myComment,
           },
-        },
-      )
-      .then(() => {
-        setPostingDetail((prev) => {
-          const newObj = {
-            ...prev,
-            comments: [...prev['comments'], { intraId: LoginState['id'], content: myComment, time: new Date() }],
-          };
-          return newObj;
-        });
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        setMyComment('');
-      })
-      .catch((err) => errorAlert(err));
-  }, [LoginState, myComment, postingDetail, setPostingDetail]);
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
+        .then((res) => {
+          setBoardObj((prev) => {
+            const newObj = {
+              ...prev,
+              comments: [
+                ...prev['comments'],
+                { id: res.data.commentId, intraId: LoginState['id'], comments: myComment },
+              ],
+            };
+            return newObj;
+          });
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+          setMyComment('');
+        })
+        .catch((err) => errorAlert(err));
+    } else alert('로그인을 해주셔야 댓글 달 수 있습니다');
+  }, [LoginState, myComment, boardObj, setBoardObj]);
 
   const onChangeMyComment = (e: any) => {
     setMyComment(e.target.value);
@@ -56,60 +64,47 @@ function CommentModal() {
   };
 
   useEffect(() => {
-    return () => {
-      setPostingDetail({
-        boardId: null,
-        eventId: null,
-        title: null,
-        teamId: null,
-        writer: null,
-        contents: null,
-        createAt: null,
-        updateAt: null,
-        image: null,
-        attendMembers: null,
-        comments: null,
-      });
-      setModalShow(false);
-    };
-  }, [setModalShow, setPostingDetail]);
+    getDetailBoard(boardId, setBoardObj);
+    return () => setModalShow(false);
+  }, [setModalShow, setBoardObj, boardId]);
+
+  console.log(boardObj);
 
   return (
-    modalShow && (
-      <div className="review--posting--background" onClick={() => setModalShow(false)}>
-        <img className="review--posting--xmark" src={Xmark} alt={Xmark}></img>
-        <div className="review--posting-devision" onClick={(e) => e.stopPropagation()}>
-          <div className="review--posting--left_division">
-            <div className="review--posting--image--background"></div>
-            <div className="review--posting--modal_image">
-              {postingDetail['image'] && <img src={postingDetail['image'][0]} alt={postingDetail['image'][0]} />}
+    boardObj && (
+      <div className="review--detail--background" onClick={() => setModalShow(false)}>
+        <img className="review--detail--xmark" src={Xmark} alt={Xmark}></img>
+        <div className="review--detail-devision" onClick={(e) => e.stopPropagation()}>
+          <div className="review--detail--left_division">
+            <div className="review--detail--image--background"></div>
+            <div className="review--detail--modal_image">
+              <img src={boardObj['image'] || defaultImg} alt={boardObj['image'] || defaultImg} />
             </div>
           </div>
-          <div className="review--posting--right_division">
-            <div className="review--posting--title">
+          <div className="review--detail--right_division">
+            <div className="review--detail--header">
               <div>
-                <span className="review--posting--title--team">{postingDetail['title']}</span>
-                <span className="review--posting--title--location">temp</span>
+                <span className="review--detail--title--team">{boardObj['title']}</span>
               </div>
-              {/* <div className="review--posting--members">
-                {postingDetail['attendMembers'] &&
-                  postingDetail['attendMembers'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
+              {/* <div className="review--detail--members">
+                {boardObj['attendMembers'] &&
+                  boardObj['attendMembers'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
               </div> */}
             </div>
-            <div className="review--posting--detail_comments" ref={scrollRef}>
-              <span className="review--posting--full_comment">{postingDetail['posting']}</span>
-              {postingDetail['comments'] &&
-                postingDetail['comments'].map((e, i) => (
-                  <div className="review--posting--visitor--wrapper" key={i}>
-                    <span className="review--posting--visitor">{e['intraId']}</span>
-                    <span className="review--posting--visitor_comment">{e['content']}</span>
+            <div className="review--detail--detail_comments" ref={scrollRef}>
+              <span className="review--detail--full_comment">{boardObj['posting']}</span>
+              {boardObj['comments'] &&
+                boardObj['comments'].map((e, i) => (
+                  <div className="review--detail--visitor--wrapper" key={i}>
+                    <span className="review--detail--visitor">{e['intraId']}</span>
+                    <span className="review--detail--visitor_comment">{e['comments']}</span>
                   </div>
                 ))}
             </div>
-            <div className="review--posting--post_comment--wrapper">
-              <form className="review--posting--form" onSubmit={onSubmitMyComment}>
+            <div className="review--detail--post_comment--wrapper">
+              <form className="review--detail--form" onSubmit={onSubmitMyComment}>
                 <input
-                  className="review--posting--input"
+                  className="review--detail--input"
                   id="myComment"
                   placeholder="댓글을 입력해주세요"
                   onFocus={(e) => (e.target.placeholder = '')}
@@ -117,7 +112,7 @@ function CommentModal() {
                   value={myComment}
                   onChange={onChangeMyComment}
                 ></input>
-                <button className="review--posting--button">
+                <button className="review--detail--button">
                   <span>게시</span>
                 </button>
               </form>

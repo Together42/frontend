@@ -14,8 +14,9 @@ import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/func/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
-import PostingDetail from '@recoil/Review/PostingDetail';
 import GetBoards from '@globalObj/func/getBoards';
+import { ReviewBoardType } from '@usefulObj/types';
+import getDetailBoard from '@globalObj/func/getDetailBoard';
 
 function NewPostingModal(props: { mode: string; boardId?: number }) {
   const { mode, boardId } = props;
@@ -25,12 +26,12 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
-  const postingDetail = useRecoilValue(PostingDetail);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageArr, setImageArr] = useState<string>(null);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
+  const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
 
   const closeModal = useCallback(() => {
     setNewModalShow(false);
@@ -128,19 +129,20 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
   }, [selectSomeModalShow]);
 
   useEffect(() => {
+    getDetailBoard(boardId, setBoardObj);
     return () => {
       setSelectedTeam(null);
       closeModal();
     };
-  }, [closeModal, setSelectedTeam]);
+  }, [boardId, closeModal, setSelectedTeam]);
 
   useEffect(() => {
-    if (mode === 'edit') {
-      setTitle(postingDetail['title']);
-      setContent(postingDetail['contents']);
-      setImageArr(postingDetail['image']);
+    if (mode === 'edit' && boardObj) {
+      setTitle(boardObj['title']);
+      setContent(boardObj['contents']);
+      setImageArr(boardObj['image']);
     }
-  }, [mode, postingDetail, setSelectedTeam]);
+  }, [mode, boardObj, setSelectedTeam]);
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
@@ -163,7 +165,7 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
             </div>
           ) : (
             <div className="review--newposting--image">
-              <img src={postingDetail['image']} alt={postingDetail['image']}></img>
+              <img src={boardObj && boardObj['image']} alt={boardObj && boardObj['image']}></img>
             </div>
           )}
         </div>

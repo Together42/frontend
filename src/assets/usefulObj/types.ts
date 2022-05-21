@@ -27,15 +27,37 @@ export interface teamMemInfo {
 
 export interface PostingType {
   boardId: number;
+  eventId?: number;
+  title: string;
+  intraId: string; // createBy
+  contents: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  image: string;
+  commentNum: number;
+  url: string;
+}
+
+export interface CommentType {
+  id: number;
+  intraId: string;
+  comments: string;
+}
+
+// Type for review
+
+export interface ReviewBoardType {
+  boardId: number;
   eventId: number;
   title: string;
   intraId: string; // createBy
   contents: string;
-  createAt: Date;
-  updateAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
   image: string;
-  commentNum: number;
   url: string;
+  attendMembers: { intraId: string; url: string }[];
+  comments: CommentType[];
 }
 
 export interface ReviewModalShowType {
