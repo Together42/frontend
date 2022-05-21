@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid.svg';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import commentModalShow from '@recoil/Review/CommentModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
@@ -11,17 +11,14 @@ import getAddress from '@globalObj/func/getAddress';
 import { ReviewBoardType } from '@usefulObj/types';
 import getDetailBoard from '@globalObj/func/getDetailBoard';
 import defaultImg from '@img/defaultImg.png';
-import ActionModalShow from '@recoil/Review/ActionModalShow';
-import ellipsisImg from '@img/ellipsis-solid.svg';
-import ActionModal from './ActionModal';
 import CommentBox from './CommentBox';
 
 function CommentModal(props: { boardId: number }) {
   const { boardId } = props;
   const scrollRef = useRef(null);
+  const hasPosted = useRef(false);
   const setModalShow = useSetRecoilState(commentModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
-  const [actionModalShow, setActionModalShow] = useRecoilState(ActionModalShow);
   const [myComment, setMyComment] = useState('');
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
 
@@ -40,27 +37,14 @@ function CommentModal(props: { boardId: number }) {
             },
           },
         )
-        .then((res) => {
-          setBoardObj((prev) => {
-            const newObj = {
-              ...prev,
-              comments: [
-                ...prev['comments'],
-                { id: res.data.commentId, intraId: LoginState['id'], comments: myComment },
-              ],
-            };
-            return newObj;
-          });
-          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        .then(() => {
+          getDetailBoard(boardId, setBoardObj);
+          hasPosted.current = true;
           setMyComment('');
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 해주셔야 댓글 달 수 있습니다');
-  }, [LoginState, myComment, boardObj, setBoardObj]);
-
-  const onClickElipsis = () => {
-    setActionModalShow(true);
-  };
+  }, [boardObj, myComment, boardId]);
 
   const onChangeMyComment = (e: any) => {
     setMyComment(e.target.value);
@@ -73,16 +57,18 @@ function CommentModal(props: { boardId: number }) {
   };
 
   useEffect(() => {
+    if (hasPosted.current && scrollRef && scrollRef.current)
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [boardObj]);
+
+  useEffect(() => {
     getDetailBoard(boardId, setBoardObj);
     return () => setModalShow(false);
   }, [setModalShow, setBoardObj, boardId]);
 
-  // console.log(boardObj && boardObj['comments']);
-
   return (
     boardObj && (
       <div className="review--detail--background" onClick={() => setModalShow(false)}>
-        {actionModalShow && <ActionModal mode="comment" boardId={boardObj['boardId']} />}
         <img className="review--detail--xmark" src={Xmark} alt={Xmark}></img>
         <div className="review--detail-devision" onClick={(e) => e.stopPropagation()}>
           <div className="review--detail--left_division">
@@ -106,7 +92,14 @@ function CommentModal(props: { boardId: number }) {
               </div>
               {boardObj['comments'] &&
                 boardObj['comments'].map((e, i) => (
-                  <CommentBox intraId={e['intraId']} comments={e['comments']} commentId={e['id']} key={i} />
+                  <CommentBox
+                    key={i}
+                    intraId={e['intraId']}
+                    comments={e['comments']}
+                    commentId={e['id']}
+                    boardId={boardId}
+                    setBoardObj={setBoardObj}
+                  />
                 ))}
             </div>
             <div className="review--detail--post_comment--wrapper">

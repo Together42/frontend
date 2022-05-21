@@ -11,9 +11,16 @@ import GetBoards from '@globalObj/func/getBoards';
 import SelectedEvent from '@recoil/SelectedEvent';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
+import { ReviewBoardType } from '@usefulObj/types';
+import getDetailBoard from '@globalObj/func/getDetailBoard';
 
-function ActionModal(props: { mode: string; boardId?: number; commentId?: number }) {
-  const { mode, boardId, commentId } = props;
+function ActionModal(props: {
+  mode: string;
+  boardId?: number;
+  commentId?: number;
+  setBoardObj?: React.Dispatch<React.SetStateAction<ReviewBoardType>>;
+}) {
+  const { mode, boardId, commentId, setBoardObj } = props;
   const setActionModalShow = useSetRecoilState(ActionModalShow);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setBoardsObj = useSetRecoilState(BoardsObj);
@@ -46,12 +53,12 @@ function ActionModal(props: { mode: string; boardId?: number; commentId?: number
         })
         .then(() => {
           alert('삭제되었습니다');
-          // comment 다시 불러오기
+          getDetailBoard(boardId, setBoardObj);
           setActionModalShow(false);
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [commentId, setActionModalShow]);
+  }, [boardId, commentId, setActionModalShow, setBoardObj]);
 
   const onClickUpdate = () => {
     setEditPostingModalShow(true);
@@ -66,6 +73,8 @@ function ActionModal(props: { mode: string; boardId?: number; commentId?: number
   const onClickXbtn = () => {
     setActionModalShow(false);
   };
+
+  // console.log(commentId);
 
   return (
     <div
