@@ -18,19 +18,43 @@ function ActionModal(props: { mode: string; boardId?: number }) {
   const setBoardsObj = useSetRecoilState(BoardsObj);
 
   const deletePost = useCallback(() => {
-    axios
-      .delete(`${getAddress()}/api/board/${boardId}`, {
-        headers: {
-          Authorization: 'Bearer ' + getToken(),
-        },
-      })
-      .then(() => {
-        alert('삭제되었습니다');
-        GetBoards(selectedEvent['id'], setBoardsObj);
-        setActionModalShow(false);
-      })
-      .catch((err) => errorAlert(err));
+    if (getToken()) {
+      axios
+        .delete(`${getAddress()}/api/board/${boardId}`, {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        })
+        .then(() => {
+          alert('삭제되었습니다');
+          GetBoards(selectedEvent['id'], setBoardsObj);
+          setActionModalShow(false);
+        })
+        .catch((err) => errorAlert(err));
+    } else alert('로그인을 하셔야 삭제 가능합니다');
   }, [boardId, selectedEvent, setActionModalShow, setBoardsObj]);
+
+  const deleteComment = useCallback(() => {
+    if (getToken()) {
+      axios
+        .delete(`${getAddress()}/api/board/comment/${boardId}`, {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        })
+        .then(() => {
+          alert('삭제되었습니다');
+          // comment 다시 불러오기
+          setActionModalShow(false);
+        })
+        .catch((err) => errorAlert(err));
+    } else alert('로그인을 하셔야 삭제 가능합니다');
+  }, [boardId, setActionModalShow]);
+
+  const onClickDelete = () => {
+    if (mode === 'post') deletePost();
+    else if (mode === 'comment') deleteComment();
+  };
 
   const onClickXbtn = () => {
     setActionModalShow(false);
@@ -46,7 +70,9 @@ function ActionModal(props: { mode: string; boardId?: number }) {
       <div className="review--actionModal" onClick={(e) => e.stopPropagation()}>
         <div className="review--actionModal--edit">{mode === 'post' ? '게시글 수정' : '댓글 수정'}</div>
         <hr className="review--actionModal--hr" />
-        <div className="review--actionModal--delete">{mode === 'post' ? '게시글 삭제' : '댓글 삭제'}</div>
+        <div className="review--actionModal--delete" onClick={onClickDelete}>
+          {mode === 'post' ? '게시글 삭제' : '댓글 삭제'}
+        </div>
         <hr className="review--actionModal--hr" />
         <div className="review--actionModal--xbtn">
           <img src={Xbtn} alt={Xbtn} onClick={onClickXbtn} />
