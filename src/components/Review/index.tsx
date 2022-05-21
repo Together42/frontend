@@ -50,7 +50,7 @@ function Review() {
   return (
     <>
       <Guide isElemExist={boardsObj ? true : false} />
-      {newPostingModalShow ? <NewPostingModal /> : commentModalShow ? <CommentModal /> : null}
+      {newPostingModalShow ? <NewPostingModal mode="new" /> : commentModalShow ? <CommentModal /> : null}
       {boardsObj && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
           {Object.values(boardsObj).map((board, i) => (
@@ -58,14 +58,13 @@ function Review() {
               boardId={board['boardId']}
               eventId={board['eventId']}
               title={board['title']}
-              teamId={board['teamId']}
-              writer={board['writer']}
+              intraId={board['writer']}
               contents={board['contents']}
               createAt={board['createAt']}
               updateAt={board['updateAt']}
-              image={board['image'] ? board['image'] : [defaultImg]}
-              attendMembers={board['attendMembers']}
-              comments={board['comments']}
+              image={board['image'] ? board['image'] : defaultImg}
+              commentNum={board['comments']}
+              url={board['url']}
               elemNum={i + 1}
               key={i}
             />

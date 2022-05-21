@@ -10,12 +10,14 @@ import errorAlert from '@utils/errorAlert';
 import GetBoards from '@globalObj/func/getBoards';
 import SelectedEvent from '@recoil/SelectedEvent';
 import BoardsObj from '@recoil/Review/BoardsObj';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 
 function ActionModal(props: { mode: string; boardId?: number }) {
   const { mode, boardId } = props;
   const setActionModalShow = useSetRecoilState(ActionModalShow);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setBoardsObj = useSetRecoilState(BoardsObj);
+  const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
 
   const deletePost = useCallback(() => {
     if (getToken()) {
@@ -51,6 +53,11 @@ function ActionModal(props: { mode: string; boardId?: number }) {
     } else alert('로그인을 하셔야 삭제 가능합니다');
   }, [boardId, setActionModalShow]);
 
+  const onClickUpdate = () => {
+    setEditPostingModalShow(true);
+    setActionModalShow(false);
+  };
+
   const onClickDelete = () => {
     if (mode === 'post') deletePost();
     else if (mode === 'comment') deleteComment();
@@ -68,7 +75,9 @@ function ActionModal(props: { mode: string; boardId?: number }) {
       }}
     >
       <div className="review--actionModal" onClick={(e) => e.stopPropagation()}>
-        <div className="review--actionModal--edit">{mode === 'post' ? '게시글 수정' : '댓글 수정'}</div>
+        <div className="review--actionModal--edit" onClick={onClickUpdate}>
+          {mode === 'post' ? '게시글 수정' : '댓글 수정'}
+        </div>
         <hr className="review--actionModal--hr" />
         <div className="review--actionModal--delete" onClick={onClickDelete}>
           {mode === 'post' ? '게시글 삭제' : '댓글 삭제'}

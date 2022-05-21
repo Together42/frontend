@@ -56,15 +56,15 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
   }
 }
 
-.review--newposting--add_files--btn_wrapper {
+.review--newposting--add_files--input_wrapper {
+  width: 160px;
+  margin: 0 auto;
+}
+
+.review--newposting--add_files--input {
   margin-top: 20px;
-  button {
-    @include small_kor;
-    background: none;
-    box-shadow: 1px 1px 1px;
-    border: 1px solid $darkgrey_light;
-    width: 70px;
-  }
+  width: 160px;
+  @include small_kor;
 }
 
 .review--newposting--right_division {

@@ -28,15 +28,14 @@ export interface teamMemInfo {
 export interface PostingType {
   boardId: number;
   eventId: number;
-  teamId: number;
   title: string;
-  writer: string; // createBy
+  intraId: string; // createBy
   contents: string;
   createAt: Date;
   updateAt: Date;
-  image: string[];
-  attendMembers: { intraId: string; url: string }[];
-  comments: { intraId: string; content: string; time: Date }[];
+  image: string;
+  commentNum: number;
+  url: string;
 }
 
 export interface ReviewModalShowType {

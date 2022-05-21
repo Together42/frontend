@@ -1,50 +1,39 @@
 import React from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import PostingDetail from '@recoil/Review/PostingDetail';
 import { PostingType } from '@usefulObj/types';
 import CommentModalShow from '@recoil/Review/CommentModalShow';
 import elipsisImg from '@img/ellipsis-solid.svg';
 import ActionModalShow from '@recoil/Review/ActionModalShow';
 import ActionModal from './ActionModal';
+import NewPostingModal from './NewPostingModal';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 
 interface Props extends PostingType {
   elemNum: number;
 }
 
 function Posting(props: Props) {
-  const {
-    boardId,
-    eventId,
-    title,
-    teamId,
-    writer,
-    contents,
-    createAt,
-    updateAt,
-    image,
-    attendMembers,
-    comments,
-    elemNum,
-  } = props;
+  const { boardId, eventId, title, intraId, contents, createAt, updateAt, image, commentNum, elemNum, url } = props;
   const [modalShow, setModalShow] = useRecoilState(CommentModalShow);
   const setPostingDetail = useSetRecoilState(PostingDetail);
   const [actionModalShow, setActionModalShow] = useRecoilState(ActionModalShow);
+  const editPostingModalShow = useRecoilValue(EditPostingModalShow);
 
   const onClickMoreButton = () => {
     setPostingDetail({
       boardId,
       eventId,
       title,
-      teamId,
-      writer,
+      intraId,
       contents,
       createAt,
       updateAt,
       image,
-      attendMembers,
-      comments,
+      commentNum,
+      url,
     });
     setModalShow(true);
   };
@@ -60,6 +49,7 @@ function Posting(props: Props) {
           elemNum === 4 && 'footer--empty'
         }`}
       >
+        {editPostingModalShow && <NewPostingModal mode="edit" />}
         <div className="review--posting--shownWrapper">
           <div className="review--posting--title">
             <span className="review--posting--title--title">{title && title.length ? title : '제목이 없습니다'}</span>
@@ -70,7 +60,7 @@ function Posting(props: Props) {
           <div className="review--posting--comments">
             <p className="review--posting--content">{contents && contents.length ? contents : '글을 안 다셨군요?'}</p>
             <p className="review--posting--commentLength">
-              {comments && comments.length > 0 ? `댓글 ${comments.length}개 모두 보기` : '댓글이 없습니다..'}
+              {commentNum ? `댓글 ${commentNum}개 모두 보기` : '댓글이 없습니다..'}
             </p>
             <p className="review--posting--createdAt">{createAt && createAt ? createAt : '만든 일시가 없습니다'} </p>
           </div>

@@ -13,28 +13,30 @@ import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/func/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
+import PostingDetail from '@recoil/Review/PostingDetail';
+import GetBoards from '@globalObj/func/getBoards';
 
-function NewPostingModal() {
-  const setModalShow = useSetRecoilState(NewPostingModalShow);
+function NewPostingModal(props: { mode: string }) {
+  const { mode } = props;
+  const setNewModalShow = useSetRecoilState(NewPostingModalShow);
+  const setEditModalShow = useSetRecoilState(EditPostingModalShow);
+  const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
-  const selectedTeam = useRecoilValue(SelectedTeam);
+  const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
+  const postingDetail = useRecoilValue(PostingDetail);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageArr, setImageArr] = useState<string[]>([]);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
-  const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
-  const setSelectedTeam = useSetRecoilState(SelectedTeam);
 
-  const getBoards = useCallback(() => {
-    axios
-      .get(`${getAddress()}/api/board/?event-id=${selectedEvent['id']}`)
-      .then((res) => {
-        setBoardsObj(res.data);
-      })
-      .catch((err) => errorAlert(err));
-  }, [selectedEvent, setBoardsObj]);
+  const closeModal = useCallback(() => {
+    setNewModalShow(false);
+    setEditModalShow(false);
+    setSelectSomeModalShow(false);
+  }, [setEditModalShow, setNewModalShow, setSelectSomeModalShow]);
 
   const postNewPosting = useCallback(() => {
     axios
@@ -54,11 +56,13 @@ function NewPostingModal() {
         },
       )
       .then(() => {
-        getBoards();
+        GetBoards(selectedEvent['id'], setBoardsObj);
         alert('성공적으로 게시되었습니다');
       })
       .catch((err) => errorAlert(err));
-  }, [content, getBoards, imageArr, selectedEvent, selectedTeam, title]);
+  }, [content, imageArr, selectedEvent, selectedTeam, setBoardsObj, title]);
+
+  const postEditPosting = useCallback(() => {}, []);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -89,6 +93,10 @@ function NewPostingModal() {
     else alert('로그인 토큰 오류');
   };
 
+  const onClickUpload = (e: any) => {
+    console.log(e.target.files[0]);
+  };
+
   useEffect(() => {
     if (!selectSomeModalShow) {
       setIsAddMemBtnClicked(false);
@@ -99,20 +107,34 @@ function NewPostingModal() {
   useEffect(() => {
     return () => {
       setSelectedTeam(null);
-      setModalShow(false);
-      setSelectSomeModalShow(false);
+      closeModal();
     };
-  }, [setModalShow, setSelectSomeModalShow, setSelectedTeam]);
+  }, [closeModal, setSelectedTeam]);
+
+  useEffect(() => {
+    if (mode === 'edit') {
+      setTitle(postingDetail['title']);
+      setContent(postingDetail['contents']);
+      setImageArr(postingDetail['image']);
+    }
+  }, [mode, postingDetail, setSelectedTeam]);
 
   return (
-    <div className="review--newposting--background" onClick={() => setModalShow(false)}>
+    <div className="review--newposting--background" onClick={() => closeModal()}>
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--newposting--left_division">
           <div className="review--newposting--add_files">
             <span>파일을 업로드 혹은 드래그</span>
-            <div className="review--newposting--add_files--btn_wrapper">
-              <button>업로드</button>
+            <div className="review--newposting--add_files--input_wrapper">
+              <input
+                type="file"
+                className="review--newposting--add_files--input"
+                accept="image/*"
+                placeholder="업로드"
+                onChange={onClickUpload}
+                required
+              />
             </div>
           </div>
         </div>
@@ -127,10 +149,12 @@ function NewPostingModal() {
               onChange={onChangeTitle}
             />
             <div className="review--newposting--header--selectorWrapper">
-              <div className="review--newposting--header--eventSelector">
-                <span onClick={onClickEventModalOpen}>이벤트 찾기</span>
-                {isEventBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_event" />}
-              </div>
+              {mode === 'new' && (
+                <div className="review--newposting--header--eventSelector">
+                  <span onClick={onClickEventModalOpen}>이벤트 찾기</span>
+                  {isEventBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_event" />}
+                </div>
+              )}
               <div className="review--newposting--header--addTeamMem">
                 <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
                 {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
