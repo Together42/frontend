@@ -29,7 +29,7 @@ function Posting(props: Props) {
     setActionModalShow(true);
   };
 
-  // console.log(createdAt);
+  console.log(createdAt);
 
   return (
     <div
@@ -51,7 +51,9 @@ function Posting(props: Props) {
           <p className="review--posting--commentLength">
             {commentNum ? `댓글 ${commentNum}개 모두 보기` : '댓글이 없습니다..'}
           </p>
-          <p className="review--posting--createdAt">{createdAt && createdAt ? createdAt : '만든 일시가 없습니다'} </p>
+          <p className="review--posting--createdAt">
+            {createdAt ? createdAt.slice(5, 10).replace('-', '.') : '만든 일시가 없습니다'}{' '}
+          </p>
         </div>
         <div
           className={`review--posting--open_modal ${elemNum && elemNum % 2 === 0 ? 'position-right' : 'position-left'}`}

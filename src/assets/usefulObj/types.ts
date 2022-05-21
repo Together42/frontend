@@ -31,8 +31,8 @@ export interface PostingType {
   title: string;
   intraId: string; // createBy
   contents: string;
-  createdAt: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt?: string;
   image: string;
   commentNum: number;
   url: string;
@@ -52,8 +52,8 @@ export interface ReviewBoardType {
   title: string;
   intraId: string; // createBy
   contents: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   image: string;
   url: string;
   attendMembers: { intraId: string; url: string }[];
