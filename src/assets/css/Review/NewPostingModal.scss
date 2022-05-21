@@ -56,6 +56,15 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
   }
 }
 
+.review--newposting--image {
+  height: 300px;
+  width: 100%;
+  img {
+    height: 300px;
+    width: 100%;
+  }
+}
+
 .review--newposting--add_files--input_wrapper {
   width: 160px;
   margin: 0 auto;

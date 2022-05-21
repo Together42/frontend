@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -23,6 +23,14 @@ function Posting(props: Props) {
   const editPostingModalShow = useRecoilValue(EditPostingModalShow);
 
   const onClickMoreButton = () => {
+    setModalShow(true);
+  };
+
+  const onClickElipsis = () => {
+    setActionModalShow(true);
+  };
+
+  useEffect(() => {
     setPostingDetail({
       boardId,
       eventId,
@@ -35,12 +43,9 @@ function Posting(props: Props) {
       commentNum,
       url,
     });
-    setModalShow(true);
-  };
+  }, [boardId, commentNum, contents, createAt, eventId, image, intraId, setPostingDetail, title, updateAt, url]);
 
-  const onClickElipsis = () => {
-    setActionModalShow(true);
-  };
+  console.log(image);
 
   return (
     !modalShow['show'] && (
@@ -56,7 +61,7 @@ function Posting(props: Props) {
             <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
           </div>
           {actionModalShow && <ActionModal mode="post" boardId={boardId} />}
-          <div className="review--posting--image">{image && <img src={image[0]} alt={image[0]} />}</div>
+          <div className="review--posting--image">{image && <img src={image} alt={image} />}</div>
           <div className="review--posting--comments">
             <p className="review--posting--content">{contents && contents.length ? contents : '글을 안 다셨군요?'}</p>
             <p className="review--posting--commentLength">

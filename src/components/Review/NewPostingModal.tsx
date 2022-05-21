@@ -17,8 +17,8 @@ import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 import PostingDetail from '@recoil/Review/PostingDetail';
 import GetBoards from '@globalObj/func/getBoards';
 
-function NewPostingModal(props: { mode: string }) {
-  const { mode } = props;
+function NewPostingModal(props: { mode: string; boardId?: number }) {
+  const { mode, boardId } = props;
   const setNewModalShow = useSetRecoilState(NewPostingModalShow);
   const setEditModalShow = useSetRecoilState(EditPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
@@ -28,7 +28,7 @@ function NewPostingModal(props: { mode: string }) {
   const postingDetail = useRecoilValue(PostingDetail);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imageArr, setImageArr] = useState<string[]>([]);
+  const [imageArr, setImageArr] = useState<string>(null);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
 
@@ -62,7 +62,25 @@ function NewPostingModal(props: { mode: string }) {
       .catch((err) => errorAlert(err));
   }, [content, imageArr, selectedEvent, selectedTeam, setBoardsObj, title]);
 
-  const postEditPosting = useCallback(() => {}, []);
+  const postEditPosting = useCallback(() => {
+    axios
+      .put(
+        `${getAddress()}/api/board/${boardId}`,
+        {
+          eventId: selectedEvent['eventId'],
+          title,
+          content,
+          image: imageArr,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+        },
+      )
+      .then(() => alert('성공적으로 수정되었습니다'))
+      .catch((err) => errorAlert(err));
+  }, [boardId, content, imageArr, selectedEvent, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -88,9 +106,14 @@ function NewPostingModal(props: { mode: string }) {
     setContent(e.target.value);
   };
 
-  const onSubmitNewPosting = () => {
-    if (getToken()) postNewPosting();
-    else alert('로그인 토큰 오류');
+  const onSubmitPosting = () => {
+    if (getToken()) {
+      if (mode === 'new') {
+        postNewPosting();
+      } else if (mode === 'edit') {
+        postEditPosting();
+      }
+    } else alert('로그인 토큰 오류');
   };
 
   const onClickUpload = (e: any) => {
@@ -124,19 +147,25 @@ function NewPostingModal(props: { mode: string }) {
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--newposting--left_division">
-          <div className="review--newposting--add_files">
-            <span>파일을 업로드 혹은 드래그</span>
-            <div className="review--newposting--add_files--input_wrapper">
-              <input
-                type="file"
-                className="review--newposting--add_files--input"
-                accept="image/*"
-                placeholder="업로드"
-                onChange={onClickUpload}
-                required
-              />
+          {mode === 'new' ? (
+            <div className="review--newposting--add_files">
+              <span>파일을 업로드 혹은 드래그</span>
+              <div className="review--newposting--add_files--input_wrapper">
+                <input
+                  type="file"
+                  className="review--newposting--add_files--input"
+                  accept="image/*"
+                  placeholder="업로드"
+                  onChange={onClickUpload}
+                  required
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="review--newposting--image">
+              <img src={postingDetail['image']} alt={postingDetail['image']}></img>
+            </div>
+          )}
         </div>
         <div className="review--newposting--right_division">
           <div className="review--newposting--header">
@@ -150,15 +179,17 @@ function NewPostingModal(props: { mode: string }) {
             />
             <div className="review--newposting--header--selectorWrapper">
               {mode === 'new' && (
-                <div className="review--newposting--header--eventSelector">
-                  <span onClick={onClickEventModalOpen}>이벤트 찾기</span>
-                  {isEventBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_event" />}
-                </div>
+                <>
+                  <div className="review--newposting--header--eventSelector">
+                    <span onClick={onClickEventModalOpen}>이벤트 찾기</span>
+                    {isEventBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_event" />}
+                  </div>
+                  <div className="review--newposting--header--addTeamMem">
+                    <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
+                    {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
+                  </div>
+                </>
               )}
-              <div className="review--newposting--header--addTeamMem">
-                <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
-                {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
-              </div>
             </div>
           </div>
           <div className="review--newposting--selectedInfo">
@@ -190,7 +221,7 @@ function NewPostingModal(props: { mode: string }) {
               onChange={onChangeContent}
             />
             <div className="review--newposting--button--forFlex">
-              <button className="review--newposting--button" onClick={onSubmitNewPosting}>
+              <button className="review--newposting--button" onClick={onSubmitPosting}>
                 <span>게시</span>
               </button>
             </div>
