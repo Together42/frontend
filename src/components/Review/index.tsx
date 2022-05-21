@@ -13,7 +13,7 @@ import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import NewPostingModal from './NewPostingModal';
 import getAddress from '@globalObj/func/getAddress';
 import defaultImg from '@img/defaultImg.png';
-import ActionModalShow from '@recoil/Review/ActionModalShow';
+import getBoards from '@globalObj/func/getBoards';
 
 function Review() {
   const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
@@ -21,15 +21,6 @@ function Review() {
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
   const setEventList = useSetRecoilState(EventList);
   const selectedEvent = useRecoilValue(SelectedEvent);
-
-  const getBoards = useCallback(() => {
-    axios
-      .get(`${getAddress()}/api/board/?event-id=${selectedEvent['id']}`)
-      .then((res) => {
-        setBoardsObj(res.data);
-      })
-      .catch((err) => errorAlert(err));
-  }, [selectedEvent, setBoardsObj]);
 
   const getEventList = useCallback(() => {
     axios
@@ -42,13 +33,9 @@ function Review() {
 
   // when component created or selected event changed
   useEffect(() => {
-    if (selectedEvent) {
-      getBoards();
-    }
-    return () => {
-      setBoardsObj(null);
-    };
-  }, [getBoards, selectedEvent, setBoardsObj]);
+    if (selectedEvent) getBoards(selectedEvent['id'], setBoardsObj);
+    return () => setBoardsObj(null);
+  }, [selectedEvent, setBoardsObj]);
 
   // when component created
   useEffect(() => {
@@ -65,7 +52,7 @@ function Review() {
       <Guide isElemExist={boardsObj ? true : false} />
       {newPostingModalShow ? <NewPostingModal /> : commentModalShow ? <CommentModal /> : null}
       {boardsObj && (
-        <div style={{ 'min-height': '600px', 'padding-bottom': '200px' }}>
+        <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
           {Object.values(boardsObj).map((board, i) => (
             <Posting
               boardId={board['boardId']}

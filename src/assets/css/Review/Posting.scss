@@ -30,6 +30,9 @@
 
 .review--posting--actions {
   width: 20px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .review--posting--image {
