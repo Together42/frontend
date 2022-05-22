@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -19,7 +19,7 @@ function Posting(props: Props) {
   const { boardId, title, intraId, contents, createdAt, image, commentNum, elemNum, url } = props;
   const [modalShow, setModalShow] = useRecoilState(CommentModalShow);
   const [actionModalShow, setActionModalShow] = useRecoilState(ActionModalShow);
-  const editPostingModalShow = useRecoilValue(EditPostingModalShow);
+  const [editPostingModalShow, setEditPostingModalShow] = useState(false);
 
   const onClickMoreButton = () => {
     setModalShow(true);
@@ -37,8 +37,12 @@ function Posting(props: Props) {
         elemNum === 4 && 'footer--empty'
       }`}
     >
-      {editPostingModalShow && <NewPostingModal mode="edit" />}
-      {actionModalShow && <ActionModal mode="post" boardId={boardId} />}
+      {editPostingModalShow && (
+        <NewPostingModal mode="edit" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />
+      )}
+      {actionModalShow && (
+        <ActionModal mode="post" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />
+      )}
       {modalShow && <CommentModal boardId={boardId} />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">

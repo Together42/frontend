@@ -87,7 +87,7 @@ function CommentBox(props: {
           boardId={boardId}
           setBoardObj={setBoardObj}
           setCommentMode={setCommentMode}
-          setActionModalShow={setActionModalShow}
+          setCommentActionModalShow={setActionModalShow}
         />
       )}
       <span className="review--commentbox--visitor">{intraId}</span>

@@ -10,7 +10,6 @@ import errorAlert from '@utils/errorAlert';
 import GetBoards from '@globalObj/func/getBoards';
 import SelectedEvent from '@recoil/SelectedEvent';
 import BoardsObj from '@recoil/Review/BoardsObj';
-import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 import { ReviewBoardType } from '@usefulObj/types';
 import getDetailBoard from '@globalObj/func/getDetailBoard';
 
@@ -20,12 +19,14 @@ function ActionModal(props: {
   commentId?: number;
   setBoardObj?: React.Dispatch<React.SetStateAction<ReviewBoardType>>;
   setCommentMode?: React.Dispatch<React.SetStateAction<string>>;
-  setActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
+  setCommentActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { mode, boardId, commentId, setBoardObj, setCommentMode, setActionModalShow } = props;
+  const { mode, boardId, commentId, setBoardObj, setCommentMode, setCommentActionModalShow, setEditPostingModalShow } =
+    props;
+  const setActionModalShow = useSetRecoilState(ActionModalShow);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setBoardsObj = useSetRecoilState(BoardsObj);
-  const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
 
   const deletePost = useCallback(() => {
     if (getToken()) {
@@ -60,19 +61,28 @@ function ActionModal(props: {
   }, [boardId, commentId, setBoardObj]);
 
   const onClickUpdate = () => {
-    if (mode === 'post') setEditPostingModalShow(true);
-    else if (mode === 'comment') setCommentMode('edit');
-    setActionModalShow(false);
+    if (mode === 'post') {
+      setEditPostingModalShow(true);
+      setActionModalShow(false);
+    } else if (mode === 'comment') {
+      setCommentMode('edit');
+      setCommentActionModalShow(false);
+    }
   };
 
   const onClickDelete = () => {
-    if (mode === 'post') deletePost();
-    else if (mode === 'comment') deleteComment();
-    setActionModalShow(false);
+    if (mode === 'post') {
+      deletePost();
+      setActionModalShow(false);
+    } else if (mode === 'comment') {
+      deleteComment();
+      setCommentActionModalShow(false);
+    }
   };
 
   const onClickXbtn = () => {
-    setActionModalShow(false);
+    if (mode === 'post') setActionModalShow(false);
+    else if (mode === 'comment') setCommentActionModalShow(false);
   };
 
   // console.log(commentId);

@@ -13,16 +13,18 @@ import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/func/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
-import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 import GetBoards from '@globalObj/func/getBoards';
 import { ReviewBoardType } from '@usefulObj/types';
 import getDetailBoard from '@globalObj/func/getDetailBoard';
 
 // mode : new or edit
-function NewPostingModal(props: { mode: string; boardId?: number }) {
-  const { mode, boardId } = props;
+function NewPostingModal(props: {
+  mode: string;
+  boardId?: number;
+  setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const { mode, boardId, setEditPostingModalShow } = props;
   const setNewModalShow = useSetRecoilState(NewPostingModalShow);
-  const setEditModalShow = useSetRecoilState(EditPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
@@ -36,9 +38,9 @@ function NewPostingModal(props: { mode: string; boardId?: number }) {
 
   const closeModal = useCallback(() => {
     setNewModalShow(false);
-    setEditModalShow(false);
+    setEditPostingModalShow(false);
     setSelectSomeModalShow(false);
-  }, [setEditModalShow, setNewModalShow, setSelectSomeModalShow]);
+  }, [setEditPostingModalShow, setNewModalShow, setSelectSomeModalShow]);
 
   const postNewPosting = useCallback(() => {
     axios
