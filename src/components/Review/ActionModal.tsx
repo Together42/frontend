@@ -19,9 +19,10 @@ function ActionModal(props: {
   boardId?: number;
   commentId?: number;
   setBoardObj?: React.Dispatch<React.SetStateAction<ReviewBoardType>>;
+  setCommentMode?: React.Dispatch<React.SetStateAction<string>>;
+  setActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { mode, boardId, commentId, setBoardObj } = props;
-  const setActionModalShow = useSetRecoilState(ActionModalShow);
+  const { mode, boardId, commentId, setBoardObj, setCommentMode, setActionModalShow } = props;
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
@@ -37,11 +38,10 @@ function ActionModal(props: {
         .then(() => {
           alert('삭제되었습니다');
           GetBoards(selectedEvent['id'], setBoardsObj);
-          setActionModalShow(false);
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [boardId, selectedEvent, setActionModalShow, setBoardsObj]);
+  }, [boardId, selectedEvent, setBoardsObj]);
 
   const deleteComment = useCallback(() => {
     if (getToken()) {
@@ -54,20 +54,21 @@ function ActionModal(props: {
         .then(() => {
           alert('삭제되었습니다');
           getDetailBoard(boardId, setBoardObj);
-          setActionModalShow(false);
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [boardId, commentId, setActionModalShow, setBoardObj]);
+  }, [boardId, commentId, setBoardObj]);
 
   const onClickUpdate = () => {
-    setEditPostingModalShow(true);
+    if (mode === 'post') setEditPostingModalShow(true);
+    else if (mode === 'comment') setCommentMode('edit');
     setActionModalShow(false);
   };
 
   const onClickDelete = () => {
     if (mode === 'post') deletePost();
     else if (mode === 'comment') deleteComment();
+    setActionModalShow(false);
   };
 
   const onClickXbtn = () => {

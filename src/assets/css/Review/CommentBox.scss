@@ -3,7 +3,6 @@
 $right_devision_margin: 15px;
 
 .review--commentbox {
-  position: relative;
   padding: 8px 0;
 }
 
@@ -17,10 +16,22 @@ $right_devision_margin: 15px;
   @include medium_kor;
 }
 
+.review--commentbox--edit_comment {
+  @include medium_kor;
+  width: 250px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid $darkgrey_default;
+  &:focus {
+    outline: none;
+  }
+}
+
 .review--commentbox--ellipsis {
   display: none;
   width: 15px;
   margin-left: 10px;
+  vertical-align: middle;
   &:hover {
     cursor: pointer;
   }
