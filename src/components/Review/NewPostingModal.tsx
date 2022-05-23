@@ -176,7 +176,20 @@ function NewPostingModal(props: {
               </div>
             </div>
           ) : (
-            boardObj && <SliderBtnBox imageArr={boardObj['image']} />
+            boardObj && (
+              <>
+                <SliderBtnBox imageArr={boardObj['image']} />
+                <input
+                  type="file"
+                  className="review--editposting--add_files--input"
+                  accept="image/*"
+                  placeholder="업로드"
+                  onChange={onClickUpload}
+                  multiple
+                  required
+                />
+              </>
+            )
           )}
         </div>
         <div className="review--newposting--right_division">

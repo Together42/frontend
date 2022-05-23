@@ -76,9 +76,17 @@ $right_devision_width: calc($total_width - $left_devision_width);
 }
 
 .review--newposting--add_files--input {
+  @include small_kor;
   margin-top: 20px;
   width: 160px;
+}
+
+.review--editposting--add_files--input {
   @include small_kor;
+  position: absolute;
+  bottom: 30px;
+  left: 70px;
+  width: 160px;
 }
 
 .review--newposting--right_division {
