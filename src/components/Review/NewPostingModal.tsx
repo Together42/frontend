@@ -37,53 +37,58 @@ function NewPostingModal(props: {
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
 
   const closeModal = useCallback(() => {
-    setNewModalShow(false);
-    setEditPostingModalShow(false);
+    if (mode === 'new') setNewModalShow(false);
+    if (mode === 'edit') setEditPostingModalShow(false);
     setSelectSomeModalShow(false);
-  }, [setEditPostingModalShow, setNewModalShow, setSelectSomeModalShow]);
+  }, [mode, setEditPostingModalShow, setNewModalShow, setSelectSomeModalShow]);
 
   const postNewPosting = useCallback(() => {
-    axios
-      .post(
-        `${getAddress()}/api/board`,
-        {
-          eventId: selectedEvent['eventId'],
-          title: title,
-          contents: content,
-          image: imageArr,
-          attendMembers: Object.values(selectedTeam)[0][1],
-        },
-        {
-          headers: {
-            Authorization: 'Bearer ' + getToken(),
+    if (selectedEvent && selectedTeam) {
+      axios
+        .post(
+          `${getAddress()}/api/board`,
+          {
+            eventId: selectedEvent['eventId'],
+            title: title,
+            contents: content,
+            image: imageArr,
+            attendMembers: Object.values(selectedTeam)[0][1],
           },
-        },
-      )
-      .then(() => {
-        GetBoards(selectedEvent['id'], setBoardsObj);
-        alert('성공적으로 게시되었습니다');
-      })
-      .catch((err) => errorAlert(err));
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
+        .then(() => {
+          GetBoards(selectedEvent['id'], setBoardsObj);
+          alert('성공적으로 게시되었습니다');
+        })
+        .catch((err) => errorAlert(err));
+    } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
+    else if (!selectedTeam) alert('팀을 선택해 주세요');
   }, [content, imageArr, selectedEvent, selectedTeam, setBoardsObj, title]);
 
   const postEditPosting = useCallback(() => {
-    axios
-      .put(
-        `${getAddress()}/api/board/${boardId}`,
-        {
-          eventId: selectedEvent['eventId'],
-          title,
-          content,
-          image: imageArr,
-        },
-        {
-          headers: {
-            Authorization: 'Bearer ' + getToken(),
+    if (selectedEvent) {
+      axios
+        .put(
+          `${getAddress()}/api/board/${boardId}`,
+          {
+            eventId: selectedEvent['eventId'],
+            title,
+            content,
+            image: imageArr,
           },
-        },
-      )
-      .then(() => alert('성공적으로 수정되었습니다'))
-      .catch((err) => errorAlert(err));
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
+        .then(() => alert('성공적으로 수정되었습니다'))
+        .catch((err) => errorAlert(err));
+    } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
   }, [boardId, content, imageArr, selectedEvent, title]);
 
   const onChangeTitle = (e: any) => {

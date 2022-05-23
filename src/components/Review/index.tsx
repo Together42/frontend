@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 import errorAlert from '@utils/errorAlert';
@@ -14,10 +14,11 @@ import defaultImg from '@img/defaultImg.png';
 import getBoards from '@globalObj/func/getBoards';
 
 function Review() {
+  const isMounted = useRef(false);
   const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
-  const setEventList = useSetRecoilState(EventList);
-  const selectedEvent = useRecoilValue(SelectedEvent);
+  const [eventList, setEventList] = useRecoilState(EventList);
+  const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
 
   const getEventList = useCallback(() => {
     axios
@@ -40,9 +41,12 @@ function Review() {
   }, [getEventList]);
 
   // 임시용!
-  // useEffect(() => {
-  //   alert('아직 개발 전입니다..!');
-  // }, []);
+  useEffect(() => {
+    if (eventList && !isMounted.current) {
+      setSelectedEvent(eventList[0]);
+      isMounted.current = true;
+    }
+  }, [eventList, setSelectedEvent]);
 
   // console.log(boardsObj);
 
