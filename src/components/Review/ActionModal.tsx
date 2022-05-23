@@ -4,14 +4,14 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ActionModalShow from '@recoil/Review/ActionModalShow';
 import '@css/Review/ActionModal.scss';
 import axios from 'axios';
-import getAddress from '@globalObj/func/getAddress';
+import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@utils/errorAlert';
-import GetBoards from '@globalObj/func/getBoards';
+import GetBoards from '@globalObj/function/getBoards';
 import SelectedEvent from '@recoil/SelectedEvent';
 import BoardsObj from '@recoil/Review/BoardsObj';
-import { ReviewBoardType } from '@usefulObj/types';
-import getDetailBoard from '@globalObj/func/getDetailBoard';
+import { ReviewBoardType } from '@globalObj/object/types';
+import getDetailBoard from '@globalObj/function/getDetailBoard';
 
 function ActionModal(props: {
   mode: string;

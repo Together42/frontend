@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
 import { useRecoilState } from 'recoil';
-import { PostingType } from '@usefulObj/types';
+import { PostingType } from '@globalObj/object/types';
 import CommentModalShow from '@recoil/Review/CommentModalShow';
 import elipsisImg from '@img/ellipsis-solid.svg';
 import ActionModalShow from '@recoil/Review/ActionModalShow';

@@ -5,10 +5,10 @@ import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/SelectedEvent';
-import { EventType } from '@usefulObj/types';
+import { EventType } from '@globalObj/object/types';
 import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
 import errorAlert from '@utils/errorAlert';
-import getAddress from '@globalObj/func/getAddress';
+import getAddress from '@globalObj/function/getAddress';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);

@@ -9,9 +9,9 @@ import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import NewPostingModal from './NewPostingModal';
-import getAddress from '@globalObj/func/getAddress';
+import getAddress from '@globalObj/function/getAddress';
 import defaultImg from '@img/defaultImg.png';
-import getBoards from '@globalObj/func/getBoards';
+import getBoards from '@globalObj/function/getBoards';
 
 function Review() {
   const isMounted = useRef(false);

@@ -9,7 +9,7 @@ import { saveToken } from '@cert/TokenStorage';
 import { useNavigate } from 'react-router';
 import SignUpProfileState from '@recoil/SignUpProfileState';
 import { saveAuth } from '@cert/AuthStorage';
-import getAddress from '@globalObj/func/getAddress';
+import getAddress from '@globalObj/function/getAddress';
 
 interface Props {
   signUpMode: boolean;

@@ -1,4 +1,4 @@
-import { PostingType } from '@usefulObj/types';
+import { PostingType } from '@globalObj/object/types';
 import errorAlert from '@utils/errorAlert';
 import axios from 'axios';
 import { SetterOrUpdater } from 'recoil';

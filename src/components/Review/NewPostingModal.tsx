@@ -11,11 +11,11 @@ import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
-import getAddress from '@globalObj/func/getAddress';
+import getAddress from '@globalObj/function/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
-import GetBoards from '@globalObj/func/getBoards';
-import { ReviewBoardType } from '@usefulObj/types';
-import getDetailBoard from '@globalObj/func/getDetailBoard';
+import GetBoards from '@globalObj/function/getBoards';
+import { ReviewBoardType } from '@globalObj/object/types';
+import getDetailBoard from '@globalObj/function/getDetailBoard';
 
 // mode : new or edit
 function NewPostingModal(props: {

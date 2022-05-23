@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { EventType } from '@types';
+import { EventType } from '@globalObj/object/types';
 
 const SelectedEvent = atom<EventType>({
   key: 'SelectedEvent',

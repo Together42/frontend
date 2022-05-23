@@ -5,7 +5,7 @@ import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 import SignUpProfileState from '@recoil/SignUpProfileState';
 import xMark from '@img/xmark-solid.svg';
 // 이하의 import는 이미지 불러오기 임시용
-import ProfileImgArr from '@usefulObj/ProfileImageArr';
+import ProfileImgArr from '@globalObj/object/ProfileImageArr';
 
 function ProfileModal() {
   const setOpenProfileModal = useSetRecoilState(ProfileChangeModalShow);

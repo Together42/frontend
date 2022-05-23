@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import ProfileImgArr from '@usefulObj/ProfileImageArr';
+import ProfileImgArr from '@globalObj/object/ProfileImageArr';
 
 const randomNum = Math.floor(Math.random() * 28);
 

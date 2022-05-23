@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { userData } from '@types';
+import { userData } from '@globalObj/object/types';
 import { getAuth } from '@cert/AuthStorage';
 
 const value = getAuth()

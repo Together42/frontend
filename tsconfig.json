@@ -39,10 +39,10 @@
         "src/assets/css/*"
       ],
       "@usefulObj/*": [
-        "src/assets/usefulObj/*"
+        "src/globalObj/object/*"
       ],
       "@types": [
-        "src/assets/usefulObj/types"
+        "src/globalObj/object/types"
       ],
       "@cert/*": [
         "src/cert/*"

@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { ReviewSelectedEventType } from '@types';
+import { ReviewSelectedEventType } from '@globalObj/object/types';
 
 const SelectedEvent = atom<ReviewSelectedEventType>({
   key: 'ReviewSelectedEvent',

@@ -7,9 +7,9 @@ import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import errorAlert from '@utils/errorAlert';
 import { getToken } from '@cert/TokenStorage';
-import getAddress from '@globalObj/func/getAddress';
-import { ReviewBoardType } from '@usefulObj/types';
-import getDetailBoard from '@globalObj/func/getDetailBoard';
+import getAddress from '@globalObj/function/getAddress';
+import { ReviewBoardType } from '@globalObj/object/types';
+import getDetailBoard from '@globalObj/function/getDetailBoard';
 import defaultImg from '@img/defaultImg.png';
 import CommentBox from './CommentBox';
 

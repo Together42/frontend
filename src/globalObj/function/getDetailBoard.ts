@@ -1,4 +1,4 @@
-import { ReviewBoardType } from '@usefulObj/types';
+import { ReviewBoardType } from '@globalObj/object/types';
 import errorAlert from '@utils/errorAlert';
 import axios from 'axios';
 import getAddress from './getAddress';

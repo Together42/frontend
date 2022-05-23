@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Result/Result.scss';
 import Footer from '@result/Footer';
 import axios from 'axios';
-import { EventType } from '@types';
+import { EventType } from '@globalObj/object/types';
 import errorAlert from '@utils/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import Xmark from '@img/xmark-solid.svg';
-import getAddress from '@globalObj/func/getAddress';
+import getAddress from '@globalObj/function/getAddress';
 
 function Result() {
   const [EventList, setEventList] = useState<EventType[]>([]);

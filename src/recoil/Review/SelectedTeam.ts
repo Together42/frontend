@@ -1,4 +1,4 @@
-import { ReviewSelectedTeamType } from '@usefulObj/types';
+import { ReviewSelectedTeamType } from '@globalObj/object/types';
 import { atom } from 'recoil';
 
 const SelectedTeam = atom<ReviewSelectedTeamType>({

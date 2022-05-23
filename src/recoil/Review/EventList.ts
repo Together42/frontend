@@ -1,4 +1,4 @@
-import { ReviewSelectedEventType } from '@usefulObj/types';
+import { ReviewSelectedEventType } from '@globalObj/object/types';
 import { atom } from 'recoil';
 
 const EventList = atom<ReviewSelectedEventType[]>({

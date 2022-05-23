@@ -2,7 +2,7 @@ import EventList from '@recoil/Review/EventList';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Xmark from '@img/xmark-solid.svg';
-import { ReviewSelectedEventType, ReviewSelectedTeamType, teamMemInfo } from '@usefulObj/types';
+import { ReviewSelectedEventType, ReviewSelectedTeamType, teamMemInfo } from '@globalObj/object/types';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import '@css/Review/SelectSomeModal.scss';
 import EventListModalShow from '@recoil/Review/SelectSomeModalShow';

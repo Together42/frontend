@@ -5,12 +5,12 @@ import checkImg from '@img/check-solid.svg';
 import { useRecoilState } from 'recoil';
 import ActionModalShow from '@recoil/Review/ActionModalShow';
 import ActionModal from './ActionModal';
-import { ReviewBoardType } from '@usefulObj/types';
+import { ReviewBoardType } from '@globalObj/object/types';
 import { getToken } from '@cert/TokenStorage';
 import axios from 'axios';
-import getAddress from '@globalObj/func/getAddress';
+import getAddress from '@globalObj/function/getAddress';
 import errorAlert from '@utils/errorAlert';
-import getDetailBoard from '@globalObj/func/getDetailBoard';
+import getDetailBoard from '@globalObj/function/getDetailBoard';
 
 function CommentBox(props: {
   intraId: string;
