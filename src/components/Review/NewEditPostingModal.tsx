@@ -17,6 +17,7 @@ import GetBoards from '@globalObj/function/getBoards';
 import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import SliderBtnBox from './SliderBtnBox';
+import defaultImg from '@img/uploadDefault.png';
 
 // mode : new or edit
 function NewEditPostingModal(props: {
@@ -173,11 +174,18 @@ function NewEditPostingModal(props: {
         <div className="review--newposting--left_division">
           {mode === 'new' ? (
             <div className="review--newposting--add_files">
-              <span>파일을 업로드</span>
+              <img src={defaultImg} alt={defaultImg}></img>
+              <p>이미지를 업로드 해주세용!</p>
               <div className="review--newposting--add_files--input_wrapper">
+                <label
+                  className="review--newposting--add_files--input_btn"
+                  htmlFor="review--newposting--add_files--input"
+                >
+                  업로드
+                </label>
                 <input
                   type="file"
-                  className="review--newposting--add_files--input"
+                  id="review--newposting--add_files--input"
                   accept="image/*"
                   placeholder="업로드"
                   onChange={onClickUpload}

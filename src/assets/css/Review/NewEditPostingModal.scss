@@ -52,41 +52,35 @@ $right_devision_width: calc($total_width - $left_devision_width);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
+  align-items: center;
   height: 300px;
   width: 100%;
   border: 2px dashed $darkgrey_light;
-  span {
-    @include medium_kor;
-  }
-}
-
-.review--newposting--image {
-  height: 300px;
-  width: 100%;
   img {
-    height: 300px;
-    width: 100%;
+    width: 150px;
+  }
+  p {
+    @include medium_kor;
   }
 }
 
 .review--newposting--add_files--input_wrapper {
   width: 160px;
-  margin: 0 auto;
-}
-
-.review--newposting--add_files--input {
-  @include small_kor;
   margin-top: 20px;
-  width: 160px;
+  margin: 20px auto;
+  text-align: center;
 }
 
-.review--editposting--add_files--input {
-  @include small_kor;
-  position: absolute;
-  bottom: 30px;
-  left: 70px;
-  width: 160px;
+.review--newposting--add_files--input_btn {
+  padding: 6px 25px;
+  background-color: #ff6600ab;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+#review--newposting--add_files--input {
+  display: none;
 }
 
 .review--newposting--right_division {
@@ -102,8 +96,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
   display: flex;
   justify-content: space-between;
   margin-bottom: $margin_margin_medium;
-  // padding: 0 $margin_margin_medium;
-  // margin: $margin_margin_medium 0;
 }
 
 .review--newposting--header--title {
