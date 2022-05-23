@@ -16,6 +16,7 @@ import SelectedTeam from '@recoil/Review/SelectedTeam';
 import GetBoards from '@globalObj/function/getBoards';
 import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
+import SliderBtnBox from './SliderBtnBox';
 
 // mode : new or edit
 function NewPostingModal(props: {
@@ -126,7 +127,7 @@ function NewPostingModal(props: {
     // const formData = new FormData();
     // formData.append('image', e.target.files[0]);
     // formData.append('image', e.target.files[1]);
-    // axios.post(`${getAddress()}/api/auth/selfies`, formData).then((res) => console.log(res));
+    // axios.post(`${getAddress()}/api/board/upload`, formData).then((res) => console.log(res));
   };
 
   useEffect(() => {
@@ -175,9 +176,7 @@ function NewPostingModal(props: {
               </div>
             </div>
           ) : (
-            <div className="review--newposting--image">
-              <img src={boardObj && boardObj['image']} alt={boardObj && boardObj['image']}></img>
-            </div>
+            boardObj && <SliderBtnBox imageArr={boardObj['image']} />
           )}
         </div>
         <div className="review--newposting--right_division">
@@ -205,26 +204,28 @@ function NewPostingModal(props: {
               )}
             </div>
           </div>
-          <div className="review--newposting--selectedInfo">
-            {selectedEvent && (
-              <>
-                <span>이벤트 </span>
-                <span>{selectedEvent['title']}</span>
-              </>
-            )}
-            {selectedTeam && (
-              <>
-                <span>팀</span>
-                <span>team {Object.keys(selectedTeam)[0]}</span>
-                <span>팀원</span>
-                <div>
-                  {Object.values(selectedTeam)[0].map((member) => (
-                    <span>{member['intraId']} </span>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+          {(selectedEvent || selectedTeam) && (
+            <div className="review--newposting--selectedInfo">
+              {selectedEvent && (
+                <>
+                  <span>이벤트 </span>
+                  <span>{selectedEvent['title']}</span>
+                </>
+              )}
+              {selectedTeam && (
+                <>
+                  <span>팀</span>
+                  <span>team {Object.keys(selectedTeam)[0]}</span>
+                  <span>팀원</span>
+                  <div>
+                    {Object.values(selectedTeam)[0].map((member) => (
+                      <span>{member['intraId']} </span>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
           <div className="review--newposting--newposting_wrapper">
             <TextareaAutosize
               className="review--newposting--newposting"
