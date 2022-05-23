@@ -1,9 +1,10 @@
 @import '@css/fonts.scss';
 
 $margin_margin_medium: 15px;
-$total_width: 700px;
-$left_devision_width: 290px;
-$right_devision_width: calc($total_width - $left_devision_width - ($margin_margin_medium * 2));
+$total_width: 710px;
+$total_height: 440px;
+$left_devision_width: 300px;
+$right_devision_width: calc($total_width - $left_devision_width);
 
 .review--newposting--background {
   position: fixed;
@@ -31,6 +32,7 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
 .review--newposting-devision {
   display: flex;
   width: $total_width;
+  height: $total_height;
   background-color: white;
   z-index: 10;
 }
@@ -40,11 +42,13 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
   display: flex;
   align-items: center;
   width: $left_devision_width;
+  height: $total_height;
   background-color: $darkgrey_light;
   z-index: -1;
 }
 
 .review--newposting--add_files {
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -79,12 +83,17 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
 
 .review--newposting--right_division {
   width: $right_devision_width;
-  margin: $margin_margin_medium;
+  height: $total_height;
+  padding: $margin_margin_medium;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .review--newposting--header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: $margin_margin_medium;
   // padding: 0 $margin_margin_medium;
   // margin: $margin_margin_medium 0;
 }
@@ -126,7 +135,7 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
 
 .review--newposting--newposting {
   @include medium_kor;
-  width: 100%;
+  width: $right_devision_width - ($margin_margin_medium * 2);
   height: 210px;
   border: 1px solid $darkgrey_light;
   &:focus {
@@ -137,16 +146,16 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
 .review--newposting--selectedInfo {
   @include small_kor;
   width: 100%;
-  // padding: 0 $margin_margin_medium;
   display: grid;
   grid-template-columns: 15% 85%;
   row-gap: 10px;
-  margin: $margin_margin_medium 0;
+  margin-bottom: $margin_margin_medium;
 }
 
 .review--newposting--button--forFlex {
   display: flex;
   justify-content: end;
+  width: $right_devision_width - ($margin_margin_medium * 2);
 }
 
 .review--newposting--button {

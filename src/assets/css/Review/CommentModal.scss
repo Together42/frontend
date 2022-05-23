@@ -1,6 +1,11 @@
 @import '@css/fonts.scss';
 
 $right_devision_margin: 15px;
+$total_width: 710px;
+$total_height: 440px;
+$left_devision_width: 300px;
+$right_devision_width: 410px;
+$comment_input_width: 340px;
 
 .review--detail--background {
   position: fixed;
@@ -27,8 +32,8 @@ $right_devision_margin: 15px;
 
 .review--detail-devision {
   display: flex;
-  width: 700px;
-  height: 440px;
+  width: $total_width;
+  height: $total_height;
   background-color: white;
   z-index: 10;
 }
@@ -38,29 +43,29 @@ $right_devision_margin: 15px;
   flex-direction: column;
   justify-content: center;
   position: relative;
-  width: 290px;
-  height: 440px;
+  width: $left_devision_width;
+  height: $total_height;
 }
 
 .review--detail--image--background {
   position: absolute;
   top: 0px;
   left: 0px;
-  height: 440px;
-  width: 290px;
+  height: $total_height;
+  width: $left_devision_width;
   background-color: $darkgrey_light;
   z-index: -1;
 }
 
 .review--detail--modal_image {
   img {
-    width: 290px;
+    width: $left_devision_width;
     object-fit: cover;
   }
 }
 
 .review--detail--right_division {
-  width: 410px;
+  width: $right_devision_width;
   display: flex;
   flex-direction: column;
 }
@@ -93,7 +98,7 @@ $right_devision_margin: 15px;
 }
 
 .review--detail--detail_comments {
-  width: 410px;
+  width: $right_devision_width;
   height: 290px;
   margin-top: 10px;
   padding: 0px $right_devision_margin;
@@ -117,20 +122,11 @@ $right_devision_margin: 15px;
   @include medium_kor;
 }
 
-.review--detail--posting {
-  @include medium_kor;
-  width: 390px;
-  border: 1px solid $darkgrey_light;
-  &:focus {
-    outline: none;
-  }
-}
-
 .review--detail--post_comment--wrapper {
   display: flex;
   justify-content: end;
   align-items: flex-end;
-  width: 410px;
+  width: $right_devision_width;
   height: 60px;
 }
 
@@ -138,14 +134,14 @@ $right_devision_margin: 15px;
   display: flex;
   justify-content: space-between;
   align-content: center;
-  width: 390px;
+  width: $right_devision_width - ($right_devision_margin * 2);
   margin: 0 15px 5px 15px;
 }
 
 .review--detail--input {
   @include medium_kor;
   height: 24px;
-  width: 340px;
+  width: $comment_input_width;
   border: none;
   &:focus {
     outline: none;
