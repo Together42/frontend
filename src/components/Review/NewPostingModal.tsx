@@ -152,6 +152,8 @@ function NewPostingModal(props: {
     }
   }, [mode, boardObj, setSelectedTeam]);
 
+  console.log(boardObj && boardObj['image']);
+
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>

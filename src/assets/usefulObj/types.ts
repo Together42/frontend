@@ -33,7 +33,7 @@ export interface PostingType {
   contents: string;
   createdAt: string;
   updatedAt?: string;
-  image: string;
+  image: string[];
   commentNum: number;
   url: string;
 }
@@ -54,7 +54,7 @@ export interface ReviewBoardType {
   contents: string;
   createdAt: string;
   updatedAt: string;
-  image: string;
+  image: string[];
   url: string;
   attendMembers: { intraId: string; url: string }[];
   comments: CommentType[];

@@ -36,11 +36,12 @@ $right_devision_width: calc($total_width - $left_devision_width - ($margin_margi
 }
 
 .review--newposting--left_division {
+  position: relative;
   display: flex;
   align-items: center;
-  position: relative;
   width: $left_devision_width;
-  padding-left: 10px;
+  background-color: $darkgrey_light;
+  z-index: -1;
 }
 
 .review--newposting--add_files {

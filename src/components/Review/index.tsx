@@ -40,15 +40,12 @@ function Review() {
     getEventList();
   }, [getEventList]);
 
-  // 임시용!
   useEffect(() => {
     if (eventList && !isMounted.current) {
       setSelectedEvent(eventList[0]);
       isMounted.current = true;
     }
   }, [eventList, setSelectedEvent]);
-
-  // console.log(boardsObj);
 
   return (
     <>
@@ -63,7 +60,7 @@ function Review() {
               intraId={board['writer']}
               contents={board['contents']}
               createdAt={board['createdAt']}
-              image={board['image'] ? board['image'] : defaultImg}
+              image={board['image'] ? board['image'] : [defaultImg]}
               commentNum={board['comments']}
               url={board['url']}
               elemNum={i + 1}

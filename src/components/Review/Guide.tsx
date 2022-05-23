@@ -13,7 +13,7 @@ interface Props {
 
 function Guide(props: Props) {
   const { isElemExist } = props;
-  const setSelectedEvent = useSetRecoilState(SelectedEvent);
+  const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const setNewPostingModalShow = useSetRecoilState(NewPostingModalShow);
   const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
@@ -34,7 +34,9 @@ function Guide(props: Props) {
   return (
     <div className={`review--forPositioning`}>
       <div className={`review--guide  ${!isElemExist && 'position_unset'}`}>
-        <p className="review--guide--title">친바 4회차</p>
+        <p className="review--guide--title">
+          {selectedEvent ? selectedEvent['title'].slice(0, 20) : '친바 게시판입니다!'}
+        </p>
         <div className={`review--guide--letters ${isElemExist && 'span_break'}`}>
           <span>친바는 식사 이외에도 사서분들 </span>
           <span>서로와 다양한 활동이 가능합니다. </span>

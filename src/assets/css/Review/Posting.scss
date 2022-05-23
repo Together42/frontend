@@ -1,5 +1,7 @@
 @import '@css/useful.scss';
 
+$border_thickness: 1px;
+
 .review--posting--forFlex {
   @include basic--wrappers;
   position: relative;
@@ -11,19 +13,19 @@
 .review--posting--shownWrapper {
   position: relative;
   height: 440px;
-  width: 300px;
-  border: 1px solid $darkgrey_light;
+  width: 300px + ($border_thickness * 2);
+  border: $border_thickness solid $darkgrey_light;
 }
 
 .review--posting--title {
   display: flex;
   justify-content: space-between;
-  margin: 10px;
+  // width: 100%;
+  padding: 10px;
 }
 
 .review--posting--title--title {
   @include medium_kor;
-  // font-size: $sub_title_18;
   color: $darkgrey_darker;
   display: block;
 }
@@ -35,12 +37,41 @@
   }
 }
 
-.review--posting--image {
-  text-align: center;
+.review--posting--image_viewer {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+}
+
+.review--posting--image_slider {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  height: 300px;
+  transition: 0.5s;
   img {
-    width: 290px;
-    height: 290px;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
+  }
+}
+
+.review--posting--image_btn_wrapper {
+  position: absolute;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  top: 140px;
+  padding: 0 5px;
+}
+
+.review--posting--image_btn {
+  width: 22px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
   }
 }
 
