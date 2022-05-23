@@ -1,0 +1,39 @@
+@import '@css/fonts.scss';
+
+.review--btn_box_viewer {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+}
+
+.review--btn_box_slider {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  height: 300px;
+  transition: 0.5s;
+  img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+  }
+}
+
+.review--btn_box_wrapper {
+  position: absolute;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  top: 140px;
+  padding: 0 5px;
+}
+
+.review--image_btn {
+  width: 22px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}

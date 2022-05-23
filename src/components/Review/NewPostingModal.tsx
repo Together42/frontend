@@ -31,7 +31,7 @@ function NewPostingModal(props: {
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imageArr, setImageArr] = useState<string>(null);
+  const [imageArr, setImageArr] = useState<string[]>(null);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
