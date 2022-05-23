@@ -36,12 +36,25 @@ function NewEditPostingModal(props: {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
+  const [postImgArr, setPostImgArr] = useState<File[]>(null);
 
   const closeModal = useCallback(() => {
     if (mode === 'new') setNewModalShow(false);
     if (mode === 'edit') setEditPostingModalShow(false);
     setSelectSomeModalShow(false);
   }, [mode, setEditPostingModalShow, setNewModalShow, setSelectSomeModalShow]);
+
+  const postImage = useCallback(
+    (boardId: string) => {
+      const formData = new FormData();
+      if (postImgArr) {
+        postImgArr.forEach((imgUrl) => formData.append('image', imgUrl));
+        formData.append('boardId', boardId);
+        axios.post(`${getAddress()}/api/board/upload`, formData).then((res) => console.log(res));
+      }
+    },
+    [postImgArr],
+  );
 
   const postNewPosting = useCallback(() => {
     if (selectedEvent && selectedTeam) {
@@ -61,14 +74,15 @@ function NewEditPostingModal(props: {
             },
           },
         )
-        .then(() => {
+        .then((res) => {
+          postImage(res.data.boardId.toString());
           GetBoards(selectedEvent['id'], setBoardsObj);
           alert('성공적으로 게시되었습니다');
         })
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
     else if (!selectedTeam) alert('팀을 선택해 주세요');
-  }, [content, imageArr, selectedEvent, selectedTeam, setBoardsObj, title]);
+  }, [content, imageArr, postImage, selectedEvent, selectedTeam, setBoardsObj, title]);
 
   const postEditPosting = useCallback(() => {
     if (selectedEvent) {
@@ -124,10 +138,7 @@ function NewEditPostingModal(props: {
   };
 
   const onClickUpload = (e: any) => {
-    // const formData = new FormData();
-    // formData.append('image', e.target.files[0]);
-    // formData.append('image', e.target.files[1]);
-    // axios.post(`${getAddress()}/api/board/upload`, formData).then((res) => console.log(res));
+    setPostImgArr(e.target.files);
   };
 
   useEffect(() => {
@@ -153,7 +164,7 @@ function NewEditPostingModal(props: {
     }
   }, [mode, boardObj, setSelectedTeam]);
 
-  console.log(boardObj && boardObj['image']);
+  // console.log(new FormData());
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
@@ -176,20 +187,7 @@ function NewEditPostingModal(props: {
               </div>
             </div>
           ) : (
-            boardObj && (
-              <>
-                <SliderBtnBox imageArr={boardObj['image']} />
-                <input
-                  type="file"
-                  className="review--editposting--add_files--input"
-                  accept="image/*"
-                  placeholder="업로드"
-                  onChange={onClickUpload}
-                  multiple
-                  required
-                />
-              </>
-            )
+            boardObj && <SliderBtnBox imageArr={boardObj['image']} />
           )}
         </div>
         <div className="review--newposting--right_division">
