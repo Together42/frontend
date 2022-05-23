@@ -7,7 +7,7 @@ import CommentModalShow from '@recoil/Review/CommentModalShow';
 import elipsisImg from '@img/ellipsis-solid.svg';
 import ActionModalShow from '@recoil/Review/ActionModalShow';
 import ActionModal from './ActionModal';
-import NewPostingModal from './NewPostingModal';
+import NewEditPostingModal from './NewEditPostingModal';
 import CommentModal from './CommentModal';
 import SliderBtnBox from './SliderBtnBox';
 
@@ -36,7 +36,7 @@ function Posting(props: Props) {
       }`}
     >
       {editPostingModalShow && (
-        <NewPostingModal mode="edit" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />
+        <NewEditPostingModal mode="edit" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />
       )}
       {actionModalShow && (
         <ActionModal mode="post" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />

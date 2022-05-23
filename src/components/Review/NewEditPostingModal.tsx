@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import '@css/Review/NewPostingModal.scss';
+import '@css/Review/NewEditPostingModal.scss';
 import Xmark from '@img/xmark-solid.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -8,7 +8,7 @@ import errorAlert from '@utils/errorAlert';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
-import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
+import NewEditPostingModalShow from '@recoil/Review/NewEditPostingModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
@@ -19,13 +19,13 @@ import getDetailBoard from '@globalObj/function/getDetailBoard';
 import SliderBtnBox from './SliderBtnBox';
 
 // mode : new or edit
-function NewPostingModal(props: {
+function NewEditPostingModal(props: {
   mode: string;
   boardId?: number;
   setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { mode, boardId, setEditPostingModalShow } = props;
-  const setNewModalShow = useSetRecoilState(NewPostingModalShow);
+  const setNewModalShow = useSetRecoilState(NewEditPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
@@ -259,4 +259,4 @@ function NewPostingModal(props: {
   );
 }
 
-export default NewPostingModal;
+export default NewEditPostingModal;

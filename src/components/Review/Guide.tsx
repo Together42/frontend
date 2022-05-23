@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '@css/Review/Guide.scss';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
+import NewEditPostingModalShow from '@recoil/Review/NewEditPostingModalShow';
 import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import { getToken } from '@cert/TokenStorage';
@@ -14,14 +14,14 @@ interface Props {
 function Guide(props: Props) {
   const { isElemExist } = props;
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
-  const setNewPostingModalShow = useSetRecoilState(NewPostingModalShow);
+  const setNewEditPostingModalShow = useSetRecoilState(NewEditPostingModalShow);
   const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
 
   const onClickAddPosting = () => {
     setSelectedEvent(null);
     setIsEventBtnClicked(false);
-    if (getToken()) setNewPostingModalShow(true);
+    if (getToken()) setNewEditPostingModalShow(true);
     else alert('로그인 후 이용해주세요');
   };
 

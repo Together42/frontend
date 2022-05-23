@@ -7,8 +7,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
-import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
-import NewPostingModal from './NewPostingModal';
+import NewEditPostingModalShow from '@recoil/Review/NewEditPostingModalShow';
+import NewEditPostingModal from './NewEditPostingModal';
 import getAddress from '@globalObj/function/getAddress';
 import defaultImg from '@img/defaultImg.png';
 import getBoards from '@globalObj/function/getBoards';
@@ -16,7 +16,7 @@ import getBoards from '@globalObj/function/getBoards';
 function Review() {
   const isMounted = useRef(false);
   const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
-  const newPostingModalShow = useRecoilValue(NewPostingModalShow);
+  const newPostingModalShow = useRecoilValue(NewEditPostingModalShow);
   const [eventList, setEventList] = useRecoilState(EventList);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
 
@@ -50,7 +50,7 @@ function Review() {
   return (
     <>
       <Guide isElemExist={boardsObj ? true : false} />
-      {newPostingModalShow && <NewPostingModal mode="new" />}
+      {newPostingModalShow && <NewEditPostingModal mode="new" />}
       {boardsObj && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
           {Object.values(boardsObj)[0].map((board, i) => (
