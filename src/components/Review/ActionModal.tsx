@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import Xbtn from '@img/xmark-solid.svg';
+import Xbtn from '@img/xmark-solid-white.svg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ActionModalShow from '@recoil/Review/ActionModalShow';
 import '@css/Review/ActionModal.scss';

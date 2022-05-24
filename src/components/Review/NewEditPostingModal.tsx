@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Review/NewEditPostingModal.scss';
-import Xmark from '@img/xmark-solid.svg';
+import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
@@ -223,8 +223,10 @@ function NewEditPostingModal(props: {
               {mode === 'new' && (
                 <>
                   <div className="review--newposting--header--eventSelector">
-                    <span onClick={onClickEventModalOpen}>이벤트 찾기</span>
-                    {isEventBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_event" />}
+                    <span onClick={onClickEventModalOpen}>{!selectedEvent ? '이벤트 찾기' : '팀원 찾기'}</span>
+                    {isEventBtnClicked &&
+                      selectSomeModalShow &&
+                      (!selectedEvent ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
                   </div>
                   <div className="review--newposting--header--addTeamMem">
                     <span onClick={onClickAddMemModalOpen}>팀원 추가</span>

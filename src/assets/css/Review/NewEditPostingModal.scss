@@ -12,7 +12,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #bebebe2e;
+  background-color: #9e9e9eb8;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +43,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   align-items: center;
   width: $left_devision_width;
   height: $total_height;
-  background-color: $darkgrey_light;
+  background-color: #b8b8b84d;
   z-index: -1;
 }
 
