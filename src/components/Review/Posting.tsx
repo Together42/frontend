@@ -47,7 +47,7 @@ function Posting(props: Props) {
           <span className="review--posting--title--title">{title && title.length ? title : '제목이 없습니다'}</span>
           <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
         </div>
-        <SliderBtnBox imageArr={image} />
+        <img className="review--posting--image" src={image[0]} alt={image[0]}></img>
         <div className="review--posting--comments">
           <p className="review--posting--content">{contents && contents.length ? contents : '글을 안 다셨군요?'}</p>
           <p className="review--posting--commentLength">
