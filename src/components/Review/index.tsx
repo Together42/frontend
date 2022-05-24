@@ -49,7 +49,7 @@ function Review() {
 
   return (
     <>
-      <Guide isElemExist={boardsObj ? true : false} />
+      <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
       {newPostingModalShow && <NewEditPostingModal mode="new" />}
       {boardsObj && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>

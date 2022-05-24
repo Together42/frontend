@@ -13,6 +13,7 @@ function GetBoards(
   axios
     .get(`${getAddress()}/api/board/?eventId=${eventId}`)
     .then((res) => {
+      console.log(res.data);
       setBoardsObj(res.data);
     })
     .catch((err) => errorAlert(err));
