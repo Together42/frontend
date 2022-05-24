@@ -83,6 +83,30 @@ $right_devision_width: calc($total_width - $left_devision_width);
   display: none;
 }
 
+.review--newposting--add_files--submitted_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-height: 300px;
+}
+
+.review--newposting--add_files--submitted_title {
+  @include medium_eng;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.review--newposting--add_files--submitted {
+  @include medium_eng;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 5px;
+  text-align: center;
+}
+
 .review--newposting--right_division {
   width: $right_devision_width;
   height: $total_height;

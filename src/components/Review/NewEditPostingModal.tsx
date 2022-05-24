@@ -37,7 +37,7 @@ function NewEditPostingModal(props: {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
-  const [postImgArr, setPostImgArr] = useState<File[]>(null);
+  const [postFileArr, setPostFileArr] = useState<File[]>(null);
 
   const closeModal = useCallback(() => {
     if (mode === 'new') setNewModalShow(false);
@@ -48,13 +48,13 @@ function NewEditPostingModal(props: {
   const postImage = useCallback(
     (boardId: string) => {
       const formData = new FormData();
-      if (postImgArr) {
-        postImgArr.forEach((imgUrl) => formData.append('image', imgUrl));
+      if (postFileArr) {
+        postFileArr.forEach((imgUrl) => formData.append('image', imgUrl));
         formData.append('boardId', boardId);
         axios.post(`${getAddress()}/api/board/upload`, formData).then((res) => console.log(res));
       }
     },
-    [postImgArr],
+    [postFileArr],
   );
 
   const postNewPosting = useCallback(() => {
@@ -139,7 +139,7 @@ function NewEditPostingModal(props: {
   };
 
   const onClickUpload = (e: any) => {
-    setPostImgArr(e.target.files);
+    setPostFileArr(e.target.files);
   };
 
   useEffect(() => {
@@ -172,30 +172,39 @@ function NewEditPostingModal(props: {
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--newposting--left_division">
-          {mode === 'new' && !postImgArr ? (
+          {mode === 'new' ? (
             <div className="review--newposting--add_files">
-              <img src={defaultImg} alt={defaultImg}></img>
-              <p>이미지를 업로드 해주세용!</p>
-              <div className="review--newposting--add_files--input_wrapper">
-                <label
-                  className="review--newposting--add_files--input_btn"
-                  htmlFor="review--newposting--add_files--input"
-                >
-                  업로드
-                </label>
-                <input
-                  type="file"
-                  id="review--newposting--add_files--input"
-                  accept="image/*"
-                  placeholder="업로드"
-                  onChange={onClickUpload}
-                  multiple
-                  required
-                />
-              </div>
+              {!postFileArr ? (
+                <>
+                  <img src={defaultImg} alt={defaultImg}></img>
+                  <p>이미지를 업로드 해주세용!</p>
+                  <div className="review--newposting--add_files--input_wrapper">
+                    <label
+                      className="review--newposting--add_files--input_btn"
+                      htmlFor="review--newposting--add_files--input"
+                    >
+                      업로드
+                    </label>
+                    <input
+                      type="file"
+                      id="review--newposting--add_files--input"
+                      accept="image/*"
+                      placeholder="업로드"
+                      onChange={onClickUpload}
+                      multiple
+                      required
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="review--newposting--add_files--submitted_wrapper">
+                  <div className="review--newposting--add_files--submitted_title">Uploads</div>
+                  {Object.values(postFileArr).map((file) => (
+                    <div className="review--newposting--add_files--submitted">{file['name']}</div>
+                  ))}
+                </div>
+              )}
             </div>
-          ) : postImgArr ? (
-            <p></p>
           ) : (
             boardObj && <SliderBtnBox imageArr={boardObj['image']} />
           )}
