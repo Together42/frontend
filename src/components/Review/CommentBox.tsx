@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react';
 import '@css/Review/CommentBox.scss';
 import ellipsisImg from '@img/ellipsis-solid.svg';
 import checkImg from '@img/check-solid.svg';
-import { useRecoilState } from 'recoil';
-import ActionModalShow from '@recoil/Review/ActionModalShow';
 import ActionModal from './ActionModal';
 import { ReviewBoardType } from '@globalObj/object/types';
 import { getToken } from '@cert/TokenStorage';

@@ -3,7 +3,7 @@ import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 import errorAlert from '@utils/errorAlert';
 import axios from 'axios';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';

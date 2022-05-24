@@ -78,7 +78,8 @@ function Result() {
     setSelectedEvent(clickedEvent);
   };
 
-  const onSubmitMatching = () => {
+  const onSubmitMatching = (e: any) => {
+    e.preventDefault();
     if (teamLen !== '' && getToken()) postMatching();
     else if (!getToken()) alert('로그인 하셔야 사용 가능합니다');
     else if (teamLen === '') alert('몇 명으로 매칭하실 건지 적어주세요');

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import leftBtn from '@img/slider_btn_left.png';
 import RightBtn from '@img/slider_btn_right.png';
 import '@css/Review/SliderBtnBox.scss';
+import { imageType } from '@usefulObj/types';
 
-function SliderBtnBox(props: { imageArr: string[] }) {
+function SliderBtnBox(props: { imageArr: imageType[] }) {
   const { imageArr } = props;
   const [trans, setTrans] = useState(0);
   const [imagePage, setImagePage] = useState(0);
@@ -31,7 +32,7 @@ function SliderBtnBox(props: { imageArr: string[] }) {
         className="review--btn_box_slider"
         style={{ width: `${imageWidth * (imagePage + 1)}px`, transform: `translateX${trans}px` }}
       >
-        {imageArr && <img src={imageArr[imagePage]} alt={imageArr[imagePage]} />}
+        {imageArr && imageArr.map((image) => <img src={image['filePath']} alt={image['filePath']} />)}
       </div>
       <div className="review--btn_box_wrapper">
         <img className="review--image_btn" src={leftBtn} alt={leftBtn} onClick={onClickLeftBtn} />

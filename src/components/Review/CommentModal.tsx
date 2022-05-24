@@ -10,8 +10,8 @@ import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/function/getAddress';
 import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
-import defaultImg from '@img/defaultImg.png';
 import CommentBox from './CommentBox';
+import SliderBtnBox from './SliderBtnBox';
 
 function CommentModal(props: { boardId: number }) {
   const { boardId } = props;
@@ -73,9 +73,7 @@ function CommentModal(props: { boardId: number }) {
         <div className="review--detail-devision" onClick={(e) => e.stopPropagation()}>
           <div className="review--detail--left_division">
             <div className="review--detail--image--background"></div>
-            <div className="review--detail--modal_image">
-              <img src={boardObj['image'] || defaultImg} alt={boardObj['image'] || defaultImg} />
-            </div>
+            <SliderBtnBox imageArr={boardObj['image']} />
           </div>
           <div className="review--detail--right_division">
             <div className="review--detail--header">

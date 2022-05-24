@@ -25,6 +25,12 @@ export interface teamMemInfo {
   teamId: number;
 }
 
+export interface imageType {
+  imageId: number;
+  boardId: number;
+  filePath: string;
+}
+
 export interface PostingType {
   boardId: number;
   eventId?: number;
@@ -33,7 +39,7 @@ export interface PostingType {
   contents: string;
   createdAt: string;
   updatedAt?: string;
-  image: string[];
+  image: imageType[];
   commentNum: number;
   url: string;
 }
@@ -54,7 +60,7 @@ export interface ReviewBoardType {
   contents: string;
   createdAt: string;
   updatedAt: string;
-  image: string[];
+  image: imageType[];
   url: string;
   attendMembers: { intraId: string; url: string }[];
   comments: CommentType[];

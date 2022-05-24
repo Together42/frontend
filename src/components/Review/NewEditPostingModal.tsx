@@ -14,10 +14,10 @@ import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import GetBoards from '@globalObj/function/getBoards';
-import { ReviewBoardType } from '@globalObj/object/types';
+import { imageType, ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
-import SliderBtnBox from './SliderBtnBox';
 import defaultImg from '@img/uploadDefault.png';
+import SliderBtnBox from './SliderBtnBox';
 
 // mode : new or edit
 function NewEditPostingModal(props: {
@@ -33,7 +33,7 @@ function NewEditPostingModal(props: {
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imageArr, setImageArr] = useState<string[]>(null);
+  const [imageArr, setImageArr] = useState<imageType[]>(null);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
@@ -172,7 +172,7 @@ function NewEditPostingModal(props: {
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--newposting--left_division">
-          {mode === 'new' ? (
+          {mode === 'new' && !postImgArr ? (
             <div className="review--newposting--add_files">
               <img src={defaultImg} alt={defaultImg}></img>
               <p>이미지를 업로드 해주세용!</p>
@@ -194,6 +194,8 @@ function NewEditPostingModal(props: {
                 />
               </div>
             </div>
+          ) : postImgArr ? (
+            <p></p>
           ) : (
             boardObj && <SliderBtnBox imageArr={boardObj['image']} />
           )}
