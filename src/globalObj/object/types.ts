@@ -39,9 +39,9 @@ export interface PostingType {
   contents: string;
   createdAt: string;
   updatedAt?: string;
-  image: imageType[];
   commentNum: number;
   url: string;
+  filePath: string;
 }
 
 export interface CommentType {

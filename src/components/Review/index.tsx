@@ -47,6 +47,8 @@ function Review() {
     }
   }, [eventList, setSelectedEvent]);
 
+  // console.log(selectedEvent);
+
   return (
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
@@ -60,7 +62,7 @@ function Review() {
               intraId={board['writer']}
               contents={board['contents']}
               createdAt={board['createdAt']}
-              image={board['image'] ? board['image'] : [defaultImg]}
+              filePath={board['filePath'] ? board['filePath'] : defaultImg}
               commentNum={board['comments']}
               url={board['url']}
               elemNum={i + 1}

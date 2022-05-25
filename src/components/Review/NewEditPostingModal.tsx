@@ -14,7 +14,7 @@ import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import GetBoards from '@globalObj/function/getBoards';
-import { imageType, ReviewBoardType } from '@globalObj/object/types';
+import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import defaultImg from '@img/uploadDefault.png';
 import SliderBtnBox from './SliderBtnBox';
@@ -26,35 +26,37 @@ function NewEditPostingModal(props: {
   setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { mode, boardId, setEditPostingModalShow } = props;
-  const setNewModalShow = useSetRecoilState(NewEditPostingModalShow);
+  const setNewEditModalShow = useSetRecoilState(NewEditPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imageArr, setImageArr] = useState<imageType[]>(null);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
-  const [postFileArr, setPostFileArr] = useState<File[]>(null);
+  const [postFileObj, setPostFileObj] = useState<{ [x: string]: File }>(null);
 
   const closeModal = useCallback(() => {
-    if (mode === 'new') setNewModalShow(false);
+    if (mode === 'new') setNewEditModalShow(false);
     if (mode === 'edit') setEditPostingModalShow(false);
     setSelectSomeModalShow(false);
-  }, [mode, setEditPostingModalShow, setNewModalShow, setSelectSomeModalShow]);
+  }, [mode, setEditPostingModalShow, setNewEditModalShow, setSelectSomeModalShow]);
 
   const postImage = useCallback(
     (boardId: string) => {
       const formData = new FormData();
-      if (postFileArr) {
-        postFileArr.forEach((imgUrl) => formData.append('image', imgUrl));
+      if (postFileObj) {
+        Object.values(postFileObj).forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
-        axios.post(`${getAddress()}/api/board/upload`, formData).then((res) => console.log(res));
+        axios
+          .post(`${getAddress()}/api/board/upload`, formData)
+          .then((res) => console.log(res))
+          .catch((err) => errorAlert(err));
       }
     },
-    [postFileArr],
+    [postFileObj],
   );
 
   const postNewPosting = useCallback(() => {
@@ -63,11 +65,10 @@ function NewEditPostingModal(props: {
         .post(
           `${getAddress()}/api/board`,
           {
-            eventId: selectedEvent['eventId'],
-            title: title,
+            eventId: selectedEvent['id'],
+            title,
             contents: content,
-            image: imageArr,
-            attendMembers: Object.values(selectedTeam)[0][1],
+            attendMembers: Object.values(selectedTeam)[0],
           },
           {
             headers: {
@@ -79,11 +80,12 @@ function NewEditPostingModal(props: {
           postImage(res.data.boardId.toString());
           GetBoards(selectedEvent['id'], setBoardsObj);
           alert('성공적으로 게시되었습니다');
+          closeModal();
         })
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
     else if (!selectedTeam) alert('팀을 선택해 주세요');
-  }, [content, imageArr, postImage, selectedEvent, selectedTeam, setBoardsObj, title]);
+  }, [closeModal, content, postImage, selectedEvent, selectedTeam, setBoardsObj, title]);
 
   const postEditPosting = useCallback(() => {
     if (selectedEvent) {
@@ -91,10 +93,9 @@ function NewEditPostingModal(props: {
         .put(
           `${getAddress()}/api/board/${boardId}`,
           {
-            eventId: selectedEvent['eventId'],
+            eventId: selectedEvent['id'],
             title,
             content,
-            image: imageArr,
           },
           {
             headers: {
@@ -105,7 +106,7 @@ function NewEditPostingModal(props: {
         .then(() => alert('성공적으로 수정되었습니다'))
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
-  }, [boardId, content, imageArr, selectedEvent, title]);
+  }, [boardId, content, selectedEvent, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -139,7 +140,7 @@ function NewEditPostingModal(props: {
   };
 
   const onClickUpload = (e: any) => {
-    setPostFileArr(e.target.files);
+    setPostFileObj(e.target.files);
   };
 
   useEffect(() => {
@@ -161,11 +162,10 @@ function NewEditPostingModal(props: {
     if (mode === 'edit' && boardObj) {
       setTitle(boardObj['title']);
       setContent(boardObj['contents']);
-      setImageArr(boardObj['image']);
     }
   }, [mode, boardObj, setSelectedTeam]);
 
-  // console.log(new FormData());
+  // console.log(selectedTeam && Object.values(selectedTeam)[0]);
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
@@ -174,7 +174,7 @@ function NewEditPostingModal(props: {
         <div className="review--newposting--left_division">
           {mode === 'new' ? (
             <div className="review--newposting--add_files">
-              {!postFileArr ? (
+              {!postFileObj ? (
                 <>
                   <img src={defaultImg} alt={defaultImg}></img>
                   <p>이미지를 업로드 해주세용!</p>
@@ -199,7 +199,7 @@ function NewEditPostingModal(props: {
               ) : (
                 <div className="review--newposting--add_files--submitted_wrapper">
                   <div className="review--newposting--add_files--submitted_title">Uploads</div>
-                  {Object.values(postFileArr).map((file) => (
+                  {Object.values(postFileObj).map((file) => (
                     <div className="review--newposting--add_files--submitted">{file['name']}</div>
                   ))}
                 </div>

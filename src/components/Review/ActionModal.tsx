@@ -8,10 +8,10 @@ import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@utils/errorAlert';
 import GetBoards from '@globalObj/function/getBoards';
-import SelectedEvent from '@recoil/SelectedEvent';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
+import SelectedEvent from '@recoil/Review/SelectedEvent';
 
 function ActionModal(props: {
   mode: string;
@@ -85,7 +85,7 @@ function ActionModal(props: {
     else if (mode === 'comment') setCommentActionModalShow(false);
   };
 
-  // console.log(commentId);
+  // console.log(selectedEvent && selectedEvent['id']);
 
   return (
     <div
