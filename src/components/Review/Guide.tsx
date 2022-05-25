@@ -19,6 +19,7 @@ function Guide(props: Props) {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
 
   const onClickAddPosting = () => {
+    setSelectedEvent(null);
     setIsEventBtnClicked(false);
     if (getToken()) setNewEditPostingModalShow(true);
     else alert('로그인 후 이용해주세요');

@@ -48,6 +48,7 @@ function NewEditPostingModal(props: {
     (boardId: string) => {
       const formData = new FormData();
       if (postFileObj) {
+        // console.log(postFileObj);
         Object.values(postFileObj).forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
         axios
@@ -77,7 +78,7 @@ function NewEditPostingModal(props: {
           },
         )
         .then((res) => {
-          postImage(res.data.boardId.toString());
+          postImage(res.data.post.toString());
           GetBoards(selectedEvent['id'], setBoardsObj);
           alert('성공적으로 게시되었습니다');
           closeModal();
@@ -164,8 +165,6 @@ function NewEditPostingModal(props: {
       setContent(boardObj['contents']);
     }
   }, [mode, boardObj, setSelectedTeam]);
-
-  // console.log(selectedTeam && Object.values(selectedTeam)[0]);
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>

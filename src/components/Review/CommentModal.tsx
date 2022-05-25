@@ -66,6 +66,8 @@ function CommentModal(props: { boardId: number }) {
     return () => setModalShow(false);
   }, [setModalShow, setBoardObj, boardId]);
 
+  console.log(boardObj);
+
   return (
     boardObj && (
       <div className="review--detail--background" onClick={() => setModalShow(false)}>

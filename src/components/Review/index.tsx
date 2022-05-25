@@ -47,7 +47,7 @@ function Review() {
     }
   }, [eventList, setSelectedEvent]);
 
-  // console.log(selectedEvent);
+  // console.log(boardsObj && Object.values(boardsObj)[0]);
 
   return (
     <>
