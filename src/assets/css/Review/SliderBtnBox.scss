@@ -4,20 +4,21 @@
   position: relative;
   width: 300px;
   height: 300px;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .review--btn_box_slider {
   position: absolute;
   left: 0;
   top: 0;
+  margin: 0;
   display: flex;
   height: 300px;
   transition: 0.5s;
   img {
     width: 300px;
     height: 300px;
-    object-fit: cover;
+    object-fit: contain;
   }
 }
 

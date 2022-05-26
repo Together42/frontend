@@ -3,11 +3,11 @@ import leftBtn from '@img/slider_btn_left.png';
 import RightBtn from '@img/slider_btn_right.png';
 import '@css/Review/SliderBtnBox.scss';
 import { imageType } from '@usefulObj/types';
+import defaultImg from '@img/defaultImg.png';
 
 function SliderBtnBox(props: { imageArr: imageType[] }) {
-  const { imageArr } = props;
+  const { imageArr = [defaultImg] } = props;
   const [trans, setTrans] = useState(0);
-  const [imagePage, setImagePage] = useState(0);
   const imageWidth = 300;
 
   const onClickLeftBtn = () => {
@@ -15,7 +15,6 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
       return;
     }
     setTrans((prev) => prev + imageWidth);
-    setImagePage((prev) => prev - 1);
   };
 
   const onClickRightBtn = () => {
@@ -23,14 +22,15 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
       return;
     }
     setTrans((prev) => prev - imageWidth);
-    setImagePage((prev) => prev + 1);
   };
+
+  console.log(trans);
 
   return (
     <div className="review--btn_box_viewer">
       <div
         className="review--btn_box_slider"
-        style={{ width: `${imageWidth * (imagePage + 1)}px`, transform: `translateX${trans}px` }}
+        style={{ width: `${imageWidth * imageArr.length}px`, transform: `translateX(${trans}px)` }}
       >
         {imageArr && imageArr.map((image) => <img src={image['filePath']} alt={image['filePath']} />)}
       </div>

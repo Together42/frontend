@@ -96,7 +96,7 @@ function NewEditPostingModal(props: {
           {
             eventId: selectedEvent['id'],
             title,
-            content,
+            contents: content,
           },
           {
             headers: {
@@ -104,10 +104,14 @@ function NewEditPostingModal(props: {
             },
           },
         )
-        .then(() => alert('성공적으로 수정되었습니다'))
+        .then(() => {
+          alert('성공적으로 수정되었습니다');
+          GetBoards(selectedEvent['id'], setBoardsObj);
+          setEditPostingModalShow(false);
+        })
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
-  }, [boardId, content, selectedEvent, title]);
+  }, [boardId, content, selectedEvent, setBoardsObj, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -205,7 +209,7 @@ function NewEditPostingModal(props: {
               )}
             </div>
           ) : (
-            boardObj && <SliderBtnBox imageArr={boardObj['image']} />
+            boardObj && <SliderBtnBox imageArr={boardObj['images']} />
           )}
         </div>
         <div className="review--newposting--right_division">

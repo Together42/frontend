@@ -66,7 +66,7 @@ function CommentModal(props: { boardId: number }) {
     return () => setModalShow(false);
   }, [setModalShow, setBoardObj, boardId]);
 
-  console.log(boardObj);
+  // console.log(boardObj);
 
   return (
     boardObj && (
@@ -75,14 +75,14 @@ function CommentModal(props: { boardId: number }) {
         <div className="review--detail-devision" onClick={(e) => e.stopPropagation()}>
           <div className="review--detail--left_division">
             <div className="review--detail--image--background"></div>
-            <SliderBtnBox imageArr={boardObj['image']} />
+            <SliderBtnBox imageArr={boardObj['images']} />
           </div>
           <div className="review--detail--right_division">
             <div className="review--detail--header">
               <div className="review--detail--title">{boardObj['title']}</div>
               <div className="review--detail--members">
                 {boardObj['attendMembers'] &&
-                  boardObj['attendMembers'].map((e, i) => <img src={e['url']} key={i} alt={e['url']} />)}
+                  boardObj['attendMembers'].map((e, i) => i < 4 && <img src={e['url']} key={i} alt={e['url']} />)}
               </div>
             </div>
             <div className="review--detail--detail_comments" ref={scrollRef}>

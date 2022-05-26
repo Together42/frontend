@@ -40,6 +40,7 @@ $border_thickness: 1px;
 .review--posting--image {
   width: 300px;
   height: 300px;
+  object-fit: cover;
 }
 
 .justify-left {
