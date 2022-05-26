@@ -20,14 +20,27 @@ $border_thickness: 1px;
 .review--posting--title {
   display: flex;
   justify-content: space-between;
-  // width: 100%;
   padding: 10px;
 }
 
+.review--posting--title--title_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.review--posting--title--writter {
+  width: 25px;
+  border-radius: 20px;
+}
+
 .review--posting--title--title {
+  width: 210px;
+  margin-left: 10px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   @include medium_kor;
   color: $darkgrey_darker;
-  display: block;
 }
 
 .review--posting--actions {

@@ -47,7 +47,10 @@ function Posting(props: Props) {
       {modalShow && <CommentModal boardId={boardId} setModalShow={setModalShow} />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
-          <span className="review--posting--title--title">{title}</span>
+          <div className="review--posting--title--title_wrapper">
+            <img className="review--posting--title--writter" src={url} alt={url}></img>
+            <div className="review--posting--title--title">{title}</div>
+          </div>
           <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
         </div>
         <img className="review--posting--image" src={filePath} alt={filePath}></img>
