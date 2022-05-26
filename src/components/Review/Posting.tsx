@@ -47,18 +47,16 @@ function Posting(props: Props) {
       {modalShow && <CommentModal boardId={boardId} setModalShow={setModalShow} />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
-          <span className="review--posting--title--title">{title && title.length ? title : '제목이 없습니다'}</span>
+          <span className="review--posting--title--title">{title}</span>
           <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
         </div>
         <img className="review--posting--image" src={filePath} alt={filePath}></img>
         <div className="review--posting--comments">
-          <p className="review--posting--content">{contents && contents.length ? contents : '글을 안 다셨군요?'}</p>
+          <p className="review--posting--content">{contents}</p>
           <p className="review--posting--commentLength">
             {commentNum ? `댓글 ${commentNum}개 모두 보기` : '댓글이 없습니다..'}
           </p>
-          <p className="review--posting--createdAt">
-            {createdAt ? createdAt.slice(5, 10).replace('-', '.') : '만든 일시가 없습니다'}{' '}
-          </p>
+          <p className="review--posting--createdAt">{createdAt.slice(5, 10).replace('-', '.')}</p>
         </div>
         <div
           className={`review--posting--open_modal ${elemNum && elemNum % 2 === 0 ? 'position-right' : 'position-left'}`}

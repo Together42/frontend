@@ -19,8 +19,8 @@ function ActionModal(props: {
   setBoardObj?: React.Dispatch<React.SetStateAction<ReviewBoardType>>;
   setCommentMode?: React.Dispatch<React.SetStateAction<string>>;
   setCommentActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
   setPostActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const {
     mode,
