@@ -8,7 +8,7 @@ import errorAlert from '@utils/errorAlert';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
-import NewEditPostingModalShow from '@recoil/Review/NewEditPostingModalShow';
+import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
@@ -26,7 +26,7 @@ function NewEditPostingModal(props: {
   setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { mode, boardId, setEditPostingModalShow } = props;
-  const setNewEditModalShow = useSetRecoilState(NewEditPostingModalShow);
+  const setNewEditModalShow = useSetRecoilState(NewPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);

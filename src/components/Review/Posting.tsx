@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import '@css/Review/Posting.scss';
 import caret_right from '@img/caret-right-solid.svg';
-import { useRecoilState } from 'recoil';
 import { PostingType } from '@globalObj/object/types';
-import CommentModalShow from '@recoil/Review/CommentModalShow';
 import elipsisImg from '@img/ellipsis-solid.svg';
-import ActionModalShow from '@recoil/Review/ActionModalShow';
 import ActionModal from './ActionModal';
 import NewEditPostingModal from './NewEditPostingModal';
 import CommentModal from './CommentModal';
@@ -16,7 +13,7 @@ interface Props extends PostingType {
 
 function Posting(props: Props) {
   const { boardId, title, intraId, contents, createdAt, filePath, commentNum, elemNum, url } = props;
-  const [modalShow, setModalShow] = useRecoilState(CommentModalShow);
+  const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
 
@@ -47,7 +44,7 @@ function Posting(props: Props) {
           setPostActionModalShow={setActionModalShow}
         />
       )}
-      {modalShow && <CommentModal boardId={boardId} />}
+      {modalShow && <CommentModal boardId={boardId} setModalShow={setModalShow} />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
           <span className="review--posting--title--title">{title && title.length ? title : '제목이 없습니다'}</span>

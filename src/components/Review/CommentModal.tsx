@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid-white.svg';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import commentModalShow from '@recoil/Review/CommentModalShow';
+import { useRecoilValue } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import errorAlert from '@utils/errorAlert';
@@ -13,11 +12,10 @@ import getDetailBoard from '@globalObj/function/getDetailBoard';
 import CommentBox from './CommentBox';
 import SliderBtnBox from './SliderBtnBox';
 
-function CommentModal(props: { boardId: number }) {
-  const { boardId } = props;
+function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<React.SetStateAction<boolean>> }) {
+  const { boardId, setModalShow } = props;
   const scrollRef = useRef(null);
   const hasPosted = useRef(false);
-  const setModalShow = useSetRecoilState(commentModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
   const [myComment, setMyComment] = useState('');
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
