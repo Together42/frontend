@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import Xbtn from '@img/xmark-solid-white.svg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import ActionModalShow from '@recoil/Review/ActionModalShow';
 import '@css/Review/ActionModal.scss';
 import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
@@ -21,12 +20,25 @@ function ActionModal(props: {
   setCommentMode?: React.Dispatch<React.SetStateAction<string>>;
   setCommentActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
   setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
+  setPostActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { mode, boardId, commentId, setBoardObj, setCommentMode, setCommentActionModalShow, setEditPostingModalShow } =
-    props;
-  const setActionModalShow = useSetRecoilState(ActionModalShow);
+  const {
+    mode,
+    boardId,
+    commentId,
+    setBoardObj,
+    setCommentMode,
+    setCommentActionModalShow,
+    setEditPostingModalShow,
+    setPostActionModalShow,
+  } = props;
   const selectedEvent = useRecoilValue(SelectedEvent);
   const setBoardsObj = useSetRecoilState(BoardsObj);
+
+  const closeModal = () => {
+    if (mode === 'post') setPostActionModalShow(false);
+    else if (mode === 'comment') setCommentActionModalShow(false);
+  };
 
   const deletePost = useCallback(() => {
     if (getToken()) {
@@ -61,28 +73,15 @@ function ActionModal(props: {
   }, [boardId, commentId, setBoardObj]);
 
   const onClickUpdate = () => {
-    if (mode === 'post') {
-      setEditPostingModalShow(true);
-      setActionModalShow(false);
-    } else if (mode === 'comment') {
-      setCommentMode('edit');
-      setCommentActionModalShow(false);
-    }
+    if (mode === 'post') setEditPostingModalShow(true);
+    else if (mode === 'comment') setCommentMode('edit');
+    closeModal();
   };
 
   const onClickDelete = () => {
-    if (mode === 'post') {
-      deletePost();
-      setActionModalShow(false);
-    } else if (mode === 'comment') {
-      deleteComment();
-      setCommentActionModalShow(false);
-    }
-  };
-
-  const onClickXbtn = () => {
-    if (mode === 'post') setActionModalShow(false);
-    else if (mode === 'comment') setCommentActionModalShow(false);
+    if (mode === 'post') deletePost();
+    else if (mode === 'comment') deleteComment();
+    closeModal();
   };
 
   // console.log(selectedEvent && selectedEvent['id']);
@@ -91,7 +90,7 @@ function ActionModal(props: {
     <div
       className="review--actionModal--background"
       onClick={() => {
-        setActionModalShow(false);
+        setPostActionModalShow(false);
       }}
     >
       <div className="review--actionModal" onClick={(e) => e.stopPropagation()}>
@@ -104,7 +103,7 @@ function ActionModal(props: {
         </div>
         <hr className="review--actionModal--hr" />
         <div className="review--actionModal--xbtn">
-          <img src={Xbtn} alt={Xbtn} onClick={onClickXbtn} />
+          <img src={Xbtn} alt={Xbtn} onClick={() => closeModal()} />
         </div>
       </div>
     </div>

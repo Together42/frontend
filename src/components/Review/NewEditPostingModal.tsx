@@ -111,7 +111,7 @@ function NewEditPostingModal(props: {
         })
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
-  }, [boardId, content, selectedEvent, setBoardsObj, title]);
+  }, [boardId, content, selectedEvent, setBoardsObj, setEditPostingModalShow, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -169,6 +169,8 @@ function NewEditPostingModal(props: {
       setContent(boardObj['contents']);
     }
   }, [mode, boardObj, setSelectedTeam]);
+
+  // console.log(boardObj);
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>

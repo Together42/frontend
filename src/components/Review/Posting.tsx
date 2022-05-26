@@ -17,7 +17,7 @@ interface Props extends PostingType {
 function Posting(props: Props) {
   const { boardId, title, intraId, contents, createdAt, filePath, commentNum, elemNum, url } = props;
   const [modalShow, setModalShow] = useRecoilState(CommentModalShow);
-  const [actionModalShow, setActionModalShow] = useRecoilState(ActionModalShow);
+  const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
 
   const onClickMoreButton = () => {
@@ -40,7 +40,12 @@ function Posting(props: Props) {
         <NewEditPostingModal mode="edit" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />
       )}
       {actionModalShow && (
-        <ActionModal mode="post" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />
+        <ActionModal
+          mode="post"
+          boardId={boardId}
+          setEditPostingModalShow={setEditPostingModalShow}
+          setPostActionModalShow={setActionModalShow}
+        />
       )}
       {modalShow && <CommentModal boardId={boardId} />}
       <div className="review--posting--shownWrapper">

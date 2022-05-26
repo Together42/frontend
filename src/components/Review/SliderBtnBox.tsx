@@ -24,7 +24,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
     setTrans((prev) => prev - imageWidth);
   };
 
-  console.log(trans);
+  // console.log(trans);
 
   return (
     <div className="review--btn_box_viewer">
