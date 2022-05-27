@@ -21,6 +21,7 @@ $addMemDivHeight: calc(
   border: 1px solid $darkgrey_default;
   background-color: white;
   overflow: scroll;
+  z-index: 3;
   &::-webkit-scrollbar {
     display: none;
   }

@@ -19,14 +19,12 @@ function Guide(props: Props) {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
 
   const onClickAddPosting = () => {
-    setSelectedEvent(null);
     setIsEventBtnClicked(false);
     if (getToken()) setNewPostingModalShow(true);
     else alert('로그인 후 이용해주세요');
   };
 
   const onClickSelectEvent = () => {
-    setSelectedEvent(null);
     setIsEventBtnClicked(true);
     setEventListModalShow(true);
   };

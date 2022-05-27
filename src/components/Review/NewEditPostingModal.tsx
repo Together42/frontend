@@ -37,6 +37,7 @@ function NewEditPostingModal(props: {
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
   const [postFileObj, setPostFileObj] = useState<{ [x: string]: File }>(null);
+  const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
 
   const closeModal = useCallback(() => {
     if (mode === 'new') setNewEditModalShow(false);
@@ -228,10 +229,10 @@ function NewEditPostingModal(props: {
               {mode === 'new' && (
                 <>
                   <div className="review--newposting--header--eventSelector">
-                    <span onClick={onClickEventModalOpen}>{!selectedEvent ? '이벤트 찾기' : '팀원 찾기'}</span>
+                    <span onClick={onClickEventModalOpen}>{isEventMode ? '이벤트 찾기' : '팀원 찾기'}</span>
                     {isEventBtnClicked &&
                       selectSomeModalShow &&
-                      (!selectedEvent ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
+                      (isEventMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
                   </div>
                   <div className="review--newposting--header--addTeamMem">
                     <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
