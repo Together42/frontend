@@ -132,6 +132,14 @@ $right_devision_width: calc($total_width - $left_devision_width);
   }
 }
 
+.new_input {
+  width: 200px;
+}
+
+.edit_input {
+  width: $right_devision_width - (2 * $margin_margin_medium);
+}
+
 .review--newposting--header--selectorWrapper {
   display: flex;
   align-items: center;

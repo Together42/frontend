@@ -217,7 +217,7 @@ function NewEditPostingModal(props: {
         <div className="review--newposting--right_division">
           <div className="review--newposting--header">
             <input
-              className="review--newposting--header--title"
+              className={`review--newposting--header--title ${mode === 'new' ? 'new_input' : 'edit_input'}`}
               placeholder="제목 입력"
               onFocus={(e) => (e.target.placeholder = '')}
               onBlur={(e) => (e.target.placeholder = '제목 입력')}
