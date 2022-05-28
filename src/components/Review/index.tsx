@@ -47,8 +47,6 @@ function Review() {
     }
   }, [eventList, setSelectedEvent]);
 
-  // console.log(boardsObj && Object.values(boardsObj)[0]);
-
   return (
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
