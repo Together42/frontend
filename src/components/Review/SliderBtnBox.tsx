@@ -32,11 +32,17 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
         className="review--btn_box_slider"
         style={{ width: `${imageWidth * imageArr.length}px`, transform: `translateX(${trans}px)` }}
       >
-        {imageArr && imageArr.map((image) => <img src={image['filePath']} alt={image['filePath']} />)}
+        {imageArr.map((image) => (
+          <img src={image['filePath']} alt={image['filePath']} />
+        ))}
       </div>
       <div className="review--btn_box_wrapper">
-        <img className="review--image_btn" src={leftBtn} alt={leftBtn} onClick={onClickLeftBtn} />
-        <img className="review--image_btn" src={RightBtn} alt={RightBtn} onClick={onClickRightBtn} />
+        {trans && imageArr.length > 1 ? (
+          <img className="review--image_btn__left" src={leftBtn} alt={leftBtn} onClick={onClickLeftBtn} />
+        ) : null}
+        {trans > -(imageWidth * (imageArr.length - 1)) && imageArr.length > 1 ? (
+          <img className="review--image_btn__right" src={RightBtn} alt={RightBtn} onClick={onClickRightBtn} />
+        ) : null}
       </div>
     </div>
   );

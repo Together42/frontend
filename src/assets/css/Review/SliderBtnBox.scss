@@ -25,13 +25,23 @@
 .review--btn_box_wrapper {
   position: absolute;
   width: 300px;
-  display: flex;
-  justify-content: space-between;
   top: 140px;
   padding: 0 5px;
 }
 
-.review--image_btn {
+.review--image_btn__left {
+  position: absolute;
+  left: 5px;
+  width: 22px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.review--image_btn__right {
+  position: absolute;
+  right: 5px;
   width: 22px;
   &:hover {
     cursor: pointer;
