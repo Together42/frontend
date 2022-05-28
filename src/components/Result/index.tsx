@@ -3,7 +3,7 @@ import '@css/Result/Result.scss';
 import Footer from '@result/Footer';
 import axios from 'axios';
 import { EventType } from '@globalObj/object/types';
-import errorAlert from '@utils/errorAlert';
+import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import Xmark from '@img/xmark-solid.svg';
 import getAddress from '@globalObj/function/getAddress';

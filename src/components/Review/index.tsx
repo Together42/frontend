@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
-import errorAlert from '@utils/errorAlert';
+import errorAlert from '@globalObj/function/errorAlert';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import BoardsObj from '@recoil/Review/BoardsObj';

@@ -4,13 +4,14 @@ import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilValue } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
-import errorAlert from '@utils/errorAlert';
+import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/function/getAddress';
 import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import CommentBox from './CommentBox';
 import SliderBtnBox from './SliderBtnBox';
+import shuffle from '@globalObj/function/shuffleArr';
 
 function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<React.SetStateAction<boolean>> }) {
   const { boardId, setModalShow } = props;
@@ -89,7 +90,7 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
                 <span className="review--detail--full_comment">{boardObj['contents']}</span>
               </div>
               {boardObj['comments'] &&
-                boardObj['comments'].map((e, i) => (
+                shuffle(boardObj['comments']).map((e, i) => (
                   <CommentBox
                     key={i}
                     intraId={e['intraId']}

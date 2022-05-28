@@ -5,7 +5,7 @@ import '@css/Review/ActionModal.scss';
 import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
-import errorAlert from '@utils/errorAlert';
+import errorAlert from '@globalObj/function/errorAlert';
 import GetBoards from '@globalObj/function/getBoards';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import { ReviewBoardType } from '@globalObj/object/types';

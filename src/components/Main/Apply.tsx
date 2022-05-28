@@ -7,7 +7,7 @@ import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/SelectedEvent';
 import { EventType } from '@globalObj/object/types';
 import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
-import errorAlert from '@utils/errorAlert';
+import errorAlert from '@globalObj/function/errorAlert';
 import getAddress from '@globalObj/function/getAddress';
 
 function Apply() {

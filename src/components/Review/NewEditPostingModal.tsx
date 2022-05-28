@@ -4,7 +4,7 @@ import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
-import errorAlert from '@utils/errorAlert';
+import errorAlert from '@globalObj/function/errorAlert';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';

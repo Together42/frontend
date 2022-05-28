@@ -7,7 +7,7 @@ import { ReviewBoardType } from '@globalObj/object/types';
 import { getToken } from '@cert/TokenStorage';
 import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
-import errorAlert from '@utils/errorAlert';
+import errorAlert from '@globalObj/function/errorAlert';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 
 function CommentBox(props: {
