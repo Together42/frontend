@@ -17,8 +17,9 @@ import GetBoards from '@globalObj/function/getBoards';
 import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import defaultImg from '@img/uploadDefault.png';
-import SliderBtnBox from './SliderBtnBox';
 import UplaodBtn from '@utils/uploadBtn';
+import XmarkRd from '@img/xmark-solid-red.svg';
+import PreviewBox from './PreviewBox';
 
 // mode : new or edit
 function NewEditPostingModal(props: {
@@ -37,7 +38,8 @@ function NewEditPostingModal(props: {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
-  const [setPostArr, setPostFileArr] = useState<File[]>(null);
+  const [postFileArr, setPostFileArr] = useState<File[]>(null);
+  const [postUrlArr, setPostUrlArr] = useState<string[]>(null);
   const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
 
   const closeModal = useCallback(() => {
@@ -49,8 +51,8 @@ function NewEditPostingModal(props: {
   const postImage = useCallback(
     (boardId: string) => {
       const formData = new FormData();
-      if (setPostArr) {
-        setPostArr.forEach((file) => formData.append('image', file));
+      if (postFileArr) {
+        postFileArr.forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
         axios
           .post(`${getAddress()}/api/board/upload`, formData)
@@ -58,7 +60,7 @@ function NewEditPostingModal(props: {
           .catch((err) => errorAlert(err));
       }
     },
-    [setPostArr],
+    [postFileArr],
   );
 
   const postNewPosting = useCallback(() => {
@@ -147,7 +149,7 @@ function NewEditPostingModal(props: {
 
   const onClickUpload = (e: any) => {
     setPostFileArr(Object.values(e.target.files));
-    // console.log(Object.values(e.target.files));
+    setPostUrlArr(Array.from(e.target.files).map((file: Blob) => URL.createObjectURL(file)));
   };
 
   useEffect(() => {
@@ -159,6 +161,7 @@ function NewEditPostingModal(props: {
 
   useEffect(() => {
     if (mode === 'edit') getDetailBoard(boardId, setBoardObj);
+
     return () => {
       setSelectedTeam(null);
       closeModal();
@@ -179,26 +182,39 @@ function NewEditPostingModal(props: {
         <div className="review--newposting--left_division">
           {mode === 'new' ? (
             <div className="review--newposting--add_files">
-              {!setPostArr ? (
+              {!postUrlArr ? (
                 <>
-                  <img src={defaultImg} alt={defaultImg}></img>
+                  <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg}></img>
                   <p>이미지를 업로드 해주세용!</p>
                   <UplaodBtn mode={mode} innerText="업로드" onClickFunc={onClickUpload} />
                 </>
               ) : (
-                <div className="review--newposting--add_files--submitted_wrapper">
-                  <div className="review--newposting--add_files--submitted_title">Uploads</div>
-                  {setPostArr.map((file) => (
-                    <div className="review--newposting--add_files--submitted">{file['name']}</div>
-                  ))}
-                </div>
+                <PreviewBox imgArr={postUrlArr} />
               )}
             </div>
           ) : (
             boardObj && (
               <>
                 <UplaodBtn mode={mode} innerText="추가 업로드" onClickFunc={onClickUpload} />
-                <SliderBtnBox imageArr={boardObj['images']} mode="edit" />
+                <div className="review--newposting--add_files">
+                  <div className="review--newposting--add_files--submitted_wrapper">
+                    <div className="review--newposting--add_files--submitted_title">Uploads</div>
+                    {boardObj['images']
+                      ? boardObj['images'].map((image) => (
+                          <div key={image['filePath']} className="review--newposting--add_files--submitted">
+                            {image['filePath']}
+                          </div>
+                        ))
+                      : null}
+                    {postFileArr
+                      ? postFileArr.map((file) => (
+                          <div key={file['name']} className="review--newposting--add_files--submitted">
+                            {file['name']}
+                          </div>
+                        ))
+                      : null}
+                  </div>
+                </div>
               </>
             )
           )}

@@ -60,7 +60,7 @@ export interface ReviewBoardType {
   contents: string;
   createdAt: string;
   updatedAt: string;
-  image: imageType[];
+  images: imageType[];
   url: string;
   attendMembers: { intraId: string; url: string }[];
   comments: CommentType[];

@@ -56,12 +56,13 @@ $right_devision_width: calc($total_width - $left_devision_width);
   height: 300px;
   width: 100%;
   border: 2px dashed $darkgrey_light;
-  img {
-    width: 150px;
-  }
   p {
     @include medium_kor;
   }
+}
+
+.review--newposting--add_file--upload_img {
+  width: 150px;
 }
 
 .review--newposting--add_files--input_wrapper {
@@ -88,23 +89,48 @@ $right_devision_width: calc($total_width - $left_devision_width);
   flex-direction: column;
   width: 80%;
   max-height: 300px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .review--newposting--add_files--submitted_title {
   @include medium_eng;
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin: 20px 0;
   text-align: center;
 }
 
-.review--newposting--add_files--submitted {
-  @include medium_eng;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin: 5px;
-  text-align: center;
+.review--newposting--add_files--for_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  justify-items: center;
+  row-gap: 10px;
+}
+
+.review--newposting--add_files--preview_wrapper {
+  position: relative;
+}
+
+.review--newposting--add_files--preview {
+  object-fit: contain;
+  width: 100px;
+  height: 100px;
+}
+
+.review--newposting--add_files--Xmark {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 0;
+  background-color: white;
+  border-radius: 20px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 }
 
 .review--newposting--right_division {
