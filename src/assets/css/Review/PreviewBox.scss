@@ -1,38 +1,5 @@
 @import '@css/fonts.scss';
 
-.review--preview_box {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  width: 100%;
-  border: 2px dashed $darkgrey_light;
-  p {
-    @include medium_kor;
-  }
-}
-
-.review--preview_box--submitted_wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  max-height: 300px;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.review--preview_box--submitted_title {
-  @include medium_eng;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 20px 0;
-  text-align: center;
-}
-
 .review--preview_box--for_grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(50%, auto));

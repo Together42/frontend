@@ -103,36 +103,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
   text-align: center;
 }
 
-.review--newposting--add_files--for_grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(50%, auto));
-  justify-items: center;
-  row-gap: 10px;
-}
-
-.review--newposting--add_files--preview_wrapper {
-  position: relative;
-}
-
-.review--newposting--add_files--preview {
-  object-fit: contain;
-  width: 100px;
-  height: 100px;
-}
-
-.review--newposting--add_files--Xmark {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  right: 0;
-  background-color: white;
-  border-radius: 20px;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-}
-
 .review--newposting--right_division {
   width: $right_devision_width;
   height: $total_height;

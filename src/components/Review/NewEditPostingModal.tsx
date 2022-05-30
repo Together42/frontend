@@ -18,7 +18,6 @@ import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import defaultImg from '@img/uploadDefault.png';
 import UplaodBtn from '@utils/uploadBtn';
-import XmarkRd from '@img/xmark-solid-red.svg';
 import PreviewBox from './PreviewBox';
 
 // mode : new or edit
@@ -40,6 +39,8 @@ function NewEditPostingModal(props: {
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
   const [postFileArr, setPostFileArr] = useState<File[]>(null);
   const [postUrlArr, setPostUrlArr] = useState<string[]>(null);
+  const [boardImgArr, setBoardImgArr] = useState<string[]>(null);
+  const [deleteArr, setDeleteArr] = useState<string[]>([]);
   const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
 
   const closeModal = useCallback(() => {
@@ -159,21 +160,25 @@ function NewEditPostingModal(props: {
     }
   }, [selectSomeModalShow]);
 
+  // get Detail Board data when edit mode
   useEffect(() => {
     if (mode === 'edit') getDetailBoard(boardId, setBoardObj);
-
     return () => {
       setSelectedTeam(null);
       closeModal();
     };
   }, [boardId, closeModal, mode, setSelectedTeam]);
 
+  // get title and contents when board data exist
   useEffect(() => {
     if (mode === 'edit' && boardObj) {
       setTitle(boardObj['title']);
       setContent(boardObj['contents']);
+      setBoardImgArr(boardObj['images'].map((imgObj) => imgObj['filePath']));
     }
   }, [mode, boardObj, setSelectedTeam]);
+
+  // console.log(deleteArr);
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
@@ -189,34 +194,25 @@ function NewEditPostingModal(props: {
                   <UplaodBtn mode={mode} innerText="업로드" onClickFunc={onClickUpload} />
                 </>
               ) : (
-                <PreviewBox imgArr={postUrlArr} />
-              )}
-            </div>
-          ) : (
-            boardObj && (
-              <>
-                <UplaodBtn mode={mode} innerText="추가 업로드" onClickFunc={onClickUpload} />
                 <div className="review--newposting--add_files">
                   <div className="review--newposting--add_files--submitted_wrapper">
                     <div className="review--newposting--add_files--submitted_title">Uploads</div>
-                    {boardObj['images']
-                      ? boardObj['images'].map((image) => (
-                          <div key={image['filePath']} className="review--newposting--add_files--submitted">
-                            {image['filePath']}
-                          </div>
-                        ))
-                      : null}
-                    {postFileArr
-                      ? postFileArr.map((file) => (
-                          <div key={file['name']} className="review--newposting--add_files--submitted">
-                            {file['name']}
-                          </div>
-                        ))
-                      : null}
+                    <PreviewBox imgArr={postUrlArr} mode="new" setDeleteArr={setDeleteArr} />
                   </div>
                 </div>
-              </>
-            )
+              )}
+            </div>
+          ) : (
+            <>
+              <UplaodBtn mode={mode} innerText="추가 업로드" onClickFunc={onClickUpload} />
+              <div className="review--newposting--add_files">
+                <div className="review--newposting--add_files--submitted_wrapper">
+                  <div className="review--newposting--add_files--submitted_title">Uploads</div>
+                  <PreviewBox imgArr={boardImgArr ? boardImgArr : []} mode="edit" setDeleteArr={setDeleteArr} />
+                  <PreviewBox imgArr={postUrlArr ? postUrlArr : []} mode="edit" setDeleteArr={setDeleteArr} />
+                </div>
+              </div>
+            </>
           )}
         </div>
         <div className="review--newposting--right_division">
