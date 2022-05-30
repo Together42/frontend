@@ -1,0 +1,31 @@
+@import '@css/fonts.scss';
+
+.upload_btn_wrapper {
+  display: flex;
+  justify-content: center;
+  width: 300px;
+}
+
+.edit {
+  position: absolute;
+  bottom: 10px;
+}
+
+.upload_btn {
+  width: 160px;
+  margin-top: 20px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.upload_btn--button {
+  padding: 6px 25px;
+  background-color: #ff6600ab;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+#upload_btn--input {
+  display: none;
+}

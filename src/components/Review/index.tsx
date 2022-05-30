@@ -47,17 +47,19 @@ function Review() {
     }
   }, [eventList, setSelectedEvent]);
 
+  // console.log(boardsObj);
+
   return (
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
       {newPostingModalShow && <NewEditPostingModal mode="new" />}
-      {boardsObj && (
+      {boardsObj && Object.values(boardsObj)[0].length && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
           {Object.values(boardsObj)[0].map((board, i) => (
             <Posting
               boardId={board['boardId']}
               title={board['title']}
-              intraId={board['writer']}
+              intraId={board['intraId']}
               contents={board['contents']}
               createdAt={board['createdAt']}
               filePath={board['filePath'] ? board['filePath'] : defaultImg}

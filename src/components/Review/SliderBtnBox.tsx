@@ -4,9 +4,10 @@ import RightBtn from '@img/slider_btn_right.png';
 import '@css/Review/SliderBtnBox.scss';
 import { imageType } from '@usefulObj/types';
 import defaultImg from '@img/defaultImg.png';
+import Xmark from '@img/xmark-solid.svg';
 
-function SliderBtnBox(props: { imageArr: imageType[] }) {
-  const { imageArr = [defaultImg] } = props;
+function SliderBtnBox(props: { imageArr: imageType[]; mode?: string }) {
+  const { imageArr = [defaultImg], mode } = props;
   const [trans, setTrans] = useState(0);
   const imageWidth = 300;
 
@@ -24,10 +25,9 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
     setTrans((prev) => prev - imageWidth);
   };
 
-  // console.log(trans);
-
   return (
     <div className="review--btn_box_viewer">
+      {mode === 'edit' ? <img className="review--btn_box_xbtn" src={Xmark} alt={Xmark} /> : null}
       <div
         className="review--btn_box_slider"
         style={{ width: `${imageWidth * imageArr.length}px`, transform: `translateX(${trans}px)` }}

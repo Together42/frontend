@@ -25,8 +25,6 @@ function Posting(props: Props) {
     setActionModalShow(true);
   };
 
-  // console.log(filePath);
-
   return (
     <div
       className={`review--posting--forFlex ${elemNum % 2 === 0 ? 'justify-right' : 'justify-left'} ${

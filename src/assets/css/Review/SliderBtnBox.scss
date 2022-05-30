@@ -7,6 +7,18 @@
   overflow-x: hidden;
 }
 
+.review--btn_box_xbtn {
+  position: absolute;
+  width: 15px;
+  right: 10px;
+  top: 10px;
+  z-index: 1;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
 .review--btn_box_slider {
   position: absolute;
   left: 0;
