@@ -5,23 +5,30 @@ import '@css/Review/PreviewBox.scss';
 function PreviewBox(props: {
   imgArr: string[];
   mode: string;
-  setDeleteArr: React.Dispatch<React.SetStateAction<string[]>>;
+  setDeleteImgArr: React.Dispatch<React.SetStateAction<string[]>>;
+  setDeleteIdxArr: React.Dispatch<React.SetStateAction<number[]>>;
 }) {
-  const { imgArr, setDeleteArr } = props;
+  const { imgArr, setDeleteImgArr, setDeleteIdxArr } = props;
 
   const deleteImg = useCallback(
-    (img: string) => {
-      setDeleteArr((prev) => [...prev, img]);
+    (img: string, idx: number) => {
+      setDeleteImgArr((prev) => [...prev, img]);
+      setDeleteIdxArr((prev) => [...prev, idx]);
     },
-    [setDeleteArr],
+    [setDeleteIdxArr, setDeleteImgArr],
   );
 
   return (
     <div className="review--preview_box--for_grid">
-      {imgArr.map((img) => (
+      {imgArr.map((img, idx) => (
         <div key={img} className="review--preview_box--preview_wrapper">
           <img className="review--preview_box--preview" src={img} alt={img}></img>
-          <img className="review--preview_box--Xmark" src={XmarkRd} alt={XmarkRd} onClick={() => deleteImg(img)}></img>
+          <img
+            className="review--preview_box--Xmark"
+            src={XmarkRd}
+            alt={XmarkRd}
+            onClick={() => deleteImg(img, idx)}
+          ></img>
         </div>
       ))}
     </div>

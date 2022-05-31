@@ -37,10 +37,11 @@ function NewEditPostingModal(props: {
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
-  const [postFileArr, setPostFileArr] = useState<File[]>(null);
-  const [postUrlArr, setPostUrlArr] = useState<string[]>(null);
-  const [boardImgArr, setBoardImgArr] = useState<string[]>(null);
-  const [deleteArr, setDeleteArr] = useState<string[]>([]);
+  const [postFileArr, setPostFileArr] = useState<File[]>([]);
+  const [postUrlArr, setPostUrlArr] = useState<string[]>([]);
+  const [boardImgArr, setBoardImgArr] = useState<string[]>([]);
+  const [deleteImgArr, setDeleteImgArr] = useState<string[]>([]);
+  const [deleteIdxArr, setDeleteIdxArr] = useState<number[]>([]);
   const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
 
   const closeModal = useCallback(() => {
@@ -52,7 +53,7 @@ function NewEditPostingModal(props: {
   const postImage = useCallback(
     (boardId: string) => {
       const formData = new FormData();
-      if (postFileArr) {
+      if (postFileArr.length) {
         postFileArr.forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
         axios
@@ -149,8 +150,8 @@ function NewEditPostingModal(props: {
   };
 
   const onClickUpload = (e: any) => {
-    setPostFileArr(Object.values(e.target.files));
-    setPostUrlArr(Array.from(e.target.files).map((file: Blob) => URL.createObjectURL(file)));
+    setPostFileArr((prev) => prev.concat(Object.values(e.target.files)));
+    setPostUrlArr((prev) => prev.concat(Array.from(e.target.files).map((file: Blob) => URL.createObjectURL(file))));
   };
 
   useEffect(() => {
@@ -178,7 +179,15 @@ function NewEditPostingModal(props: {
     }
   }, [mode, boardObj, setSelectedTeam]);
 
-  // console.log(deleteArr);
+  useEffect(() => {
+    if (deleteImgArr.length > 0) {
+      setBoardImgArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
+      setPostFileArr((prev) => prev.filter((_, idx) => !deleteIdxArr.includes(idx)));
+      setPostUrlArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
+    }
+  }, [deleteIdxArr, deleteImgArr]);
+
+  // console.log(postFileArr);
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
@@ -187,7 +196,7 @@ function NewEditPostingModal(props: {
         <div className="review--newposting--left_division">
           {mode === 'new' ? (
             <div className="review--newposting--add_files">
-              {!postUrlArr ? (
+              {!postUrlArr.length ? (
                 <>
                   <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg}></img>
                   <p>이미지를 업로드 해주세용!</p>
@@ -197,7 +206,12 @@ function NewEditPostingModal(props: {
                 <div className="review--newposting--add_files">
                   <div className="review--newposting--add_files--submitted_wrapper">
                     <div className="review--newposting--add_files--submitted_title">Uploads</div>
-                    <PreviewBox imgArr={postUrlArr} mode="new" setDeleteArr={setDeleteArr} />
+                    <PreviewBox
+                      imgArr={postUrlArr}
+                      mode="new"
+                      setDeleteImgArr={setDeleteImgArr}
+                      setDeleteIdxArr={setDeleteIdxArr}
+                    />
                   </div>
                 </div>
               )}
@@ -208,8 +222,18 @@ function NewEditPostingModal(props: {
               <div className="review--newposting--add_files">
                 <div className="review--newposting--add_files--submitted_wrapper">
                   <div className="review--newposting--add_files--submitted_title">Uploads</div>
-                  <PreviewBox imgArr={boardImgArr ? boardImgArr : []} mode="edit" setDeleteArr={setDeleteArr} />
-                  <PreviewBox imgArr={postUrlArr ? postUrlArr : []} mode="edit" setDeleteArr={setDeleteArr} />
+                  <PreviewBox
+                    imgArr={boardImgArr}
+                    mode="edit"
+                    setDeleteImgArr={setDeleteImgArr}
+                    setDeleteIdxArr={setDeleteIdxArr}
+                  />
+                  <PreviewBox
+                    imgArr={postUrlArr}
+                    mode="edit"
+                    setDeleteImgArr={setDeleteImgArr}
+                    setDeleteIdxArr={setDeleteIdxArr}
+                  />
                 </div>
               </div>
             </>

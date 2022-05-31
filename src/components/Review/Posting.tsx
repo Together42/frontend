@@ -12,7 +12,7 @@ interface Props extends PostingType {
 }
 
 function Posting(props: Props) {
-  const { boardId, title, intraId, contents, createdAt, filePath, commentNum, elemNum, url } = props;
+  const { boardId, title, contents, createdAt, filePath, commentNum, elemNum, url } = props;
   const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
