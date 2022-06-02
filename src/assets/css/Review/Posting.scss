@@ -82,6 +82,9 @@ $border_thickness: 1px;
 .review--posting--commentLength {
   @include small_kor;
   color: $darkgrey_medium;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .review--posting--createdAt {

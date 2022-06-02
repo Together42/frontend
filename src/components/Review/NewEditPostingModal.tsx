@@ -14,7 +14,7 @@ import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import GetBoards from '@globalObj/function/getBoards';
-import { ReviewBoardType } from '@globalObj/object/types';
+import { imageType, ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import defaultImg from '@img/uploadDefault.png';
 import UplaodBtn from '@utils/uploadBtn';
@@ -50,19 +50,27 @@ function NewEditPostingModal(props: {
     setSelectSomeModalShow(false);
   }, [mode, setEditPostingModalShow, setNewEditModalShow, setSelectSomeModalShow]);
 
+  const deleteImage = useCallback(async (deleteBoardImg: imageType[]) => {
+    deleteBoardImg.forEach(async (obj) => {
+      await axios.delete(`${getAddress()}/api/board/image/remove/${obj['imageId']}`).catch((err) => errorAlert(err));
+    });
+  }, []);
+
   const postImage = useCallback(
-    (boardId: string) => {
+    async (boardId: string) => {
       const formData = new FormData();
+      if (boardObj['images'].length !== boardImgArr.length)
+        await deleteImage(boardObj['images'].filter((obj) => !boardImgArr.includes(obj['filePath'])));
       if (postFileArr.length) {
         postFileArr.forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
-        axios
+        await axios
           .post(`${getAddress()}/api/board/upload`, formData)
           .then((res) => console.log(res))
           .catch((err) => errorAlert(err));
       }
     },
-    [postFileArr],
+    [boardImgArr, boardObj, deleteImage, postFileArr],
   );
 
   const postNewPosting = useCallback(() => {
@@ -82,8 +90,8 @@ function NewEditPostingModal(props: {
             },
           },
         )
-        .then((res) => {
-          postImage(res.data.post.toString());
+        .then(async (res) => {
+          await postImage(res.data.post.toString());
           GetBoards(selectedEvent['id'], setBoardsObj);
           alert('성공적으로 게시되었습니다');
           closeModal();
@@ -109,14 +117,15 @@ function NewEditPostingModal(props: {
             },
           },
         )
-        .then(() => {
-          alert('성공적으로 수정되었습니다');
+        .then(async () => {
+          await postImage(boardId.toString());
           GetBoards(selectedEvent['id'], setBoardsObj);
+          alert('성공적으로 수정되었습니다');
           setEditPostingModalShow(false);
         })
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
-  }, [boardId, content, selectedEvent, setBoardsObj, setEditPostingModalShow, title]);
+  }, [boardId, content, postImage, selectedEvent, setBoardsObj, setEditPostingModalShow, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -179,6 +188,7 @@ function NewEditPostingModal(props: {
     }
   }, [mode, boardObj, setSelectedTeam]);
 
+  // delete image when delete button clicked
   useEffect(() => {
     if (deleteImgArr.length > 0) {
       setBoardImgArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
@@ -187,49 +197,43 @@ function NewEditPostingModal(props: {
     }
   }, [deleteIdxArr, deleteImgArr]);
 
-  // console.log(postFileArr);
-
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--newposting--left_division">
           {mode === 'new' ? (
-            <div className="review--newposting--add_files">
-              {!postUrlArr.length ? (
-                <>
-                  <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg}></img>
-                  <p>이미지를 업로드 해주세용!</p>
-                  <UplaodBtn mode={mode} innerText="업로드" onClickFunc={onClickUpload} />
-                </>
-              ) : (
+            !postUrlArr.length ? (
+              <div className="review--newposting--add_files">
+                <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg}></img>
+                <p>이미지를 업로드 해주세용!</p>
+                <UplaodBtn innerText="업로드" onClickFunc={onClickUpload} />
+              </div>
+            ) : (
+              <>
+                <UplaodBtn mode="more" innerText="추가 업로드" onClickFunc={onClickUpload} />
                 <div className="review--newposting--add_files">
                   <div className="review--newposting--add_files--submitted_wrapper">
                     <div className="review--newposting--add_files--submitted_title">Uploads</div>
                     <PreviewBox
-                      imgArr={postUrlArr}
+                      postUrlArr={postUrlArr}
                       mode="new"
                       setDeleteImgArr={setDeleteImgArr}
                       setDeleteIdxArr={setDeleteIdxArr}
                     />
                   </div>
                 </div>
-              )}
-            </div>
+              </>
+            )
           ) : (
             <>
-              <UplaodBtn mode={mode} innerText="추가 업로드" onClickFunc={onClickUpload} />
+              <UplaodBtn mode="more" innerText="추가 업로드" onClickFunc={onClickUpload} />
               <div className="review--newposting--add_files">
                 <div className="review--newposting--add_files--submitted_wrapper">
                   <div className="review--newposting--add_files--submitted_title">Uploads</div>
                   <PreviewBox
-                    imgArr={boardImgArr}
-                    mode="edit"
-                    setDeleteImgArr={setDeleteImgArr}
-                    setDeleteIdxArr={setDeleteIdxArr}
-                  />
-                  <PreviewBox
-                    imgArr={postUrlArr}
+                    boardImgArr={boardImgArr}
+                    postUrlArr={postUrlArr}
                     mode="edit"
                     setDeleteImgArr={setDeleteImgArr}
                     setDeleteIdxArr={setDeleteIdxArr}

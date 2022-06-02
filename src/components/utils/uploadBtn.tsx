@@ -1,7 +1,7 @@
 import React from 'react';
 import '@css/utils/UploadBtn.scss';
 
-function UploadBtn(props: { mode: string; innerText: string; onClickFunc: (e: any) => void }) {
+function UploadBtn(props: { mode?: string; innerText: string; onClickFunc: (e: any) => void }) {
   const { mode, innerText, onClickFunc } = props;
 
   return (
