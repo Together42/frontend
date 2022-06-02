@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 import errorAlert from '@globalObj/function/errorAlert';
 import axios from 'axios';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import BoardsObj from '@recoil/Review/BoardsObj';
 import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
@@ -14,11 +14,10 @@ import defaultImg from '@img/defaultImg.png';
 import getBoards from '@globalObj/function/getBoards';
 
 function Review() {
-  const isMounted = useRef(false);
   const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
-  const [eventList, setEventList] = useRecoilState(EventList);
-  const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
+  const setEventList = useSetRecoilState(EventList);
+  const selectedEvent = useRecoilValue(SelectedEvent);
 
   const getEventList = useCallback(() => {
     axios
@@ -31,7 +30,7 @@ function Review() {
 
   // when component created or selected event changed
   useEffect(() => {
-    if (selectedEvent) getBoards(selectedEvent['id'], setBoardsObj);
+    getBoards(selectedEvent ? selectedEvent['id'] : null, setBoardsObj);
     return () => setBoardsObj(null);
   }, [selectedEvent, setBoardsObj]);
 
@@ -39,15 +38,6 @@ function Review() {
   useEffect(() => {
     getEventList();
   }, [getEventList]);
-
-  useEffect(() => {
-    if (eventList && !isMounted.current) {
-      setSelectedEvent(eventList[0]);
-      isMounted.current = true;
-    }
-  }, [eventList, setSelectedEvent]);
-
-  // console.log(boardsObj);
 
   return (
     <>

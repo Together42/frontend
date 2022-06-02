@@ -5,17 +5,26 @@ import { SetterOrUpdater } from 'recoil';
 import getAddress from './getAddress';
 
 function GetBoards(
-  eventId: number,
+  eventId: number | null,
   setBoardsObj: SetterOrUpdater<{
     [x: string]: PostingType[];
   }>,
 ) {
-  axios
-    .get(`${getAddress()}/api/board/?eventId=${eventId}`)
-    .then((res) => {
-      setBoardsObj(res.data);
-    })
-    .catch((err) => errorAlert(err));
+  if (eventId) {
+    axios
+      .get(`${getAddress()}/api/board/?eventId=${eventId}`)
+      .then((res) => {
+        setBoardsObj(res.data);
+      })
+      .catch((err) => errorAlert(err));
+  } else {
+    axios
+      .get(`${getAddress()}/api/board`)
+      .then((res) => {
+        setBoardsObj(res.data);
+      })
+      .catch((err) => errorAlert(err));
+  }
 }
 
 export default GetBoards;

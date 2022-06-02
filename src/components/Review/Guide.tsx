@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '@css/Review/Guide.scss';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
@@ -13,7 +13,7 @@ interface Props {
 
 function Guide(props: Props) {
   const { isElemExist } = props;
-  const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
+  const selectedEvent = useRecoilValue(SelectedEvent);
   const setNewPostingModalShow = useSetRecoilState(NewPostingModalShow);
   const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
