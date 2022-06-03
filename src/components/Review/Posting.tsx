@@ -6,13 +6,14 @@ import elipsisImg from '@img/ellipsis-solid.svg';
 import ActionModal from './ActionModal';
 import NewEditPostingModal from './NewEditPostingModal';
 import CommentModal from './CommentModal';
+import ImageWithIdBox from './ImageWithIdBox';
 
 interface Props extends PostingType {
   elemNum: number;
 }
 
 function Posting(props: Props) {
-  const { boardId, title, contents, createdAt, filePath, commentNum, elemNum, url } = props;
+  const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, url } = props;
   const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
@@ -46,7 +47,7 @@ function Posting(props: Props) {
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
           <div className="review--posting--title--title_wrapper">
-            <img className="review--posting--title--writter" src={url} alt={url}></img>
+            <ImageWithIdBox url={url} intraId={intraId} mode="post" />
             <div className="review--posting--title--title">{title}</div>
           </div>
           <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>

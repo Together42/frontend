@@ -5,7 +5,7 @@ $total_width: 710px;
 $total_height: 440px;
 $left_devision_width: 300px;
 $right_devision_width: 410px;
-$comment_input_width: 340px;
+$comment_input_width: 330px;
 
 .review--detail--background {
   position: fixed;
@@ -91,6 +91,7 @@ $comment_input_width: 340px;
 }
 
 .review--detail--members {
+  display: flex;
   img {
     width: 30px;
     margin-left: 6px;
@@ -135,7 +136,7 @@ $comment_input_width: 340px;
   justify-content: space-between;
   align-content: center;
   width: $right_devision_width - ($right_devision_margin * 2);
-  margin: 0 15px 5px 15px;
+  margin: 0 15px 15px 15px;
 }
 
 .review--detail--input {
@@ -159,7 +160,6 @@ $comment_input_width: 340px;
   background: none;
   padding: 0;
   border: none;
-  padding: 5px;
   border-radius: 10px;
   &:hover {
     cursor: pointer;

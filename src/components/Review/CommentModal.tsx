@@ -12,6 +12,7 @@ import getDetailBoard from '@globalObj/function/getDetailBoard';
 import CommentBox from './CommentBox';
 import SliderBtnBox from './SliderBtnBox';
 import shuffle from '@globalObj/function/shuffleArr';
+import ImageWithIdBox from './ImageWithIdBox';
 
 function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<React.SetStateAction<boolean>> }) {
   const { boardId, setModalShow } = props;
@@ -81,7 +82,12 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
               <div className="review--detail--title">{boardObj['title']}</div>
               <div className="review--detail--members">
                 {boardObj['attendMembers'] &&
-                  boardObj['attendMembers'].map((e, i) => i < 4 && <img src={e['url']} key={i} alt={e['url']} />)}
+                  boardObj['attendMembers'].map(
+                    (e, i) =>
+                      i < 4 && (
+                        <ImageWithIdBox key={e['intraId']} mode="comment" url={e['url']} intraId={e['intraId']} />
+                      ),
+                  )}
               </div>
             </div>
             <div className="review--detail--detail_comments" ref={scrollRef}>

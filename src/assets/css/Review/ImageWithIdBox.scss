@@ -1,0 +1,27 @@
+@import '@css/fonts.scss';
+
+.review--image_id_box {
+  position: relative;
+  div {
+    @include medium_eng;
+    visibility: hidden;
+    position: absolute;
+    background-color: white;
+    padding: 2px 0;
+    bottom: -25px;
+    width: 80px;
+    text-align: center;
+    right: -28px;
+    border-radius: 20px;
+    border: 1px solid rosybrown;
+  }
+}
+
+.post {
+  width: 25px;
+  border-radius: 20px;
+}
+
+.show {
+  visibility: visible !important;
+}
