@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
-const NewEditPostingModalShow = atom<boolean>({
-  key: 'ReviewNewEditPostingModalShow',
+const NewPostingModalShow = atom<boolean>({
+  key: 'ReviewNewPostingModalShow',
   default: false,
 });
 
-export default NewEditPostingModalShow;
+export default NewPostingModalShow;

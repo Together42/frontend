@@ -21,6 +21,7 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
   const LoginState = useRecoilValue(GlobalLoginState);
   const [myComment, setMyComment] = useState('');
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
+  const [attendMems, setAttendMems] = useState<{ intraId: string; url: string }[]>(null);
 
   const postComment = useCallback(() => {
     if (getToken()) {
@@ -66,6 +67,10 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
     return () => setModalShow(false);
   }, [setModalShow, setBoardObj, boardId]);
 
+  useEffect(() => {
+    if (boardObj) setAttendMems(shuffle(boardObj['attendMembers']));
+  }, [boardObj]);
+
   // console.log(boardObj);
 
   return (
@@ -81,8 +86,8 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
             <div className="review--detail--header">
               <div className="review--detail--title">{boardObj['title']}</div>
               <div className="review--detail--members">
-                {boardObj['attendMembers'] &&
-                  boardObj['attendMembers'].map(
+                {attendMems &&
+                  attendMems.map(
                     (e, i) =>
                       i < 4 && (
                         <ImageWithIdBox key={e['intraId']} mode="comment" url={e['url']} intraId={e['intraId']} />
@@ -96,7 +101,7 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
                 <span className="review--detail--full_comment">{boardObj['contents']}</span>
               </div>
               {boardObj['comments'] &&
-                shuffle(boardObj['comments']).map((e, i) => (
+                boardObj['comments'].map((e, i) => (
                   <CommentBox
                     key={i}
                     intraId={e['intraId']}

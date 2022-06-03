@@ -1,0 +1,173 @@
+@import '@css/fonts.scss';
+
+$margin_margin_medium: 15px;
+$total_width: 710px;
+$total_height: 440px;
+$left_devision_width: 300px;
+$right_devision_width: calc($total_width - $left_devision_width);
+
+.review--newposting--background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #9e9e9eb8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.review--newposting--xmark {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  width: 25px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.review--newposting-devision {
+  display: flex;
+  width: $total_width;
+  height: $total_height;
+  background-color: white;
+  z-index: 10;
+}
+
+.review--newposting--left_division {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: $left_devision_width;
+  height: $total_height;
+  background-color: #b8b8b84d;
+  z-index: -1;
+}
+
+.review--newposting--add_files {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  width: 100%;
+  border: 2px dashed $darkgrey_light;
+  p {
+    @include medium_kor;
+  }
+}
+
+.review--newposting--add_file--upload_img {
+  width: 150px;
+}
+
+.review--newposting--add_files--submitted_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-height: 300px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.review--newposting--add_files--submitted_title {
+  @include medium_eng;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.review--newposting--right_division {
+  width: $right_devision_width;
+  height: $total_height;
+  padding: $margin_margin_medium;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.review--newposting--header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $margin_margin_medium;
+}
+
+.review--newposting--header--title {
+  @include medium_kor;
+  border: none;
+  border-left: 3px solid $darkgrey_light;
+  padding-left: 3px;
+  width: 200px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.review--newposting--header--selectorWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.review--newposting--header--eventSelector,
+.review--newposting--header--addTeamMem {
+  position: relative;
+  span {
+    @include medium_kor;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.review--newposting--header--addTeamMem {
+  margin-left: 20px;
+}
+
+.review--newposting--selectedInfo {
+  @include small_kor;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  row-gap: 10px;
+  margin-bottom: $margin_margin_medium;
+}
+
+.review--newposting--newposting_wrapper {
+  width: $right_devision_width;
+}
+
+.review--newposting--newposting {
+  @include medium_kor;
+  width: $right_devision_width - ($margin_margin_medium * 2);
+  height: 210px;
+  border: 1px solid $darkgrey_light;
+  &:focus {
+    outline: none;
+  }
+}
+
+.review--newposting--button--forFlex {
+  display: flex;
+  justify-content: end;
+  width: $right_devision_width - ($margin_margin_medium * 2);
+}
+
+.review--newposting--button {
+  @include medium_kor;
+  color: $lightblue;
+  background: none;
+  padding: 0;
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}

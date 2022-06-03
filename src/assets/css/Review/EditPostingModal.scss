@@ -6,7 +6,7 @@ $total_height: 440px;
 $left_devision_width: 300px;
 $right_devision_width: calc($total_width - $left_devision_width);
 
-.review--newposting--background {
+.review--editposting--background {
   position: fixed;
   top: 0;
   left: 0;
@@ -19,7 +19,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   z-index: 2;
 }
 
-.review--newposting--xmark {
+.review--editposting--xmark {
   position: absolute;
   right: 50px;
   top: 50px;
@@ -29,7 +29,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   }
 }
 
-.review--newposting-devision {
+.review--editposting-devision {
   display: flex;
   width: $total_width;
   height: $total_height;
@@ -37,7 +37,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   z-index: 10;
 }
 
-.review--newposting--left_division {
+.review--editposting--left_division {
   position: relative;
   display: flex;
   align-items: center;
@@ -47,7 +47,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   z-index: -1;
 }
 
-.review--newposting--add_files {
+.review--editposting--add_files {
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -61,30 +61,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   }
 }
 
-.review--newposting--add_file--upload_img {
-  width: 150px;
-}
-
-.review--newposting--add_files--input_wrapper {
-  width: 160px;
-  margin-top: 20px;
-  margin: 20px auto;
-  text-align: center;
-}
-
-.review--newposting--add_files--input_btn {
-  padding: 6px 25px;
-  background-color: #ff6600ab;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-}
-
-#review--newposting--add_files--input {
-  display: none;
-}
-
-.review--newposting--add_files--submitted_wrapper {
+.review--editposting--add_files--submitted_wrapper {
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -95,7 +72,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   }
 }
 
-.review--newposting--add_files--submitted_title {
+.review--editposting--add_files--submitted_title {
   @include medium_eng;
   font-size: 20px;
   font-weight: bold;
@@ -103,7 +80,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   text-align: center;
 }
 
-.review--newposting--right_division {
+.review--editposting--right_division {
   width: $right_devision_width;
   height: $total_height;
   padding: $margin_margin_medium;
@@ -112,56 +89,29 @@ $right_devision_width: calc($total_width - $left_devision_width);
   justify-content: center;
 }
 
-.review--newposting--header {
+.review--editposting--header {
   display: flex;
   justify-content: space-between;
   margin-bottom: $margin_margin_medium;
 }
 
-.review--newposting--header--title {
+.review--editposting--header--title {
   @include medium_kor;
   border: none;
   border-left: 3px solid $darkgrey_light;
   padding-left: 3px;
+  width: $right_devision_width - (2 * $margin_margin_medium);
   &:focus {
     outline: none;
   }
 }
 
-.new_input {
-  width: 200px;
-}
-
-.edit_input {
-  width: $right_devision_width - (2 * $margin_margin_medium);
-}
-
-.review--newposting--header--selectorWrapper {
-  display: flex;
-  align-items: center;
-}
-
-.review--newposting--header--eventSelector,
-.review--newposting--header--addTeamMem {
-  position: relative;
-  span {
-    @include medium_kor;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}
-
-.review--newposting--header--addTeamMem {
-  margin-left: 20px;
-}
-
-.review--newposting--newposting_wrapper {
+.review--editposting--editposting_wrapper {
   width: $right_devision_width;
   // padding: 0 $margin_margin_medium;
 }
 
-.review--newposting--newposting {
+.review--editposting--editposting {
   @include medium_kor;
   width: $right_devision_width - ($margin_margin_medium * 2);
   height: 210px;
@@ -171,7 +121,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   }
 }
 
-.review--newposting--selectedInfo {
+.review--editposting--selectedInfo {
   @include small_kor;
   width: 100%;
   display: grid;
@@ -180,13 +130,13 @@ $right_devision_width: calc($total_width - $left_devision_width);
   margin-bottom: $margin_margin_medium;
 }
 
-.review--newposting--button--forFlex {
+.review--editposting--button--forFlex {
   display: flex;
   justify-content: end;
   width: $right_devision_width - ($margin_margin_medium * 2);
 }
 
-.review--newposting--button {
+.review--editposting--button {
   @include medium_kor;
   color: $lightblue;
   background: none;

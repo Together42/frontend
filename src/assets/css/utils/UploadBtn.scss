@@ -19,6 +19,7 @@
 }
 
 .upload_btn--button {
+  @include medium_kor;
   padding: 6px 25px;
   background-color: #ff6600ab;
   border-radius: 4px;

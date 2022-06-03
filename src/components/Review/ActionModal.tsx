@@ -84,8 +84,6 @@ function ActionModal(props: {
     closeModal();
   };
 
-  // console.log(selectedEvent && selectedEvent['id']);
-
   return (
     <div
       className="review--actionModal--background"

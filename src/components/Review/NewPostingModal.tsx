@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import '@css/Review/NewEditPostingModal.scss';
+import '@css/Review/NewPostingModal.scss';
 import Xmark from '@img/xmark-solid-white.svg';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -14,19 +14,11 @@ import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import GetBoards from '@globalObj/function/getBoards';
-import { imageType, ReviewBoardType } from '@globalObj/object/types';
-import getDetailBoard from '@globalObj/function/getDetailBoard';
 import defaultImg from '@img/uploadDefault.png';
 import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 
-// mode : new or edit
-function NewEditPostingModal(props: {
-  mode: string;
-  boardId?: number;
-  setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  const { mode, boardId, setEditPostingModalShow } = props;
+function NewEditPostingModal() {
   const setNewEditModalShow = useSetRecoilState(NewPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const setBoardsObj = useSetRecoilState(BoardsObj);
@@ -36,31 +28,20 @@ function NewEditPostingModal(props: {
   const [content, setContent] = useState('');
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
-  const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
   const [postFileArr, setPostFileArr] = useState<File[]>([]);
   const [postUrlArr, setPostUrlArr] = useState<string[]>([]);
-  const [boardImgArr, setBoardImgArr] = useState<string[]>([]);
   const [deleteImgArr, setDeleteImgArr] = useState<string[]>([]);
   const [deleteIdxArr, setDeleteIdxArr] = useState<number[]>([]);
   const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
 
   const closeModal = useCallback(() => {
-    if (mode === 'new') setNewEditModalShow(false);
-    if (mode === 'edit') setEditPostingModalShow(false);
+    setNewEditModalShow(false);
     setSelectSomeModalShow(false);
-  }, [mode, setEditPostingModalShow, setNewEditModalShow, setSelectSomeModalShow]);
-
-  const deleteImage = useCallback(async (deleteBoardImg: imageType[]) => {
-    deleteBoardImg.forEach(async (obj) => {
-      await axios.delete(`${getAddress()}/api/board/image/remove/${obj['imageId']}`).catch((err) => errorAlert(err));
-    });
-  }, []);
+  }, [setNewEditModalShow, setSelectSomeModalShow]);
 
   const postImage = useCallback(
     async (boardId: string) => {
       const formData = new FormData();
-      if (boardObj['images'].length !== boardImgArr.length)
-        await deleteImage(boardObj['images'].filter((obj) => !boardImgArr.includes(obj['filePath'])));
       if (postFileArr.length) {
         postFileArr.forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
@@ -70,7 +51,7 @@ function NewEditPostingModal(props: {
           .catch((err) => errorAlert(err));
       }
     },
-    [boardImgArr, boardObj, deleteImage, postFileArr],
+    [postFileArr],
   );
 
   const postNewPosting = useCallback(() => {
@@ -101,32 +82,6 @@ function NewEditPostingModal(props: {
     else if (!selectedTeam) alert('팀을 선택해 주세요');
   }, [closeModal, content, postImage, selectedEvent, selectedTeam, setBoardsObj, title]);
 
-  const postEditPosting = useCallback(() => {
-    if (selectedEvent) {
-      axios
-        .put(
-          `${getAddress()}/api/board/${boardId}`,
-          {
-            eventId: selectedEvent['id'],
-            title,
-            contents: content,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
-            },
-          },
-        )
-        .then(async () => {
-          await postImage(boardId.toString());
-          GetBoards(selectedEvent['id'], setBoardsObj);
-          alert('성공적으로 수정되었습니다');
-          setEditPostingModalShow(false);
-        })
-        .catch((err) => errorAlert(err));
-    } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
-  }, [boardId, content, postImage, selectedEvent, setBoardsObj, setEditPostingModalShow, title]);
-
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
   };
@@ -153,8 +108,7 @@ function NewEditPostingModal(props: {
 
   const onSubmitPosting = () => {
     if (getToken()) {
-      if (mode === 'new') postNewPosting();
-      else if (mode === 'edit') postEditPosting();
+      postNewPosting();
     } else alert('로그인을 하셔야 포스팅 하실 수 있습니다');
   };
 
@@ -170,28 +124,15 @@ function NewEditPostingModal(props: {
     }
   }, [selectSomeModalShow]);
 
-  // get Detail Board data when edit mode
   useEffect(() => {
-    if (mode === 'edit') getDetailBoard(boardId, setBoardObj);
     return () => {
       setSelectedTeam(null);
       closeModal();
     };
-  }, [boardId, closeModal, mode, setSelectedTeam]);
+  }, [closeModal, setSelectedTeam]);
 
-  // get title and contents when board data exist
-  useEffect(() => {
-    if (mode === 'edit' && boardObj) {
-      setTitle(boardObj['title']);
-      setContent(boardObj['contents']);
-      setBoardImgArr(boardObj['images'].map((imgObj) => imgObj['filePath']));
-    }
-  }, [mode, boardObj, setSelectedTeam]);
-
-  // delete image when delete button clicked
   useEffect(() => {
     if (deleteImgArr.length > 0) {
-      setBoardImgArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
       setPostFileArr((prev) => prev.filter((_, idx) => !deleteIdxArr.includes(idx)));
       setPostUrlArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
     }
@@ -202,29 +143,12 @@ function NewEditPostingModal(props: {
       <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--newposting--left_division">
-          {mode === 'new' ? (
-            !postUrlArr.length ? (
-              <div className="review--newposting--add_files">
-                <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg}></img>
-                <p>이미지를 업로드 해주세용!</p>
-                <UplaodBtn innerText="업로드" onClickFunc={onClickUpload} />
-              </div>
-            ) : (
-              <>
-                <UplaodBtn mode="more" innerText="추가 업로드" onClickFunc={onClickUpload} />
-                <div className="review--newposting--add_files">
-                  <div className="review--newposting--add_files--submitted_wrapper">
-                    <div className="review--newposting--add_files--submitted_title">Uploads</div>
-                    <PreviewBox
-                      postUrlArr={postUrlArr}
-                      mode="new"
-                      setDeleteImgArr={setDeleteImgArr}
-                      setDeleteIdxArr={setDeleteIdxArr}
-                    />
-                  </div>
-                </div>
-              </>
-            )
+          {!postUrlArr.length ? (
+            <div className="review--newposting--add_files">
+              <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg}></img>
+              <p>이미지를 업로드 해주세용!</p>
+              <UplaodBtn innerText="업로드" onClickFunc={onClickUpload} />
+            </div>
           ) : (
             <>
               <UplaodBtn mode="more" innerText="추가 업로드" onClickFunc={onClickUpload} />
@@ -232,9 +156,8 @@ function NewEditPostingModal(props: {
                 <div className="review--newposting--add_files--submitted_wrapper">
                   <div className="review--newposting--add_files--submitted_title">Uploads</div>
                   <PreviewBox
-                    boardImgArr={boardImgArr}
                     postUrlArr={postUrlArr}
-                    mode="edit"
+                    mode="new"
                     setDeleteImgArr={setDeleteImgArr}
                     setDeleteIdxArr={setDeleteIdxArr}
                   />
@@ -246,7 +169,7 @@ function NewEditPostingModal(props: {
         <div className="review--newposting--right_division">
           <div className="review--newposting--header">
             <input
-              className={`review--newposting--header--title ${mode === 'new' ? 'new_input' : 'edit_input'}`}
+              className="review--newposting--header--title"
               placeholder="제목 입력"
               onFocus={(e) => (e.target.placeholder = '')}
               onBlur={(e) => (e.target.placeholder = '제목 입력')}
@@ -254,20 +177,16 @@ function NewEditPostingModal(props: {
               onChange={onChangeTitle}
             />
             <div className="review--newposting--header--selectorWrapper">
-              {mode === 'new' && (
-                <>
-                  <div className="review--newposting--header--eventSelector">
-                    <span onClick={onClickEventModalOpen}>{isEventMode ? '이벤트 찾기' : '팀원 찾기'}</span>
-                    {isEventBtnClicked &&
-                      selectSomeModalShow &&
-                      (isEventMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
-                  </div>
-                  <div className="review--newposting--header--addTeamMem">
-                    <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
-                    {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
-                  </div>
-                </>
-              )}
+              <div className="review--newposting--header--eventSelector">
+                <span onClick={onClickEventModalOpen}>{isEventMode ? '이벤트 찾기' : '팀원 찾기'}</span>
+                {isEventBtnClicked &&
+                  selectSomeModalShow &&
+                  (isEventMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
+              </div>
+              <div className="review--newposting--header--addTeamMem">
+                <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
+                {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
+              </div>
             </div>
           </div>
           {(selectedEvent || selectedTeam) && (

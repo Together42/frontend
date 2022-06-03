@@ -4,7 +4,7 @@ import caret_right from '@img/caret-right-solid.svg';
 import { PostingType } from '@globalObj/object/types';
 import elipsisImg from '@img/ellipsis-solid.svg';
 import ActionModal from './ActionModal';
-import NewEditPostingModal from './NewEditPostingModal';
+import EditPostingModal from './EditPostingModal';
 import CommentModal from './CommentModal';
 import ImageWithIdBox from './ImageWithIdBox';
 
@@ -32,9 +32,7 @@ function Posting(props: Props) {
         elemNum === 4 && 'footer--empty'
       }`}
     >
-      {editPostingModalShow && (
-        <NewEditPostingModal mode="edit" boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />
-      )}
+      {editPostingModalShow && <EditPostingModal boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />}
       {actionModalShow && (
         <ActionModal
           mode="post"

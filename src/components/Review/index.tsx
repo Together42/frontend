@@ -8,7 +8,7 @@ import BoardsObj from '@recoil/Review/BoardsObj';
 import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
-import NewEditPostingModal from './NewEditPostingModal';
+import NewPostingModal from './NewPostingModal';
 import getAddress from '@globalObj/function/getAddress';
 import defaultImg from '@img/defaultImg.png';
 import getBoards from '@globalObj/function/getBoards';
@@ -39,10 +39,15 @@ function Review() {
     getEventList();
   }, [getEventList]);
 
+  // 임시용!
+  useEffect(() => {
+    alert('아직 개발 전입니다...');
+  }, []);
+
   return (
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
-      {newPostingModalShow && <NewEditPostingModal mode="new" />}
+      {newPostingModalShow && <NewPostingModal />}
       {boardsObj && Object.values(boardsObj)[0].length && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
           {Object.values(boardsObj)[0].map((board, i) => (
