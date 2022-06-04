@@ -1,6 +1,5 @@
-import EventList from '@recoil/Review/EventList';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import Xmark from '@img/xmark-solid.svg';
 import { ReviewSelectedEventType, ReviewSelectedTeamType, teamMemInfo } from '@globalObj/object/types';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
@@ -8,9 +7,14 @@ import '@css/Review/SelectSomeModal.scss';
 import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
 import glassImg from '@img/magnifying-glass-solid.svg';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
+import useSWR from 'swr';
+import getAddress from '@globalObj/function/getAddress';
+import fetcher from '@globalObj/function/tempfetcher';
 
 function EventListModal(prop: { mode: string }) {
-  const eventList = useRecoilValue(EventList);
+  const { data: eventList } = useSWR<ReviewSelectedEventType[]>(`${getAddress()}/api/together/matching`, fetcher, {
+    dedupingInterval: 600000,
+  });
   const setEventListModalShow = useSetRecoilState(EventListModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const setSelectedTeam = useSetRecoilState(SelectedTeam);

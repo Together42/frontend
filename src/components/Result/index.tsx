@@ -2,14 +2,15 @@ import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Result/Result.scss';
 import Footer from '@result/Footer';
 import axios from 'axios';
-import { EventType } from '@globalObj/object/types';
+import { EventType, teamMemInfo } from '@globalObj/object/types';
 import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import Xmark from '@img/xmark-solid.svg';
 import getAddress from '@globalObj/function/getAddress';
+import useSWR from 'swr';
+import fetcher from '@globalObj/function/tempfetcher';
 
 function Result() {
-  const [EventList, setEventList] = useState<EventType[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventType>({
     id: null,
     title: null,
@@ -18,25 +19,21 @@ function Result() {
     createdId: null,
     isMatching: null,
   });
-  const [selectedTeamObj, setSelectedTeamObj] = useState({});
   const [teamLen, setTeamLen] = useState('');
-
-  const getEventList = useCallback(() => {
-    axios
-      .get(`${getAddress()}/api/together`)
-      .then((res) => {
-        setEventList(res.data.EventList);
-        if (res.data.EventList.length > 0) setSelectedEvent(res.data.EventList[0]);
-      })
-      .catch((err) => errorAlert(err));
-  }, []);
-
-  const getTeamObj = useCallback(() => {
-    axios
-      .get(`${getAddress()}/api/together/matching/${selectedEvent.id}`)
-      .then((res) => setSelectedTeamObj(res.data['teamList']))
-      .catch((err) => errorAlert(err));
-  }, [selectedEvent.id]);
+  const { data: eventObj, mutate: mutateEvent } = useSWR<{ EventList: EventType[] }>(
+    `${getAddress()}/api/together`,
+    fetcher,
+    {
+      dedupingInterval: 600000,
+    },
+  );
+  const { data: teamObj, mutate: mutateTeam } = useSWR<{ teamList: { [x: string]: teamMemInfo[] } }>(
+    `${getAddress()}/api/together/matching/${selectedEvent.id}`,
+    fetcher,
+    {
+      dedupingInterval: 600000,
+    },
+  );
 
   const postMatching = () => {
     axios
@@ -52,9 +49,9 @@ function Result() {
           },
         },
       )
-      .then((res) => {
+      .then(() => {
         alert('매칭성공');
-        setSelectedTeamObj(res.data['teamList']);
+        mutateTeam();
       })
       .catch((err) => errorAlert(err));
   };
@@ -68,14 +65,16 @@ function Result() {
       })
       .then(() => {
         alert('삭제되었습니다');
-        getEventList();
+        mutateEvent();
       })
       .catch((err) => errorAlert(err));
-  }, [getEventList, selectedEvent]);
+  }, [mutateEvent, selectedEvent]);
 
   const onClickEvent = (e: any) => {
-    const clickedEvent = EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
-    setSelectedEvent(clickedEvent);
+    if (eventObj) {
+      const clickedEvent = eventObj.EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
+      setSelectedEvent(clickedEvent);
+    }
   };
 
   const onSubmitMatching = (e: any) => {
@@ -94,21 +93,15 @@ function Result() {
   };
 
   useEffect(() => {
-    getEventList();
-  }, [getEventList]);
-
-  useEffect(() => {
-    if (selectedEvent.id) {
-      getTeamObj();
-    }
-  }, [getTeamObj, selectedEvent]);
+    if (eventObj && eventObj.EventList.length) setSelectedEvent(eventObj.EventList[0]);
+  }, [eventObj]);
 
   return (
     <>
       <div className="result">
-        {EventList.length > 0 && (
+        {eventObj && eventObj.EventList.length > 0 && (
           <div className="result--event_list">
-            {EventList.map((e, i) => (
+            {eventObj.EventList.map((e, i) => (
               <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
                 <span id={e.id.toString()} onClick={onClickEvent}>
                   {e.title}
@@ -119,16 +112,18 @@ function Result() {
         )}
         <div
           className={`${
-            !Object.keys(selectedTeamObj).find((e) => e === 'null') && Object.keys(selectedTeamObj).length
+            teamObj && !Object.keys(teamObj.teamList).find((e) => e === 'null') && Object.keys(teamObj.teamList).length
               ? 'result--table'
               : 'result--submit'
           }`}
         >
           <img className="result--submit--delete_event" src={Xmark} alt={Xmark} onClick={onClickDeleteEvent}></img>
-          {!Object.keys(selectedTeamObj).find((e) => e === 'null') &&
-          Object.keys(selectedTeamObj).length &&
-          EventList.length ? (
-            Object.entries(selectedTeamObj).map((elem, idx) => (
+          {teamObj &&
+          !Object.keys(teamObj.teamList).find((e) => e === 'null') &&
+          Object.keys(teamObj.teamList).length &&
+          eventObj &&
+          eventObj.EventList.length ? (
+            Object.entries(teamObj.teamList).map((elem, idx) => (
               <>
                 <div key={elem[0]}>
                   <p className="result--team_name">{elem[0]}</p>
@@ -141,7 +136,7 @@ function Result() {
                 {!idx && <hr className="result--hr"></hr>}
               </>
             ))
-          ) : Object.keys(selectedTeamObj).find((e) => e === 'null') ? (
+          ) : teamObj && Object.keys(teamObj.teamList).find((e) => e === 'null') ? (
             <>
               <div className="result--submit--info_wrapper">
                 <p className="result--submit--event_title">{selectedEvent['title']}</p>
@@ -149,7 +144,7 @@ function Result() {
                 <hr className="result--submit--event_bot_line"></hr>
                 <p className="result--submit--info">아직 팀매칭이 이루어지지 않았습니다.</p>
                 <p className="result--submit--info">원하는 팀원수를 적고 매칭을 눌러주세요!</p>
-                <p className="result--submit--info">{`현재 신청 인원은 ${selectedTeamObj['null'].length}명입니다.`}</p>
+                <p className="result--submit--info">{`현재 신청 인원은 ${teamObj.teamList['null'].length}명입니다.`}</p>
               </div>
               <div className="result--submit--form_wrapper">
                 <form onSubmit={onSubmitMatching} className="result--submit--form">

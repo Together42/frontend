@@ -1,10 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
-import errorAlert from '@globalObj/function/errorAlert';
-import axios from 'axios';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import EventList from '@recoil/Review/EventList';
+import { useRecoilValue } from 'recoil';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import NewPostingModal from './NewPostingModal';
@@ -20,32 +17,15 @@ function Review() {
     selectedEvent ? `${getAddress()}/api/board/?eventId=${selectedEvent['id']}` : `${getAddress()}/api/board`,
     fetcher,
     {
-      dedupingInterval: 300000,
+      dedupingInterval: 600000,
     },
   );
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
-  const setEventList = useSetRecoilState(EventList);
-
-  const getEventList = useCallback(() => {
-    axios
-      .get(`${getAddress()}/api/together/matching`)
-      .then((res) => {
-        setEventList(res.data);
-      })
-      .catch((err) => errorAlert(err));
-  }, [setEventList]);
-
-  // when component created
-  useEffect(() => {
-    getEventList();
-  }, [getEventList]);
 
   // 임시용!
   useEffect(() => {
     alert('아직 개발 전입니다...');
   }, []);
-
-  // console.log(data);
 
   return (
     <>
