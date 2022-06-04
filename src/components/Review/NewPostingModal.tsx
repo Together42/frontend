@@ -5,7 +5,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
-import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
@@ -13,15 +12,14 @@ import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
-import GetBoards from '@globalObj/function/getBoards';
 import defaultImg from '@img/uploadDefault.png';
 import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
+import { useSWRConfig } from 'swr';
 
 function NewEditPostingModal() {
   const setNewEditModalShow = useSetRecoilState(NewPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
-  const setBoardsObj = useSetRecoilState(BoardsObj);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
   const [title, setTitle] = useState('');
@@ -33,6 +31,7 @@ function NewEditPostingModal() {
   const [deleteImgArr, setDeleteImgArr] = useState<string[]>([]);
   const [deleteIdxArr, setDeleteIdxArr] = useState<number[]>([]);
   const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
+  const { mutate } = useSWRConfig();
 
   const closeModal = useCallback(() => {
     setNewEditModalShow(false);
@@ -73,14 +72,15 @@ function NewEditPostingModal() {
         )
         .then(async (res) => {
           await postImage(res.data.post.toString());
-          GetBoards(selectedEvent['id'], setBoardsObj);
+          mutate(`${getAddress()}/api/board/?eventId=${selectedEvent['id']}`);
+          // GetBoards(selectedEvent['id'], setBoardsObj);
           alert('성공적으로 게시되었습니다');
           closeModal();
         })
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
     else if (!selectedTeam) alert('팀을 선택해 주세요');
-  }, [closeModal, content, postImage, selectedEvent, selectedTeam, setBoardsObj, title]);
+  }, [closeModal, content, mutate, postImage, selectedEvent, selectedTeam, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);

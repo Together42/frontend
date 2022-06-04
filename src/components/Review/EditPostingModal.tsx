@@ -1,25 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Review/EditPostingModal.scss';
 import Xmark from '@img/xmark-solid-white.svg';
-import { useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
-import BoardsObj from '@recoil/Review/BoardsObj';
 import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/function/getAddress';
-import GetBoards from '@globalObj/function/getBoards';
 import { imageType, ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
+import { useSWRConfig } from 'swr';
 
 function NewEditPostingModal(props: {
   boardId: number;
   setEditPostingModalShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { boardId, setEditPostingModalShow } = props;
-  const setBoardsObj = useSetRecoilState(BoardsObj);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
@@ -28,6 +25,7 @@ function NewEditPostingModal(props: {
   const [boardImgArr, setBoardImgArr] = useState<string[]>([]);
   const [deleteImgArr, setDeleteImgArr] = useState<string[]>([]);
   const [deleteIdxArr, setDeleteIdxArr] = useState<number[]>([]);
+  const { mutate } = useSWRConfig();
 
   const closeModal = useCallback(() => {
     setEditPostingModalShow(false);
@@ -73,12 +71,13 @@ function NewEditPostingModal(props: {
       )
       .then(async () => {
         await postImage(boardId.toString());
-        GetBoards(boardObj['eventId'], setBoardsObj);
+        mutate(`${getAddress()}/api/board/?eventId=${boardObj['eventId']}`);
+        // GetBoards(boardObj['eventId'], setBoardsObj);
         alert('성공적으로 수정되었습니다');
         setEditPostingModalShow(false);
       })
       .catch((err) => errorAlert(err));
-  }, [boardId, boardObj, content, postImage, setBoardsObj, setEditPostingModalShow, title]);
+  }, [boardId, boardObj, content, mutate, postImage, setEditPostingModalShow, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);

@@ -3,21 +3,28 @@ import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 import errorAlert from '@globalObj/function/errorAlert';
 import axios from 'axios';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import BoardsObj from '@recoil/Review/BoardsObj';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import EventList from '@recoil/Review/EventList';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import NewPostingModal from './NewPostingModal';
 import getAddress from '@globalObj/function/getAddress';
 import defaultImg from '@img/defaultImg.png';
-import getBoards from '@globalObj/function/getBoards';
+import useSWR from 'swr';
+import fetcher from '@globalObj/function/tempfetcher';
+import { PostingType } from '@usefulObj/types';
 
 function Review() {
-  const [boardsObj, setBoardsObj] = useRecoilState(BoardsObj);
+  const selectedEvent = useRecoilValue(SelectedEvent);
+  const { data: boardsObj } = useSWR<{ [x: string]: PostingType[] }>(
+    selectedEvent ? `${getAddress()}/api/board/?eventId=${selectedEvent['id']}` : `${getAddress()}/api/board`,
+    fetcher,
+    {
+      dedupingInterval: 300000,
+    },
+  );
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
   const setEventList = useSetRecoilState(EventList);
-  const selectedEvent = useRecoilValue(SelectedEvent);
 
   const getEventList = useCallback(() => {
     axios
@@ -28,12 +35,6 @@ function Review() {
       .catch((err) => errorAlert(err));
   }, [setEventList]);
 
-  // when component created or selected event changed
-  useEffect(() => {
-    getBoards(selectedEvent ? selectedEvent['id'] : null, setBoardsObj);
-    return () => setBoardsObj(null);
-  }, [selectedEvent, setBoardsObj]);
-
   // when component created
   useEffect(() => {
     getEventList();
@@ -43,6 +44,8 @@ function Review() {
   useEffect(() => {
     alert('아직 개발 전입니다...');
   }, []);
+
+  // console.log(data);
 
   return (
     <>

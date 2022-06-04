@@ -1,16 +1,15 @@
 import React, { useCallback } from 'react';
 import Xbtn from '@img/xmark-solid-white.svg';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import '@css/Review/ActionModal.scss';
 import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
-import GetBoards from '@globalObj/function/getBoards';
-import BoardsObj from '@recoil/Review/BoardsObj';
 import { ReviewBoardType } from '@globalObj/object/types';
 import getDetailBoard from '@globalObj/function/getDetailBoard';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
+import { useSWRConfig } from 'swr';
 
 function ActionModal(props: {
   mode: string;
@@ -33,7 +32,7 @@ function ActionModal(props: {
     setPostActionModalShow,
   } = props;
   const selectedEvent = useRecoilValue(SelectedEvent);
-  const setBoardsObj = useSetRecoilState(BoardsObj);
+  const { mutate } = useSWRConfig();
 
   const closeModal = () => {
     if (mode === 'post') setPostActionModalShow(false);
@@ -50,11 +49,11 @@ function ActionModal(props: {
         })
         .then(() => {
           alert('삭제되었습니다');
-          GetBoards(selectedEvent['id'], setBoardsObj);
+          mutate(`${getAddress()}/api/board/?eventId=${selectedEvent['id']}`);
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [boardId, selectedEvent, setBoardsObj]);
+  }, [boardId, mutate, selectedEvent]);
 
   const deleteComment = useCallback(() => {
     if (getToken()) {
