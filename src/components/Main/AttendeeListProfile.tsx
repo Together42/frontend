@@ -2,13 +2,13 @@ import React, { useCallback, useRef } from 'react';
 import Xmark from '@img/xmark-solid.svg';
 import '@css/Main/AttendeeListProfile.scss';
 import GlobalLoginState from '@recoil/GlobalLoginState';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import SelectedEvent from '@recoil/SelectedEvent';
 import { getToken } from '@cert/TokenStorage';
-import ApplyTeamMemArr from '@recoil/ApplyTeamMemArr';
 import errorAlert from '@globalObj/function/errorAlert';
 import getAddress from '@globalObj/function/getAddress';
+import { useSWRConfig } from 'swr';
 
 interface Props {
   intraID: string;
@@ -20,20 +20,7 @@ function AttendeeListProfile(props: Props) {
   const xMarkRef = useRef(null);
   const LoginState = useRecoilValue(GlobalLoginState);
   const selectedEvent = useRecoilValue(SelectedEvent);
-  const setTeamList = useSetRecoilState(ApplyTeamMemArr);
-
-  const getTeamList = useCallback(
-    (eventId: number) => {
-      axios
-        .get(`${getAddress()}/api/together/matching/${eventId}`)
-        .then((res) => {
-          if (res.data.teamList && Object.keys(res.data.teamList).length) setTeamList(res.data.teamList['null']);
-          else setTeamList([]);
-        })
-        .catch((err) => errorAlert(err));
-    },
-    [setTeamList],
-  );
+  const { mutate } = useSWRConfig();
 
   const cancleEventAttend = useCallback(
     (eventId: number) => {
@@ -45,11 +32,11 @@ function AttendeeListProfile(props: Props) {
         })
         .then(() => {
           alert('삭제되었습니다');
-          getTeamList(eventId);
+          mutate(`${getAddress()}/api/together/${selectedEvent.id}`);
         })
         .catch((err) => errorAlert(err));
     },
-    [getTeamList],
+    [mutate, selectedEvent.id],
   );
 
   const onClickXmark = () => {

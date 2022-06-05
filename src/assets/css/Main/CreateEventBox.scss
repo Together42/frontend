@@ -1,0 +1,61 @@
+@import '@css/fonts.scss';
+
+.main--apply--create_wrapper {
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid $darkgrey_default;
+}
+
+.main--apply--create_form {
+  margin-bottom: 0px;
+}
+
+.main--apply--create_input_wrapper,
+.main--apply--create_textarea_wrapper {
+  margin-bottom: 20px;
+}
+
+.main--apply--create_textarea_label,
+.main--apply--create_input_label {
+  @include medium_kor;
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+.main--apply--create_input {
+  @include small_kor;
+  height: 24px;
+  width: 350px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid $darkgrey_default;
+  &:focus {
+    outline: none;
+  }
+}
+
+.main--apply--create_textarea {
+  @include small_kor;
+  width: 350px;
+  border: 1px solid $darkgrey_default;
+  background: none;
+}
+
+.main--apply--create_button_wrapper {
+  display: flex;
+  justify-content: end;
+}
+
+.main--apply--create_button {
+  font-family: $kor_font_regular;
+  font-size: 14px;
+  color: $red_for_submit;
+  background: none;
+  padding: 0;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+}
