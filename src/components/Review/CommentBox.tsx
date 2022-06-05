@@ -3,25 +3,19 @@ import '@css/Review/CommentBox.scss';
 import ellipsisImg from '@img/ellipsis-solid.svg';
 import checkImg from '@img/check-solid.svg';
 import ActionModal from './ActionModal';
-import { ReviewBoardType } from '@globalObj/object/types';
 import { getToken } from '@cert/TokenStorage';
 import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
 import errorAlert from '@globalObj/function/errorAlert';
-import getDetailBoard from '@globalObj/function/getDetailBoard';
+import { useSWRConfig } from 'swr';
 
-function CommentBox(props: {
-  intraId: string;
-  comments: string;
-  commentId: number;
-  boardId: number;
-  setBoardObj: React.Dispatch<React.SetStateAction<ReviewBoardType>>;
-}) {
-  const { intraId, comments, commentId, boardId, setBoardObj } = props;
+function CommentBox(props: { intraId: string; comments: string; commentId: number; boardId: number }) {
+  const { intraId, comments, commentId, boardId } = props;
   const [actionModalVisible, setActionModalVisible] = useState<boolean>(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [myComment, setMyComment] = useState<string>(comments);
   const [commentMode, setCommentMode] = useState<string>('default');
+  const { mutate } = useSWRConfig();
 
   const editComment = useCallback(() => {
     if (getToken()) {
@@ -39,12 +33,12 @@ function CommentBox(props: {
         )
         .then(() => {
           alert('수정 완료');
-          getDetailBoard(boardId, setBoardObj);
+          mutate(`${getAddress()}/api/board/${boardId}`);
           setMyComment(comments);
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 댓글 수정이 가능합니다');
-  }, [boardId, commentId, comments, myComment, setBoardObj]);
+  }, [boardId, commentId, comments, mutate, myComment]);
 
   const onKeydownComment = useCallback(
     (e) => {
@@ -83,7 +77,6 @@ function CommentBox(props: {
           mode="comment"
           commentId={commentId}
           boardId={boardId}
-          setBoardObj={setBoardObj}
           setCommentMode={setCommentMode}
           setCommentActionModalShow={setActionModalShow}
         />

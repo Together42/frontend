@@ -44,10 +44,7 @@ function NewEditPostingModal() {
       if (postFileArr.length) {
         postFileArr.forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
-        await axios
-          .post(`${getAddress()}/api/board/upload`, formData)
-          .then((res) => console.log(res))
-          .catch((err) => errorAlert(err));
+        await axios.post(`${getAddress()}/api/board/upload`, formData).catch((err) => errorAlert(err));
       }
     },
     [postFileArr],
@@ -73,7 +70,7 @@ function NewEditPostingModal() {
         .then(async (res) => {
           await postImage(res.data.post.toString());
           mutate(`${getAddress()}/api/board/?eventId=${selectedEvent['id']}`);
-          // GetBoards(selectedEvent['id'], setBoardsObj);
+          mutate(`${getAddress()}/api/board`);
           alert('성공적으로 게시되었습니다');
           closeModal();
         })

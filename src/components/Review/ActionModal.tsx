@@ -6,8 +6,6 @@ import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
-import { ReviewBoardType } from '@globalObj/object/types';
-import getDetailBoard from '@globalObj/function/getDetailBoard';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import { useSWRConfig } from 'swr';
 
@@ -15,7 +13,6 @@ function ActionModal(props: {
   mode: string;
   boardId?: number;
   commentId?: number;
-  setBoardObj?: React.Dispatch<React.SetStateAction<ReviewBoardType>>;
   setCommentMode?: React.Dispatch<React.SetStateAction<string>>;
   setCommentActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
   setPostActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +22,6 @@ function ActionModal(props: {
     mode,
     boardId,
     commentId,
-    setBoardObj,
     setCommentMode,
     setCommentActionModalShow,
     setEditPostingModalShow,
@@ -49,7 +45,8 @@ function ActionModal(props: {
         })
         .then(() => {
           alert('삭제되었습니다');
-          mutate(`${getAddress()}/api/board/?eventId=${selectedEvent['id']}`);
+          if (selectedEvent) mutate(`${getAddress()}/api/board/?eventId=${selectedEvent['id']}`);
+          mutate(`${getAddress()}/api/board`);
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 삭제 가능합니다');
@@ -65,11 +62,11 @@ function ActionModal(props: {
         })
         .then(() => {
           alert('삭제되었습니다');
-          getDetailBoard(boardId, setBoardObj);
+          mutate(`${getAddress()}/api/board/${boardId}`);
         })
         .catch((err) => errorAlert(err));
     } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [boardId, commentId, setBoardObj]);
+  }, [boardId, commentId, mutate]);
 
   const onClickUpdate = () => {
     if (mode === 'post') setEditPostingModalShow(true);

@@ -7,10 +7,10 @@ import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/function/getAddress';
 import { imageType, ReviewBoardType } from '@globalObj/object/types';
-import getDetailBoard from '@globalObj/function/getDetailBoard';
 import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
-import { useSWRConfig } from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
+import fetcher from '@globalObj/function/tempfetcher';
 
 function NewEditPostingModal(props: {
   boardId: number;
@@ -19,23 +19,39 @@ function NewEditPostingModal(props: {
   const { boardId, setEditPostingModalShow } = props;
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [boardObj, setBoardObj] = useState<ReviewBoardType>(null);
   const [postFileArr, setPostFileArr] = useState<File[]>([]);
   const [postUrlArr, setPostUrlArr] = useState<string[]>([]);
   const [boardImgArr, setBoardImgArr] = useState<string[]>([]);
   const [deleteImgArr, setDeleteImgArr] = useState<string[]>([]);
   const [deleteIdxArr, setDeleteIdxArr] = useState<number[]>([]);
   const { mutate } = useSWRConfig();
+  const { data: boardObj, mutate: mutateBoard } = useSWR<ReviewBoardType>(
+    `${getAddress()}/api/board/${boardId}`,
+    fetcher,
+    {
+      dedupingInterval: 600000,
+    },
+  );
 
   const closeModal = useCallback(() => {
     setEditPostingModalShow(false);
   }, [setEditPostingModalShow]);
 
-  const deleteImage = useCallback(async (deleteBoardImg: imageType[]) => {
-    deleteBoardImg.forEach(async (obj) => {
-      await axios.delete(`${getAddress()}/api/board/image/remove/${obj['imageId']}`).catch((err) => errorAlert(err));
-    });
-  }, []);
+  const deleteImage = useCallback(
+    async (deleteBoardImg: imageType[]) => {
+      deleteBoardImg.forEach(async (obj) => {
+        await axios
+          .delete(`${getAddress()}/api/board/image/remove/${obj['imageId']}`)
+          .then(() => {
+            mutate(`${getAddress()}/api/board/?eventId=${boardObj['eventId']}`);
+            mutate(`${getAddress()}/api/board`);
+            mutateBoard();
+          })
+          .catch((err) => errorAlert(err));
+      });
+    },
+    [boardObj, mutate, mutateBoard],
+  );
 
   const postImage = useCallback(
     async (boardId: string) => {
@@ -45,10 +61,7 @@ function NewEditPostingModal(props: {
       if (postFileArr.length) {
         postFileArr.forEach((file) => formData.append('image', file));
         formData.append('boardId', boardId);
-        await axios
-          .post(`${getAddress()}/api/board/upload`, formData)
-          .then((res) => console.log(res))
-          .catch((err) => errorAlert(err));
+        await axios.post(`${getAddress()}/api/board/upload`, formData).catch((err) => errorAlert(err));
       }
     },
     [boardImgArr, boardObj, deleteImage, postFileArr],
@@ -72,12 +85,13 @@ function NewEditPostingModal(props: {
       .then(async () => {
         await postImage(boardId.toString());
         mutate(`${getAddress()}/api/board/?eventId=${boardObj['eventId']}`);
-        // GetBoards(boardObj['eventId'], setBoardsObj);
+        mutate(`${getAddress()}/api/board`);
+        mutateBoard();
         alert('성공적으로 수정되었습니다');
         setEditPostingModalShow(false);
       })
       .catch((err) => errorAlert(err));
-  }, [boardId, boardObj, content, mutate, postImage, setEditPostingModalShow, title]);
+  }, [boardId, boardObj, content, mutate, mutateBoard, postImage, setEditPostingModalShow, title]);
 
   const onChangeTitle = (e: any) => {
     setTitle(e.target.value);
@@ -99,11 +113,10 @@ function NewEditPostingModal(props: {
   };
 
   useEffect(() => {
-    getDetailBoard(boardId, setBoardObj);
     return () => {
       closeModal();
     };
-  }, [boardId, closeModal]);
+  }, [closeModal, mutateBoard]);
 
   useEffect(() => {
     if (boardObj) {
