@@ -8,7 +8,7 @@ import NewPostingModal from './NewPostingModal';
 import getAddress from '@globalObj/function/getAddress';
 import defaultImg from '@img/defaultImg.png';
 import useSWR from 'swr';
-import fetcher from '@globalObj/function/tempfetcher';
+import fetcher from '@globalObj/function/fetcher';
 import { PostingType } from '@usefulObj/types';
 
 function Review() {

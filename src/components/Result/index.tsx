@@ -8,7 +8,7 @@ import { getToken } from '@cert/TokenStorage';
 import Xmark from '@img/xmark-solid.svg';
 import getAddress from '@globalObj/function/getAddress';
 import useSWR from 'swr';
-import fetcher from '@globalObj/function/tempfetcher';
+import fetcher from '@globalObj/function/fetcher';
 
 function Result() {
   const [selectedEvent, setSelectedEvent] = useState<EventType>({

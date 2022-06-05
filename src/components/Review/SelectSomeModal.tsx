@@ -9,7 +9,7 @@ import glassImg from '@img/magnifying-glass-solid.svg';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import useSWR from 'swr';
 import getAddress from '@globalObj/function/getAddress';
-import fetcher from '@globalObj/function/tempfetcher';
+import fetcher from '@globalObj/function/fetcher';
 
 function EventListModal(prop: { mode: string }) {
   const { data: eventList } = useSWR<ReviewSelectedEventType[]>(`${getAddress()}/api/together/matching`, fetcher, {

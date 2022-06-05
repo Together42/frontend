@@ -10,7 +10,7 @@ import { imageType, ReviewBoardType } from '@globalObj/object/types';
 import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 import useSWR, { useSWRConfig } from 'swr';
-import fetcher from '@globalObj/function/tempfetcher';
+import fetcher from '@globalObj/function/fetcher';
 
 function NewEditPostingModal(props: {
   boardId: number;

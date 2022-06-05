@@ -13,7 +13,7 @@ import SliderBtnBox from './SliderBtnBox';
 import shuffle from '@globalObj/function/shuffleArr';
 import ImageWithIdBox from './ImageWithIdBox';
 import useSWR from 'swr';
-import fetcher from '@globalObj/function/tempfetcher';
+import fetcher from '@globalObj/function/fetcher';
 
 function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<React.SetStateAction<boolean>> }) {
   const { boardId, setModalShow } = props;
