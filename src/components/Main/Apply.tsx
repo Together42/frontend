@@ -4,7 +4,7 @@ import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
-import SelectedEvent from '@recoil/SelectedEvent';
+import SelectedEvent from '@recoil/MainSelectedEvent';
 import { EventType, teamMemInfo } from '@globalObj/object/types';
 import errorAlert from '@globalObj/function/errorAlert';
 import getAddress from '@globalObj/function/getAddress';
@@ -14,25 +14,20 @@ import fetcher from '@globalObj/function/fetcher';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
-  const [EventList, setEventList] = useState<EventType[]>([]);
   const [globalSelectedEvent, setGlobalSelectedEvent] = useRecoilState(SelectedEvent);
   const [createMode, setCreateMode] = useState(false);
   const ListWrapperRef = useRef(null);
+  const [eventList, setEventList] = useState<EventType[]>(null);
   const { data: teamList, mutate: mutateTeamList } = useSWR<{
     event: EventType;
     teamList: { [x: string]: teamMemInfo[] };
-  }>(`${getAddress()}/api/together/${globalSelectedEvent.id}`, fetcher, {
+  }>(globalSelectedEvent ? `${getAddress()}/api/together/${globalSelectedEvent.id}` : null, fetcher, {
     dedupingInterval: 600000,
   });
-  const isTeamListExist = teamList && teamList.teamList && Object.keys(teamList.teamList);
-
-  const updateSelecetEvent = useCallback(
-    (eventId: number) => {
-      const clickedEvent = EventList.filter((ev) => ev.id === eventId)[0];
-      setGlobalSelectedEvent(clickedEvent);
-    },
-    [EventList, setGlobalSelectedEvent],
-  );
+  const { data: allEventList } = useSWR<{ EventList: EventType[] }>(`${getAddress()}/api/together`, fetcher, {
+    dedupingInterval: 600000,
+  });
+  const isTeamListExist = teamList && teamList.teamList && teamList.teamList.null && Object.keys(teamList.teamList);
 
   const registerEvent = useCallback(
     (eventId: number) => {
@@ -59,77 +54,31 @@ function Apply() {
     [mutateTeamList],
   );
 
-  const updateEventList = useCallback((eventId: number) => {
-    if (eventId) {
-      axios
-        .get(`${getAddress()}/api/together/${eventId}`)
-        .then((response) => {
-          if (
-            (response.data.teamList && response.data.teamList['null']) ||
-            (response.data.teamList && Object.keys(response.data.teamList).length === 0)
-          )
-            setEventList((prev) => {
-              let rtnArr = [...prev];
-              if (!prev.find((prevElem) => prevElem['id'] === response.data.event['id'])) {
-                rtnArr.push(response.data.event);
-              }
-              return rtnArr;
-            });
-        })
-        .catch((err) => errorAlert(err));
-    }
-  }, []);
-
-  const getEventList = () => {
-    axios
-      .get(`${getAddress()}/api/together`)
-      .then((response) => {
-        if (response.data.EventList.length > 0) {
-          const rtnArr = response.data.EventList.filter((e) => !e['isMatching']);
-          setEventList(rtnArr);
-        }
-      })
-      .catch((err) => errorAlert(err));
-  };
-
   const onSubmitApply = (e: any) => {
     e.preventDefault();
     registerEvent(globalSelectedEvent['id']);
   };
 
   const onClickCreateModal = () => {
-    if (getToken()) setCreateMode(true);
-    else alert('로그인을 해주세요!');
+    if (getToken()) {
+      setCreateMode(true);
+      setGlobalSelectedEvent(null);
+    } else alert('로그인을 해주세요!');
   };
 
-  const onClickEventList = (e: any) => {
-    updateSelecetEvent(parseInt(e.target.id, 10));
-  };
-
-  // Event List updated when createMode or selected event changed
   useEffect(() => {
-    updateEventList(globalSelectedEvent.id);
-  }, [createMode, updateEventList, globalSelectedEvent.id]);
-
-  // Event List created when component start & createMode end
-  useEffect(() => {
-    getEventList();
-    return () => {
-      setGlobalSelectedEvent({
-        id: null,
-        title: null,
-        description: null,
-        intraId: null,
-        createdId: null,
-        isMatching: null,
-      });
-      setEventList([]);
-    };
-  }, [setGlobalSelectedEvent, createMode, mutateTeamList]);
+    if (allEventList && allEventList.EventList.length > 0) {
+      setEventList(allEventList.EventList.filter((e) => !e['isMatching']));
+    }
+  }, [allEventList]);
 
   useEffect(() => {
     window.scrollTo(0, ListWrapperRef.current.offsetTop);
   }, [teamList]);
+
+  useEffect(() => {
+    return () => setGlobalSelectedEvent(null);
+  }, [setGlobalSelectedEvent]);
 
   return (
     <div className="main--apply">
@@ -142,10 +91,17 @@ function Apply() {
         </div>
         <div className="main--apply--list">
           <p className="main--apply--list--title">신청 가능 목록</p>
-          {EventList.length > 0 ? (
-            EventList.map((e, i) => (
+          {eventList && eventList.length > 0 ? (
+            eventList.map((e, i) => (
               <p className="main--apply--list--event" key={i}>
-                <span id={`${e.id}`} onClick={onClickEventList}>
+                <span
+                  id={`${e.id}`}
+                  onClick={(e) =>
+                    setGlobalSelectedEvent(
+                      eventList.filter((event) => event.id === parseInt((e.target as Element).id, 10))[0],
+                    )
+                  }
+                >
                   - {e.title}
                 </span>
               </p>
@@ -154,9 +110,9 @@ function Apply() {
             <p className="main--apply--list--empty">이벤트가 없습니다</p>
           ) : null}
         </div>
-        {EventList.length > 0 && !createMode ? (
+        {eventList && eventList.length > 0 && !createMode ? (
           <div className="main--apply--eventInfo">
-            {globalSelectedEvent.id ? (
+            {globalSelectedEvent ? (
               <>
                 <p className="main--apply--eventInfo--title_wrapper">
                   <span className="main--apply--eventInfo--title"> {globalSelectedEvent.title}</span>

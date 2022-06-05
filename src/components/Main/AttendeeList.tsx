@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import '@css/Main/AttendeeList.scss';
 import AttendeeListProfile from '@main/AttendeeListProfile';
 import { useRecoilValue } from 'recoil';
-import SelectedEvent from '@recoil/SelectedEvent';
+import SelectedEvent from '@recoil/MainSelectedEvent';
 import useSWR from 'swr';
 import { EventType, teamMemInfo } from '@usefulObj/types';
 import fetcher from '@globalObj/function/fetcher';
@@ -13,20 +13,15 @@ function AttendeeList() {
   const { data: teamList } = useSWR<{
     event: EventType;
     teamList: { [x: string]: teamMemInfo[] };
-  }>(`${getAddress()}/api/together/${selectedEvent.id}`, fetcher, {
+  }>(selectedEvent ? `${getAddress()}/api/together/${selectedEvent.id}` : null, fetcher, {
     dedupingInterval: 600000,
   });
-  const [showAttendeeList, setShowAttendeeList] = useState<boolean>(
-    selectedEvent.title && teamList && teamList.teamList && Object.keys(teamList.teamList).length ? true : false,
-  );
-
-  useMemo(() => {
-    setShowAttendeeList(
-      selectedEvent.title && teamList && teamList.teamList && Object.keys(teamList.teamList).length ? true : false,
-    );
-  }, [selectedEvent.title, teamList]);
-
-  console.log(teamList);
+  const showAttendeeList =
+    selectedEvent &&
+    teamList &&
+    teamList.teamList &&
+    teamList.teamList.null &&
+    Object.keys(teamList.teamList).length > 0;
 
   return (
     <div className={`main--attendeeList ${!showAttendeeList && 'data_none_div'}`}>

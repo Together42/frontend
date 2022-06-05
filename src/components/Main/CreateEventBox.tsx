@@ -4,6 +4,7 @@ import getAddress from '@globalObj/function/getAddress';
 import axios from 'axios';
 import React, { useCallback, useState } from 'react';
 import '@css/Main/CreateEventBox.scss';
+import { useSWRConfig } from 'swr';
 
 interface Props {
   setCreateMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,6 +15,7 @@ function CreateEventBox(props: Props) {
   const { setCreateMode, registerEvent } = props;
   const [createTitle, setCreateTitle] = useState('');
   const [createDescription, setCreateDescription] = useState('');
+  const { mutate } = useSWRConfig();
 
   const postCreateEvent = useCallback(() => {
     if (getToken()) {
@@ -33,6 +35,7 @@ function CreateEventBox(props: Props) {
         .then((res) => {
           alert('생성되었습니다');
           registerEvent(res.data.event);
+          mutate(`${getAddress()}/api/together`);
           setCreateDescription('');
           setCreateTitle('');
           setCreateMode(false);
@@ -41,7 +44,7 @@ function CreateEventBox(props: Props) {
     } else {
       alert('로그인을 하셔야 생성 가능합니다!');
     }
-  }, [createDescription, createTitle, registerEvent, setCreateMode]);
+  }, [createDescription, createTitle, mutate, registerEvent, setCreateMode]);
 
   const onSubmitCreate = (e: any) => {
     e.preventDefault();

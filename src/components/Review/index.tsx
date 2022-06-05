@@ -22,11 +22,6 @@ function Review() {
   );
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
 
-  // 임시용!
-  useEffect(() => {
-    alert('아직 개발 전입니다...');
-  }, []);
-
   return (
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />

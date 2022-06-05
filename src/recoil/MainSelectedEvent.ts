@@ -3,14 +3,7 @@ import { EventType } from '@globalObj/object/types';
 
 const SelectedEvent = atom<EventType>({
   key: 'SelectedEvent',
-  default: {
-    id: null,
-    title: null,
-    description: null,
-    intraId: null,
-    createdId: null,
-    isMatching: null,
-  },
+  default: null,
 });
 
 export default SelectedEvent;

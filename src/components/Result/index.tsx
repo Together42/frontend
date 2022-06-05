@@ -99,7 +99,7 @@ function Result() {
   return (
     <>
       <div className="result">
-        {eventObj && eventObj.EventList.length > 0 && (
+        {eventObj && eventObj.EventList && eventObj.EventList.length > 0 && (
           <div className="result--event_list">
             {eventObj.EventList.map((e, i) => (
               <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
