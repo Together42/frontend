@@ -155,7 +155,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
 
 .review--newposting--button--forFlex {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   width: $right_devision_width - ($margin_margin_medium * 2);
 }
 
