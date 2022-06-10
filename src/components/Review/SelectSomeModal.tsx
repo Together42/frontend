@@ -6,6 +6,7 @@ import SelectedEvent from '@recoil/Review/SelectedEvent';
 import '@css/Review/SelectSomeModal.scss';
 import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
 import glassImg from '@img/magnifying-glass-solid.svg';
+import plusImg from '@img/plus-solid.svg';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import useSWR from 'swr';
 import getAddress from '@globalObj/function/getAddress';
@@ -68,6 +69,10 @@ function SelectSomeModal(prop: { mode: string }) {
 
   const onSubmitModalAddMem = (e: any) => {
     e.preventDefault();
+    if (inputText === '') {
+      alert('입력값이 없습니다');
+      return;
+    }
     if (mode === 'modal_addMem') {
       setAddMemArr((prev) => (prev ? [...prev, inputText] : [inputText]));
       setInputText('');
@@ -124,7 +129,13 @@ function SelectSomeModal(prop: { mode: string }) {
             value={inputText}
             onChange={onChangeInput}
           />
-          <img className="review--eventModal--header--glass" src={glassImg} alt={glassImg}></img>
+          {mode === 'modal_addMem' ? (
+            <button className="review--eventModal--header--plus">
+              <img src={plusImg} alt={plusImg}></img>
+            </button>
+          ) : (
+            <img className="review--eventModal--header--glass" src={glassImg} alt={glassImg}></img>
+          )}
         </form>
       </div>
       {modalEventList && (mode === 'main_event' || mode === 'modal_event') ? (

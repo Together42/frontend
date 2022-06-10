@@ -54,6 +54,17 @@ $addMemDivHeight: calc(
   }
 }
 
+.review--eventModal--header--plus {
+  border: none;
+  background: none;
+  img {
+    width: 15px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
 .review--eventModal--header--glass {
   width: 15px;
   &:hover {

@@ -28,20 +28,22 @@ function Review() {
       {newPostingModalShow && <NewPostingModal />}
       {boardsObj && Object.values(boardsObj)[0].length && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
-          {Object.values(boardsObj)[0].map((board, i) => (
-            <Posting
-              boardId={board['boardId']}
-              title={board['title']}
-              intraId={board['intraId']}
-              contents={board['contents']}
-              createdAt={board['createdAt']}
-              filePath={board['filePath'] ? board['filePath'] : defaultImg}
-              commentNum={board['commentNum']}
-              url={board['url']}
-              elemNum={i + 1}
-              key={i}
-            />
-          ))}
+          {Object.values(boardsObj)[0]
+            .reverse()
+            .map((board, i) => (
+              <Posting
+                boardId={board['boardId']}
+                title={board['title']}
+                intraId={board['intraId']}
+                contents={board['contents']}
+                createdAt={board['createdAt']}
+                filePath={board['filePath'] ? board['filePath'] : defaultImg}
+                commentNum={board['commentNum']}
+                url={board['url']}
+                elemNum={i + 1}
+                key={i}
+              />
+            ))}
         </div>
       )}
     </>
