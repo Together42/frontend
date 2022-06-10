@@ -10,11 +10,16 @@ import SelectedTeam from '@recoil/Review/SelectedTeam';
 import useSWR from 'swr';
 import getAddress from '@globalObj/function/getAddress';
 import fetcher from '@globalObj/function/fetcher';
+import EmptyEvent from '@globalObj/object/EmptyEvent';
 
-function EventListModal(prop: { mode: string }) {
-  const { data: eventList } = useSWR<ReviewSelectedEventType[]>(`${getAddress()}/api/together/matching`, fetcher, {
-    dedupingInterval: 600000,
-  });
+function SelectSomeModal(prop: { mode: string }) {
+  const { data: eventList, mutate: mutateAllEvent } = useSWR<ReviewSelectedEventType[]>(
+    `${getAddress()}/api/together/matching`,
+    fetcher,
+    {
+      dedupingInterval: 600000,
+    },
+  );
   const setEventListModalShow = useSetRecoilState(EventListModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const setSelectedTeam = useSetRecoilState(SelectedTeam);
@@ -38,6 +43,17 @@ function EventListModal(prop: { mode: string }) {
       setEventListModalShow(false);
     } else if (mode === 'modal_event') {
       setSelectedEvent(event);
+      setMode('modal_team');
+    }
+  };
+
+  const onClickAllEvent = () => {
+    if (mode === 'main_event') {
+      mutateAllEvent();
+      setSelectedEvent(null);
+      setEventListModalShow(false);
+    } else if (mode === 'modal_event') {
+      setSelectedEvent(EmptyEvent());
       setMode('modal_team');
     }
   };
@@ -112,13 +128,18 @@ function EventListModal(prop: { mode: string }) {
         </form>
       </div>
       {modalEventList && (mode === 'main_event' || mode === 'modal_event') ? (
-        modalEventList
-          .filter((event1) => event1['title'].includes(inputText))
-          ?.map((event2) => (
-            <p className="review--eventModal--event" key={event2['id']} onClick={() => onClickEvent(event2)}>
-              {event2['title']}
-            </p>
-          ))
+        <>
+          <p className="review--eventModal--event" onClick={() => onClickAllEvent()}>
+            🍒 전체 게시판 🍒
+          </p>
+          {modalEventList
+            .filter((event1) => event1['title'].includes(inputText))
+            ?.map((event2) => (
+              <p className="review--eventModal--event" key={event2['id']} onClick={() => onClickEvent(event2)}>
+                {event2['title']}
+              </p>
+            ))}
+        </>
       ) : mode === 'modal_team' && modalTeamList ? (
         Object.keys(modalTeamList)
           .filter((event1) => event1.includes(inputText))
@@ -138,7 +159,7 @@ function EventListModal(prop: { mode: string }) {
           </div>
           <div className="review--eventModal--submit_addMem">
             <div className="review--eventModal--submit_addMem--btn" onClick={onSubmitGlobalAddMem}>
-              <span>추가완료</span>
+              <span>모두추가</span>
             </div>
           </div>
         </>
@@ -147,4 +168,4 @@ function EventListModal(prop: { mode: string }) {
   );
 }
 
-export default EventListModal;
+export default SelectSomeModal;

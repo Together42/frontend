@@ -86,7 +86,7 @@ $addMemDivHeight: calc(
 
 .review--eventModal--event {
   @include small_kor;
-  margin: 0 $modalPadding 5px $modalPadding;
+  margin: 0 $modalPadding 10px $modalPadding;
   &:hover {
     cursor: pointer;
   }
@@ -102,6 +102,6 @@ $addMemDivHeight: calc(
 .review--eventModal--submit_addMem--btn {
   span {
     @include medium_kor;
-    color: $red_for_submit;
+    color: $red_for_submit !important;
   }
 }
