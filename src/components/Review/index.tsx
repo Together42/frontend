@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Posting from '@review/Posting';
 import Guide from '@review/Guide';
 import { useRecoilValue } from 'recoil';
@@ -22,6 +22,9 @@ function Review() {
   );
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
 
+  // console.log(boardsObj['boardList'][0]['filePath'].split('.').pop() === 'jpg');
+  // console.log(boardsObj['boardList'][0]['createdAt'] > boardsObj['boardList'][1]['createdAt']);
+
   return (
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
@@ -29,7 +32,7 @@ function Review() {
       {boardsObj && Object.values(boardsObj)[0].length && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
           {Object.values(boardsObj)[0]
-            .reverse()
+            .sort((a, b) => Date.parse(b['createdAt']) - Date.parse(a['createdAt']))
             .map((board, i) => (
               <Posting
                 boardId={board['boardId']}
