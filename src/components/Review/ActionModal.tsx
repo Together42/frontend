@@ -84,7 +84,8 @@ function ActionModal(props: {
     <div
       className="review--actionModal--background"
       onClick={() => {
-        setPostActionModalShow(false);
+        if (mode === 'post') setPostActionModalShow(false);
+        else if (mode === 'comment') setCommentActionModalShow(false);
       }}
     >
       <div className="review--actionModal" onClick={(e) => e.stopPropagation()}>

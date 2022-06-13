@@ -19,6 +19,8 @@ function PreviewBox(props: {
     [setDeleteIdxArr, setDeleteImgArr],
   );
 
+  console.log(boardImgArr);
+
   return (
     <div className="review--preview_box--for_grid">
       {boardImgArr && boardImgArr.length
