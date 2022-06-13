@@ -26,8 +26,8 @@ function Navbar() {
 
   return (
     <div className="navbar--wrapper">
-      <Link to={`/`}>친바신청</Link>
-      <Link to={`/Result`}>친바매칭</Link>
+      <Link to={`/`}>이벤트생성</Link>
+      <Link to={`/Result`}>랜덤매칭</Link>
       <Link to={`/review`}>친스타그램</Link>
       {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
     </div>

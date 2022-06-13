@@ -99,6 +99,10 @@ function Result() {
   return (
     <>
       <div className="result">
+        <div className="result--guide">
+          <p>신청한 이벤트의 팀을 짤 수 있는 공간입니다!</p>
+          <p>팀 매칭은 이벤트를 생성한 분만 가능하시구요~</p>
+        </div>
         {eventObj && eventObj.EventList && eventObj.EventList.length > 0 && (
           <div className="result--event_list">
             {eventObj.EventList.map((e, i) => (

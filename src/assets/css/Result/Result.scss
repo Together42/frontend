@@ -11,6 +11,12 @@ $table_padding: 20px;
   @include main--titles;
 }
 
+.result--guide {
+  @include medium_kor;
+  text-align: center;
+  margin-bottom: 70px;
+}
+
 .result--event_list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(calc(100% / 4), auto));

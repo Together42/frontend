@@ -87,7 +87,7 @@ function Apply() {
       </p>
       <div className="main--apply--wrapper">
         <div className="main--apply--create_modal_button">
-          <span onClick={onClickCreateModal}>친바 생성하기</span>
+          <span onClick={onClickCreateModal}>이벤트 생성</span>
         </div>
         <div className="main--apply--list">
           <p className="main--apply--list--title">신청 가능 목록</p>
@@ -107,7 +107,10 @@ function Apply() {
               </p>
             ))
           ) : !createMode ? (
-            <p className="main--apply--list--empty">이벤트가 없습니다</p>
+            <div className="main--apply--list--guide">
+              <p>이벤트를 생성하고 신청할 수 있는 페이지입니다.</p>
+              <p>이벤트를 생성해주세요! 대각선 오른쪽 위에 보이시죠?</p>
+            </div>
           ) : null}
         </div>
         {eventList && eventList.length > 0 && !createMode ? (
@@ -137,7 +140,11 @@ function Apply() {
                 </div>
               </>
             ) : (
-              <p className="main--apply--eventInfo--empty">이벤트를 클릭해주세요</p>
+              <div className="main--apply--eventInfo--guide">
+                <p>이벤트를 생성하고 신청할 수 있는 페이지입니다.</p>
+                <p>◀︎ 이벤트를 클릭해주세요</p>
+                <p>이벤트 생성도 가능하답니다~</p>
+              </div>
             )}
           </div>
         ) : createMode ? (

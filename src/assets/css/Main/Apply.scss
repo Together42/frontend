@@ -59,11 +59,11 @@ $list_wrapper_padding: 20px;
   }
 }
 
-.main--apply--list--empty {
+.main--apply--list--guide {
   @include medium_kor;
   position: absolute;
-  left: 40%;
-  top: 40%;
+  left: 25%;
+  top: 37%;
 }
 
 .main--apply--eventInfo {
@@ -126,9 +126,9 @@ $list_wrapper_padding: 20px;
   color: $darkgrey_default;
 }
 
-.main--apply--eventInfo--empty {
+.main--apply--eventInfo--guide {
   @include medium_kor;
   position: relative;
-  left: 30%;
-  top: 37%;
+  top: 18%;
+  left: 5%;
 }
