@@ -7,6 +7,8 @@ import ActionModal from './ActionModal';
 import EditPostingModal from './EditPostingModal';
 import CommentModal from './CommentModal';
 import ImageWithIdBox from './ImageWithIdBox';
+import expandImg from '@img/expand-solid.svg';
+import FullImageSlider from '@utils/FullImageSlider';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -18,6 +20,7 @@ function Posting(props: Props) {
   const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
+  const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
 
   const onClickMoreButton = () => {
     setModalShow(true);
@@ -44,6 +47,12 @@ function Posting(props: Props) {
           setPostActionModalShow={setActionModalShow}
         />
       )}
+      {openFullImageSlider && (
+        <FullImageSlider
+          imageArr={[{ imageId: null, boardId: null, filePath }]}
+          setOpenFullImageSlider={setOpenFullImageSlider}
+        />
+      )}
       {modalShow && <CommentModal boardId={boardId} setModalShow={setModalShow} />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
@@ -53,7 +62,12 @@ function Posting(props: Props) {
           </div>
           <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
         </div>
-        <img className="review--posting--image" src={filePath} alt={filePath}></img>
+        <div className="review--posting--image_wrapper">
+          <img className="review--posting--image" src={filePath} alt={filePath} />
+          <div className="review--posting--expand">
+            <img src={expandImg} alt={expandImg} onClick={() => setOpenFullImageSlider(true)} />
+          </div>
+        </div>
         <div className="review--posting--comments">
           <p className="review--posting--content">{contents}</p>
           <p className="review--posting--commentLength" onClick={onClickMoreButton}>

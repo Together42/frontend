@@ -29,8 +29,7 @@
   transition: 0.5s;
   img {
     width: 300px;
-    height: 300px;
-    object-fit: contain;
+    object-fit: cover;
   }
 }
 
@@ -45,6 +44,7 @@
   position: absolute;
   left: 5px;
   width: 22px;
+  opacity: 0.7;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
@@ -55,6 +55,27 @@
   position: absolute;
   right: 5px;
   width: 22px;
+  opacity: 0.7;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.review--btn_box_expand {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  width: 23px;
+  height: 23px;
+  border-radius: 10px;
+  opacity: 0.5;
+  img {
+    width: 15px;
+  }
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
