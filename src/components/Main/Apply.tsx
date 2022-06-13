@@ -66,6 +66,11 @@ function Apply() {
     } else alert('로그인을 해주세요!');
   };
 
+  const onClickEventList = (e: any) => {
+    setCreateMode(false);
+    setGlobalSelectedEvent(eventList.filter((event) => event.id === parseInt((e.target as Element).id, 10))[0]);
+  };
+
   useEffect(() => {
     if (allEventList && allEventList.EventList.length > 0) {
       setEventList(allEventList.EventList.filter((e) => !e['isMatching']));
@@ -92,17 +97,10 @@ function Apply() {
         <div className="main--apply--list">
           <p className="main--apply--list--title">신청 가능 목록</p>
           {eventList && eventList.length > 0 ? (
-            eventList.map((e, i) => (
+            eventList.map((elem, i) => (
               <p className="main--apply--list--event" key={i}>
-                <span
-                  id={`${e.id}`}
-                  onClick={(e) =>
-                    setGlobalSelectedEvent(
-                      eventList.filter((event) => event.id === parseInt((e.target as Element).id, 10))[0],
-                    )
-                  }
-                >
-                  - {e.title}
+                <span id={`${elem.id}`} onClick={onClickEventList}>
+                  - {elem.title}
                 </span>
               </p>
             ))
