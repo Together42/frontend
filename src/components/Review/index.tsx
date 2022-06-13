@@ -23,7 +23,7 @@ function Review() {
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
 
   // console.log(boardsObj['boardList'][0]['filePath'].split('.').pop() === 'jpg');
-  // console.log(boardsObj['boardList'][0]['createdAt'] > boardsObj['boardList'][1]['createdAt']);
+  // console.log(boardsObj && boardsObj['boardList'][0]['createdAt']);
 
   return (
     <>
@@ -32,7 +32,10 @@ function Review() {
       {boardsObj && Object.values(boardsObj)[0].length && (
         <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
           {Object.values(boardsObj)[0]
-            .sort((a, b) => Date.parse(b['createdAt']) - Date.parse(a['createdAt']))
+            .sort((a, b) => {
+              if (b['createdAt'] > a['createdAt']) return 1;
+              else return -1;
+            })
             .map((board, i) => (
               <Posting
                 boardId={board['boardId']}

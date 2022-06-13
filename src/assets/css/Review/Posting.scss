@@ -12,7 +12,7 @@ $border_thickness: 1px;
 
 .review--posting--shownWrapper {
   position: relative;
-  height: 440px;
+  height: 450px;
   width: 300px + ($border_thickness * 2);
   border: $border_thickness solid $darkgrey_light;
 }
@@ -91,7 +91,7 @@ $border_thickness: 1px;
 .review--posting--open_modal {
   position: absolute;
   left: 245px;
-  top: 405px;
+  top: 420px;
   display: flex;
   align-items: center;
   span {
