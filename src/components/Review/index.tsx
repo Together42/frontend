@@ -44,6 +44,7 @@ function Review() {
                 commentNum={board['commentNum']}
                 url={board['url']}
                 elemNum={i + 1}
+                totalNum={Object.values(boardsObj)[0].length}
                 key={i}
               />
             ))}

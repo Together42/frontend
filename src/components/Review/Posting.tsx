@@ -10,10 +10,11 @@ import ImageWithIdBox from './ImageWithIdBox';
 
 interface Props extends PostingType {
   elemNum: number;
+  totalNum: number;
 }
 
 function Posting(props: Props) {
-  const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, url } = props;
+  const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, url, totalNum } = props;
   const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
@@ -29,7 +30,7 @@ function Posting(props: Props) {
   return (
     <div
       className={`review--posting--forFlex ${elemNum % 2 === 0 ? 'justify-right' : 'justify-left'} ${
-        elemNum === 4 && 'footer--empty'
+        elemNum === totalNum && 'footer--empty'
       }`}
     >
       {editPostingModalShow && <EditPostingModal boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />}
