@@ -143,13 +143,16 @@ function SelectSomeModal(prop: { mode: string }) {
           <p className="review--eventModal--event" onClick={() => onClickAllEvent()}>
             🍒 전체 게시판 🍒
           </p>
-          {modalEventList
-            .filter((event1) => event1['title'].includes(inputText))
-            ?.map((event2) => (
-              <p className="review--eventModal--event" key={event2['id']} onClick={() => onClickEvent(event2)}>
-                {event2['title']}
-              </p>
-            ))}
+          {modalEventList.filter((event1) => event1['title'].includes(inputText))
+            ? modalEventList
+                .filter((event1) => event1['title'].includes(inputText))
+                .sort((a, b) => b['id'] - a['id'])
+                .map((event2) => (
+                  <p className="review--eventModal--event" key={event2['id']} onClick={() => onClickEvent(event2)}>
+                    {event2['title']}
+                  </p>
+                ))
+            : null}
         </>
       ) : mode === 'modal_team' && modalTeamList ? (
         Object.keys(modalTeamList)

@@ -1,0 +1,74 @@
+@import '@css/fonts.scss';
+
+.full_slider--background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(57, 54, 54);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.full_slider--viewer {
+  position: relative;
+  display: flex;
+  width: 600px;
+  min-height: 300px;
+  max-height: 90%;
+  overflow-x: hidden;
+  z-index: 2;
+}
+
+.full_slider--xbtn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 3;
+  width: 25px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.full_slider--slider {
+  position: relative;
+  margin: 0;
+  display: flex;
+  transition: 0.5s;
+  img {
+    width: 600px;
+    object-fit: contain;
+  }
+}
+
+.full_slider--wrapper {
+  position: absolute;
+  width: 600px;
+  top: 50px;
+  padding: 0 5px;
+}
+
+.full_slider--image_btn__left {
+  position: absolute;
+  right: 45px;
+  width: 25px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.full_slider--image_btn__right {
+  position: absolute;
+  right: 10px;
+  width: 25px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
