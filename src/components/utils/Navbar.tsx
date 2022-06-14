@@ -14,7 +14,6 @@ function Navbar() {
     setLoginState(() => {
       return {
         id: '',
-        email: '',
         isLogin: false,
         isAdmin: false,
         profileUrl: '',

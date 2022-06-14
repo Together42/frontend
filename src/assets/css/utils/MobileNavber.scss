@@ -1,0 +1,48 @@
+@import '@css/useful.scss';
+
+.navbar--mobile--wrapper {
+  position: relative;
+  background-color: #2f313d;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar--mobile--title {
+  a {
+    @include big_kor_white;
+    text-decoration: none;
+  }
+}
+
+.navbar--mobile--hamberg {
+  width: 20px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.navbar--mobile--modal {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  background-color: $darkgrey_medium;
+  padding: 10px;
+  gap: 10px;
+  z-index: 1;
+
+  a,
+  span {
+    @include medium_kor_white;
+    text-decoration: none;
+    width: 90px;
+    text-align: center;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
