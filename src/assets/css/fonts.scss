@@ -7,6 +7,7 @@ $darkgrey_darker: #252323;
 $darkgrey_default: rgb(80, 80, 80);
 $darkgrey_medium: rgb(140, 140, 140);
 $darkgrey_light: rgb(184, 184, 184);
+$white: white;
 $lightblue: #73b2ed;
 $pinkred: #ec7063;
 $red_for_submit: #9f062ba3;
@@ -17,7 +18,7 @@ $sub_title_18: 18px;
 $default_medium_15: 15px;
 $default_small_13: 13px;
 
-// font-set
+// font-set-default
 @mixin medium_kor {
   font-family: $kor_font_regular;
   font-size: $default_medium_15;
@@ -40,4 +41,17 @@ $default_small_13: 13px;
   font-family: $eng_font_regular;
   font-size: $default_small_13;
   color: $darkgrey_default;
+}
+
+// font-set-white
+@mixin big_kor_white {
+  font-family: $kor_font_regular;
+  font-size: $sub_title_18;
+  color: $white;
+}
+
+@mixin medium_kor_white {
+  font-family: $kor_font_regular;
+  font-size: $default_medium_15;
+  color: $white;
 }
