@@ -16,8 +16,9 @@ import defaultImg from '@img/uploadDefault.png';
 import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 import { useSWRConfig } from 'swr';
+import leftAngle from '@img/angle-left-solid.svg';
 
-function NewEditPostingModal() {
+function NewPostingModal() {
   const setNewEditModalShow = useSetRecoilState(NewPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
@@ -139,19 +140,26 @@ function NewEditPostingModal() {
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
-      <img className="review--newposting--xmark" src={Xmark} alt={Xmark}></img>
+      <img className="review--newposting--xmark" src={Xmark} alt={Xmark} onClick={() => closeModal()} />
       <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
+        <div className="review--newposting--mobile_header">
+          <img
+            className="review--newposting--left_angle"
+            src={leftAngle}
+            alt={leftAngle}
+            onClick={() => closeModal()}
+          ></img>
+        </div>
         <div className="review--newposting--left_division">
           {!postUrlArr.length ? (
             <div className="review--newposting--add_files">
-              <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg}></img>
+              <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg} />
               <p>이미지를 업로드 해주세용!</p>
               <UplaodBtn innerText="업로드" onClickFunc={onClickUpload} />
             </div>
           ) : (
             <>
-              <UplaodBtn mode="more" innerText="추가 업로드" onClickFunc={onClickUpload} />
-              <div className="review--newposting--add_files">
+              <div className="review--newposting--added_files">
                 <div className="review--newposting--add_files--submitted_wrapper">
                   <div className="review--newposting--add_files--submitted_title">Uploads</div>
                   <PreviewBox
@@ -161,6 +169,7 @@ function NewEditPostingModal() {
                     setDeleteIdxArr={setDeleteIdxArr}
                   />
                 </div>
+                <UplaodBtn innerText="추가 업로드" onClickFunc={onClickUpload} />
               </div>
             </>
           )}
@@ -230,4 +239,4 @@ function NewEditPostingModal() {
   );
 }
 
-export default NewEditPostingModal;
+export default NewPostingModal;
