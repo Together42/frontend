@@ -25,8 +25,6 @@ const App = () => {
     return () => window.removeEventListener('resize', handleSize);
   }, [device, setDeviceMode]);
 
-  // console.log(device);
-
   return (
     <Router basename={process.env.NODE_ENV === 'production' ? 'frontend' : ''}>
       <Header />
