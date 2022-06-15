@@ -18,9 +18,14 @@
 }
 
 .review--guide--letters {
-  font-size: 14px;
-  color: #99a3a4;
-  margin-top: 20px;
+  @include mobile {
+    display: none;
+  }
+  @include desktop {
+    font-size: 14px;
+    color: #99a3a4;
+    margin-top: 20px;
+  }
 }
 
 .review--guide--buttonWrapper {
