@@ -10,6 +10,7 @@ import defaultImg from '@img/defaultImg.png';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import { PostingType } from '@usefulObj/types';
+import '@css/Review/Review.scss';
 
 function Review() {
   const selectedEvent = useRecoilValue(SelectedEvent);
@@ -22,15 +23,12 @@ function Review() {
   );
   const newPostingModalShow = useRecoilValue(NewPostingModalShow);
 
-  // console.log(boardsObj['boardList'][0]['filePath'].split('.').pop() === 'jpg');
-  // console.log(boardsObj && boardsObj['boardList'][0]['createdAt']);
-
   return (
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
       {newPostingModalShow && <NewPostingModal />}
       {boardsObj && Object.values(boardsObj)[0].length && (
-        <div style={{ minHeight: '600px', paddingBottom: '200px' }}>
+        <div className="review--wrapper">
           {Object.values(boardsObj)[0]
             .sort((a, b) => {
               if (b['createdAt'] > a['createdAt']) return 1;

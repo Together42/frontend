@@ -3,18 +3,27 @@
 $border_thickness: 1px;
 
 .review--posting--forFlex {
-  @include basic--wrappers;
   position: relative;
-  height: 50px;
-  display: flex;
-  margin-bottom: 200px;
+  @include desktop {
+    @include basic--wrappers;
+    display: flex;
+    height: 50px;
+    margin-bottom: 200px;
+  }
+  @include mobile {
+    margin-bottom: 20px;
+  }
 }
 
 .review--posting--shownWrapper {
-  position: relative;
-  height: 450px;
-  width: 300px + ($border_thickness * 2);
-  border: $border_thickness solid $darkgrey_light;
+  @include desktop {
+    position: relative;
+    height: 450px;
+    width: 300px + ($border_thickness * 2);
+    border: $border_thickness solid $darkgrey_light;
+  }
+  @include mobile {
+  }
 }
 
 .review--posting--title {
@@ -50,9 +59,14 @@ $border_thickness: 1px;
 }
 
 .review--posting--image {
-  width: 300px;
-  height: 300px;
   object-fit: cover;
+  @include desktop {
+    width: 300px;
+    height: 300px;
+  }
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .review--posting--expand {
@@ -76,17 +90,24 @@ $border_thickness: 1px;
 }
 
 .justify-left {
-  justify-content: start;
+  @include desktop {
+    justify-content: start;
+  }
 }
 
 .justify-right {
-  justify-content: flex-end;
+  @include desktop {
+    justify-content: flex-end;
+  }
 }
 
 .review--posting--comments {
-  margin: 10px;
+  padding: 5px;
   p {
     margin: 5px;
+  }
+  @include mobile {
+    position: relative;
   }
 }
 
@@ -114,8 +135,7 @@ $border_thickness: 1px;
 
 .review--posting--open_modal {
   position: absolute;
-  left: 245px;
-  top: 420px;
+  right: 5px;
   display: flex;
   align-items: center;
   span {
@@ -129,13 +149,23 @@ $border_thickness: 1px;
   &:hover {
     cursor: pointer;
   }
+  @include desktop {
+    bottom: 5px;
+  }
+  @include mobile {
+    bottom: 15px;
+  }
 }
 
 .position-right {
-  left: inherit;
-  right: 10px;
+  @include desktop {
+    left: inherit;
+    right: 10px;
+  }
 }
 
 .footer--empty {
-  margin-bottom: 550px;
+  @include desktop {
+    margin-bottom: 550px;
+  }
 }

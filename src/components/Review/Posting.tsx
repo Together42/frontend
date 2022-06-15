@@ -74,13 +74,15 @@ function Posting(props: Props) {
             {commentNum ? `댓글 ${commentNum}개 모두 보기` : '댓글이 없습니다..'}
           </p>
           <p className="review--posting--createdAt">{createdAt.slice(5, 10).replace('-', '.')}</p>
-        </div>
-        <div
-          className={`review--posting--open_modal ${elemNum && elemNum % 2 === 0 ? 'position-right' : 'position-left'}`}
-          onClick={onClickMoreButton}
-        >
-          <span>더보기</span>
-          <img src={caret_right} alt={caret_right} />
+          <div
+            className={`review--posting--open_modal ${
+              elemNum && elemNum % 2 === 0 ? 'position-right' : 'position-left'
+            }`}
+            onClick={onClickMoreButton}
+          >
+            <span>더보기</span>
+            <img src={caret_right} alt={caret_right} />
+          </div>
         </div>
       </div>
     </div>
