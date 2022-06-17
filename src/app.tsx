@@ -10,7 +10,7 @@ import DeviceMode, { getDeviceMode } from '@recoil/DeviceMode';
 
 const Main = loadable(() => import('@main/index'));
 const Auth = loadable(() => import('@auth/index'));
-const Review = loadable(() => import('@review/index'));
+const Review = loadable(() => import('@review/routes'));
 const Result = loadable(() => import('@result/index'));
 
 const App = () => {
@@ -21,6 +21,7 @@ const App = () => {
     function handleSize() {
       setDeviceMode(window.innerWidth);
     }
+    handleSize();
     window.addEventListener('resize', handleSize);
     return () => window.removeEventListener('resize', handleSize);
   }, [device, setDeviceMode]);
@@ -33,7 +34,7 @@ const App = () => {
         <Route path="/" element={<Main />} />
         <Route path="/result" element={<Result />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/review" element={<Review />} />
+        <Route path="/review/*" element={<Review />} />
       </Routes>
     </Router>
   );

@@ -7,23 +7,30 @@ import SelectSomeModal from '@review/SelectSomeModal';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import DeviceMode from '@recoil/DeviceMode';
+import { useNavigate } from 'react-router';
 
 interface Props {
   isElemExist: boolean;
 }
 
 function Guide(props: Props) {
+  const navigate = useNavigate();
   const { isElemExist } = props;
   const deviceMode = useRecoilValue(DeviceMode);
-  const selectedEvent = useRecoilValue(SelectedEvent);
+  const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const setNewPostingModalShow = useSetRecoilState(NewPostingModalShow);
   const [eventListModalShow, setEventListModalShow] = useRecoilState(EventListModalShow);
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
 
   const onClickAddPosting = () => {
     setIsEventBtnClicked(false);
-    if (getToken()) setNewPostingModalShow(true);
-    else alert('로그인 후 이용해주세요');
+    if (getToken()) {
+      if (deviceMode === 'desktop') setNewPostingModalShow(true);
+      else if (deviceMode === 'mobile') {
+        setSelectedEvent(null);
+        navigate('mobile/newpost');
+      }
+    } else alert('로그인 후 이용해주세요');
   };
 
   const onClickSelectEvent = () => {

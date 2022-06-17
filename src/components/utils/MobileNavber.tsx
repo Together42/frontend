@@ -33,7 +33,7 @@ function MobileNavber() {
   return (
     <div className="navbar--mobile--wrapper">
       <div className="navbar--mobile--title">
-        <Link to={`/`} onClick={onClickModalShow}>
+        <Link to={`/`} onClick={() => setModalOpen(false)}>
           Together 42
         </Link>
       </div>

@@ -19,10 +19,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
     justify-content: center;
     align-items: center;
   }
-  @include mobile {
-    width: 100%;
-    height: 100%;
-  }
 }
 
 .review--newposting--xmark {
@@ -35,9 +31,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
       cursor: pointer;
     }
   }
-  @include mobile {
-    display: none;
-  }
 }
 
 .review--newposting-devision {
@@ -47,24 +40,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
     display: flex;
     width: $total_width;
     height: $total_height;
-  }
-  @include mobile {
-    height: 100%;
-  }
-}
-
-.review--newposting--mobile_header {
-  @include mobile {
-    height: 8%;
-    display: flex;
-    border-bottom: 1px solid $darkgrey_light;
-  }
-}
-
-.review--newposting--left_angle {
-  @include mobile {
-    width: 15px;
-    margin-left: 10px;
   }
 }
 
@@ -77,11 +52,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
     width: $left_devision_width;
     height: $total_height;
     background-color: #b8b8b84d;
-  }
-  @include mobile {
-    z-index: 1;
-    height: 35%;
-    border-bottom: 1px solid $darkgrey_light;
   }
 }
 
@@ -149,10 +119,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
     height: $total_height;
     justify-content: center;
   }
-  @include mobile {
-    width: 100%;
-    height: 57%;
-  }
 }
 
 .review--newposting--header {
@@ -160,9 +126,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
   @include desktop {
     display: flex;
     justify-content: space-between;
-  }
-  @include mobile {
-    height: 20%;
   }
 }
 
@@ -177,17 +140,11 @@ $right_devision_width: calc($total_width - $left_devision_width);
   @include desktop {
     width: 200px;
   }
-  @include mobile {
-    width: 100%;
-  }
 }
 
 .review--newposting--header--selectorWrapper {
   display: flex;
   align-items: center;
-  @include mobile {
-    justify-content: flex-end;
-  }
 }
 
 .review--newposting--header--eventSelector,
@@ -218,9 +175,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
   @include desktop {
     width: $right_devision_width;
   }
-  @include mobile {
-    height: 100%;
-  }
 }
 
 .review--newposting--newposting {
@@ -233,9 +187,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
   @include desktop {
     width: $right_devision_width - ($margin_margin_medium * 2);
   }
-  @include mobile {
-    width: 100%;
-  }
 }
 
 .review--newposting--button--forFlex {
@@ -243,9 +194,6 @@ $right_devision_width: calc($total_width - $left_devision_width);
   justify-content: flex-end;
   @include desktop {
     width: $right_devision_width - ($margin_margin_medium * 2);
-  }
-  @include mobile {
-    width: 100%;
   }
 }
 

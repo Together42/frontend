@@ -27,7 +27,7 @@ function Review() {
     <>
       <Guide isElemExist={!boardsObj || !Object.values(boardsObj)[0].length ? false : true} />
       {newPostingModalShow && <NewPostingModal />}
-      {boardsObj && Object.values(boardsObj)[0].length && (
+      {boardsObj && Object.values(boardsObj)[0].length ? (
         <div className="review--wrapper">
           {Object.values(boardsObj)[0]
             .sort((a, b) => {
@@ -50,7 +50,7 @@ function Review() {
               />
             ))}
         </div>
-      )}
+      ) : null}
     </>
   );
 }
