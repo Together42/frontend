@@ -51,6 +51,7 @@ $border_thickness: 1px;
   width: 20px;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }
 
@@ -153,6 +154,7 @@ $border_thickness: 1px;
   }
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
   @include desktop {
     bottom: 5px;

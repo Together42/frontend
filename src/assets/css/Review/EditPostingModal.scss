@@ -26,6 +26,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   width: 25px;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }
 

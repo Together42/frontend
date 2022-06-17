@@ -56,6 +56,7 @@ $image_margin: 10px;
   top: 15px;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }
 
@@ -69,6 +70,7 @@ $image_margin: 10px;
   margin: $image_margin;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }
 
@@ -85,5 +87,6 @@ $image_margin: 10px;
   margin-right: $image_margin;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }

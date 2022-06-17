@@ -1,7 +1,7 @@
 @import '@css/Main/Main.scss';
 @import '@css/useful.scss';
 
-$table_padding: 20px;
+$table_padding: 40px;
 
 .result {
   @include basic--wrappers;
@@ -21,7 +21,7 @@ $table_padding: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(calc(100% / 4), auto));
   row-gap: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 70px;
 }
 
 .selected {
@@ -36,19 +36,19 @@ $table_padding: 20px;
   white-space: nowrap;
   padding-right: 10px;
   text-align: center;
+  height: 25px;
   span {
-    border-bottom: 1px solid $darkgrey_light;
-
     &:hover {
       cursor: pointer;
+      font-size: 16px;
     }
   }
 }
 
 .result--table {
   position: relative;
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20%, auto));
   background-color: #b2babb3d;
   padding: $table_padding;
   p {
@@ -63,12 +63,16 @@ $table_padding: 20px;
 }
 
 .result--submit--delete_event {
+  @include medium_kor;
   position: absolute;
-  right: 15px;
-  top: 10px;
-  width: 15px;
+  right: -4px;
+  top: -25px;
+  width: 70px;
+  text-align: center;
+  border-radius: 8px;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }
 
@@ -78,7 +82,6 @@ $table_padding: 20px;
 
 .result--submit--event_title {
   @include medium_kor;
-  // font-weight: bold;
 }
 
 .result--submit--event_description {
@@ -90,7 +93,6 @@ $table_padding: 20px;
   border: 0;
   height: 0.5px;
   background-color: $darkgrey_light;
-  // border: 0.5px solid $darkgrey_light;
 }
 
 .result--submit--info {
@@ -133,6 +135,9 @@ $table_padding: 20px;
   font-weight: 500;
   font-size: $sub_title_18;
   text-align: center;
+  border-bottom: 1px solid $darkgrey_light;
+  margin: 0;
+  padding: 10px;
 }
 
 .result--intra {
