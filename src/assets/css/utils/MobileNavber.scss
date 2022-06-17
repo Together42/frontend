@@ -1,12 +1,17 @@
 @import '@css/useful.scss';
 
 .navbar--mobile--wrapper {
-  position: relative;
+  position: sticky;
+  top: 0;
   background-color: #2f313d;
   width: 100%;
+  height: 70px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  z-index: 2;
 }
 
 .navbar--mobile--title {

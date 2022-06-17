@@ -1,4 +1,4 @@
-@import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 .upload_btn_wrapper {
   display: flex;
@@ -20,11 +20,17 @@
 
 .upload_btn--button {
   @include medium_kor;
-  padding: 6px 25px;
   background-color: #ff6600ab;
   border-radius: 4px;
   color: white;
   cursor: pointer;
+  @include desktop {
+    padding: 6px 25px;
+  }
+  @include mobile {
+    font-size: 13px;
+    padding: 5px 15px;
+  }
 }
 
 #upload_btn--input {

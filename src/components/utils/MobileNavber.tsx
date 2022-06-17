@@ -21,6 +21,7 @@ function MobileNavber() {
         profileUrl: '',
       };
     });
+    setModalOpen((prev) => !prev);
     alert('로그아웃 되셨습니다!');
     navigate('/auth');
   };
@@ -32,15 +33,29 @@ function MobileNavber() {
   return (
     <div className="navbar--mobile--wrapper">
       <div className="navbar--mobile--title">
-        <Link to={`/`}>Together 42</Link>
+        <Link to={`/`} onClick={() => setModalOpen(false)}>
+          Together 42
+        </Link>
       </div>
       <img className="navbar--mobile--hamberg" src={hambergImg} alt={hambergImg} onClick={onClickModalShow}></img>
       {modalOpen && (
         <div className="navbar--mobile--modal">
-          <Link to={`/`}>이벤트생성</Link>
-          <Link to={`/Result`}>랜덤매칭</Link>
-          <Link to={`/review`}>친스타그램</Link>
-          {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
+          <Link to={`/`} onClick={onClickModalShow}>
+            이벤트생성
+          </Link>
+          <Link to={`/Result`} onClick={onClickModalShow}>
+            랜덤매칭
+          </Link>
+          <Link to={`/review`} onClick={onClickModalShow}>
+            친스타그램
+          </Link>
+          {getToken() ? (
+            <span onClick={onClickLogOut}>로그아웃</span>
+          ) : (
+            <Link to={`/auth`} onClick={onClickModalShow}>
+              로그인하기
+            </Link>
+          )}
         </div>
       )}
     </div>

@@ -9,6 +9,9 @@ import CommentModal from './CommentModal';
 import ImageWithIdBox from './ImageWithIdBox';
 import expandImg from '@img/expand-solid.svg';
 import FullImageSlider from '@utils/FullImageSlider';
+import { useRecoilValue } from 'recoil';
+import DeviceMode from '@recoil/DeviceMode';
+import { useNavigate } from 'react-router';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -17,20 +20,21 @@ interface Props extends PostingType {
 
 function Posting(props: Props) {
   const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, url, totalNum } = props;
+  const navigate = useNavigate();
+  const deviceMode = useRecoilValue(DeviceMode);
   const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
   const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
 
   const onClickMoreButton = () => {
-    setModalShow(true);
+    if (deviceMode === 'desktop') setModalShow(true);
+    else if (deviceMode === 'mobile') navigate(`mobile/comment/${boardId}`);
   };
 
   const onClickElipsis = () => {
     setActionModalShow(true);
   };
-
-  // console.log(contents);
 
   return (
     <div
@@ -74,13 +78,15 @@ function Posting(props: Props) {
             {commentNum ? `댓글 ${commentNum}개 모두 보기` : '댓글이 없습니다..'}
           </p>
           <p className="review--posting--createdAt">{createdAt.slice(5, 10).replace('-', '.')}</p>
-        </div>
-        <div
-          className={`review--posting--open_modal ${elemNum && elemNum % 2 === 0 ? 'position-right' : 'position-left'}`}
-          onClick={onClickMoreButton}
-        >
-          <span>더보기</span>
-          <img src={caret_right} alt={caret_right} />
+          <div
+            className={`review--posting--open_modal ${
+              elemNum && elemNum % 2 === 0 ? 'position-right' : 'position-left'
+            }`}
+            onClick={onClickMoreButton}
+          >
+            <span>더보기</span>
+            <img src={caret_right} alt={caret_right} />
+          </div>
         </div>
       </div>
     </div>

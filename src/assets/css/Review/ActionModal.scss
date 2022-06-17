@@ -30,6 +30,7 @@
   text-align: center;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }
 
@@ -38,6 +39,7 @@
   text-align: center;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }
 
@@ -51,6 +53,7 @@
     width: 15px;
     &:hover {
       cursor: pointer;
+      transform: scale(1.1);
     }
   }
 }

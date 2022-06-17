@@ -29,6 +29,7 @@
     color: #73b2ed !important;
     &:hover {
       cursor: pointer;
+      transform: scale(1.1);
     }
   }
 }
@@ -45,5 +46,6 @@
   color: #1e4df5 !important;
   &:hover {
     cursor: pointer;
+    transform: scale(1.1);
   }
 }

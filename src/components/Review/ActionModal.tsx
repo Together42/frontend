@@ -8,6 +8,8 @@ import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import { useSWRConfig } from 'swr';
+import { useNavigate } from 'react-router';
+import DeviceMode from '@recoil/DeviceMode';
 
 function ActionModal(props: {
   mode: string;
@@ -27,6 +29,8 @@ function ActionModal(props: {
     setEditPostingModalShow,
     setPostActionModalShow,
   } = props;
+  const navigate = useNavigate();
+  const deviceMode = useRecoilValue(DeviceMode);
   const selectedEvent = useRecoilValue(SelectedEvent);
   const { mutate } = useSWRConfig();
 
@@ -69,8 +73,10 @@ function ActionModal(props: {
   }, [boardId, commentId, mutate]);
 
   const onClickUpdate = () => {
-    if (mode === 'post') setEditPostingModalShow(true);
-    else if (mode === 'comment') setCommentMode('edit');
+    if (mode === 'post') {
+      if (deviceMode === 'desktop') setEditPostingModalShow(true);
+      else if (deviceMode === 'mobile') navigate(`mobile/editpost/${boardId}`);
+    } else if (mode === 'comment') setCommentMode('edit');
     closeModal();
   };
 

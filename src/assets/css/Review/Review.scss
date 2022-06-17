@@ -1,0 +1,7 @@
+@import '@css/useful.scss';
+
+.review--wrapper {
+  @include desktop {
+    min-height: 600px;
+  }
+}

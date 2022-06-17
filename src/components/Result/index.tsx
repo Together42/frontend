@@ -121,24 +121,23 @@ function Result() {
               : 'result--submit'
           }`}
         >
-          <img className="result--submit--delete_event" src={Xmark} alt={Xmark} onClick={onClickDeleteEvent}></img>
+          <div className="result--submit--delete_event" onClick={onClickDeleteEvent}>
+            삭제하기
+          </div>
           {teamObj &&
           !Object.keys(teamObj.teamList).find((e) => e === 'null') &&
           Object.keys(teamObj.teamList).length &&
           eventObj &&
           eventObj.EventList.length ? (
             Object.entries(teamObj.teamList).map((elem, idx) => (
-              <>
-                <div key={elem[0]}>
-                  <p className="result--team_name">{elem[0]}</p>
-                  {elem[1].map((e, i) => (
-                    <p key={i} className="result--intra">
-                      {e.intraId}
-                    </p>
-                  ))}
-                </div>
-                {!idx && <hr className="result--hr"></hr>}
-              </>
+              <div key={elem[0]}>
+                <p className="result--team_name">{elem[0]}</p>
+                {elem[1].map((e, i) => (
+                  <p key={i} className="result--intra">
+                    {e.intraId}
+                  </p>
+                ))}
+              </div>
             ))
           ) : teamObj && Object.keys(teamObj.teamList).find((e) => e === 'null') ? (
             <>

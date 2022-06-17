@@ -1,15 +1,26 @@
 @import '@css/useful.scss';
 
 .review--forPositioning {
-  @include basic--wrappers;
   position: relative;
+  @include desktop {
+    @include basic--wrappers;
+  }
+  @include mobile {
+    padding-left: 10px;
+    margin-bottom: 30px;
+  }
 }
 
 .review--guide {
   @include medium_kor;
-  position: absolute;
-  right: 0;
-  width: 300px;
+  @include desktop {
+    position: absolute;
+    right: 0;
+    width: 300px;
+  }
+  @include mobile {
+    position: relative;
+  }
 }
 
 .review--guide--title {
@@ -18,9 +29,14 @@
 }
 
 .review--guide--letters {
-  font-size: 14px;
-  color: #99a3a4;
-  margin-top: 20px;
+  @include desktop {
+    font-size: 14px;
+    color: #99a3a4;
+    margin-top: 20px;
+  }
+  @include mobile {
+    display: none;
+  }
 }
 
 .review--guide--buttonWrapper {

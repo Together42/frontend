@@ -1,16 +1,21 @@
-@import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 .full_slider--background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgb(57, 54, 54);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
+  @include desktop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(57, 54, 54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+  @include mobile {
+    display: none;
+  }
 }
 
 .full_slider--viewer {

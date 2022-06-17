@@ -1,10 +1,15 @@
-@import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 .review--preview_box--for_grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(50%, auto));
   justify-items: center;
   row-gap: 10px;
+  @include desktop {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
+  @include mobile {
+    grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+  }
 }
 
 .review--preview_box--preview_wrapper {
@@ -13,8 +18,14 @@
 
 .review--preview_box--preview {
   object-fit: contain;
-  width: 100px;
-  height: 100px;
+  @include desktop {
+    width: 100px;
+    height: 100px;
+  }
+  @include mobile {
+    width: 75px;
+    height: 75px;
+  }
 }
 
 .review--preview_box--Xmark {

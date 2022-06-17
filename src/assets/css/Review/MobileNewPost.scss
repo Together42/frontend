@@ -1,0 +1,191 @@
+@import '@css/useful.scss';
+
+$margin_margin_medium: 15px;
+
+.review--newposting--mobile--background {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  @include mobile {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+
+.review--newposting--mobile--mobile_header {
+  @include mobile {
+    height: 8%;
+    display: flex;
+    border-bottom: 1px solid $darkgrey_light;
+  }
+}
+
+.review--newposting--mobile--left_angle {
+  @include mobile {
+    width: 15px;
+    margin-left: 10px;
+  }
+}
+
+.review--newposting--mobile--imageBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  @include mobile {
+    z-index: 1;
+    height: 35%;
+    border-bottom: 1px solid $darkgrey_light;
+  }
+}
+
+.review--newposting--mobile--add_files {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  p {
+    @include medium_kor;
+  }
+}
+
+.review--newposting--mobile--add_file--upload_img {
+  width: 150px;
+}
+
+.review--newposting--mobile--added_files {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  p {
+    @include medium_kor;
+  }
+}
+
+.review--newposting--mobile--add_files--submitted_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 85%;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.review--newposting--mobile--add_files--submitted_title {
+  @include medium_eng;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.review--newposting--mobile--submitBox {
+  padding: $margin_margin_medium;
+  display: flex;
+  flex-direction: column;
+  @include mobile {
+    width: 100%;
+    height: 57%;
+  }
+}
+
+.review--newposting--mobile--header {
+  margin-bottom: $margin_margin_medium;
+  @include mobile {
+    height: 20%;
+  }
+}
+
+.review--newposting--mobile--header--title {
+  @include medium_kor;
+  border: none;
+  border-left: 3px solid $darkgrey_light;
+  padding-left: 3px;
+  &:focus {
+    outline: none;
+  }
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.review--newposting--mobile--header--selectorWrapper {
+  display: flex;
+  align-items: center;
+  @include mobile {
+    justify-content: flex-end;
+  }
+}
+
+.review--newposting--mobile--header--eventSelector,
+.review--newposting--mobile--header--addTeamMem {
+  position: relative;
+  span {
+    @include medium_kor;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.review--newposting--mobile--header--addTeamMem {
+  margin-left: 20px;
+}
+
+.review--newposting--mobile--selectedInfo {
+  @include small_kor;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  row-gap: 10px;
+  margin-bottom: $margin_margin_medium;
+}
+
+.review--newposting--mobile--newposting_wrapper {
+  @include mobile {
+    height: 100%;
+  }
+}
+
+.review--newposting--mobile--newposting {
+  @include medium_kor;
+  height: 210px;
+  border: 1px solid $darkgrey_light;
+  &:focus {
+    outline: none;
+  }
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.review--newposting--mobile--button--forFlex {
+  display: flex;
+  justify-content: flex-end;
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.review--newposting--mobile--button {
+  @include medium_kor;
+  color: $lightblue;
+  background: none;
+  padding: 0;
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -1,48 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import loadable from '@loadable/component';
 import '@css/fonts.scss';
 import Header from '@utils/Header';
 import Navbar from '@utils/Navbar';
-import { clearToken } from '@cert/TokenStorage';
 import MobileNavber from '@utils/MobileNavber';
+import DeviceMode, { getDeviceMode } from '@recoil/DeviceMode';
 
 const Main = loadable(() => import('@main/index'));
 const Auth = loadable(() => import('@auth/index'));
-const Review = loadable(() => import('@review/index'));
+const Review = loadable(() => import('@review/routes'));
 const Result = loadable(() => import('@result/index'));
 
 const App = () => {
-  const [device, setDevice] = useState<string>(window.innerWidth > 700 ? 'desktop' : 'mobile');
+  const setDeviceMode = useSetRecoilState(getDeviceMode);
+  const device = useRecoilValue(DeviceMode);
 
   useEffect(() => {
     function handleSize() {
-      if (window.innerWidth > 700) setDevice('desktop');
-      else setDevice('mobile');
+      setDeviceMode(window.innerWidth);
     }
+    handleSize();
     window.addEventListener('resize', handleSize);
     return () => window.removeEventListener('resize', handleSize);
-  }, [device]);
-
-  // 22.06.15일 이후에 반드시 삭제!
-  useEffect(() => {
-    clearToken();
-  }, []);
+  }, [device, setDeviceMode]);
 
   return (
-    <RecoilRoot>
-      <Router basename={process.env.NODE_ENV === 'production' ? 'frontend' : ''}>
-        <Header />
-        {device === 'desktop' ? <Navbar /> : <MobileNavber />}
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/result" element={<Result />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/review" element={<Review />} />
-        </Routes>
-      </Router>
-    </RecoilRoot>
+    <Router basename={process.env.NODE_ENV === 'production' ? 'frontend' : ''}>
+      <Header />
+      {device === 'desktop' ? <Navbar /> : <MobileNavber />}
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/result" element={<Result />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/review/*" element={<Review />} />
+      </Routes>
+    </Router>
   );
 };
 
