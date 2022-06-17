@@ -139,97 +139,95 @@ function MobileNewPost() {
 
   return (
     <div className="review--newposting--mobile--background">
-      <div className="review--newposting--mobile--devision">
-        <div className="review--newposting--mobile--mobile_header">
-          <img
-            className="review--newposting--mobile--left_angle"
-            src={leftAngle}
-            alt={leftAngle}
-            onClick={() => closeModal()}
-          ></img>
-        </div>
-        <div className="review--newposting--mobile--left_division">
-          {!postUrlArr.length ? (
-            <div className="review--newposting--mobile--add_files">
-              <img className="review--newposting--mobile--add_file--upload_img" src={defaultImg} alt={defaultImg} />
-              <p>이미지를 업로드 해주세용!</p>
-              <UplaodBtn innerText="업로드" onClickFunc={onClickUpload} />
+      <div className="review--newposting--mobile--mobile_header">
+        <img
+          className="review--newposting--mobile--left_angle"
+          src={leftAngle}
+          alt={leftAngle}
+          onClick={() => closeModal()}
+        ></img>
+      </div>
+      <div className="review--newposting--mobile--imageBox">
+        {!postUrlArr.length ? (
+          <div className="review--newposting--mobile--add_files">
+            <img className="review--newposting--mobile--add_file--upload_img" src={defaultImg} alt={defaultImg} />
+            <p>이미지를 업로드 해주세용!</p>
+            <UplaodBtn innerText="업로드" onClickFunc={onClickUpload} />
+          </div>
+        ) : (
+          <>
+            <div className="review--newposting--mobile--added_files">
+              <div className="review--newposting--mobile--add_files--submitted_wrapper">
+                <div className="review--newposting--mobile--add_files--submitted_title">Uploads</div>
+                <PreviewBox
+                  postUrlArr={postUrlArr}
+                  mode="new"
+                  setDeleteImgArr={setDeleteImgArr}
+                  setDeleteIdxArr={setDeleteIdxArr}
+                />
+              </div>
+              <UplaodBtn innerText="추가 업로드" onClickFunc={onClickUpload} />
             </div>
-          ) : (
-            <>
-              <div className="review--newposting--mobile--added_files">
-                <div className="review--newposting--mobile--add_files--submitted_wrapper">
-                  <div className="review--newposting--mobile--add_files--submitted_title">Uploads</div>
-                  <PreviewBox
-                    postUrlArr={postUrlArr}
-                    mode="new"
-                    setDeleteImgArr={setDeleteImgArr}
-                    setDeleteIdxArr={setDeleteIdxArr}
-                  />
-                </div>
-                <UplaodBtn innerText="추가 업로드" onClickFunc={onClickUpload} />
-              </div>
-            </>
-          )}
-        </div>
-        <div className="review--newposting--mobile--right_division">
-          <div className="review--newposting--mobile--header">
-            <input
-              className="review--newposting--mobile--header--title"
-              placeholder="제목 입력"
-              onFocus={(e) => (e.target.placeholder = '')}
-              onBlur={(e) => (e.target.placeholder = '제목 입력')}
-              value={title}
-              onChange={onChangeTitle}
-            />
-            <div className="review--newposting--mobile--header--selectorWrapper">
-              <div className="review--newposting--mobile--header--eventSelector">
-                <span onClick={onClickEventModalOpen}>{isEventMode ? '이벤트 찾기' : '팀원 찾기'}</span>
-                {isEventBtnClicked &&
-                  selectSomeModalShow &&
-                  (isEventMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
-              </div>
-              <div className="review--newposting--mobile--header--addTeamMem">
-                <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
-                {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
-              </div>
+          </>
+        )}
+      </div>
+      <div className="review--newposting--mobile--submitBox">
+        <div className="review--newposting--mobile--header">
+          <input
+            className="review--newposting--mobile--header--title"
+            placeholder="제목 입력"
+            onFocus={(e) => (e.target.placeholder = '')}
+            onBlur={(e) => (e.target.placeholder = '제목 입력')}
+            value={title}
+            onChange={onChangeTitle}
+          />
+          <div className="review--newposting--mobile--header--selectorWrapper">
+            <div className="review--newposting--mobile--header--eventSelector">
+              <span onClick={onClickEventModalOpen}>{isEventMode ? '이벤트 찾기' : '팀원 찾기'}</span>
+              {isEventBtnClicked &&
+                selectSomeModalShow &&
+                (isEventMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
+            </div>
+            <div className="review--newposting--mobile--header--addTeamMem">
+              <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
+              {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
             </div>
           </div>
-          {(selectedEvent || selectedTeam) && (
-            <div className="review--newposting--mobile--selectedInfo">
-              {selectedEvent && (
-                <>
-                  <span>이벤트 </span>
-                  <span>{selectedEvent['title']}</span>
-                </>
-              )}
-              {selectedTeam && (
-                <>
-                  <span>팀</span>
-                  <span>team {Object.keys(selectedTeam)[0]}</span>
-                  <span>팀원</span>
-                  <div>
-                    {Object.values(selectedTeam)[0].map((member) => (
-                      <span>{member['intraId']} </span>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-          <div className="review--newposting--mobile--newposting_wrapper">
-            <TextareaAutosize
-              className="review--newposting--mobile--newposting"
-              minRows={10}
-              placeholder="글을 작성해주세요"
-              value={content}
-              onChange={onChangeContent}
-            />
-            <div className="review--newposting--mobile--button--forFlex">
-              <button className="review--newposting--mobile--button" onClick={onSubmitPosting}>
-                <span>게시</span>
-              </button>
-            </div>
+        </div>
+        {(selectedEvent || selectedTeam) && (
+          <div className="review--newposting--mobile--selectedInfo">
+            {selectedEvent && (
+              <>
+                <span>이벤트 </span>
+                <span>{selectedEvent['title']}</span>
+              </>
+            )}
+            {selectedTeam && (
+              <>
+                <span>팀</span>
+                <span>team {Object.keys(selectedTeam)[0]}</span>
+                <span>팀원</span>
+                <div>
+                  {Object.values(selectedTeam)[0].map((member) => (
+                    <span>{member['intraId']} </span>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+        <div className="review--newposting--mobile--newposting_wrapper">
+          <TextareaAutosize
+            className="review--newposting--mobile--newposting"
+            minRows={10}
+            placeholder="글을 작성해주세요"
+            value={content}
+            onChange={onChangeContent}
+          />
+          <div className="review--newposting--mobile--button--forFlex">
+            <button className="review--newposting--mobile--button" onClick={onSubmitPosting}>
+              <span>게시</span>
+            </button>
           </div>
         </div>
       </div>

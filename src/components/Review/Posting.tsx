@@ -9,6 +9,9 @@ import CommentModal from './CommentModal';
 import ImageWithIdBox from './ImageWithIdBox';
 import expandImg from '@img/expand-solid.svg';
 import FullImageSlider from '@utils/FullImageSlider';
+import { useRecoilValue } from 'recoil';
+import DeviceMode from '@recoil/DeviceMode';
+import { useNavigate } from 'react-router';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -17,13 +20,16 @@ interface Props extends PostingType {
 
 function Posting(props: Props) {
   const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, url, totalNum } = props;
+  const navigate = useNavigate();
+  const deviceMode = useRecoilValue(DeviceMode);
   const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [editPostingModalShow, setEditPostingModalShow] = useState(false);
   const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
 
   const onClickMoreButton = () => {
-    setModalShow(true);
+    if (deviceMode === 'desktop') setModalShow(true);
+    else if (deviceMode === 'mobile') navigate(`mobile/comment/${boardId}`);
   };
 
   const onClickElipsis = () => {

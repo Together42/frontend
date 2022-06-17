@@ -7,18 +7,11 @@ $margin_margin_medium: 15px;
   top: 0;
   z-index: 2;
   @include mobile {
+    background-color: white;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-  }
-}
-
-.review--newposting--mobile--devision {
-  background-color: white;
-  z-index: 3;
-  @include mobile {
-    height: 100%;
   }
 }
 
@@ -37,7 +30,7 @@ $margin_margin_medium: 15px;
   }
 }
 
-.review--newposting--mobile--left_division {
+.review--newposting--mobile--imageBox {
   position: relative;
   display: flex;
   align-items: center;
@@ -96,7 +89,7 @@ $margin_margin_medium: 15px;
   text-align: center;
 }
 
-.review--newposting--mobile--right_division {
+.review--newposting--mobile--submitBox {
   padding: $margin_margin_medium;
   display: flex;
   flex-direction: column;
