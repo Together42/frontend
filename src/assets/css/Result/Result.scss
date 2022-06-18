@@ -4,7 +4,12 @@
 $table_padding: 40px;
 
 .result {
-  @include basic--wrappers;
+  @include desktop {
+    @include basic--wrappers;
+  }
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .result--title {
@@ -19,9 +24,15 @@ $table_padding: 40px;
 
 .result--event_list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(calc(100% / 4), auto));
   row-gap: 15px;
   margin-bottom: 70px;
+  @include desktop {
+    grid-template-columns: repeat(auto-fit, minmax(25%, auto));
+  }
+  @include mobile {
+    grid-template-columns: repeat(auto-fit, minmax(50%, auto));
+    padding: 0 20px;
+  }
 }
 
 .selected {
@@ -48,11 +59,16 @@ $table_padding: 40px;
 .result--table {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20%, auto));
   background-color: #b2babb3d;
   padding: $table_padding;
   p {
     color: $darkgrey_default;
+  }
+  @include desktop {
+    grid-template-columns: repeat(auto-fit, minmax(20%, auto));
+  }
+  @include mobile {
+    grid-template-columns: repeat(auto-fit, minmax(calc(100% / 3), auto));
   }
 }
 
@@ -73,6 +89,12 @@ $table_padding: 40px;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
+  }
+  @include desktop {
+    right: -4px;
+  }
+  @include mobile {
+    right: 0px;
   }
 }
 
