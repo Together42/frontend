@@ -1,0 +1,35 @@
+@import '@css/useful.scss';
+
+.main--apply--list--event_wrapper {
+  height: 25px;
+  margin: 0;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.main--apply--list--event {
+  @include medium_kor;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.main--apply--deleteXmark {
+  display: none;
+  width: 12px;
+  margin-left: 5px;
+  z-index: 3;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.visible {
+  display: inherit;
+}
+
+.selected {
+  color: #9f062ba3;
+  font-weight: bold;
+}

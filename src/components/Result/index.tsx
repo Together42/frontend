@@ -5,7 +5,6 @@ import axios from 'axios';
 import { EventType, teamMemInfo } from '@globalObj/object/types';
 import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
-import Xmark from '@img/xmark-solid.svg';
 import getAddress from '@globalObj/function/getAddress';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';

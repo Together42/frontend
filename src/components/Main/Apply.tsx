@@ -11,6 +11,7 @@ import getAddress from '@globalObj/function/getAddress';
 import CreateEventBox from './CreateEventBox';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
+import Event from './Event';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
@@ -66,11 +67,6 @@ function Apply() {
     } else alert('로그인을 해주세요!');
   };
 
-  const onClickEventList = (e: any) => {
-    setCreateMode(false);
-    setGlobalSelectedEvent(eventList.filter((event) => event.id === parseInt((e.target as Element).id, 10))[0]);
-  };
-
   useEffect(() => {
     if (allEventList && allEventList.EventList.length > 0) {
       setEventList(allEventList.EventList.filter((e) => !e['isMatching']));
@@ -97,13 +93,7 @@ function Apply() {
         <div className="main--apply--list">
           <p className="main--apply--list--title">신청 가능 목록</p>
           {eventList && eventList.length > 0 ? (
-            eventList.map((elem, i) => (
-              <p className="main--apply--list--event" key={i}>
-                <span id={`${elem.id}`} onClick={onClickEventList}>
-                  - {elem.title}
-                </span>
-              </p>
-            ))
+            eventList.map((elem, i) => <Event eventList={eventList} elem={elem} setCreateMode={setCreateMode} />)
           ) : !createMode ? (
             <div className="main--apply--list--guide">
               <p>이벤트를 생성하고 신청할 수 있는 페이지입니다.</p>
@@ -140,7 +130,7 @@ function Apply() {
             ) : (
               <div className="main--apply--eventInfo--guide">
                 <p>이벤트를 생성하고 신청할 수 있는 페이지입니다.</p>
-                <p>◀︎ 이벤트를 클릭해주세요</p>
+                <p>‼️이벤트를 클릭해주세요‼️</p>
                 <p>이벤트 생성도 가능하답니다~</p>
               </div>
             )}

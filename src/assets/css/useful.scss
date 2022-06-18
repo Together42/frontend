@@ -3,11 +3,7 @@
 $basic_width: 700px;
 $desktop: 1024px;
 
-@mixin basic--wrappers {
-  width: $basic_width;
-  margin: 0 auto;
-}
-
+// device mode
 @mixin desktop {
   @media (min-width: $basic_width) {
     @content;
@@ -24,4 +20,10 @@ $desktop: 1024px;
   @media (max-width: 300px) {
     @content;
   }
+}
+
+// utils
+@mixin basic--wrappers {
+  width: $basic_width;
+  margin: 0 auto;
 }
