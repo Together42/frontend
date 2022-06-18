@@ -1,17 +1,23 @@
 @import '@css/Main/Main.scss';
 @import '@css/useful.scss';
-@import '@css/fonts.scss';
 
 $oneline_img_count: 7;
 
 .main--attendeeList {
-  @include basic--wrappers;
   box-sizing: border-box;
   min-height: 270px;
+  @include desktop {
+    @include basic--wrappers;
+  }
+  @include mobile {
+    margin: 0 10px;
+  }
 }
 
 .main--attendeeList--title {
   @include main--titles;
+  border-left: 4px solid darkgrey;
+  padding-left: 5px;
 }
 
 .show {
@@ -25,4 +31,5 @@ $oneline_img_count: 7;
 .data_none_title {
   text-align: end;
   font-size: 14px;
+  border: none;
 }

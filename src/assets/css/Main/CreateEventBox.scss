@@ -1,11 +1,17 @@
-@import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 .main--apply--create_wrapper {
-  width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-left: 1px solid $darkgrey_default;
+  @include desktop {
+    width: 400px;
+    border-left: 1px solid $darkgrey_light;
+  }
+  @include mobile {
+    padding: 20px 0;
+    border-top: 1px solid $darkgrey_light;
+  }
 }
 
 .main--apply--create_form {

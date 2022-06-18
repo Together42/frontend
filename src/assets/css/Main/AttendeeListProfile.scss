@@ -1,9 +1,17 @@
 @import '@css/Main/AttendeeList.scss';
+@import '@css/useful.scss';
 
 .main--attendeeList--profiles {
-  display: flex;
-  flex-wrap: wrap;
   margin: 40px 0px;
+  @include desktop {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  @include mobile {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3), auto));
+    justify-items: center;
+  }
 }
 
 .main--attendeeList--profile_wrapper {

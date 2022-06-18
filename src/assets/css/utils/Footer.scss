@@ -2,10 +2,15 @@
 @import '@css/fonts.scss';
 
 .footer {
-  @include basic--wrappers;
   position: relative;
   margin-top: 50px;
   height: 110px;
+  @include desktop {
+    @include basic--wrappers;
+  }
+  @include mobile {
+    margin-right: 10px;
+  }
 }
 
 .footer--wrapper {
