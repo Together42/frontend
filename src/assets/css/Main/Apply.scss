@@ -88,9 +88,14 @@ $list_wrapper_padding: 20px;
 
 .main--apply--list--guide {
   @include medium_kor;
-  position: absolute;
-  left: 25%;
-  top: 37%;
+  @include desktop {
+    position: absolute;
+    left: 25%;
+    top: 37%;
+  }
+  @include mobile {
+    padding-top: 30px;
+  }
 }
 
 .main--apply--eventInfo {
