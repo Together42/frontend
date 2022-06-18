@@ -1,4 +1,4 @@
-@import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 $image_margin: 10px;
 
@@ -18,13 +18,18 @@ $image_margin: 10px;
 .auth--profileModal {
   position: relative;
   background-color: white;
-  width: 510px;
   height: 350px;
   border: 0.5px solid $darkgrey_light;
   padding: 10px;
   z-index: 3;
   overflow-y: scroll;
   overflow-x: hidden;
+  @include desktop {
+    width: 510px;
+  }
+  @include mobile {
+    width: 90%;
+  }
   // 스크롤바는 호환성 문제 발생시 삭제
   &::-webkit-scrollbar {
     width: 10px;
@@ -61,7 +66,19 @@ $image_margin: 10px;
 }
 
 .auth--profileModal--profileWrapper {
-  width: 480px;
+  @include desktop {
+    width: 480px;
+  }
+  @include mobile {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25%, auto));
+    justify-items: center;
+  }
+  @include galaxyFold {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(100% / 3), auto));
+    justify-items: center;
+  }
   margin-top: 20px;
 }
 

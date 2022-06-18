@@ -8,14 +8,20 @@ $desktop: 1024px;
   margin: 0 auto;
 }
 
+@mixin desktop {
+  @media (min-width: $basic_width) {
+    @content;
+  }
+}
+
 @mixin mobile {
   @media (max-width: $basic_width) {
     @content;
   }
 }
 
-@mixin desktop {
-  @media (min-width: $basic_width) {
+@mixin galaxyFold {
+  @media (max-width: 300px) {
     @content;
   }
 }

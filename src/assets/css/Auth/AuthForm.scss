@@ -1,10 +1,15 @@
-@import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 .authForm {
   position: relative;
-  width: 300px;
   margin: 0 auto;
   margin-top: 50px;
+  @include desktop {
+    width: 300px;
+  }
+  @include mobile {
+    width: 80%;
+  }
 }
 
 .authForm--forFlex {
@@ -16,19 +21,29 @@
   flex-direction: column;
   justify-content: end;
   font-size: $default_small_13;
-  width: 50px;
+  @include desktop {
+    width: 50px;
+  }
+  @include mobile {
+    width: 25%;
+  }
 }
 
 .authForm--input {
   height: 24px;
-  width: 240px;
   border: none;
   border-bottom: 1px solid $darkgrey_default;
   font-size: $default_small_13;
   text-align: center;
-  margin-left: 10px;
   &:focus {
     outline: none;
+  }
+  @include desktop {
+    width: 240px;
+    margin-left: 10px;
+  }
+  @include mobile {
+    width: 75%;
   }
 }
 

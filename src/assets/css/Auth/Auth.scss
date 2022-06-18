@@ -1,10 +1,14 @@
-@import '@css/fonts.scss';
 @import '@css/useful.scss';
 
 .auth--wrapper {
-  @include basic--wrappers;
-  font-family: $kor_font_regular;
+  @include medium_kor;
   min-height: 450px;
+  @include desktop {
+    @include basic--wrappers;
+  }
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .auth--hello {
