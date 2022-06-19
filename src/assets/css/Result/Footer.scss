@@ -1,15 +1,25 @@
 @import '@css/useful.scss';
-@import '@css/fonts.scss';
 
 .result--footer {
-  @include basic--wrappers;
   position: relative;
   height: 150px;
+  @include desktop {
+    @include basic--wrappers;
+  }
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .result--footer--image {
   position: absolute;
-  width: 100px;
   right: 0px;
-  top: 30px;
+  @include desktop {
+    width: 100px;
+    top: 30px;
+  }
+  @include mobile {
+    width: 80px;
+    top: 20px;
+  }
 }

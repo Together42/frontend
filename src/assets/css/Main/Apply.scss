@@ -123,10 +123,11 @@ $list_wrapper_padding: 20px;
   margin: 0;
   margin-bottom: 10px;
   padding-bottom: 5px;
-  border-bottom: 1px solid #50505057;
   @include desktop {
+    border-bottom: 1px solid #50505057;
   }
   @include mobile {
+    border: none;
   }
 }
 
