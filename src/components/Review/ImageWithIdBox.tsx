@@ -4,8 +4,8 @@ import not_url from '@img/not_url.png';
 import { useRecoilValue } from 'recoil';
 import DeviceMode from '@recoil/DeviceMode';
 
-function ImageWithIdBox(props: { mode: string; url: string; intraId: string }) {
-  const { mode, url, intraId } = props;
+function ImageWithIdBox(props: { mode: string; profile: string; intraId: string }) {
+  const { mode, profile, intraId } = props;
   const deviceMode = useRecoilValue(DeviceMode);
   const [showIntraID, setShowIntraId] = useState<boolean>(false);
 
@@ -15,7 +15,7 @@ function ImageWithIdBox(props: { mode: string; url: string; intraId: string }) {
       onMouseOver={() => setShowIntraId(true)}
       onMouseOut={() => setShowIntraId(false)}
     >
-      <img className={mode} src={url} alt={url} onError={(e: any) => (e.target.src = not_url)}></img>
+      <img className={mode} src={profile} alt={profile} onError={(e: any) => (e.target.src = not_url)}></img>
       <div className={(showIntraID ? 'show' : '').concat(` ${deviceMode}`)}>{intraId}</div>
     </div>
   );

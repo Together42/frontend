@@ -43,7 +43,7 @@ function Review() {
                 createdAt={board['createdAt']}
                 filePath={board['filePath'] ? board['filePath'] : defaultImg}
                 commentNum={board['commentNum']}
-                url={board['url']}
+                profile={board['profile']}
                 elemNum={i + 1}
                 totalNum={Object.values(boardsObj)[0].length}
                 key={i}

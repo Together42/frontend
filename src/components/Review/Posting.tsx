@@ -19,7 +19,7 @@ interface Props extends PostingType {
 }
 
 function Posting(props: Props) {
-  const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, url, totalNum } = props;
+  const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, profile, totalNum } = props;
   const navigate = useNavigate();
   const deviceMode = useRecoilValue(DeviceMode);
   const [modalShow, setModalShow] = useState(false);
@@ -61,7 +61,7 @@ function Posting(props: Props) {
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
           <div className="review--posting--title--title_wrapper">
-            <ImageWithIdBox url={url} intraId={intraId} mode="post" />
+            <ImageWithIdBox profile={profile} intraId={intraId} mode="post" />
             <div className="review--posting--title--title">{title}</div>
           </div>
           <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
