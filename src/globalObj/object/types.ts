@@ -41,7 +41,7 @@ export interface PostingType {
   updatedAt?: string;
   commentNum: number;
   profile: string;
-  filePath: string;
+  images: imageType[];
 }
 
 export interface CommentType {

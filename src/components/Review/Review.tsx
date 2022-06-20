@@ -41,7 +41,7 @@ function Review() {
                 intraId={board['intraId']}
                 contents={board['contents']}
                 createdAt={board['createdAt']}
-                filePath={board['filePath'] ? board['filePath'] : defaultImg}
+                images={board['images'] ? board['images'] : defaultImg}
                 commentNum={board['commentNum']}
                 profile={board['profile']}
                 elemNum={i + 1}

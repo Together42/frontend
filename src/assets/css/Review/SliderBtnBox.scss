@@ -1,41 +1,54 @@
-@import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 .review--btn_box_viewer {
   position: relative;
-  width: 300px;
-  height: 300px;
   overflow-x: hidden;
-}
-
-.review--btn_box_xbtn {
-  position: absolute;
-  width: 15px;
-  right: 10px;
-  top: 10px;
-  z-index: 1;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
+  transition: 0.6s;
+  @include desktop {
+    width: 300px;
+    height: 300px;
   }
 }
 
 .review--btn_box_slider {
-  position: absolute;
   left: 0;
   top: 0;
   margin: 0;
   display: flex;
-  height: 300px;
-  transition: 0.5s;
-  img {
-    width: 300px;
-    object-fit: cover;
+  @include desktop {
+    height: 300px;
+    position: absolute;
+  }
+  @include mobile {
+    position: relative;
+  }
+}
+
+.review--btn_box_slider--image_wrapper {
+  overflow-y: hidden;
+  transition: 0.2s ease;
+  @include desktop {
+    background-color: rgb(184 184 184 / 0%);
+    height: 100%;
+  }
+  @include mobile {
+    background-color: #b8b8b829;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.review--btn_box_slider--image {
+  object-fit: cover;
+  @include desktop {
+    height: 300px;
   }
 }
 
 .review--btn_box_wrapper {
   position: absolute;
-  width: 300px;
   top: 140px;
   padding: 0 5px;
 }
