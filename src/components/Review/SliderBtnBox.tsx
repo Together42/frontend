@@ -17,6 +17,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
   const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
   const [imageWidth, setImageWidth] = useState(deviceMode === 'desktop' ? 300 : window.innerWidth);
   const [isTouchAction, setIsTouchAction] = useState(false);
+  const [page, setPage] = useState(1);
 
   const [posX, setPosX] = useState(0);
   const [moveX, setMoveX] = useState(0);
@@ -45,6 +46,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
       moveWidht = imageWidth * (i + 1);
       i++;
     }
+    setPage((prev) => prev - i);
     setTrans((prev) => {
       if (prev + moveWidht < 0) return prev + moveWidht;
       else return 0;
@@ -61,6 +63,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
       moveWidht = imageWidth * (i + 1);
       i++;
     }
+    setPage((prev) => prev + i);
     setTrans((prev) => {
       if (prev - moveWidht > -(imageWidth * (imageArr.length - 1))) return prev - moveWidht;
       else return -(imageWidth * (imageArr.length - 1));
@@ -91,6 +94,9 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
   return (
     <div className="review--btn_box_viewer">
       {openFullImageSlider && <FullImageSlider imageArr={imageArr} setOpenFullImageSlider={setOpenFullImageSlider} />}
+      {imageArr && imageArr.length > 1 && (
+        <div className="review--btn_box--pagination">{`${page}/${imageArr.length}`}</div>
+      )}
       <div
         className="review--btn_box_slider"
         style={{ width: `${imageWidth * imageArr.length}px` }}
