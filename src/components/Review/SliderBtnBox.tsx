@@ -16,6 +16,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
   const [trans, setTrans] = useState(0);
   const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
   const [imageWidth, setImageWidth] = useState(deviceMode === 'desktop' ? 300 : window.innerWidth);
+  const [isTouchAction, setIsTouchAction] = useState(false);
 
   const [posX, setPosX] = useState(0);
   const [moveX, setMoveX] = useState(0);
@@ -72,13 +73,15 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
 
   function touchMove(e) {
     const move = posX - e.touches[0].pageX;
-    setMoveX(move);
+    if (move) setIsTouchAction(true);
+    if (-60 < moveX && moveX < 60) setMoveX(move);
   }
 
   function touchEnd() {
-    if (moveX > 15) moveRight();
-    else if (moveX < -15) moveLeft();
+    if (moveX > 60) moveRight();
+    else if (moveX < -60) moveLeft();
     setMoveX(0);
+    if (-60 < moveX && moveX < 60) setIsTouchAction(false);
   }
 
   useEffect(() => {
@@ -100,7 +103,11 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
             <div
               className="review--btn_box_slider--image_wrapper"
               ref={imageRef}
-              style={{ width: `${imageWidth}px`, transform: `translateX(${trans - moveX}px)` }}
+              style={{
+                width: `${imageWidth}px`,
+                transform: `translateX(${trans - moveX}px)`,
+                touchAction: `${isTouchAction ? 'none' : 'auto'}`,
+              }}
             >
               <img
                 className="review--btn_box_slider--image"
