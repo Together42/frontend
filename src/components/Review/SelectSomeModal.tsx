@@ -12,6 +12,7 @@ import useSWR from 'swr';
 import getAddress from '@globalObj/function/getAddress';
 import fetcher from '@globalObj/function/fetcher';
 import EmptyEvent from '@globalObj/object/EmptyEvent';
+import { getAuth } from '@cert/AuthStorage';
 
 function SelectSomeModal(prop: { mode: string }) {
   const { data: eventList, mutate: mutateAllEvent } = useSWR<ReviewSelectedEventType[]>(
@@ -60,9 +61,12 @@ function SelectSomeModal(prop: { mode: string }) {
   };
 
   const onClickTeam = (event: string) => {
-    if (mode === 'modal_team') {
+    if (event) {
       const memArr: teamMemInfo[] = selectedEvent['teamList'][event];
       setSelectedTeam({ [event]: memArr });
+      setEventListModalShow(false);
+    } else {
+      setSelectedTeam({ [event]: [{ intraId: getAuth().id, profile: getAuth().url, teamId: -1 }] });
       setEventListModalShow(false);
     }
   };
@@ -98,7 +102,7 @@ function SelectSomeModal(prop: { mode: string }) {
   }, [eventList, mode, selectedEvent]);
 
   return (
-    <div className="review--eventModal--wrapper">
+    <div className="review--eventModal--wrapper" style={{ right: `${mode === 'modal_addMem' ? '0' : '-50px'}` }}>
       <div className="review--eventModal--header--xbtn_wrapper">
         <img className="review--eventModal--header--xbtn" src={Xmark} alt={Xmark} onClick={onClickXbtn} />
       </div>
@@ -155,13 +159,18 @@ function SelectSomeModal(prop: { mode: string }) {
             : null}
         </>
       ) : mode === 'modal_team' && modalTeamList ? (
-        Object.keys(modalTeamList)
-          .filter((event1) => event1.includes(inputText))
-          ?.map((event2) => (
-            <p className="review--eventModal--event" key={event2} onClick={() => onClickTeam(event2)}>
-              {event2}
-            </p>
-          ))
+        <>
+          <p className="review--eventModal--event" onClick={() => onClickTeam(null)}>
+            No team
+          </p>
+          {Object.keys(modalTeamList)
+            .filter((team1) => team1.includes(inputText))
+            ?.map((team2) => (
+              <p className="review--eventModal--event" key={team2} onClick={() => onClickTeam(team2)}>
+                {team2}
+              </p>
+            ))}
+        </>
       ) : mode === 'modal_addMem' && addMemArr ? (
         <>
           <div className="review--eventModal--event_wrapper">
