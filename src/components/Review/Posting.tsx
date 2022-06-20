@@ -7,11 +7,11 @@ import ActionModal from './ActionModal';
 import EditPostingModal from './EditPostingModal';
 import CommentModal from './CommentModal';
 import ImageWithIdBox from './ImageWithIdBox';
-import expandImg from '@img/expand-solid.svg';
 import FullImageSlider from '@utils/FullImageSlider';
 import { useRecoilValue } from 'recoil';
 import DeviceMode from '@recoil/DeviceMode';
 import { useNavigate } from 'react-router';
+import SliderBtnBox from './SliderBtnBox';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -19,7 +19,7 @@ interface Props extends PostingType {
 }
 
 function Posting(props: Props) {
-  const { boardId, intraId, title, contents, createdAt, filePath, commentNum, elemNum, url, totalNum } = props;
+  const { boardId, intraId, title, contents, createdAt, images, commentNum, elemNum, profile, totalNum } = props;
   const navigate = useNavigate();
   const deviceMode = useRecoilValue(DeviceMode);
   const [modalShow, setModalShow] = useState(false);
@@ -51,27 +51,17 @@ function Posting(props: Props) {
           setPostActionModalShow={setActionModalShow}
         />
       )}
-      {openFullImageSlider && (
-        <FullImageSlider
-          imageArr={[{ imageId: null, boardId: null, filePath }]}
-          setOpenFullImageSlider={setOpenFullImageSlider}
-        />
-      )}
+      {openFullImageSlider && <FullImageSlider imageArr={images} setOpenFullImageSlider={setOpenFullImageSlider} />}
       {modalShow && <CommentModal boardId={boardId} setModalShow={setModalShow} />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
           <div className="review--posting--title--title_wrapper">
-            <ImageWithIdBox url={url} intraId={intraId} mode="post" />
+            <ImageWithIdBox profile={profile} intraId={intraId} mode="post" />
             <div className="review--posting--title--title">{title}</div>
           </div>
           <img className="review--posting--actions" src={elipsisImg} alt={elipsisImg} onClick={onClickElipsis}></img>
         </div>
-        <div className="review--posting--image_wrapper">
-          <img className="review--posting--image" src={filePath} alt={filePath} />
-          <div className="review--posting--expand">
-            <img src={expandImg} alt={expandImg} onClick={() => setOpenFullImageSlider(true)} />
-          </div>
-        </div>
+        <SliderBtnBox imageArr={images} />
         <div className="review--posting--comments">
           <p className="review--posting--content">{contents}</p>
           <p className="review--posting--commentLength" onClick={onClickMoreButton}>

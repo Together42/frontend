@@ -31,7 +31,7 @@ function AttendeeList() {
       {showAttendeeList && selectedEvent.id ? (
         <div className="main--attendeeList--profiles">
           {teamList.teamList.null.map((e) => (
-            <AttendeeListProfile intraID={e.intraId} image={e.url} key={e.intraId} />
+            <AttendeeListProfile intraID={e.intraId} image={e.profile} key={e.intraId} />
           ))}
         </div>
       ) : null}

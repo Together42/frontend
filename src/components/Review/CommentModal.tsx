@@ -21,7 +21,7 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
   const hasPosted = useRef(false);
   const LoginState = useRecoilValue(GlobalLoginState);
   const [myComment, setMyComment] = useState('');
-  const [attendMems, setAttendMems] = useState<{ intraId: string; url: string }[]>(null);
+  const [attendMems, setAttendMems] = useState<{ intraId: string; profile: string }[]>(null);
   const { data: boardObj, mutate: mutateBoard } = useSWR<ReviewBoardType>(
     `${getAddress()}/api/board/${boardId}`,
     fetcher,
@@ -88,7 +88,9 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
               {attendMems &&
                 attendMems.map(
                   (e, i) =>
-                    i < 4 && <ImageWithIdBox key={e['intraId']} mode="comment" url={e['url']} intraId={e['intraId']} />,
+                    i < 4 && (
+                      <ImageWithIdBox key={e['intraId']} mode="comment" profile={e['profile']} intraId={e['intraId']} />
+                    ),
                 )}
             </div>
           </div>

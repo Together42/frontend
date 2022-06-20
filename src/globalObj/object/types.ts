@@ -21,7 +21,7 @@ export interface EvnetListType {
 
 export interface teamMemInfo {
   intraId: string;
-  url: string;
+  profile: string;
   teamId: number;
 }
 
@@ -40,8 +40,8 @@ export interface PostingType {
   createdAt: string;
   updatedAt?: string;
   commentNum: number;
-  url: string;
-  filePath: string;
+  profile: string;
+  images: imageType[];
 }
 
 export interface CommentType {
@@ -61,8 +61,8 @@ export interface ReviewBoardType {
   createdAt: string;
   updatedAt: string;
   images: imageType[];
-  url: string;
-  attendMembers: { intraId: string; url: string }[];
+  profile: string;
+  attendMembers: { intraId: string; profile: string }[];
   comments: CommentType[];
 }
 

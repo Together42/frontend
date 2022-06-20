@@ -84,7 +84,7 @@ function SelectSomeModal(prop: { mode: string }) {
       const ObjtoArr: any = Object.entries(prev);
       const ObjKey: string = ObjtoArr[0][0];
       let memArr: teamMemInfo[] = Array.from(ObjtoArr[0][1]);
-      addMemArr.forEach((memStr) => memArr.push({ intraId: memStr, url: null, teamId: parseInt(ObjKey, 10) }));
+      addMemArr.forEach((memStr) => memArr.push({ intraId: memStr, profile: null, teamId: parseInt(ObjKey, 10) }));
       return { [ObjKey]: memArr };
     });
     setAddMemArr(null);

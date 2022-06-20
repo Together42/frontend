@@ -41,7 +41,7 @@ function AuthForm(props: Props) {
               id,
               isLogin: true,
               isAdmin: id === 'tkim',
-              profileUrl: res.data.url,
+              profileUrl: res.data.profile,
             };
           });
           saveToken(res.data.token);
@@ -64,7 +64,7 @@ function AuthForm(props: Props) {
         intraId: id,
         password,
         email,
-        url:
+        profile:
           process.env.NODE_ENV === 'production'
             ? `https://together42.github.io${profileImageState}`
             : profileImageState,

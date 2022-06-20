@@ -74,8 +74,13 @@ $table_padding: 40px;
 
 .result--submit {
   background-color: #b2babb3d;
-  padding: 30px 100px;
   position: relative;
+  @include desktop {
+    padding: 30px 100px;
+  }
+  @include mobile {
+    padding: 30px 20px;
+  }
 }
 
 .result--submit--delete_event {
