@@ -26,6 +26,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
     if (trans >= 0) {
       return;
     }
+    setPage((prev) => prev - 1);
     setTrans((prev) => prev + imageWidth);
   };
 
@@ -33,6 +34,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
     if (trans <= -(imageWidth * (imageArr.length - 1))) {
       return;
     }
+    setPage((prev) => prev + 1);
     setTrans((prev) => prev - imageWidth);
   };
 

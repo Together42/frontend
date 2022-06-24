@@ -1,5 +1,5 @@
 const TOKEN = 'token';
-const expireHour = 2;
+const expireDays = 5;
 
 export function clearToken() {
   localStorage.clear();
@@ -8,7 +8,7 @@ export function clearToken() {
 export function saveToken(token: string) {
   const tokenObj = {
     value: token,
-    expire: Date.now() + expireHour * 60 * 60 * 1000,
+    expire: Date.now() + expireDays * 24 * 60 * 60 * 1000,
   };
   const tokenObjString = JSON.stringify(tokenObj);
   localStorage.setItem(TOKEN, tokenObjString);
