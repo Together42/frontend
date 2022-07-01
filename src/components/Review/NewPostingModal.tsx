@@ -89,14 +89,14 @@ function NewPostingModal() {
   const onClickEventModalOpen = () => {
     setIsAddMemBtnClicked(false);
     setIsEventBtnClicked(true);
-    setSelectSomeModalShow(true);
+    setSelectSomeModalShow((prev) => !prev);
   };
 
   const onClickAddMemModalOpen = () => {
     if (selectedEvent) {
       setIsEventBtnClicked(false);
       setIsAddMemBtnClicked(true);
-      setSelectSomeModalShow(true);
+      setSelectSomeModalShow((prev) => !prev);
     } else {
       alert('이벤트 선택을 먼저 해주세요');
     }

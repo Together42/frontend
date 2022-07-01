@@ -44,7 +44,7 @@ function MobileNavber() {
             이벤트생성
           </Link>
           <Link to={`/Result`} onClick={onClickModalShow}>
-            랜덤매칭
+            이벤트매칭
           </Link>
           <Link to={`/review`} onClick={onClickModalShow}>
             친스타그램

@@ -26,7 +26,7 @@ function Navbar() {
   return (
     <div className="navbar--wrapper">
       <Link to={`/`}>이벤트생성</Link>
-      <Link to={`/Result`}>랜덤매칭</Link>
+      <Link to={`/Result`}>이벤트매칭</Link>
       <Link to={`/review`}>친스타그램</Link>
       {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
     </div>
