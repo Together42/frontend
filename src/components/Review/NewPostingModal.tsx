@@ -19,7 +19,7 @@ import { useSWRConfig } from 'swr';
 import leftAngle from '@img/angle-left-solid.svg';
 
 function NewPostingModal() {
-  const setNewEditModalShow = useSetRecoilState(NewPostingModalShow);
+  const setNewPostModalShow = useSetRecoilState(NewPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
@@ -35,9 +35,9 @@ function NewPostingModal() {
   const { mutate } = useSWRConfig();
 
   const closeModal = useCallback(() => {
-    setNewEditModalShow(false);
+    setNewPostModalShow(false);
     setSelectSomeModalShow(false);
-  }, [setNewEditModalShow, setSelectSomeModalShow]);
+  }, [setNewPostModalShow, setSelectSomeModalShow]);
 
   const postImage = useCallback(
     async (boardId: string) => {
