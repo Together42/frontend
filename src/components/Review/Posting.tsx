@@ -12,6 +12,7 @@ import { useRecoilValue } from 'recoil';
 import DeviceMode from '@recoil/DeviceMode';
 import { useNavigate } from 'react-router';
 import SliderBtnBox from './SliderBtnBox';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -22,9 +23,9 @@ function Posting(props: Props) {
   const { boardId, intraId, title, contents, createdAt, images, commentNum, elemNum, profile, totalNum } = props;
   const navigate = useNavigate();
   const deviceMode = useRecoilValue(DeviceMode);
+  const editPostingModalShow = useRecoilValue(EditPostingModalShow);
   const [modalShow, setModalShow] = useState(false);
   const [actionModalShow, setActionModalShow] = useState(false);
-  const [editPostingModalShow, setEditPostingModalShow] = useState(false);
   const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
 
   const onClickMoreButton = () => {
@@ -42,15 +43,8 @@ function Posting(props: Props) {
         elemNum === totalNum && 'footer--empty'
       }`}
     >
-      {editPostingModalShow && <EditPostingModal boardId={boardId} setEditPostingModalShow={setEditPostingModalShow} />}
-      {actionModalShow && (
-        <ActionModal
-          mode="post"
-          boardId={boardId}
-          setEditPostingModalShow={setEditPostingModalShow}
-          setPostActionModalShow={setActionModalShow}
-        />
-      )}
+      {editPostingModalShow[boardId] && <EditPostingModal boardId={boardId} />}
+      {actionModalShow && <ActionModal mode="post" boardId={boardId} setPostActionModalShow={setActionModalShow} />}
       {openFullImageSlider && <FullImageSlider imageArr={images} setOpenFullImageSlider={setOpenFullImageSlider} />}
       {modalShow && <CommentModal boardId={boardId} setModalShow={setModalShow} />}
       <div className="review--posting--shownWrapper">

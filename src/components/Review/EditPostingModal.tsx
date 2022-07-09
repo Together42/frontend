@@ -11,12 +11,12 @@ import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 import useSWR, { useSWRConfig } from 'swr';
 import fetcher from '@globalObj/function/fetcher';
+import { useSetRecoilState } from 'recoil';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 
-function NewEditPostingModal(props: {
-  boardId: number;
-  setEditPostingModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  const { boardId, setEditPostingModalShow } = props;
+function NewEditPostingModal(props: { boardId: number }) {
+  const { boardId } = props;
+  const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [postFileArr, setPostFileArr] = useState<File[]>([]);
@@ -34,8 +34,10 @@ function NewEditPostingModal(props: {
   );
 
   const closeModal = useCallback(() => {
-    setEditPostingModalShow(false);
-  }, [setEditPostingModalShow]);
+    setEditPostingModalShow((prev) => {
+      return { ...prev, [boardId]: false };
+    });
+  }, [boardId, setEditPostingModalShow]);
 
   const deleteImage = useCallback(
     async (deleteBoardImg: imageType[]) => {
@@ -88,7 +90,9 @@ function NewEditPostingModal(props: {
         mutate(`${getAddress()}/api/board`);
         mutateBoard();
         alert('성공적으로 수정되었습니다');
-        setEditPostingModalShow(false);
+        setEditPostingModalShow((prev) => {
+          return { ...prev, [boardId]: false };
+        });
       })
       .catch((err) => errorAlert(err));
   }, [boardId, boardObj, content, mutate, mutateBoard, postImage, setEditPostingModalShow, title]);
