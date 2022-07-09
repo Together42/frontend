@@ -11,12 +11,16 @@ import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 import useSWR, { useSWRConfig } from 'swr';
 import fetcher from '@globalObj/function/fetcher';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
+import DeviceMode from '@recoil/DeviceMode';
+import { useNavigate } from 'react-router';
 
-function NewEditPostingModal(props: {
-  boardId: number;
-  setEditPostingModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  const { boardId, setEditPostingModalShow } = props;
+function NewEditPostingModal(props: { boardId: number }) {
+  const { boardId } = props;
+  const navigate = useNavigate();
+  const deviceMode = useRecoilValue(DeviceMode);
+  const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [postFileArr, setPostFileArr] = useState<File[]>([]);
@@ -34,8 +38,10 @@ function NewEditPostingModal(props: {
   );
 
   const closeModal = useCallback(() => {
-    setEditPostingModalShow(false);
-  }, [setEditPostingModalShow]);
+    setEditPostingModalShow((prev) => {
+      return { ...prev, [boardId]: false };
+    });
+  }, [boardId, setEditPostingModalShow]);
 
   const deleteImage = useCallback(
     async (deleteBoardImg: imageType[]) => {
@@ -88,7 +94,9 @@ function NewEditPostingModal(props: {
         mutate(`${getAddress()}/api/board`);
         mutateBoard();
         alert('성공적으로 수정되었습니다');
-        setEditPostingModalShow(false);
+        setEditPostingModalShow((prev) => {
+          return { ...prev, [boardId]: false };
+        });
       })
       .catch((err) => errorAlert(err));
   }, [boardId, boardObj, content, mutate, mutateBoard, postImage, setEditPostingModalShow, title]);
@@ -133,6 +141,15 @@ function NewEditPostingModal(props: {
       setPostUrlArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
     }
   }, [deleteIdxArr, deleteImgArr]);
+
+  useEffect(() => {
+    if (deviceMode === 'mobile') {
+      setEditPostingModalShow((prev) => {
+        return { ...prev, [boardId]: false };
+      });
+      navigate(`mobile/editpost/${boardId}`);
+    }
+  }, [boardId, deviceMode, navigate, setEditPostingModalShow]);
 
   return (
     <div className="review--editposting--background" onClick={() => closeModal()}>

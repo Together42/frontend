@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/CommentModal.scss';
 import Xmark from '@img/xmark-solid-white.svg';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
@@ -14,12 +14,18 @@ import shuffle from '@globalObj/function/shuffleArr';
 import ImageWithIdBox from './ImageWithIdBox';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
+import CommentModalShow from '@recoil/Review/CommentModalShow';
+import { useNavigate } from 'react-router';
+import DeviceMode from '@recoil/DeviceMode';
 
-function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<React.SetStateAction<boolean>> }) {
-  const { boardId, setModalShow } = props;
+function CommentModal(props: { boardId: number }) {
+  const { boardId } = props;
   const scrollRef = useRef(null);
   const hasPosted = useRef(false);
+  const navigate = useNavigate();
+  const deviceMode = useRecoilValue(DeviceMode);
   const LoginState = useRecoilValue(GlobalLoginState);
+  const setModalShow = useSetRecoilState(CommentModalShow);
   const [myComment, setMyComment] = useState('');
   const [attendMems, setAttendMems] = useState<{ intraId: string; profile: string }[]>(null);
   const { data: boardObj, mutate: mutateBoard } = useSWR<ReviewBoardType>(
@@ -64,6 +70,12 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
     else alert('로그인을 하셔야 이용 가능합니다.');
   };
 
+  const closeModal = useCallback(() => {
+    setModalShow((prev) => {
+      return { ...prev, [boardId]: false };
+    });
+  }, [boardId, setModalShow]);
+
   useEffect(() => {
     if (hasPosted.current && scrollRef && scrollRef.current)
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -73,9 +85,18 @@ function CommentModal(props: { boardId: number; setModalShow: React.Dispatch<Rea
     if (boardObj) setAttendMems(shuffle(boardObj['attendMembers']));
   }, [boardObj]);
 
+  useEffect(() => {
+    if (deviceMode === 'mobile') {
+      setModalShow((prev) => {
+        return { ...prev, [boardId]: false };
+      });
+      navigate(`mobile/comment/${boardId}`);
+    }
+  }, [boardId, deviceMode, navigate, setModalShow]);
+
   return boardObj ? (
-    <div className="review--detail--background" onClick={() => setModalShow(false)}>
-      <img className="review--detail--xmark" src={Xmark} alt={Xmark}></img>
+    <div className="review--detail--background" onClick={closeModal}>
+      <img className="review--detail--xmark" src={Xmark} alt={Xmark} onClick={closeModal}></img>
       <div className="review--detail-devision" onClick={(e) => e.stopPropagation()}>
         <div className="review--detail--left_division">
           <div className="review--detail--image--background"></div>

@@ -12,10 +12,15 @@ import PreviewBox from './PreviewBox';
 import useSWR, { useSWRConfig } from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import { useNavigate, useParams } from 'react-router';
+import DeviceMode from '@recoil/DeviceMode';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 
 function MobileEditPost() {
   const { id: boardId } = useParams();
   const navigate = useNavigate();
+  const deviceMode = useRecoilValue(DeviceMode);
+  const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [postFileArr, setPostFileArr] = useState<File[]>([]);
@@ -132,6 +137,19 @@ function MobileEditPost() {
       setPostUrlArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
     }
   }, [deleteIdxArr, deleteImgArr]);
+
+  useEffect(() => {
+    if (deviceMode === 'desktop') navigate('/review');
+  }, [deviceMode, navigate]);
+
+  useEffect(() => {
+    if (deviceMode === 'desktop') {
+      navigate(`/review`);
+      setEditPostingModalShow((prev) => {
+        return { ...prev, [boardId]: true };
+      });
+    }
+  }, [boardId, deviceMode, navigate, setEditPostingModalShow]);
 
   return (
     <div className="review--editposting--mobile--background">
