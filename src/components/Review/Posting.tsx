@@ -8,11 +8,12 @@ import EditPostingModal from './EditPostingModal';
 import CommentModal from './CommentModal';
 import ImageWithIdBox from './ImageWithIdBox';
 import FullImageSlider from '@utils/FullImageSlider';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import DeviceMode from '@recoil/DeviceMode';
 import { useNavigate } from 'react-router';
 import SliderBtnBox from './SliderBtnBox';
 import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
+import CommentModalShow from '@recoil/Review/CommentModalShow';
 
 interface Props extends PostingType {
   elemNum: number;
@@ -24,12 +25,12 @@ function Posting(props: Props) {
   const navigate = useNavigate();
   const deviceMode = useRecoilValue(DeviceMode);
   const editPostingModalShow = useRecoilValue(EditPostingModalShow);
-  const [modalShow, setModalShow] = useState(false);
+  const [commentModalShow, setCommentModalShow] = useRecoilState(CommentModalShow);
   const [actionModalShow, setActionModalShow] = useState(false);
   const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
 
   const onClickMoreButton = () => {
-    if (deviceMode === 'desktop') setModalShow(true);
+    if (deviceMode === 'desktop') setCommentModalShow({ [boardId]: true });
     else if (deviceMode === 'mobile') navigate(`mobile/comment/${boardId}`);
   };
 
@@ -46,7 +47,7 @@ function Posting(props: Props) {
       {editPostingModalShow[boardId] && <EditPostingModal boardId={boardId} />}
       {actionModalShow && <ActionModal mode="post" boardId={boardId} setPostActionModalShow={setActionModalShow} />}
       {openFullImageSlider && <FullImageSlider imageArr={images} setOpenFullImageSlider={setOpenFullImageSlider} />}
-      {modalShow && <CommentModal boardId={boardId} setModalShow={setModalShow} />}
+      {commentModalShow[boardId] && <CommentModal boardId={boardId} />}
       <div className="review--posting--shownWrapper">
         <div className="review--posting--title">
           <div className="review--posting--title--title_wrapper">
