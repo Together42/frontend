@@ -15,11 +15,15 @@ import ImageWithIdBox from './ImageWithIdBox';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import CommentModalShow from '@recoil/Review/CommentModalShow';
+import { useNavigate } from 'react-router';
+import DeviceMode from '@recoil/DeviceMode';
 
 function CommentModal(props: { boardId: number }) {
   const { boardId } = props;
   const scrollRef = useRef(null);
   const hasPosted = useRef(false);
+  const navigate = useNavigate();
+  const deviceMode = useRecoilValue(DeviceMode);
   const LoginState = useRecoilValue(GlobalLoginState);
   const setModalShow = useSetRecoilState(CommentModalShow);
   const [myComment, setMyComment] = useState('');
@@ -80,6 +84,15 @@ function CommentModal(props: { boardId: number }) {
   useEffect(() => {
     if (boardObj) setAttendMems(shuffle(boardObj['attendMembers']));
   }, [boardObj]);
+
+  useEffect(() => {
+    if (deviceMode === 'mobile') {
+      setModalShow((prev) => {
+        return { ...prev, [boardId]: false };
+      });
+      navigate(`mobile/comment/${boardId}`);
+    }
+  }, [boardId, deviceMode, navigate, setModalShow]);
 
   return boardObj ? (
     <div className="review--detail--background" onClick={closeModal}>
