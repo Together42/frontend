@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Review/NewPostingModal.scss';
 import Xmark from '@img/xmark-solid-white.svg';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
@@ -17,7 +17,7 @@ import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 import { useSWRConfig } from 'swr';
 import leftAngle from '@img/angle-left-solid.svg';
-import useDeviceMode from '@utils/useDeviceMode';
+import DeviceMode from '@recoil/DeviceMode';
 import { useNavigate } from 'react-router';
 
 function NewPostingModal() {
@@ -26,7 +26,7 @@ function NewPostingModal() {
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
-  const deviceMode = useDeviceMode();
+  const deviceMode = useRecoilValue(DeviceMode);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Review/MobileNewPost.scss';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
@@ -16,7 +16,7 @@ import PreviewBox from './PreviewBox';
 import { useSWRConfig } from 'swr';
 import leftAngle from '@img/angle-left-solid.svg';
 import { useNavigate } from 'react-router';
-import useDeviceMode from '@utils/useDeviceMode';
+import DeviceMode from '@recoil/DeviceMode';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 
 function MobileNewPost() {
@@ -25,7 +25,7 @@ function MobileNewPost() {
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
   const setNewPostModalShow = useSetRecoilState(NewPostingModalShow);
-  const deviceMode = useDeviceMode();
+  const deviceMode = useRecoilValue(DeviceMode);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
