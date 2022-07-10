@@ -13,23 +13,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    # strategy:
+    #   matrix:
+    #     node-version: [12.x, 14.x, 16.x]
+    #     # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Checkout source code
+        uses: actions/checkout@master
+
+      - name: Set up Node.js
+        uses: actions/setup-node@master
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          node-version: 16.13.2
 
       - name: Cache node modules # node modules 캐싱
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.OS }}-master-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
@@ -54,7 +56,6 @@ jobs:
         # If you're changing the branch from main,
         # also change the `main` in `refs/heads/main`
         # below accordingly.
-        if: ${{ github.ref == 'refs/heads/deploy' }}
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./dist
