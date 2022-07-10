@@ -59,5 +59,3 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./dist
-        run: |
-          gh-pages -d dist
