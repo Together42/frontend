@@ -5,13 +5,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: ['deploy']
   pull_request:
-    branches: [ "develop" ]
+    branches: ['deploy']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,12 +19,43 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "DEPLOY_ADR=$DEPLOY_ADR" >> .env
+        env:
+          DEPLOY_ADR: ${{ secrets.DEPLOY_ADR }}
+
+      - name: Install Dependencies # node module install
+        run: npm install
+
+      - name: Build # project build
+        run: npm run build
+
+      - name: Add 404 File
+      - run: cp dist/index.html dist/404.html
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        # If you're changing the branch from main,
+        # also change the `main` in `refs/heads/main`
+        # below accordingly.
+        if: ${{ github.ref == 'refs/heads/deploy' }}
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./dist
