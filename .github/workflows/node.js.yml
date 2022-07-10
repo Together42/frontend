@@ -13,11 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix:
-    #     node-version: [12.x, 14.x, 16.x]
-    #     # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@master
@@ -53,9 +48,6 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        # If you're changing the branch from main,
-        # also change the `main` in `refs/heads/main`
-        # below accordingly.
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./dist
