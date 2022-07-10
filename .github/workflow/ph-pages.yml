@@ -19,14 +19,33 @@ jobs:
           submodules: true # Fetch Hugo themes (true OR recursive)
           fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          hugo-version: '0.85.0'
+          node-version: '16.x'
 
-      - name: Build
-        run: hugo --minify
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
 
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "DEPLOY_ADR=$DEPLOY_ADR" >> .env
+        env:
+          DEPLOY_ADR: ${{ secrets.DEPLOY_ADR }}
+
+      - name: Install Dependencies # node module install
+        run: npm install
+
+      - name: Build # project build
+        run: npm run build
+
+      - name: Add 404 File
       - run: cp dist/index.html dist/404.html
 
       - name: Deploy
@@ -36,6 +55,5 @@ jobs:
         # below accordingly.
         if: ${{ github.ref == 'refs/heads/deploy' }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./dist
