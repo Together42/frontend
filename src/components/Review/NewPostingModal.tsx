@@ -17,6 +17,7 @@ import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 import { useSWRConfig } from 'swr';
 import leftAngle from '@img/angle-left-solid.svg';
+import { ReviewPostingFileType, ReviewPostingUrlType } from '@usefulObj/types';
 
 function NewPostingModal() {
   const setNewEditModalShow = useSetRecoilState(NewPostingModalShow);
@@ -27,10 +28,8 @@ function NewPostingModal() {
   const [content, setContent] = useState('');
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
-  const [postFileArr, setPostFileArr] = useState<File[]>([]);
-  const [postUrlArr, setPostUrlArr] = useState<string[]>([]);
-  const [deleteImgArr, setDeleteImgArr] = useState<string[]>([]);
-  const [deleteIdxArr, setDeleteIdxArr] = useState<number[]>([]);
+  const [postFileArr, setPostFileArr] = useState<ReviewPostingFileType[]>([]);
+  const [postUrlArr, setPostUrlArr] = useState<ReviewPostingUrlType[]>([]);
   const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
   const { mutate } = useSWRConfig();
 
@@ -43,7 +42,7 @@ function NewPostingModal() {
     async (boardId: string) => {
       const formData = new FormData();
       if (postFileArr.length) {
-        postFileArr.forEach((file) => formData.append('image', file));
+        postFileArr.forEach((file) => formData.append(file['type'].slice(0, 5), file['file']));
         formData.append('boardId', boardId);
         await axios.post(`${getAddress()}/api/board/upload`, formData).catch((err) => errorAlert(err));
       }
@@ -113,8 +112,24 @@ function NewPostingModal() {
   };
 
   const onClickUpload = (e: any) => {
-    setPostFileArr((prev) => prev.concat(Object.values(e.target.files)));
-    setPostUrlArr((prev) => prev.concat(Array.from(e.target.files).map((file: Blob) => URL.createObjectURL(file))));
+    setPostFileArr((prev) =>
+      prev.concat(
+        Array.from(e.target.files).map((file: Blob, idx) => ({
+          id: prev.length + idx,
+          file,
+          type: file['type'].slice(0, 5),
+        })),
+      ),
+    );
+    setPostUrlArr((prev) =>
+      prev.concat(
+        Array.from(e.target.files).map((file: Blob, idx) => ({
+          id: prev.length + idx,
+          url: URL.createObjectURL(file),
+          type: file['type'].slice(0, 5),
+        })),
+      ),
+    );
   };
 
   useEffect(() => {
@@ -130,13 +145,6 @@ function NewPostingModal() {
       closeModal();
     };
   }, [closeModal, setSelectedTeam]);
-
-  useEffect(() => {
-    if (deleteImgArr.length > 0) {
-      setPostFileArr((prev) => prev.filter((_, idx) => !deleteIdxArr.includes(idx)));
-      setPostUrlArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
-    }
-  }, [deleteIdxArr, deleteImgArr]);
 
   return (
     <div className="review--newposting--background" onClick={() => closeModal()}>
@@ -162,12 +170,7 @@ function NewPostingModal() {
               <div className="review--newposting--added_files">
                 <div className="review--newposting--add_files--submitted_wrapper">
                   <div className="review--newposting--add_files--submitted_title">Uploads</div>
-                  <PreviewBox
-                    postUrlArr={postUrlArr}
-                    mode="new"
-                    setDeleteImgArr={setDeleteImgArr}
-                    setDeleteIdxArr={setDeleteIdxArr}
-                  />
+                  <PreviewBox postUrlArr={postUrlArr} setPostFileArr={setPostFileArr} setPostUrlArr={setPostUrlArr} />
                 </div>
                 <UplaodBtn innerText="추가 업로드" onClickFunc={onClickUpload} />
               </div>
