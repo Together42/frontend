@@ -28,7 +28,11 @@ function PreviewBox(props: {
       {boardImgArr && boardImgArr.length
         ? boardImgArr.map((obj) => (
             <div key={obj['id']} className="review--preview_box--preview_wrapper">
-              <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
+              {obj['type'].slice(0, 5) === 'image' ? (
+                <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
+              ) : (
+                <video className="review--preview_box--preview" src={obj['url']} autoPlay loop muted></video>
+              )}
               <img
                 className="review--preview_box--Xmark"
                 src={XmarkRd}
@@ -41,7 +45,11 @@ function PreviewBox(props: {
       {postUrlArr && postUrlArr.length
         ? postUrlArr.map((obj) => (
             <div key={obj['id']} className="review--preview_box--preview_wrapper">
-              <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
+              {obj['type'].slice(0, 5) === 'image' ? (
+                <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
+              ) : (
+                <video className="review--preview_box--preview" src={obj['url']} autoPlay loop muted></video>
+              )}
               <img
                 className="review--preview_box--Xmark"
                 src={XmarkRd}
