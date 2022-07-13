@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@css/Review/MobileComment.scss';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
@@ -12,12 +12,16 @@ import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import { useNavigate, useParams } from 'react-router';
 import leftAngle from '@img/angle-left-solid.svg';
+import DeviceMode from '@recoil/DeviceMode';
+import CommentModalShow from '@recoil/Review/CommentModalShow';
 
 function MobileComment() {
-  const navigate = useNavigate();
   const { id: boardId } = useParams();
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const hasPosted = useRef(false);
+  const deviceMode = useRecoilValue(DeviceMode);
+  const setModalShow = useSetRecoilState(CommentModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
   const [myComment, setMyComment] = useState('');
   const { data: boardObj, mutate: mutateBoard } = useSWR<ReviewBoardType>(
@@ -70,6 +74,15 @@ function MobileComment() {
     if (hasPosted.current && scrollRef && scrollRef.current)
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [boardObj]);
+
+  useEffect(() => {
+    if (deviceMode === 'desktop') {
+      setModalShow((prev) => {
+        return { ...prev, [boardId]: true };
+      });
+      navigate(`/review`);
+    }
+  }, [boardId, deviceMode, navigate, setModalShow]);
 
   return boardObj ? (
     <div className="review--comment--mobile--background">

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import Xbtn from '@img/xmark-solid.svg';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import '@css/Review/ActionModal.scss';
 import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
@@ -10,6 +10,7 @@ import SelectedEvent from '@recoil/Review/SelectedEvent';
 import { useSWRConfig } from 'swr';
 import { useNavigate } from 'react-router';
 import DeviceMode from '@recoil/DeviceMode';
+import EditPostingModalShow from '@recoil/Review/EditPostingModalShow';
 
 function ActionModal(props: {
   mode: string;
@@ -18,20 +19,12 @@ function ActionModal(props: {
   setCommentMode?: React.Dispatch<React.SetStateAction<string>>;
   setCommentActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
   setPostActionModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditPostingModalShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const {
-    mode,
-    boardId,
-    commentId,
-    setCommentMode,
-    setCommentActionModalShow,
-    setEditPostingModalShow,
-    setPostActionModalShow,
-  } = props;
+  const { mode, boardId, commentId, setCommentMode, setCommentActionModalShow, setPostActionModalShow } = props;
   const navigate = useNavigate();
   const deviceMode = useRecoilValue(DeviceMode);
   const selectedEvent = useRecoilValue(SelectedEvent);
+  const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
   const { mutate } = useSWRConfig();
 
   const closeModal = () => {
@@ -74,7 +67,10 @@ function ActionModal(props: {
 
   const onClickUpdate = () => {
     if (mode === 'post') {
-      if (deviceMode === 'desktop') setEditPostingModalShow(true);
+      if (deviceMode === 'desktop')
+        setEditPostingModalShow((prev) => {
+          return { ...prev, [boardId]: true };
+        });
       else if (deviceMode === 'mobile') navigate(`mobile/editpost/${boardId}`);
     } else if (mode === 'comment') setCommentMode('edit');
     closeModal();

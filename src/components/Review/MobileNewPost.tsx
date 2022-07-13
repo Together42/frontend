@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Review/MobileNewPost.scss';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
@@ -17,12 +17,16 @@ import { useSWRConfig } from 'swr';
 import leftAngle from '@img/angle-left-solid.svg';
 import { useNavigate } from 'react-router';
 import { ReviewPostingFileType, ReviewPostingUrlType } from '@usefulObj/types';
+import DeviceMode from '@recoil/DeviceMode';
+import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 
 function MobileNewPost() {
   const navigate = useNavigate();
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
+  const setNewPostModalShow = useSetRecoilState(NewPostingModalShow);
+  const deviceMode = useRecoilValue(DeviceMode);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
@@ -145,7 +149,12 @@ function MobileNewPost() {
     };
   }, [closeModal, setSelectedTeam]);
 
-  return (
+  useEffect(() => {
+    if (deviceMode === 'desktop') navigate('/review');
+    setNewPostModalShow(true);
+  }, [deviceMode, navigate, setNewPostModalShow]);
+
+  return deviceMode === 'mobile' ? (
     <div className="review--newposting--mobile--background">
       <div className="review--newposting--mobile--mobile_header">
         <img
@@ -235,7 +244,7 @@ function MobileNewPost() {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }
 
 export default MobileNewPost;

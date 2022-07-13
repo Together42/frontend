@@ -8,6 +8,7 @@ import FullImageSlider from '@utils/FullImageSlider';
 import expandImg from '@img/expand-solid.svg';
 import { useRecoilValue } from 'recoil';
 import DeviceMode from '@recoil/DeviceMode';
+import useWindowWidth from '@globalObj/hooks/useWindowWidth';
 
 function SliderBtnBox(props: { imageArr: imageType[] }) {
   const { imageArr = [defaultImg] } = props;
@@ -15,6 +16,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
   const imageRef = useRef(null);
   const [trans, setTrans] = useState(0);
   const [openFullImageSlider, setOpenFullImageSlider] = useState(false);
+  const [windowWidth, setUseWindowWidthTurnOn] = useWindowWidth();
   const [imageWidth, setImageWidth] = useState(deviceMode === 'desktop' ? 300 : window.innerWidth);
   const [isTouchAction, setIsTouchAction] = useState(false);
   const [page, setPage] = useState(1);
@@ -90,8 +92,14 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
   }
 
   useEffect(() => {
-    setImageWidth(deviceMode === 'desktop' ? 300 : window.innerWidth);
-  }, [deviceMode]);
+    if (deviceMode === 'desktop') {
+      setImageWidth(300);
+      setUseWindowWidthTurnOn(false);
+    } else if (deviceMode === 'mobile') {
+      setUseWindowWidthTurnOn(true);
+      setImageWidth(windowWidth);
+    }
+  }, [deviceMode, setUseWindowWidthTurnOn, windowWidth]);
 
   return (
     <div className="review--btn_box_viewer">
