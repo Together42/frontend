@@ -162,6 +162,7 @@ function NewEditPostingModal(props: {
                 postUrlArr={postUrlArr}
                 setPostFileArr={setPostFileArr}
                 setPostUrlArr={setPostUrlArr}
+                setBoardImgArr={setBoardImgArr}
               />
             </div>
           </div>

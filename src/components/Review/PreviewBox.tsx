@@ -16,11 +16,11 @@ function PreviewBox(props: {
     (id: number) => {
       setPostUrlArr((prev) => prev.filter((elem) => elem['id'] !== id));
       setPostFileArr((prev) => prev.filter((elem) => elem['id'] !== id));
-      if (setBoardImgArr) {
+      if (boardImgArr) {
         setBoardImgArr((prev) => prev.filter((elem) => elem['id'] !== id));
       }
     },
-    [setBoardImgArr, setPostFileArr, setPostUrlArr],
+    [boardImgArr, setBoardImgArr, setPostFileArr, setPostUrlArr],
   );
 
   return (
