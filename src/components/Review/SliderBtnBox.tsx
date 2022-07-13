@@ -117,12 +117,18 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
                 touchAction: `${isTouchAction ? 'none' : 'auto'}`,
               }}
             >
-              <img
-                className="review--btn_box_slider--image"
-                src={image['filePath']}
-                alt={image['filePath']}
-                style={{ width: `${imageWidth}px` }}
-              />
+              {image['fileType'].slice(0, 5) === 'image' ? (
+                <img
+                  className="review--btn_box_slider--image"
+                  src={image['filePath']}
+                  alt={image['filePath']}
+                  style={{ width: `${imageWidth}px` }}
+                />
+              ) : (
+                <video className="review--btn_box_slider--image" width="300" controls autoPlay loop muted>
+                  <source src={image['filePath']}></source>
+                </video>
+              )}
             </div>
           );
         })}

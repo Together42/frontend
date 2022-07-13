@@ -59,7 +59,7 @@ function NewEditPostingModal(props: {
           boardObj['images'].filter((obj) => !boardImgArr.find((elem) => elem['url'] !== obj['filePath'])),
         );
       if (postFileArr.length) {
-        postFileArr.forEach((file) => formData.append(file['type'].slice(0, 5), file['file']));
+        postFileArr.forEach((file) => formData.append('image', file['file']));
         formData.append('boardId', boardId);
         await axios.post(`${getAddress()}/api/board/upload`, formData).catch((err) => errorAlert(err));
       }

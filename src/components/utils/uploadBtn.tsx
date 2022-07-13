@@ -10,7 +10,14 @@ function UploadBtn(props: { mode?: string; innerText: string; onClickFunc: (e: a
         <label className="upload_btn--button" htmlFor="upload_btn--input">
           {innerText}
         </label>
-        <input type="file" id="upload_btn--input" accept="image/*, video/*" onChange={onClickFunc} multiple required />
+        <input
+          type="file"
+          id="upload_btn--input"
+          accept="image/*, video/mp4, video/mov"
+          onChange={onClickFunc}
+          multiple
+          required
+        />
       </div>
     </div>
   );

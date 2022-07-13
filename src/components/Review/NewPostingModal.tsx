@@ -42,7 +42,7 @@ function NewPostingModal() {
     async (boardId: string) => {
       const formData = new FormData();
       if (postFileArr.length) {
-        postFileArr.forEach((file) => formData.append(file['type'].slice(0, 5), file['file']));
+        postFileArr.forEach((file) => formData.append('image', file['file']));
         formData.append('boardId', boardId);
         await axios.post(`${getAddress()}/api/board/upload`, formData).catch((err) => errorAlert(err));
       }
