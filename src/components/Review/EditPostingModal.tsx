@@ -56,7 +56,7 @@ function NewEditPostingModal(props: {
       const formData = new FormData();
       if (boardObj['images'].length !== boardImgArr.length)
         await deleteImage(
-          boardObj['images'].filter((obj) => !boardImgArr.find((elem) => elem['url'] !== obj['filePath'])),
+          boardObj['images'].filter((obj) => !boardImgArr.find((elem) => elem['url'] === obj['filePath'])),
         );
       if (postFileArr.length) {
         postFileArr.forEach((file) => formData.append('image', file['file']));
@@ -147,6 +147,8 @@ function NewEditPostingModal(props: {
       );
     }
   }, [boardObj]);
+
+  console.log(postUrlArr);
 
   return (
     <div className="review--editposting--background" onClick={() => closeModal()}>

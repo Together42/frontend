@@ -31,7 +31,9 @@ function PreviewBox(props: {
               {obj['type'].slice(0, 5) === 'image' ? (
                 <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
               ) : (
-                <video className="review--preview_box--preview" src={obj['url']} autoPlay loop muted></video>
+                <video className="review--preview_box--preview" autoPlay loop muted>
+                  <source src={obj['url']} type={obj['type']}></source>
+                </video>
               )}
               <img
                 className="review--preview_box--Xmark"
@@ -48,7 +50,9 @@ function PreviewBox(props: {
               {obj['type'].slice(0, 5) === 'image' ? (
                 <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
               ) : (
-                <video className="review--preview_box--preview" src={obj['url']} autoPlay loop muted></video>
+                <video className="review--preview_box--preview" autoPlay loop muted>
+                  <source src={obj['url']} type={obj['type']}></source>
+                </video>
               )}
               <img
                 className="review--preview_box--Xmark"

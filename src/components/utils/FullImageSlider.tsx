@@ -40,7 +40,7 @@ function FullImageSlider(props: {
             image['fileType'].slice(0, 5) === 'image' ? (
               <img src={image['filePath']} alt={image['filePath']} />
             ) : (
-              <video className="review--btn_box_slider--image" src={image['filePath']} autoPlay loop muted></video>
+              <video src={image['filePath']} autoPlay loop muted controls></video>
             ),
           )}
         </div>

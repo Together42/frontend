@@ -1,5 +1,5 @@
 function getAddress() {
-  return process.env.DEV_ADR;
+  return process.env.DEPLOY_ADR;
 }
 
 export default getAddress;

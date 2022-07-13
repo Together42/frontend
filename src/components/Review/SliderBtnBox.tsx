@@ -125,7 +125,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
                   style={{ width: `${imageWidth}px` }}
                 />
               ) : (
-                <video className="review--btn_box_slider--image" width="300" controls autoPlay loop muted>
+                <video className="review--btn_box_slider--image" width={`${imageWidth}px`} controls autoPlay loop muted>
                   <source src={image['filePath']}></source>
                 </video>
               )}
