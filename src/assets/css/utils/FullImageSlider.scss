@@ -45,7 +45,8 @@
   margin: 0;
   display: flex;
   transition: 0.5s;
-  img {
+  img,
+  video {
     width: 600px;
     object-fit: contain;
   }

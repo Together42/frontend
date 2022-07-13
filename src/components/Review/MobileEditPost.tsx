@@ -6,7 +6,7 @@ import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/function/getAddress';
-import { imageType, ReviewBoardType } from '@globalObj/object/types';
+import { imageType, ReviewBoardType, ReviewPostingFileType, ReviewPostingUrlType } from '@globalObj/object/types';
 import UplaodBtn from '@utils/uploadBtn';
 import PreviewBox from './PreviewBox';
 import useSWR, { useSWRConfig } from 'swr';
@@ -23,11 +23,9 @@ function MobileEditPost() {
   const setEditPostingModalShow = useSetRecoilState(EditPostingModalShow);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [postFileArr, setPostFileArr] = useState<File[]>([]);
-  const [postUrlArr, setPostUrlArr] = useState<string[]>([]);
-  const [boardImgArr, setBoardImgArr] = useState<string[]>([]);
-  const [deleteImgArr, setDeleteImgArr] = useState<string[]>([]);
-  const [deleteIdxArr, setDeleteIdxArr] = useState<number[]>([]);
+  const [postFileArr, setPostFileArr] = useState<ReviewPostingFileType[]>([]);
+  const [postUrlArr, setPostUrlArr] = useState<ReviewPostingUrlType[]>([]);
+  const [boardImgArr, setBoardImgArr] = useState<ReviewPostingUrlType[]>([]);
   const { mutate } = useSWRConfig();
   const { data: boardObj, mutate: mutateBoard } = useSWR<ReviewBoardType>(
     `${getAddress()}/api/board/${Number(boardId)}`,
@@ -61,9 +59,11 @@ function MobileEditPost() {
     async (boardId: string) => {
       const formData = new FormData();
       if (boardObj['images'].length !== boardImgArr.length)
-        await deleteImage(boardObj['images'].filter((obj) => !boardImgArr.includes(obj['filePath'])));
+        await deleteImage(
+          boardObj['images'].filter((obj) => !boardImgArr.find((elem) => elem['url'] === obj['filePath'])),
+        );
       if (postFileArr.length) {
-        postFileArr.forEach((file) => formData.append('image', file));
+        postFileArr.forEach((file) => formData.append('image', file['file']));
         formData.append('boardId', boardId);
         await axios.post(`${getAddress()}/api/board/upload`, formData).catch((err) => errorAlert(err));
       }
@@ -112,8 +112,24 @@ function MobileEditPost() {
   };
 
   const onClickUpload = (e: any) => {
-    setPostFileArr((prev) => prev.concat(Object.values(e.target.files)));
-    setPostUrlArr((prev) => prev.concat(Array.from(e.target.files).map((file: Blob) => URL.createObjectURL(file))));
+    setPostFileArr((prev) =>
+      prev.concat(
+        Array.from(e.target.files).map((file: Blob, idx) => ({
+          id: prev.length + idx,
+          file,
+          type: file['type'].slice(0, 5),
+        })),
+      ),
+    );
+    setPostUrlArr((prev) =>
+      prev.concat(
+        Array.from(e.target.files).map((file: Blob, idx) => ({
+          id: prev.length + idx,
+          url: URL.createObjectURL(file),
+          type: file['type'].slice(0, 5),
+        })),
+      ),
+    );
   };
 
   useEffect(() => {
@@ -126,17 +142,15 @@ function MobileEditPost() {
     if (boardObj) {
       setTitle(boardObj['title']);
       setContent(boardObj['contents']);
-      setBoardImgArr(boardObj['images'].map((imgObj) => imgObj['filePath']));
+      setBoardImgArr(
+        boardObj['images'].map((obj) => ({
+          id: obj['imageId'],
+          url: obj['filePath'],
+          type: obj['fileType'],
+        })),
+      );
     }
   }, [boardObj]);
-
-  useEffect(() => {
-    if (deleteImgArr.length > 0) {
-      setBoardImgArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
-      setPostFileArr((prev) => prev.filter((_, idx) => !deleteIdxArr.includes(idx)));
-      setPostUrlArr((prev) => prev.filter((img) => !deleteImgArr.includes(img)));
-    }
-  }, [deleteIdxArr, deleteImgArr]);
 
   useEffect(() => {
     if (deviceMode === 'desktop') navigate('/review');
@@ -168,9 +182,9 @@ function MobileEditPost() {
             <PreviewBox
               boardImgArr={boardImgArr}
               postUrlArr={postUrlArr}
-              mode="edit"
-              setDeleteImgArr={setDeleteImgArr}
-              setDeleteIdxArr={setDeleteIdxArr}
+              setPostFileArr={setPostFileArr}
+              setPostUrlArr={setPostUrlArr}
+              setBoardImgArr={setBoardImgArr}
             />
           </div>
           <UplaodBtn innerText="추가 업로드" onClickFunc={onClickUpload} />

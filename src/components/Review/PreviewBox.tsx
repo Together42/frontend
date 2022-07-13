@@ -1,48 +1,64 @@
 import React, { useCallback } from 'react';
 import XmarkRd from '@img/xmark-solid-red.svg';
 import '@css/Review/PreviewBox.scss';
+import { ReviewPostingFileType, ReviewPostingUrlType } from '@usefulObj/types';
 
 function PreviewBox(props: {
-  boardImgArr?: string[];
-  postUrlArr?: string[];
-  mode: string;
-  setDeleteImgArr: React.Dispatch<React.SetStateAction<string[]>>;
-  setDeleteIdxArr: React.Dispatch<React.SetStateAction<number[]>>;
+  boardImgArr?: ReviewPostingUrlType[];
+  postUrlArr?: ReviewPostingUrlType[];
+  setPostUrlArr: React.Dispatch<React.SetStateAction<ReviewPostingUrlType[]>>;
+  setPostFileArr: React.Dispatch<React.SetStateAction<ReviewPostingFileType[]>>;
+  setBoardImgArr?: React.Dispatch<React.SetStateAction<ReviewPostingUrlType[]>>;
 }) {
-  const { setDeleteImgArr, setDeleteIdxArr, boardImgArr, postUrlArr } = props;
+  const { boardImgArr, postUrlArr, setPostUrlArr, setPostFileArr, setBoardImgArr } = props;
 
   const deleteImg = useCallback(
-    (img: string, idx?: number) => {
-      setDeleteImgArr((prev) => [...prev, img]);
-      if (idx !== undefined) setDeleteIdxArr((prev) => [...prev, idx]);
+    (id: number) => {
+      setPostUrlArr((prev) => prev.filter((elem) => elem['id'] !== id));
+      setPostFileArr((prev) => prev.filter((elem) => elem['id'] !== id));
+      if (boardImgArr) {
+        setBoardImgArr((prev) => prev.filter((elem) => elem['id'] !== id));
+      }
     },
-    [setDeleteIdxArr, setDeleteImgArr],
+    [boardImgArr, setBoardImgArr, setPostFileArr, setPostUrlArr],
   );
 
   return (
     <div className="review--preview_box--for_grid">
       {boardImgArr && boardImgArr.length
-        ? boardImgArr.map((img) => (
-            <div key={img} className="review--preview_box--preview_wrapper">
-              <img className="review--preview_box--preview" src={img} alt={img}></img>
+        ? boardImgArr.map((obj) => (
+            <div key={obj['id']} className="review--preview_box--preview_wrapper">
+              {obj['type'].slice(0, 5) === 'image' ? (
+                <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
+              ) : (
+                <video className="review--preview_box--preview" autoPlay loop muted>
+                  <source src={obj['url']} type={obj['type']}></source>
+                </video>
+              )}
               <img
                 className="review--preview_box--Xmark"
                 src={XmarkRd}
                 alt={XmarkRd}
-                onClick={() => deleteImg(img)}
+                onClick={() => deleteImg(obj['id'])}
               ></img>
             </div>
           ))
         : null}
       {postUrlArr && postUrlArr.length
-        ? postUrlArr.map((img, idx) => (
-            <div key={img} className="review--preview_box--preview_wrapper">
-              <img className="review--preview_box--preview" src={img} alt={img}></img>
+        ? postUrlArr.map((obj) => (
+            <div key={obj['id']} className="review--preview_box--preview_wrapper">
+              {obj['type'].slice(0, 5) === 'image' ? (
+                <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
+              ) : (
+                <video className="review--preview_box--preview" autoPlay loop muted>
+                  <source src={obj['url']} type={obj['type']}></source>
+                </video>
+              )}
               <img
                 className="review--preview_box--Xmark"
                 src={XmarkRd}
                 alt={XmarkRd}
-                onClick={() => deleteImg(img, idx)}
+                onClick={() => deleteImg(obj['id'])}
               ></img>
             </div>
           ))

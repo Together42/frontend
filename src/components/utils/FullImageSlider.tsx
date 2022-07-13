@@ -36,9 +36,13 @@ function FullImageSlider(props: {
           className="full_slider--slider"
           style={{ width: `${imageWidth * imageArr.length}px`, transform: `translateX(${trans}px)` }}
         >
-          {imageArr.map((image) => (
-            <img src={image['filePath']} alt={image['filePath']} />
-          ))}
+          {imageArr.map((image) =>
+            image['fileType'].slice(0, 5) === 'image' ? (
+              <img src={image['filePath']} alt={image['filePath']} />
+            ) : (
+              <video src={image['filePath']} autoPlay loop muted controls></video>
+            ),
+          )}
         </div>
         <div className="full_slider--wrapper">
           {trans && imageArr.length > 1 ? (

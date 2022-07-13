@@ -29,6 +29,7 @@ export interface imageType {
   imageId: number;
   boardId: number;
   filePath: string;
+  fileType: string;
 }
 
 export interface PostingType {
@@ -77,4 +78,16 @@ export interface ReviewSelectedTeamType {
 
 export interface ReviewSelectedEventType extends EventType {
   teamList: ReviewSelectedTeamType;
+}
+
+export interface ReviewPostingFileType {
+  id: number;
+  file: Blob;
+  type: string;
+}
+
+export interface ReviewPostingUrlType {
+  id: number;
+  url: string;
+  type: string;
 }
