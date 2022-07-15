@@ -104,7 +104,7 @@ function Result() {
         </div>
         {eventObj && eventObj.EventList && eventObj.EventList.length > 0 && (
           <div className="result--event_list">
-            {eventObj.EventList.map((e, i) => (
+            {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => (
               <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
                 <span id={e.id.toString()} onClick={onClickEvent}>
                   {e.title}
