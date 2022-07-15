@@ -121,7 +121,7 @@ $comment_input_width: 330px;
 
 .review--detail--full_comment {
   @include medium_kor;
-  white-space: pre;
+  white-space: pre-line;
 }
 
 .review--detail--post_comment--wrapper {
