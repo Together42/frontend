@@ -7,7 +7,7 @@ import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/function/getAddress';
 import { imageType, ReviewBoardType, ReviewPostingFileType, ReviewPostingUrlType } from '@globalObj/object/types';
-import UplaodBtn from '@utils/uploadBtn';
+import UplaodBtn from '@review/UploadBtn';
 import PreviewBox from './PreviewBox';
 import useSWR, { useSWRConfig } from 'swr';
 import fetcher from '@globalObj/function/fetcher';

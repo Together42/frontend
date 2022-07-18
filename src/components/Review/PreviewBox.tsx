@@ -51,7 +51,7 @@ function PreviewBox(props: {
                 <img className="review--preview_box--preview" src={obj['url']} alt={obj['url']}></img>
               ) : (
                 <video className="review--preview_box--preview" autoPlay loop muted>
-                  <source src={obj['url']} type={obj['type']}></source>
+                  <source src={obj['url']}></source>
                 </video>
               )}
               <img

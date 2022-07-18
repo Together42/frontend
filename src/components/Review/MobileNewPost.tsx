@@ -11,7 +11,7 @@ import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import defaultImg from '@img/uploadDefault.png';
-import UplaodBtn from '@utils/uploadBtn';
+import UplaodBtn from '@review/UploadBtn';
 import PreviewBox from './PreviewBox';
 import { useSWRConfig } from 'swr';
 import leftAngle from '@img/angle-left-solid.svg';
