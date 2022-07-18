@@ -70,7 +70,7 @@ $comment_input_width: 330px;
 
 .review--comment--mobile--full_comment {
   @include medium_kor;
-  white-space: pre;
+  white-space: pre-line;
 }
 
 .review--comment--mobile--lowerBox {
