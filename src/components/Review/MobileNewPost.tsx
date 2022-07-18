@@ -150,8 +150,10 @@ function MobileNewPost() {
   }, [closeModal, setSelectedTeam]);
 
   useEffect(() => {
-    if (deviceMode === 'desktop') navigate('/review');
-    setNewPostModalShow(true);
+    if (deviceMode === 'desktop') {
+      navigate('/review');
+      setNewPostModalShow(true);
+    }
   }, [deviceMode, navigate, setNewPostModalShow]);
 
   return deviceMode === 'mobile' ? (
