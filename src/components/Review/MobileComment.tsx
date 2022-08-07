@@ -14,6 +14,7 @@ import { useNavigate, useParams } from 'react-router';
 import leftAngle from '@img/angle-left-solid.svg';
 import DeviceMode from '@recoil/DeviceMode';
 import CommentModalShow from '@recoil/Review/CommentModalShow';
+import shuffle from '@globalObj/function/shuffleArr';
 
 function MobileComment() {
   const { id: boardId } = useParams();
@@ -24,6 +25,7 @@ function MobileComment() {
   const setModalShow = useSetRecoilState(CommentModalShow);
   const LoginState = useRecoilValue(GlobalLoginState);
   const [myComment, setMyComment] = useState('');
+  const [attendMems, setAttendMems] = useState<{ intraId: string; profile: string }[]>(null);
   const { data: boardObj, mutate: mutateBoard } = useSWR<ReviewBoardType>(
     `${getAddress()}/api/board/${Number(boardId)}`,
     fetcher,
@@ -76,6 +78,10 @@ function MobileComment() {
   }, [boardObj]);
 
   useEffect(() => {
+    if (boardObj) setAttendMems(shuffle(boardObj['attendMembers']));
+  }, [boardObj]);
+
+  useEffect(() => {
     if (deviceMode === 'desktop') {
       setModalShow((prev) => {
         return { ...prev, [boardId]: true };
@@ -100,6 +106,12 @@ function MobileComment() {
           <div className="review--comment--mobile--comment_wrapper">
             <span className="review--comment--mobile--writter">{boardObj['intraId']}</span>
             <span className="review--comment--mobile--full_comment">{boardObj['contents']}</span>
+          </div>
+          <div className="review--comment--mobile--attendee_wrapper">
+            <span className="review--comment--mobile--attendee">
+              {attendMems &&
+                attendMems.map((e) => (e.intraId !== boardObj['intraId'] ? <span>{`#${e.intraId} `}</span> : null))}
+            </span>
           </div>
           {boardObj['comments'] &&
             boardObj['comments'].map((e, i) => (

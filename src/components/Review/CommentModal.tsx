@@ -11,7 +11,6 @@ import { ReviewBoardType } from '@globalObj/object/types';
 import CommentBox from './CommentBox';
 import SliderBtnBox from './SliderBtnBox';
 import shuffle from '@globalObj/function/shuffleArr';
-import ImageWithIdBox from './ImageWithIdBox';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import CommentModalShow from '@recoil/Review/CommentModalShow';
@@ -105,20 +104,17 @@ function CommentModal(props: { boardId: number }) {
         <div className="review--detail--right_division">
           <div className="review--detail--header">
             <div className="review--detail--title">{boardObj['title']}</div>
-            <div className="review--detail--members">
-              {attendMems &&
-                attendMems.map(
-                  (e, i) =>
-                    i < 4 && (
-                      <ImageWithIdBox key={e['intraId']} mode="comment" profile={e['profile']} intraId={e['intraId']} />
-                    ),
-                )}
-            </div>
           </div>
           <div className="review--detail--detail_comments" ref={scrollRef}>
             <div className="review--detail--comment_wrapper">
               <span className="review--detail--writter">{boardObj['intraId']}</span>
               <span className="review--detail--full_comment">{boardObj['contents']}</span>
+            </div>
+            <div className="review--detail--attendee_wrapper">
+              <span className="review--detail--attendee">
+                {attendMems &&
+                  attendMems.map((e) => (e.intraId !== boardObj['intraId'] ? <span>{`#${e.intraId} `}</span> : null))}
+              </span>
             </div>
             {boardObj['comments'] &&
               boardObj['comments'].map((e, i) => (
