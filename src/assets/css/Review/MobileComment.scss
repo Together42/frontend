@@ -73,6 +73,16 @@ $comment_input_width: 330px;
   white-space: pre-line;
 }
 
+.review--comment--mobile--attendee_wrapper {
+  margin-bottom: 30px;
+}
+
+.review--comment--mobile--attendee {
+  @include medium_kor;
+  color: #2582ad;
+  white-space: pre-line;
+}
+
 .review--comment--mobile--lowerBox {
   background-color: white;
   display: flex;

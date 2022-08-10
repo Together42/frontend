@@ -90,14 +90,6 @@ $comment_input_width: 330px;
   padding-bottom: 7px;
 }
 
-.review--detail--members {
-  display: flex;
-  img {
-    width: 30px;
-    margin-left: 6px;
-  }
-}
-
 .review--detail--detail_comments {
   width: $right_devision_width;
   height: 290px;
@@ -110,7 +102,7 @@ $comment_input_width: 330px;
 }
 
 .review--detail--comment_wrapper {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .review--detail--writter {
@@ -121,6 +113,16 @@ $comment_input_width: 330px;
 
 .review--detail--full_comment {
   @include medium_kor;
+  white-space: pre-line;
+}
+
+.review--detail--attendee_wrapper {
+  margin-bottom: 30px;
+}
+
+.review--detail--attendee {
+  @include medium_kor;
+  color: #2582ad;
   white-space: pre-line;
 }
 
