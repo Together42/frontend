@@ -8,6 +8,7 @@ import { getToken } from '@cert/TokenStorage';
 import getAddress from '@globalObj/function/getAddress';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
+import { useNavigate } from 'react-router';
 
 function Result() {
   const [selectedEvent, setSelectedEvent] = useState<EventType>({
@@ -19,6 +20,7 @@ function Result() {
     isMatching: null,
   });
   const [teamLen, setTeamLen] = useState('');
+  const navigate = useNavigate();
   const { data: eventObj, mutate: mutateEvent } = useSWR<{ EventList: EventType[] }>(
     `${getAddress()}/api/together`,
     fetcher,
@@ -79,8 +81,10 @@ function Result() {
   const onSubmitMatching = (e: any) => {
     e.preventDefault();
     if (teamLen !== '' && getToken()) postMatching();
-    else if (!getToken()) alert('로그인 하셔야 사용 가능합니다');
-    else if (teamLen === '') alert('몇 명으로 매칭하실 건지 적어주세요');
+    else if (!getToken()) {
+      alert('로그인 하셔야 사용 가능합니다');
+      navigate('/auth');
+    } else if (teamLen === '') alert('몇 명으로 매칭하실 건지 적어주세요');
   };
 
   const onChangeInput = (e: any) => {

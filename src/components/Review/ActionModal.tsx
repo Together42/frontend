@@ -46,8 +46,11 @@ function ActionModal(props: {
           mutate(`${getAddress()}/api/board`);
         })
         .catch((err) => errorAlert(err));
-    } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [boardId, mutate, selectedEvent]);
+    } else {
+      alert('로그인을 하셔야 삭제 가능합니다');
+      navigate('/auth');
+    }
+  }, [boardId, mutate, navigate, selectedEvent]);
 
   const deleteComment = useCallback(() => {
     if (getToken()) {
@@ -62,8 +65,11 @@ function ActionModal(props: {
           mutate(`${getAddress()}/api/board/${boardId}`);
         })
         .catch((err) => errorAlert(err));
-    } else alert('로그인을 하셔야 삭제 가능합니다');
-  }, [boardId, commentId, mutate]);
+    } else {
+      alert('로그인을 하셔야 삭제 가능합니다');
+      navigate('/auth');
+    }
+  }, [boardId, commentId, mutate, navigate]);
 
   const onClickUpdate = () => {
     if (mode === 'post') {

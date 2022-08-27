@@ -108,7 +108,10 @@ function MobileEditPost() {
   const onSubmitPosting = () => {
     if (getToken()) {
       postEditPosting();
-    } else alert('로그인을 하셔야 포스팅 하실 수 있습니다');
+    } else {
+      alert('로그인을 하셔야 포스팅 하실 수 있습니다');
+      navigate('/auth');
+    }
   };
 
   const onClickUpload = (e: any) => {

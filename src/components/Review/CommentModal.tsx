@@ -56,8 +56,11 @@ function CommentModal(props: { boardId: number }) {
           setMyComment('');
         })
         .catch((err) => errorAlert(err));
-    } else alert('로그인을 해주셔야 댓글 달 수 있습니다');
-  }, [boardObj, mutateBoard, myComment]);
+    } else {
+      alert('로그인을 해주셔야 댓글 달 수 있습니다');
+      navigate('/auth');
+    }
+  }, [boardObj, mutateBoard, myComment, navigate]);
 
   const onChangeMyComment = (e: any) => {
     setMyComment(e.target.value);
@@ -66,7 +69,10 @@ function CommentModal(props: { boardId: number }) {
   const onSubmitMyComment = (e: any) => {
     e.preventDefault();
     if (LoginState['id'] !== '') postComment();
-    else alert('로그인을 하셔야 이용 가능합니다.');
+    else {
+      alert('로그인을 하셔야 이용 가능합니다.');
+      navigate('/auth');
+    }
   };
 
   const closeModal = useCallback(() => {
