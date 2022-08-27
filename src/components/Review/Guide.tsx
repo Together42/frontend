@@ -30,7 +30,10 @@ function Guide(props: Props) {
         setSelectedEvent(null);
         navigate('mobile/newpost');
       }
-    } else alert('로그인 후 이용해주세요');
+    } else {
+      alert('로그인 후 이용해주세요');
+      navigate('/auth');
+    }
   };
 
   const onClickSelectEvent = () => {

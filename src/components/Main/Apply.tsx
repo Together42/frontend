@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 import '@css/Main/Apply.scss';
 import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
@@ -15,6 +16,7 @@ import Event from './Event';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
+  const navigate = useNavigate();
   const [globalSelectedEvent, setGlobalSelectedEvent] = useRecoilState(SelectedEvent);
   const [createMode, setCreateMode] = useState(false);
   const ListWrapperRef = useRef(null);
@@ -50,9 +52,12 @@ function Apply() {
             mutateTeamList();
           })
           .catch((err) => errorAlert(err));
-      } else alert('로그인을 하셔야 신청 가능합니다!');
+      } else {
+        alert('로그인을 하셔야 신청 가능합니다!');
+        navigate('/auth');
+      }
     },
-    [mutateTeamList],
+    [mutateTeamList, navigate],
   );
 
   const onSubmitApply = (e: any) => {
@@ -64,7 +69,10 @@ function Apply() {
     if (getToken()) {
       setCreateMode(true);
       setGlobalSelectedEvent(null);
-    } else alert('로그인을 해주세요!');
+    } else {
+      alert('로그인을 하셔야 생성 가능합니다!');
+      navigate('/auth');
+    }
   };
 
   useEffect(() => {
