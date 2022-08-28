@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import '@css/Review/Guide.scss';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
-import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
-import SelectSomeModal from '@review/SelectSomeModal';
+import EventListModalShow from '@recoil/Review/SelectModalShow';
+import SelectSomeModal from '@review/SelectModal';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
 import DeviceMode from '@recoil/DeviceMode';
@@ -28,7 +28,8 @@ function Guide(props: Props) {
       if (deviceMode === 'desktop') setNewPostingModalShow(true);
       else if (deviceMode === 'mobile') {
         setSelectedEvent(null);
-        navigate('mobile/newpost');
+        setNewPostingModalShow(true);
+        // navigate('mobile/newpost');
       }
     } else {
       alert('로그인 후 이용해주세요');
