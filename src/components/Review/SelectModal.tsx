@@ -3,8 +3,8 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import Xmark from '@img/xmark-solid.svg';
 import { ReviewSelectedEventType, ReviewSelectedTeamType, teamMemInfo } from '@globalObj/object/types';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
-import '@css/Review/SelectSomeModal.scss';
-import EventListModalShow from '@recoil/Review/SelectSomeModalShow';
+import '@css/Review/SelectModal.scss';
+import EventListModalShow from '@recoil/Review/SelectModalShow';
 import glassImg from '@img/magnifying-glass-solid.svg';
 import plusImg from '@img/plus-solid.svg';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
@@ -14,7 +14,7 @@ import fetcher from '@globalObj/function/fetcher';
 import EmptyEvent from '@globalObj/object/EmptyEvent';
 import { getAuth } from '@cert/AuthStorage';
 
-function SelectSomeModal(prop: { mode: string }) {
+function SelectModal(prop: { mode: string }) {
   const { data: eventList, mutate: mutateAllEvent } = useSWR<ReviewSelectedEventType[]>(
     `${getAddress()}/api/together/matching`,
     fetcher,
@@ -191,4 +191,4 @@ function SelectSomeModal(prop: { mode: string }) {
   );
 }
 
-export default SelectSomeModal;
+export default SelectModal;

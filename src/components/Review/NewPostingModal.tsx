@@ -7,13 +7,13 @@ import TextareaAutosize from 'react-textarea-autosize';
 import DeviceMode from '@recoil/DeviceMode';
 import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
-import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
+import SelectModalShow from '@recoil/Review/SelectModalShow';
 import SelectedTeam from '@recoil/Review/SelectedTeam';
 import errorAlert from '@globalObj/function/errorAlert';
 import getAddress from '@globalObj/function/getAddress';
 import { ReviewPostingFileType, ReviewPostingUrlType } from '@usefulObj/types';
 import { getToken } from '@cert/TokenStorage';
-import SelectSomeModal from '@review/SelectSomeModal';
+import SelectSomeModal from '@review/SelectModal';
 import UplaodBtn from '@review/UploadBtn';
 import PreviewBox from '@review/PreviewBox';
 import '@css/Review/NewPost/Desktop.scss';
@@ -25,7 +25,7 @@ import Xmark from '@img/xmark-solid-white.svg';
 function NewPosting() {
   const navigate = useNavigate();
   const setNewPostModalShow = useSetRecoilState(NewPostingModalShow);
-  const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
+  const [selectSomeModalShow, setSelectModalShow] = useRecoilState(SelectModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
   const deviceMode = useRecoilValue(DeviceMode);
@@ -40,10 +40,10 @@ function NewPosting() {
   const EXTRA_CLASS_NAME = deviceMode === 'mobile' ? '--mobile' : '';
 
   const closeModal = useCallback(() => {
-    setSelectSomeModalShow(false);
+    setSelectModalShow(false);
     setNewPostModalShow(false);
     navigate('/review');
-  }, [navigate, setNewPostModalShow, setSelectSomeModalShow]);
+  }, [navigate, setNewPostModalShow, setSelectModalShow]);
 
   const postImage = useCallback(
     async (boardId: string) => {
@@ -95,14 +95,14 @@ function NewPosting() {
   const onClickEventModalOpen = () => {
     setIsAddMemBtnClicked(false);
     setIsEventBtnClicked(true);
-    setSelectSomeModalShow(true);
+    setSelectModalShow(true);
   };
 
   const onClickAddMemModalOpen = () => {
     if (selectedEvent) {
       setIsEventBtnClicked(false);
       setIsAddMemBtnClicked(true);
-      setSelectSomeModalShow(true);
+      setSelectModalShow(true);
     } else {
       alert('이벤트 선택을 먼저 해주세요');
     }
