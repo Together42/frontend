@@ -33,7 +33,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   }
 }
 
-.review--newposting-devision {
+.review--newposting--devision {
   background-color: white;
   z-index: 3;
   @include desktop {
@@ -43,7 +43,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   }
 }
 
-.review--newposting--left_division {
+.review--newposting--imageBox {
   position: relative;
   display: flex;
   align-items: center;
@@ -110,7 +110,7 @@ $right_devision_width: calc($total_width - $left_devision_width);
   text-align: center;
 }
 
-.review--newposting--right_division {
+.review--newposting--submitBox {
   padding: $margin_margin_medium;
   display: flex;
   flex-direction: column;

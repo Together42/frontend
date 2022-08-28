@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import '@css/Review/NewPostingModal.scss';
-import Xmark from '@img/xmark-solid-white.svg';
+import '@css/Review/NewPost/Desktop.scss';
+import '@css/Review/NewPost/Mobile.scss';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import TextareaAutosize from 'react-textarea-autosize';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
 import SelectedEvent from '@recoil/Review/SelectedEvent';
-import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
 import SelectSomeModal from '@review/SelectSomeModal';
 import SelectSomeModalShow from '@recoil/Review/SelectSomeModalShow';
 import getAddress from '@globalObj/function/getAddress';
@@ -17,11 +16,13 @@ import UplaodBtn from '@review/UploadBtn';
 import PreviewBox from './PreviewBox';
 import { useSWRConfig } from 'swr';
 import leftAngle from '@img/angle-left-solid.svg';
+import { useNavigate } from 'react-router';
 import { ReviewPostingFileType, ReviewPostingUrlType } from '@usefulObj/types';
 import DeviceMode from '@recoil/DeviceMode';
-import { useNavigate } from 'react-router';
+import NewPostingModalShow from '@recoil/Review/NewPostingModalShow';
+import Xmark from '@img/xmark-solid-white.svg';
 
-function NewPostingModal() {
+function NewPosting() {
   const navigate = useNavigate();
   const setNewPostModalShow = useSetRecoilState(NewPostingModalShow);
   const [selectSomeModalShow, setSelectSomeModalShow] = useRecoilState(SelectSomeModalShow);
@@ -34,13 +35,15 @@ function NewPostingModal() {
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [postFileArr, setPostFileArr] = useState<ReviewPostingFileType[]>([]);
   const [postUrlArr, setPostUrlArr] = useState<ReviewPostingUrlType[]>([]);
+  const [extraClassName, setExtraClassName] = useState(deviceMode === 'mobile' ? '--mobile' : '');
   const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
   const { mutate } = useSWRConfig();
 
   const closeModal = useCallback(() => {
-    setNewPostModalShow(false);
     setSelectSomeModalShow(false);
-  }, [setNewPostModalShow, setSelectSomeModalShow]);
+    setNewPostModalShow(false);
+    navigate('/review');
+  }, [navigate, setNewPostModalShow, setSelectSomeModalShow]);
 
   const postImage = useCallback(
     async (boardId: string) => {
@@ -92,14 +95,14 @@ function NewPostingModal() {
   const onClickEventModalOpen = () => {
     setIsAddMemBtnClicked(false);
     setIsEventBtnClicked(true);
-    setSelectSomeModalShow((prev) => !prev);
+    setSelectSomeModalShow(true);
   };
 
   const onClickAddMemModalOpen = () => {
     if (selectedEvent) {
       setIsEventBtnClicked(false);
       setIsAddMemBtnClicked(true);
-      setSelectSomeModalShow((prev) => !prev);
+      setSelectSomeModalShow(true);
     } else {
       alert('이벤트 선택을 먼저 해주세요');
     }
@@ -154,33 +157,49 @@ function NewPostingModal() {
   }, [closeModal, setSelectedTeam]);
 
   useEffect(() => {
-    if (deviceMode === 'mobile') navigate('/review/mobile/newpost');
-  }, [deviceMode, navigate]);
+    if (deviceMode === 'desktop') {
+      setExtraClassName('');
+      navigate('/review');
+      setNewPostModalShow(true);
+    } else if (deviceMode === 'mobile') {
+      setExtraClassName('--mobile');
+      navigate('/review/mobile/newpost');
+    }
+  }, [deviceMode, navigate, setNewPostModalShow]);
 
   return (
-    <div className="review--newposting--background" onClick={() => closeModal()}>
-      <img className="review--newposting--xmark" src={Xmark} alt={Xmark} onClick={() => closeModal()} />
-      <div className="review--newposting-devision" onClick={(e) => e.stopPropagation()}>
-        <div className="review--newposting--mobile_header">
+    <div
+      className={`review--newposting${extraClassName}--background`}
+      onClick={deviceMode === 'desktop' ? () => closeModal() : null}
+    >
+      {deviceMode === 'desktop' ? (
+        <img className="review--newposting--xmark" src={Xmark} alt={Xmark} onClick={() => closeModal()} />
+      ) : null}
+      <div className={`review--newposting${extraClassName}--devision`} onClick={(e) => e.stopPropagation()}>
+        <div className={`review--newposting${extraClassName}--mobile_header`}>
           <img
-            className="review--newposting--left_angle"
+            className={`review--newposting${extraClassName}--left_angle`}
             src={leftAngle}
             alt={leftAngle}
             onClick={() => closeModal()}
           ></img>
         </div>
-        <div className="review--newposting--left_division">
+        <div className={`review--newposting${extraClassName}--imageBox`}>
           {!postUrlArr.length ? (
-            <div className="review--newposting--add_files">
-              <img className="review--newposting--add_file--upload_img" src={defaultImg} alt={defaultImg} />
+            <div className={`review--newposting${extraClassName}--add_files`}>
+              <img
+                className={`review--newposting${extraClassName}--add_file--upload_img`}
+                src={defaultImg}
+                alt={defaultImg}
+              />
               <p>이미지를 업로드 해주세용!</p>
               <UplaodBtn innerText="업로드" onClickFunc={onClickUpload} />
             </div>
           ) : (
             <>
-              <div className="review--newposting--added_files">
-                <div className="review--newposting--add_files--submitted_wrapper">
-                  <div className="review--newposting--add_files--submitted_title">Uploads</div>
+              <div className={`review--newposting${extraClassName}--added_files`}>
+                <div className={`review--newposting${extraClassName}--add_files--submitted_wrapper`}>
+                  <div className={`review--newposting${extraClassName}--add_files--submitted_title`}>Uploads</div>
                   <PreviewBox postUrlArr={postUrlArr} setPostFileArr={setPostFileArr} setPostUrlArr={setPostUrlArr} />
                 </div>
                 <UplaodBtn innerText="추가 업로드" onClickFunc={onClickUpload} />
@@ -188,31 +207,31 @@ function NewPostingModal() {
             </>
           )}
         </div>
-        <div className="review--newposting--right_division">
-          <div className="review--newposting--header">
+        <div className={`review--newposting${extraClassName}--submitBox`}>
+          <div className={`review--newposting${extraClassName}--header`}>
             <input
-              className="review--newposting--header--title"
+              className={`review--newposting${extraClassName}--header--title`}
               placeholder="제목 입력"
               onFocus={(e) => (e.target.placeholder = '')}
               onBlur={(e) => (e.target.placeholder = '제목 입력')}
               value={title}
               onChange={onChangeTitle}
             />
-            <div className="review--newposting--header--selectorWrapper">
-              <div className="review--newposting--header--eventSelector">
+            <div className={`review--newposting${extraClassName}--header--selectorWrapper`}>
+              <div className={`review--newposting${extraClassName}--header--eventSelector`}>
                 <span onClick={onClickEventModalOpen}>{isEventMode ? '이벤트 찾기' : '팀원 찾기'}</span>
                 {isEventBtnClicked &&
                   selectSomeModalShow &&
                   (isEventMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
               </div>
-              <div className="review--newposting--header--addTeamMem">
+              <div className={`review--newposting${extraClassName}--header--addTeamMem`}>
                 <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
                 {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
               </div>
             </div>
           </div>
           {(selectedEvent || selectedTeam) && (
-            <div className="review--newposting--selectedInfo">
+            <div className={`review--newposting${extraClassName}--selectedInfo`}>
               {selectedEvent && (
                 <>
                   <span>이벤트 </span>
@@ -233,16 +252,16 @@ function NewPostingModal() {
               )}
             </div>
           )}
-          <div className="review--newposting--newposting_wrapper">
+          <div className={`review--newposting${extraClassName}--newposting_wrapper`}>
             <TextareaAutosize
-              className="review--newposting--newposting"
+              className={`review--newposting${extraClassName}--newposting`}
               minRows={10}
               placeholder="글을 작성해주세요"
               value={content}
               onChange={onChangeContent}
             />
-            <div className="review--newposting--button--forFlex">
-              <button className="review--newposting--button" onClick={onSubmitPosting}>
+            <div className={`review--newposting${extraClassName}--button--forFlex`}>
+              <button className={`review--newposting${extraClassName}--button`} onClick={onSubmitPosting}>
                 <span>게시</span>
               </button>
             </div>
@@ -253,4 +272,4 @@ function NewPostingModal() {
   );
 }
 
-export default NewPostingModal;
+export default NewPosting;

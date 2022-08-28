@@ -28,7 +28,8 @@ function Guide(props: Props) {
       if (deviceMode === 'desktop') setNewPostingModalShow(true);
       else if (deviceMode === 'mobile') {
         setSelectedEvent(null);
-        navigate('mobile/newpost');
+        setNewPostingModalShow(true);
+        // navigate('mobile/newpost');
       }
     } else {
       alert('로그인 후 이용해주세요');
