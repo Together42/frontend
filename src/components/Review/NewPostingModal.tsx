@@ -25,17 +25,17 @@ import Xmark from '@img/xmark-solid-white.svg';
 function NewPosting() {
   const navigate = useNavigate();
   const setNewPostModalShow = useSetRecoilState(NewPostingModalShow);
-  const [selectSomeModalShow, setSelectModalShow] = useRecoilState(SelectModalShow);
+  const [selectModalShow, setSelectModalShow] = useRecoilState(SelectModalShow);
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const [selectedTeam, setSelectedTeam] = useRecoilState(SelectedTeam);
   const deviceMode = useRecoilValue(DeviceMode);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [reviewTitle, setReviewTitle] = useState('');
+  const [reviewContent, setContent] = useState('');
   const [isEventBtnClicked, setIsEventBtnClicked] = useState(false);
   const [isAddMemBtnClicked, setIsAddMemBtnClicked] = useState(false);
   const [postFileArr, setPostFileArr] = useState<ReviewPostingFileType[]>([]);
   const [postUrlArr, setPostUrlArr] = useState<ReviewPostingUrlType[]>([]);
-  const isEventMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
+  const eventSelectMode = (selectedEvent && selectedTeam) || (!selectedEvent && !selectedTeam);
   const { mutate } = useSWRConfig();
   const EXTRA_CLASS_NAME = deviceMode === 'mobile' ? '--mobile' : '';
 
@@ -64,8 +64,8 @@ function NewPosting() {
           `${getAddress()}/api/board`,
           {
             eventId: selectedEvent['id'],
-            title,
-            contents: content,
+            title: reviewTitle,
+            contents: reviewContent,
             attendMembers: Object.values(selectedTeam)[0],
           },
           {
@@ -86,10 +86,10 @@ function NewPosting() {
         .catch((err) => errorAlert(err));
     } else if (!selectedEvent) alert('이벤트를 선택해 주세요');
     else if (!selectedTeam) alert('팀을 선택해 주세요');
-  }, [closeModal, content, mutate, postImage, selectedEvent, selectedTeam, setSelectedEvent, title]);
+  }, [closeModal, reviewContent, mutate, postImage, selectedEvent, selectedTeam, setSelectedEvent, reviewTitle]);
 
   const onChangeTitle = (e: any) => {
-    setTitle(e.target.value);
+    setReviewTitle(e.target.value);
   };
 
   const onClickEventModalOpen = () => {
@@ -143,11 +143,11 @@ function NewPosting() {
   };
 
   useEffect(() => {
-    if (!selectSomeModalShow) {
+    if (!selectModalShow) {
       setIsAddMemBtnClicked(false);
       setIsEventBtnClicked(false);
     }
-  }, [selectSomeModalShow]);
+  }, [selectModalShow]);
 
   useEffect(() => {
     return () => {
@@ -212,19 +212,19 @@ function NewPosting() {
               placeholder="제목 입력"
               onFocus={(e) => (e.target.placeholder = '')}
               onBlur={(e) => (e.target.placeholder = '제목 입력')}
-              value={title}
+              value={reviewTitle}
               onChange={onChangeTitle}
             />
             <div className={`review--newposting${EXTRA_CLASS_NAME}--header--selectorWrapper`}>
               <div className={`review--newposting${EXTRA_CLASS_NAME}--header--eventSelector`}>
-                <span onClick={onClickEventModalOpen}>{isEventMode ? '이벤트 찾기' : '팀원 찾기'}</span>
+                <span onClick={onClickEventModalOpen}>{eventSelectMode ? '이벤트 찾기' : '팀원 찾기'}</span>
                 {isEventBtnClicked &&
-                  selectSomeModalShow &&
-                  (isEventMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
+                  selectModalShow &&
+                  (eventSelectMode ? <SelectSomeModal mode="modal_event" /> : <SelectSomeModal mode="modal_team" />)}
               </div>
               <div className={`review--newposting${EXTRA_CLASS_NAME}--header--addTeamMem`}>
                 <span onClick={onClickAddMemModalOpen}>팀원 추가</span>
-                {isAddMemBtnClicked && selectSomeModalShow && <SelectSomeModal mode="modal_addMem" />}
+                {isAddMemBtnClicked && selectModalShow && <SelectSomeModal mode="modal_addMem" />}
               </div>
             </div>
           </div>
@@ -255,7 +255,7 @@ function NewPosting() {
               className={`review--newposting${EXTRA_CLASS_NAME}--newposting`}
               minRows={10}
               placeholder="글을 작성해주세요"
-              value={content}
+              value={reviewContent}
               onChange={onChangeContent}
             />
             <div className={`review--newposting${EXTRA_CLASS_NAME}--button--forFlex`}>
