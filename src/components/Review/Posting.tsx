@@ -58,7 +58,10 @@ function Posting(props: Props) {
         </div>
         <SliderBtnBox imageArr={images} />
         <div className="review--posting--comments">
-          <p className="review--posting--content">{contents}</p>
+          <p className="review--posting--content">
+            <span className="bold black">{`${intraId} `}</span>
+            <span>{contents}</span>
+          </p>
           <p className="review--posting--commentLength" onClick={onClickMoreButton}>
             {commentNum ? `댓글 ${commentNum}개 모두 보기` : '댓글이 없습니다..'}
           </p>

@@ -5,6 +5,7 @@ import axios from 'axios';
 import React, { useCallback, useState } from 'react';
 import '@css/Main/CreateEventBox.scss';
 import { useSWRConfig } from 'swr';
+import { useNavigate } from 'react-router';
 
 interface Props {
   setCreateMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ interface Props {
 
 function CreateEventBox(props: Props) {
   const { setCreateMode, registerEvent } = props;
+  const navigate = useNavigate();
   const [createTitle, setCreateTitle] = useState('');
   const [createDescription, setCreateDescription] = useState('');
   const { mutate } = useSWRConfig();
@@ -43,8 +45,9 @@ function CreateEventBox(props: Props) {
         .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 하셔야 생성 가능합니다!');
+      navigate('/auth');
     }
-  }, [createDescription, createTitle, mutate, registerEvent, setCreateMode]);
+  }, [createDescription, createTitle, mutate, navigate, registerEvent, setCreateMode]);
 
   const onSubmitCreate = (e: any) => {
     e.preventDefault();

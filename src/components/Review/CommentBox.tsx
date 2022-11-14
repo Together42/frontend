@@ -8,6 +8,7 @@ import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
 import errorAlert from '@globalObj/function/errorAlert';
 import { useSWRConfig } from 'swr';
+import { useNavigate } from 'react-router';
 
 function CommentBox(props: { intraId: string; comments: string; commentId: number; boardId: number }) {
   const { intraId, comments, commentId, boardId } = props;
@@ -16,6 +17,7 @@ function CommentBox(props: { intraId: string; comments: string; commentId: numbe
   const [myComment, setMyComment] = useState<string>(comments);
   const [commentMode, setCommentMode] = useState<string>('default');
   const { mutate } = useSWRConfig();
+  const navigate = useNavigate();
 
   const editComment = useCallback(() => {
     if (getToken()) {
@@ -37,8 +39,11 @@ function CommentBox(props: { intraId: string; comments: string; commentId: numbe
           setMyComment(comments);
         })
         .catch((err) => errorAlert(err));
-    } else alert('로그인을 하셔야 댓글 수정이 가능합니다');
-  }, [boardId, commentId, comments, mutate, myComment]);
+    } else {
+      alert('로그인을 하셔야 댓글 수정이 가능합니다');
+      navigate('/auth');
+    }
+  }, [boardId, commentId, comments, mutate, myComment, navigate]);
 
   const onKeydownComment = useCallback(
     (e) => {
