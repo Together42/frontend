@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/" element={<Main />} />
         <Route path="/result" element={<Result />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/review/*" element={<Review />} />
+        {/*<Route path="/review/*" element={<Review />} />*/}
       </Routes>
     </Router>
   );
