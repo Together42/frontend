@@ -11,7 +11,7 @@ export const Home = () => {
         2022년 집현전 활동 내역을 확인해보세요!
         <img className="timeline--title-img" src={brush} />
       </div>
-      <div style={{ width: '750px', height: '800px' }}>
+      <div className="timeline--chrono" style={{}}>
         <Chrono
           items={timelineData}
           scrollable={{ scrollbar: true }}

@@ -1,10 +1,23 @@
 @import '@css/fonts.scss';
+@import '@css/useful.scss';
 
 .timeline--wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.timeline--chrono {
+  @include desktop {
+    width: 750;
+    height: 800;
+  }
+  @include mobile {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .timeline--title-img {

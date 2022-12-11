@@ -30,6 +30,16 @@ function MobileNavber() {
     setModalOpen((prev) => !prev);
   };
 
+  const onClickAuthTimeline = () => {
+    setModalOpen((prev) => !prev);
+    if (getToken()) {
+      navigate('/2022-timeline');
+    } else {
+      alert('로그인을 먼저 해주세요!');
+      navigate('/auth');
+    }
+  };
+
   const onClickAuthReview = () => {
     setModalOpen((prev) => !prev);
     if (getToken()) {
@@ -57,6 +67,7 @@ function MobileNavber() {
             이벤트매칭
           </Link>
           <span onClick={onClickAuthReview}>친스타그램</span>
+          <span onClick={onClickAuthTimeline}>집현전실록</span>
           {getToken() ? (
             <span onClick={onClickLogOut}>로그아웃</span>
           ) : (
