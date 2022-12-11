@@ -1,0 +1,13 @@
+@import '@css/fonts.scss';
+
+.timeline--wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeline--title {
+  font-family: $kor_font_regular;
+  padding: 10;
+}

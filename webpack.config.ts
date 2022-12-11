@@ -18,6 +18,7 @@ const config = {
       '@result': path.resolve(__dirname, 'src/components/Result'),
       '@auth': path.resolve(__dirname, 'src/components/Auth'),
       '@review': path.resolve(__dirname, 'src/components/Review'),
+      '@timeline': path.resolve(__dirname, 'src/components/Timeline'),
       '@utils': path.resolve(__dirname, 'src/components/utils'),
       '@recoil': path.resolve(__dirname, 'src/recoil'),
       '@img': path.resolve(__dirname, 'src/assets/img'),
