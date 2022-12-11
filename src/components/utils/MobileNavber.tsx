@@ -30,6 +30,16 @@ function MobileNavber() {
     setModalOpen((prev) => !prev);
   };
 
+  const onClickAuthReview = () => {
+    setModalOpen((prev) => !prev);
+    if (getToken()) {
+      navigate('/review/*');
+    } else {
+      alert('로그인을 먼저 해주세요!');
+      navigate('/auth');
+    }
+  };
+
   return (
     <div className="navbar--mobile--wrapper">
       <div className="navbar--mobile--title">
@@ -46,9 +56,7 @@ function MobileNavber() {
           <Link to={`/Result`} onClick={onClickModalShow}>
             이벤트매칭
           </Link>
-          <Link to={`/review`} onClick={onClickModalShow}>
-            친스타그램
-          </Link>
+          <span onClick={onClickAuthReview}>친스타그램</span>
           {getToken() ? (
             <span onClick={onClickLogOut}>로그아웃</span>
           ) : (
