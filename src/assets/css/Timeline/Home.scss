@@ -7,7 +7,15 @@
   align-items: center;
 }
 
+.timeline--title-img {
+  width: 1rem;
+  height: 0.9rem;
+  margin-left: 2.2;
+  padding-top: 2;
+}
+
 .timeline--title {
   font-family: $kor_font_regular;
   padding: 10;
+  margin-bottom: 30;
 }
