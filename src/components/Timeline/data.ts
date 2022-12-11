@@ -21,6 +21,9 @@ import newbook from '@img/timeline/7월/newbook.jpg';
 import achievement from '@img/timeline/7월/achievement.png';
 import jip from '@img/timeline/7월/jip.png';
 import third from '@img/timeline/8월/third.jpg';
+import broken from '@img/timeline/8월/broken.jpg';
+import eightot from '@img/timeline/11월/eightot.jpg';
+import imsi from '@img/timeline/12월/imsi.jpg';
 
 export default [
   {
@@ -294,23 +297,52 @@ export default [
     cardSubtitle:
       '새로 온 책들 정리 작업 중 책장 유리가 파손되는 사건이 발생했습니다. 아쉽게도 빨리 고쳐지지 않아 책들을 장기간 바닥에 두고 운영을 했답니다..  ',
     media: {
-      name: 'newbook',
+      name: 'broken',
       source: {
-        url: newbook,
+        url: broken,
       },
       type: 'IMAGE',
     },
   },
   {
-    title: '09',
+    title: '09 ~ 10',
   },
   {
-    title: '10',
+    cardTitle: '[closed]',
+    cardSubtitle:
+      '책장 이슈로 플리마켓이 되어버린 집현전.... 앗... 8기 피신으로 집현전이 1달간 닫히게 되었습니다. 11월에 다시 만나요!',
   },
   {
     title: '11',
   },
   {
+    cardTitle: '8기 오티 홍보!',
+    cardSubtitle: '비실용적 독서 모임에서 집현전 홍보도 겸해주셨답니다 감사합니다👍',
+    media: {
+      name: 'eightot',
+      source: {
+        url: eightot,
+      },
+      type: 'IMAGE',
+    },
+  },
+  {
     title: '12',
+  },
+  {
+    cardTitle: '임시 집현전 운영',
+    cardSubtitle:
+      '집현전 공간이 2층으로 이동합니다. 그동안 좋은 추억 많이 쌓였었던 기존 집현전 공간이 아쉽지만 2층에 예쁘게 공간이 마련되었으면 좋겠습니다. 공간 마련되기 전까지 임시 운영 진행중~',
+    media: {
+      name: 'imsi',
+      source: {
+        url: imsi,
+      },
+      type: 'IMAGE',
+    },
+  },
+  {
+    cardTitle: '2022 INOCON',
+    cardSubtitle: '우수동아리로 상을 받게된 집현전! 이노콘에서 전시 부스도 진행합니다',
   },
 ] as TimelineItemModel[];
