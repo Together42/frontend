@@ -8,22 +8,26 @@ export const Home = () => {
   return (
     <div className="timeline--wrapper">
       <div className="timeline--title">
-        2022 집현전 실록
+        2022년 집현전 활동 내역을 확인해보세요!
         <img className="timeline--title-img" src={brush} />
       </div>
       <div style={{ width: '750px', height: '800px' }}>
         <Chrono
           items={timelineData}
           scrollable={{ scrollbar: true }}
+          slideShow
+          slideItemDuration={2000}
+          allowDynamicUpdate={true}
           theme={{
             primary: 'black',
             secondary: 'black',
             cardBgColor: 'white',
             cardForeColor: 'black',
-            titleColor: 'white',
+            titleColor: 'black',
             titleColorActive: 'white',
           }}
-        />
+          fontSizes={{ cardSubtitle: '0.85rem', cardText: '0.8rem', cardTitle: '1rem', title: '1.3rem' }}
+        ></Chrono>
       </div>
     </div>
   );

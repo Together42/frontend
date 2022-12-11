@@ -27,9 +27,7 @@ import imsi from '@img/timeline/12월/imsi.jpg';
 
 export default [
   {
-    title: '2021.12 ~ 01',
-  },
-  {
+    title: 'DEC. 21 ~ JAN',
     cardTitle: '신입 사서가 들어왔어요!',
     cardSubtitle:
       '5기(+4기) 사서들이 들어왔습니다! 하지만 코로나 이슈로 클러스터가 닫혀서 정기회의는 게더타운으로 진행했어요🥲',
@@ -54,7 +52,7 @@ export default [
   },
   {
     cardTitle: '열심히 라벨을 부착하는 중',
-    cardSubtitle: '라벨링은 생각보다 손이 많이 가는 작업입니다ㅎㅎ',
+    cardSubtitle: '라벨링은 생각보다 손이 많이 가는 작업입니다',
     media: {
       name: '라벨링 작업',
       source: {
@@ -87,9 +85,7 @@ export default [
     },
   },
   {
-    title: '02',
-  },
-  {
+    title: 'FEB',
     cardTitle: '카테고리 명판까지 붙은 예쁜 집현전의 모습',
     cardSubtitle: '도서 정리 작업 후 정돈된 예쁜 집현전',
     media: {
@@ -121,9 +117,7 @@ export default [
     },
   },
   {
-    title: '03',
-  },
-  {
+    title: 'MAR',
     cardTitle: '6기 오티',
     cardSubtitle: '6기 오리엔테이션에 참석했습니다 !',
     media: {
@@ -146,9 +140,7 @@ export default [
     },
   },
   {
-    title: '04',
-  },
-  {
+    title: 'APR',
     cardTitle: '1회차 사서의 날',
     cardSubtitle: '4/5 서울숲에서 체육대회를 진행했어요! 행사 진행하신 tkim님과 오락부 여러분 수고하셨습니다!!',
     media: {
@@ -171,9 +163,7 @@ export default [
     },
   },
   {
-    title: '05',
-  },
-  {
+    title: 'MAY',
     cardTitle: '집현전 이모티콘 등록!',
     cardSubtitle: 'jwoo님께 박수 짝짝',
     media: {
@@ -195,9 +185,7 @@ export default [
     },
   },
   {
-    title: '06',
-  },
-  {
+    title: 'JUN',
     cardTitle: '2회차 사서의 날',
     cardSubtitle: '6/20 이대 파티룸에서 진행된 2차 사서의 날! 진행하신 tkim, hyojekim 수고하셨습니다!!',
     media: {
@@ -209,7 +197,7 @@ export default [
     },
   },
   {
-    cardTitle: '친스타그램이 생겼어요',
+    cardTitle: '친스타그램이 생겼어요🎵',
     cardSubtitle: '우리 사진, 동영상들이 추억이 되게 기록으로 남겨봐요',
     media: {
       name: 'chinsta',
@@ -231,9 +219,7 @@ export default [
     },
   },
   {
-    title: '07',
-  },
-  {
+    title: 'JUL',
     cardTitle: '7기 오티에 참여했습니다',
     cardSubtitle: '신입 사서분들을 환영합니다❣️',
     media: {
@@ -245,7 +231,7 @@ export default [
     },
   },
   {
-    cardTitle: '📚 집현전 웹사이트 오픈',
+    cardTitle: '📚 집현전 웹사이트 오픈 📚',
     cardSubtitle: '에어테이블에서 벗어나 집현전 웹사이트가 오픈을 했습니다. 개발팀분들 정말 수고 많으셨습니다!!',
     media: {
       name: 'website',
@@ -278,9 +264,7 @@ export default [
     },
   },
   {
-    title: '08',
-  },
-  {
+    title: 'AUG',
     cardTitle: '3회차 사서의 날',
     cardSubtitle:
       '8/20 신촌 파티룸에서 3회차 사서의 날 진행했습니다. 진행에 힘써주신 jaekim, kyungsle 수고하셨습니다!! ',
@@ -305,17 +289,13 @@ export default [
     },
   },
   {
-    title: '09 ~ 10',
-  },
-  {
+    title: 'SEP~OCT',
     cardTitle: '[closed]',
     cardSubtitle:
-      '책장 이슈로 플리마켓이 되어버린 집현전.... 앗... 8기 피신으로 집현전이 1달간 닫히게 되었습니다. 11월에 다시 만나요!',
+      '책장 이슈로 플리마켓이 되어버린 집현전.... 앗... 8기 피신으로 집현전이 1달 반동안 닫히게 되었습니다. 11월에 다시 만나요!',
   },
   {
-    title: '11',
-  },
-  {
+    title: 'NOV',
     cardTitle: '8기 오티 홍보!',
     cardSubtitle: '비실용적 독서 모임에서 집현전 홍보도 겸해주셨답니다 감사합니다👍',
     media: {
@@ -327,9 +307,7 @@ export default [
     },
   },
   {
-    title: '12',
-  },
-  {
+    title: 'DEC',
     cardTitle: '임시 집현전 운영',
     cardSubtitle:
       '집현전 공간이 2층으로 이동합니다. 그동안 좋은 추억 많이 쌓였었던 기존 집현전 공간이 아쉽지만 2층에 예쁘게 공간이 마련되었으면 좋겠습니다. 공간 마련되기 전까지 임시 운영 진행중~',
@@ -342,7 +320,7 @@ export default [
     },
   },
   {
-    cardTitle: '2022 INOCON',
+    cardTitle: '2022 INNO-CON',
     cardSubtitle: '우수동아리로 상을 받게된 집현전! 이노콘에서 전시 부스도 진행합니다',
   },
 ] as TimelineItemModel[];
