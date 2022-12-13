@@ -43,7 +43,7 @@ function MobileNavber() {
   const onClickAuthReview = () => {
     setModalOpen((prev) => !prev);
     if (getToken()) {
-      navigate('/review/*');
+      navigate('/review/');
     } else {
       alert('로그인을 먼저 해주세요!');
       navigate('/auth');
