@@ -34,7 +34,7 @@ export default [
     cardTitle: '단체샷!',
     cardSubtitle: '이 날 날씨가 너무 좋았는데 다들 기억나시나요~?',
   },
-  { title: 'MAY', cardTitle: '집현전 이모티콘 등록!', cardSubtitle: 'jwoo님께 박수 짝짝' },
+  { title: 'MAY', cardTitle: '집현전 이모티콘 등록!', cardSubtitle: 'jwoo님께 박수 짝짝👏' },
   { cardTitle: '친바 사이트가 배포되었습니다❤️' },
   {
     title: 'JUN',

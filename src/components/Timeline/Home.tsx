@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Chrono } from 'react-chrono';
-import timelineData from './data';
 import '@css/Timeline/Home.scss';
-import brush from '@img/timeline/paint-brush.png';
+import brush from '@img/paint-brush.png';
 import items from './items';
 import axios from 'axios';
 
@@ -11,8 +10,8 @@ export const Home = () => {
 
   const getImg = () => {
     axios
-      .get('https://yts.mx/api/v2/list_movies.json?page=1&sort_by=rating')
-      .then((res) => res.data.data.movies)
+      .get('https://dev.together.42jip.net/api/timeline/')
+      .then((res) => res.data.img)
       .then((res2) => setImgArr(res2))
       .catch((err) => console.log(err));
   };
@@ -47,7 +46,7 @@ export const Home = () => {
           {ImgArr
             ? ImgArr.map((elem) => (
                 <div>
-                  <img src={elem['medium_cover_image']} alt={elem['medium_cover_image']}></img>
+                  <img src={elem['url']} alt={elem['url']} width={290} height={245}></img>
                 </div>
               ))
             : null}
