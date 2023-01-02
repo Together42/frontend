@@ -10,8 +10,8 @@
 
 .timeline--chrono {
   @include desktop {
-    width: 750;
-    height: 800;
+    width: 750px;
+    height: 800px;
   }
   @include mobile {
     width: 100%;
@@ -23,12 +23,12 @@
 .timeline--title-img {
   width: 1rem;
   height: 0.9rem;
-  margin-left: 2.2;
-  padding-top: 2;
+  margin-left: 2.2px;
+  padding-top: 2px;
 }
 
 .timeline--title {
   font-family: $kor_font_regular;
-  padding: 10;
-  margin-bottom: 30;
+  padding: 10px;
+  margin-bottom: 30px;
 }

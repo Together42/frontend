@@ -4,13 +4,14 @@ import '@css/Timeline/Home.scss';
 import brush from '@img/paint-brush.png';
 import items from './items';
 import axios from 'axios';
+import getAddress from '@globalObj/function/getAddress';
 
 export const Home = () => {
   const [ImgArr, setImgArr] = useState(null);
 
   const getImg = () => {
     axios
-      .get('https://dev.together.42jip.net/api/timeline/')
+      .get(`${getAddress()}/api/timeline`)
       .then((res) => res.data.img)
       .then((res2) => setImgArr(res2))
       .catch((err) => console.log(err));
