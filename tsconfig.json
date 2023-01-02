@@ -2,10 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "sourceMap": true,
-    "lib": [
-      "ES2020",
-      "DOM"
-    ],
+    "lib": ["ES2020", "DOM"],
     "jsx": "react",
     "module": "esnext",
     "moduleResolution": "node",
@@ -14,42 +11,19 @@
     "baseUrl": ".",
     "allowJs": true,
     "paths": {
-      "@main/*": [
-        "src/components/Main/*"
-      ],
-      "@result/*": [
-        "src/components/Result/*"
-      ],
-      "@auth/*": [
-        "src/components/Auth/*"
-      ],
-      "@review/*": [
-        "src/components/Review/*"
-      ],
-      "@utils/*": [
-        "src/components/utils/*"
-      ],
-      "@recoil/*": [
-        "src/recoil/*"
-      ],
-      "@img/*": [
-        "src/assets/img/*"
-      ],
-      "@css/*": [
-        "src/assets/css/*"
-      ],
-      "@usefulObj/*": [
-        "src/globalObj/object/*"
-      ],
-      "@types": [
-        "src/globalObj/object/types"
-      ],
-      "@cert/*": [
-        "src/cert/*"
-      ],
-      "@globalObj/*": [
-        "src/globalObj/*"
-      ]
+      "@main/*": ["src/components/Main/*"],
+      "@result/*": ["src/components/Result/*"],
+      "@auth/*": ["src/components/Auth/*"],
+      "@review/*": ["src/components/Review/*"],
+      "@timeline/*": ["src/components/Timeline/*"],
+      "@utils/*": ["src/components/utils/*"],
+      "@recoil/*": ["src/recoil/*"],
+      "@img/*": ["src/assets/img/*"],
+      "@css/*": ["src/assets/css/*"],
+      "@usefulObj/*": ["src/globalObj/object/*"],
+      "@types": ["src/globalObj/object/types"],
+      "@cert/*": ["src/cert/*"],
+      "@globalObj/*": ["src/globalObj/*"]
     }
   }
 }
