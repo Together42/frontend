@@ -32,3 +32,15 @@
   padding: 10px;
   margin-bottom: 30px;
 }
+
+.timeline--img {
+  @include desktop {
+    width: 255px;
+    height: 200px;
+  }
+  @include mobile {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+}
