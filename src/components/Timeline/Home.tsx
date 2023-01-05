@@ -47,7 +47,7 @@ export const Home = () => {
           {ImgArr
             ? ImgArr.map((elem) => (
                 <div>
-                  <img src={elem['url']} alt={elem['url']} width={290} height={245}></img>
+                  <img className="timeline--img" src={elem['url']} alt={elem['url']}></img>
                 </div>
               ))
             : null}
