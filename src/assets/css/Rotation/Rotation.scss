@@ -1,0 +1,79 @@
+@import '@css/fonts.scss';
+@import '@css/useful.scss';
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
+.rotation--wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rotation--title {
+  margin-bottom: 30px;
+  font-size: 22px;
+  font-family: 'Rowdies';
+}
+
+.rotation--selectUserTitle {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-family: 'Rowdies';
+}
+
+.rotation--selectUser {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rotation--checkedUserListBox {
+  display: flex;
+  flex-wrap: wrap;
+  width: 700px;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(128, 128, 128, 0.4784313725);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.rotation--eachUserInput {
+  width: 200px;
+  padding: 1px;
+}
+
+.rotation--selectDates {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rotation--selectDatesTitle {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-family: 'Rowdies';
+}
+
+.rotation--dateBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.rotation--postbutton {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.rotation--input {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  padding: 0;
+}
+
+.rotation--eachInput {
+  margin-left: 5px;
+}
