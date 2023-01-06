@@ -77,3 +77,31 @@
 .rotation--eachInput {
   margin-left: 5px;
 }
+
+.rotation--spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rotation--spinner-info {
+  margin-top: 5px;
+}
+
+.rotation--resultbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.4784313725);
+  border-radius: 10px;
+  width: 700px;
+}
+
+.rotation--result-text {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  font-size: 20px;
+  font-family: 'Rowdies';
+}

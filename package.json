@@ -36,6 +36,7 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.6.1",
     "react-router-dom": "^6.6.1",
+    "react-spinners": "^0.13.7",
     "react-textarea-autosize": "^8.4.0",
     "recoil": "^0.7.6",
     "sass": "^1.57.1",

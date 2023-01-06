@@ -9,6 +9,7 @@ import MobileNavber from '@utils/MobileNavber';
 import DeviceMode, { getDeviceMode } from '@recoil/DeviceMode';
 import { CheckedUserList } from './Usercheckbox';
 import { GetDateOnBusiness } from './DateInputbox';
+import { Button } from './Button';
 import { AsyncDependenciesBlock } from 'webpack';
 
 export const Rotate = () => {
@@ -34,7 +35,7 @@ export const Rotate = () => {
         </div>
       </div>
       <div className="rotation--postbutton">
-        <button>완료</button>
+        <Button />
       </div>
     </div>
   );
