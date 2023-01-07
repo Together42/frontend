@@ -78,9 +78,9 @@ function Navbar() {
           </button>,
         ]}
       />
-      <button onClick={onClickAuthReview}>친스타그램</button>
-      <button onClick={onClickAuthTimeline}>집현전실록</button>
-      {getToken() ? <button onClick={onClickLogOut}>로그아웃</button> : <Link to={`/auth`}>로그인하기</Link>}
+      <span onClick={onClickAuthReview}>친스타그램</span>
+      <span onClick={onClickAuthTimeline}>집현전실록</span>
+      {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
     </div>
   );
 }

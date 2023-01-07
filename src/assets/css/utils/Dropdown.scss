@@ -1,3 +1,5 @@
+@import '@css/useful.scss';
+
 .dropdown {
   position: relative;
 }
@@ -27,17 +29,22 @@
   height: 100%;
   text-align: left;
   background: none;
-  color: inherit;
+  font-family: $kor_font_regular;
+  font-size: 14;
+  color: $darkgrey_default;
   border: none;
   padding-top: 10px;
   margin: 0;
-  font: inherit;
-  cursor: pointer;
 }
 
-.dropdown > button {
+.dropdown button {
   border: none;
   background: inherit;
-  font-size: inherit;
-  color: inherit;
+  font-family: $kor_font_regular;
+  font-size: $default_medium_15;
+  color: $darkgrey_default;
+  &:hover {
+    cursor: pointer;
+    font-size: 16px;
+  }
 }
