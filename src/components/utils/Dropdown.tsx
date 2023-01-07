@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Dropdown.css';
 
-export const Dropdown = ({ trigger, menu }) => {
+export const Dropdown = ({ title, menu }) => {
   const [isMenuDropDownOpen, setMenuDropDownOpen] = useState(false);
 
   const handleOpen = () => {
@@ -16,9 +16,7 @@ export const Dropdown = ({ trigger, menu }) => {
 
   return (
     <div className="dropdown">
-      {React.cloneElement(trigger, {
-        onClick: handleOpen,
-      })}
+      {title}
       {isMenuDropDownOpen ? (
         <ul className="menu">
           {menu.map((menuItem, index) => (

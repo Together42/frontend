@@ -61,23 +61,25 @@ function Navbar() {
   return (
     <div className="navbar--wrapper">
       <Dropdown
-        trigger={<button>이벤트</button>}
+        title={<button>이벤트</button>}
         menu={[
           <button onClick={onClickEventCreate}>이벤트 생성</button>,
           <button onClick={onClickEventMatching}>이벤트 매칭</button>,
         ]}
       />
       <Dropdown
-        trigger={<button>사서 로테이션</button>}
+        title={<button>사서 로테이션</button>}
         menu={[
-          <button onClick={onClickRotation}>로테이션</button>,
-          <button onClick={onClickRotationResult}>결과</button>,
+          <button onClick={onClickRotation} style={{ textAlign: 'center' }}>
+            로테이션
+          </button>,
+          <button onClick={onClickRotationResult} style={{ textAlign: 'center' }}>
+            결과
+          </button>,
         ]}
       />
       <button onClick={onClickAuthReview}>친스타그램</button>
-
       <button onClick={onClickAuthTimeline}>집현전실록</button>
-
       {getToken() ? <button onClick={onClickLogOut}>로그아웃</button> : <Link to={`/auth`}>로그인하기</Link>}
     </div>
   );
