@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Dropdown.css';
+import '@css/utils//Dropdown.scss';
 
 export const Dropdown = ({ title, menu }) => {
   const [isMenuDropDownOpen, setMenuDropDownOpen] = useState(false);
 
   const handleOpen = () => {
-    setMenuDropDownOpen(!isMenuDropDownOpen);
+    setMenuDropDownOpen(true);
   };
 
   const handleClose = () => {
-    if (isMenuDropDownOpen) {
-      setMenuDropDownOpen(false);
-    }
+    setMenuDropDownOpen(false);
   };
 
   return (
-    <div className="dropdown">
+    <div className="dropdown" onMouseOver={handleOpen} onMouseLeave={handleClose}>
       {title}
-      {isMenuDropDownOpen ? (
+      {isMenuDropDownOpen && (
         <ul className="menu">
           {menu.map((menuItem, index) => (
             <li key={index} className="menu-item">
@@ -30,7 +28,7 @@ export const Dropdown = ({ title, menu }) => {
             </li>
           ))}
         </ul>
-      ) : null}
+      )}
     </div>
   );
 };
