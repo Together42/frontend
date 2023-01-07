@@ -1,0 +1,48 @@
+.dropdown {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  /*border: 1px solid grey;*/
+  width: 150px;
+  left: -11;
+  top: 40;
+  width: 120px;
+  text-align: center;
+  border: 1px solid gray;
+}
+
+.menu > li {
+  margin: 0;
+  background-color: white;
+  padding-top: 1px;
+  padding-bottom: 2px;
+}
+
+.menu > li:hover {
+  background-color: lightgray;
+}
+
+.menu > li > button {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.dropdown > button {
+  border: none;
+  background: inherit;
+  font-size: inherit;
+  color: inherit;
+}

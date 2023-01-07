@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { clearToken, getToken } from '@cert/TokenStorage';
+import { Dropdown } from './Dropdown';
 
 function Navbar() {
   const setLoginState = useSetRecoilState(GlobalLoginState);
@@ -40,13 +41,44 @@ function Navbar() {
       navigate('/auth');
     }
   };
+
+  const onClickEventCreate = () => {
+    navigate('/');
+  };
+
+  const onClickEventMatching = () => {
+    navigate('/Result');
+  };
+
+  const onClickRotation = () => {
+    navigate('/rotation');
+  };
+
+  const onClickRotationResult = () => {
+    navigate('/rotation/result');
+  };
+
   return (
     <div className="navbar--wrapper">
-      <Link to={`/`}>이벤트생성</Link>
-      <Link to={`/Result`}>이벤트매칭</Link>
-      <span onClick={onClickAuthReview}>친스타그램</span>
-      <span onClick={onClickAuthTimeline}>집현전실록</span>
-      {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
+      <Dropdown
+        trigger={<button>이벤트</button>}
+        menu={[
+          <button onClick={onClickEventCreate}>이벤트 생성</button>,
+          <button onClick={onClickEventMatching}>이벤트 매칭</button>,
+        ]}
+      />
+      <Dropdown
+        trigger={<button>사서 로테이션</button>}
+        menu={[
+          <button onClick={onClickRotation}>로테이션</button>,
+          <button onClick={onClickRotationResult}>결과</button>,
+        ]}
+      />
+      <button onClick={onClickAuthReview}>친스타그램</button>
+
+      <button onClick={onClickAuthTimeline}>집현전실록</button>
+
+      {getToken() ? <button onClick={onClickLogOut}>로그아웃</button> : <Link to={`/auth`}>로그인하기</Link>}
     </div>
   );
 }
