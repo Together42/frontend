@@ -58,6 +58,10 @@ function Navbar() {
     navigate('/rotation/result');
   };
 
+  const onClickCalendar = () => {
+    navigate('/rotation/calendar');
+  };
+
   return (
     <div className="navbar--wrapper">
       <Dropdown
@@ -75,6 +79,9 @@ function Navbar() {
           </button>,
           <button onClick={onClickRotationResult} style={{ textAlign: 'center' }}>
             결과
+          </button>,
+          <button onClick={onClickCalendar} style={{ textAlign: 'center' }}>
+            사서 달력
           </button>,
         ]}
       />
