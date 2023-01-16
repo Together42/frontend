@@ -57,7 +57,6 @@ export default class RotationCalendar extends React.Component {
     let calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
-
     if (title) {
       calendarApi.addEvent({
         id: createEventId(),
