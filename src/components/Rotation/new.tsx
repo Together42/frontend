@@ -1,8 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { getAuth } from '@cert/AuthStorage';
 import '@css/Rotation/New_Rotation.scss';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import getAddress from '@globalObj/function/getAddress';
+import axios from 'axios';
+import { getToken } from '@cert/TokenStorage';
+import errorAlert from '@globalObj/function/errorAlert';
+import { useSWRConfig } from 'swr';
 
 export const NewRotate = () => {
   const currentDate = new Date();
@@ -12,6 +17,7 @@ export const NewRotate = () => {
   const [value, onChange] = useState(new Date());
   const [unavailableDates, setUnavailableDates] = useState([]);
   const [openSelectModal, setOpenSelectModal] = useState(false);
+  const { mutate } = useSWRConfig();
 
   const onClickDay = (value) => {
     const date = value.getDate();
@@ -28,6 +34,30 @@ export const NewRotate = () => {
 
   const resetDates = () => {
     setUnavailableDates([]);
+  };
+
+  const onClickPostEvent = () => {
+    if (getToken()) {
+      alert(unavailableDates);
+      axios
+        .post(
+          `${getAddress()}/api/rotation/attend`,
+          {
+            intraId: intraId,
+            attendLimit: unavailableDates,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
+        .then((res) => {
+          alert('생성되었습니다');
+          mutate(`${getAddress()}/api/rotation/attend`);
+        })
+        .catch((err) => errorAlert(err));
+    }
   };
 
   return (
@@ -62,7 +92,7 @@ export const NewRotate = () => {
               </div>
               <button onClick={resetDates}>reset</button>
             </div>
-            <button>선택 완료!</button>
+            <button onClick={onClickPostEvent}>선택 완료!</button>
           </div>
         ) : null}
       </div>
