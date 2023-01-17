@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @include medium_kor;
 }
 
 .rotation--selectDates {
@@ -27,6 +28,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .rotation-viewSelectDates-title {
@@ -36,22 +38,37 @@
 
 .rotation--selectDates-box {
   background-color: rgba(128, 128, 128, 0.4784313725);
-  border-radius: 10px;
-  width: 300px;
+  width: 350px;
   height: 50px;
   padding: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 3px;
+  border-radius: 10px;
 }
 
 .rotation--button {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .rotation--wrapper button {
   margin-top: 5px;
   margin-bottom: 5px;
-  width: 70px;
+}
+
+.rotation--button button {
+  width: 130px;
+  height: 65px;
+  margin-left: 2px;
+  margin-right: 2px;
+  font-size: 14px;
+  @include medium_kor;
+}
+
+.select-button {
+  width: 100px;
+  height: 30px;
+  @include medium_kor;
 }

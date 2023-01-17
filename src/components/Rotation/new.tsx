@@ -38,7 +38,6 @@ export const NewRotate = () => {
 
   const onClickPostEvent = () => {
     if (getToken()) {
-      alert(unavailableDates);
       axios
         .post(
           `${getAddress()}/api/rotation/attend`,
@@ -87,12 +86,14 @@ export const NewRotate = () => {
               <div className="rotation-viewSelectDates-title">선택한 날짜</div>
               <div className="rotation--selectDates-box">
                 {unavailableDates.map((e) => (
-                  <span>{e} </span>
+                  <span key={e}>{e} </span>
                 ))}
               </div>
               <button onClick={resetDates}>reset</button>
             </div>
-            <button onClick={onClickPostEvent}>선택 완료!</button>
+            <button className="select-button" onClick={onClickPostEvent}>
+              선택 완료
+            </button>
           </div>
         ) : null}
       </div>
