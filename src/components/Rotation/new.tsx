@@ -94,6 +94,7 @@ export const NewRotate = () => {
             <div className="rotation-selectDates-title">
               <p>참여가 어려운 날짜를 선택해주세요 !</p>
               <p>해당 날짜를 고려해서 랜덤 매칭이 이루어집니다</p>
+              <p>(필수 사항은 아닙니다)</p>
             </div>
             <div>
               <Calendar
@@ -112,7 +113,7 @@ export const NewRotate = () => {
               <button onClick={resetDates}>reset</button>
             </div>
             <button className="select-button" onClick={onClickPostEvent}>
-              선택 완료
+              신청
             </button>
           </div>
         ) : null}
