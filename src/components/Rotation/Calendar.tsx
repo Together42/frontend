@@ -4,7 +4,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { INITIAL_EVENTS, createEventId } from './event_utils';
+import { createEventId, getRotationArr } from './event_utils';
 import '@css/Rotation/Calendar.scss';
 
 export default class RotationCalendar extends React.Component {
@@ -30,7 +30,7 @@ export default class RotationCalendar extends React.Component {
             selectMirror={true}
             dayMaxEvents={true}
             weekends={this.state.weekendsVisible}
-            initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+            initialEvents={getRotationArr} // alternatively, use the `events` setting to fetch from a feed
             select={this.handleDateSelect}
             eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
@@ -45,6 +45,12 @@ export default class RotationCalendar extends React.Component {
       </div>
     );
   }
+
+  handleInitialEvent = () => {
+    this.setState({
+      currentEvents: getRotationArr(),
+    });
+  };
 
   handleWeekendsToggle = () => {
     this.setState({
