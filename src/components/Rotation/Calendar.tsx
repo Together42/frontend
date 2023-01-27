@@ -6,6 +6,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { createEventId, getRotationArr } from './event_utils';
 import '@css/Rotation/Calendar.scss';
+import axios from 'axios';
+import getAddress from '@globalObj/function/getAddress';
+import { getToken } from '@cert/TokenStorage';
+import errorAlert from '@globalObj/function/errorAlert';
 
 export default class RotationCalendar extends React.Component {
   state = {
@@ -40,17 +44,12 @@ export default class RotationCalendar extends React.Component {
             eventChange={function(){}}
             eventRemove={function(){}}
             */
+            eventDrop={handleDragAndDrop}
           />
         </div>
       </div>
     );
   }
-
-  handleInitialEvent = () => {
-    this.setState({
-      currentEvents: getRotationArr(),
-    });
-  };
 
   handleWeekendsToggle = () => {
     this.setState({
@@ -64,6 +63,21 @@ export default class RotationCalendar extends React.Component {
 
     calendarApi.unselect(); // clear date selection
     if (title) {
+      axios
+        .patch(
+          `${getAddress()}/api/rotation/update`,
+          {
+            intraId: title,
+            before: '',
+            after: selectInfo.startStr,
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
+            },
+          },
+        )
+        .catch((err) => errorAlert(err));
       calendarApi.addEvent({
         id: createEventId(),
         title,
@@ -76,6 +90,17 @@ export default class RotationCalendar extends React.Component {
 
   handleEventClick = (clickInfo) => {
     if (confirm(`'${clickInfo.event.title}'를 삭제합니다`)) {
+      axios
+        .delete(`${getAddress()}/api/rotation/update`, {
+          headers: {
+            Authorization: 'Bearer ' + getToken(),
+          },
+          data: {
+            intraId: clickInfo.event.title,
+            date: clickInfo.event.startStr,
+          },
+        })
+        .catch((err) => errorAlert(err));
       clickInfo.event.remove();
     }
   };
@@ -103,4 +128,22 @@ function renderSidebarEvent(event) {
       <i>{event.title}</i>
     </li>
   );
+}
+
+function handleDragAndDrop(eventDropInfo) {
+  axios
+    .patch(
+      `${getAddress()}/api/rotation/update`,
+      {
+        intraId: eventDropInfo.event.title,
+        before: eventDropInfo.oldEvent.startStr,
+        after: eventDropInfo.event.startStr,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + getToken(),
+        },
+      },
+    )
+    .catch((err) => errorAlert(err));
 }
