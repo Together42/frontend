@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import '@css/Rotation/Rotation.scss';
 import LoadingSpinner from './Loading';
 import { RotateUserResult } from './RotateUserResult';
 import { getRotationArr } from './event_utils';
 import { getAuth } from '@cert/AuthStorage';
+import '@css/Rotation/Rotation.scss';
 
 export const RotateResult = () => {
   const [Loading, setLoading] = useState(true);

@@ -5,11 +5,11 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { createEventId, getRotationArr } from './event_utils';
-import '@css/Rotation/Calendar.scss';
 import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
+import '@css/Rotation/Calendar.scss';
 
 export default class RotationCalendar extends React.Component {
   state = {

@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import getAddress from '@globalObj/function/getAddress';
-import axios from 'axios';
+import React from 'react';
 import '@css/Rotation/Rotation.scss';
-import { getRotationArr } from './event_utils';
-import { getAuth } from '@cert/AuthStorage';
 
 export const RotateUserResult = (props) => {
   const date = new Date();

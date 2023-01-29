@@ -1,5 +1,4 @@
 import getAddress from '@globalObj/function/getAddress';
-import React from 'react';
 import axios from 'axios';
 
 let eventGuid = 0;
