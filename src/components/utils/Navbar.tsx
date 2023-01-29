@@ -51,11 +51,21 @@ function Navbar() {
   };
 
   const onClickRotation = () => {
-    navigate('/rotation');
+    if (getToken()) {
+      navigate('/rotation/');
+    } else {
+      alert('로그인을 먼저 해주세요!');
+      navigate('/auth');
+    }
   };
 
   const onClickRotationResult = () => {
-    navigate('/rotation/result');
+    if (getToken()) {
+      navigate('/rotation/result');
+    } else {
+      alert('로그인을 먼저 해주세요!');
+      navigate('/auth');
+    }
   };
 
   const onClickCalendar = () => {

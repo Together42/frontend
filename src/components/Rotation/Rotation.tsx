@@ -52,7 +52,7 @@ export const Rotate = () => {
           },
         )
         .then((res) => {
-          alert('생성되었습니다');
+          alert('신청되었습니다');
           mutate(`${getAddress()}/api/rotation/attend`);
         })
         .catch((err) => errorAlert(err));

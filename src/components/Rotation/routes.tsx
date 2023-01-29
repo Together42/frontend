@@ -1,7 +1,7 @@
 import React from 'react';
 import { RotateResult } from './RotationResult';
 import { Route, Routes } from 'react-router';
-import RotationCalendar from './Calendar';
+import { RotationCalendar } from './RotationCalendar';
 import { Rotate } from './Rotation';
 
 function Rotation() {

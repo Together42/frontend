@@ -24,7 +24,6 @@ export const RotateResult = () => {
       window.alert(error);
     }
   };
-  console.log(arr);
 
   useEffect(() => {
     mainApi();

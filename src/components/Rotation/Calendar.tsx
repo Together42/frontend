@@ -11,7 +11,7 @@ import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import '@css/Rotation/Calendar.scss';
 
-export default class RotationCalendar extends React.Component {
+export default class Calendar extends React.Component {
   state = {
     weekendsVisible: true,
     currentEvents: [],

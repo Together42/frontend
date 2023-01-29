@@ -15,7 +15,9 @@ export const RotateUserResult = (props) => {
         <div className="rotation--resultbox">
           {props.arr.empty ? props.arr.map((e) => <div>{e}</div>) : <div>참여일 정보가 없습니다</div>}
         </div>
-        <div className="rotation--result-text">사서 활동에 감사드립니다 👏</div>
+        <div className="rotation--result-text">
+          <p>사서 활동에 감사드립니다 👏</p>
+        </div>
       </div>
     </>
   );
