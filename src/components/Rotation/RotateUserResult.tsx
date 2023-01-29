@@ -17,6 +17,7 @@ export const RotateUserResult = (props) => {
         </div>
         <div className="rotation--result-text">
           <p>사서 활동에 감사드립니다 👏</p>
+          <span>( 사서 달력에서 일정 생성, 수정, 삭제가 가능합니다 )</span>
         </div>
       </div>
     </>
