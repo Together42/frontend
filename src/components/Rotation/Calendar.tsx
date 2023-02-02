@@ -10,8 +10,10 @@ import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import '@css/Rotation/Calendar.scss';
+import { getAuth } from '@cert/AuthStorage';
 
 export default class Calendar extends React.Component {
+  intraId = getAuth() ? getAuth().id : null;
   state = {
     weekendsVisible: true,
     currentEvents: [],
@@ -58,7 +60,7 @@ export default class Calendar extends React.Component {
   };
 
   handleDateSelect = (selectInfo) => {
-    let title = prompt('이름을 적어주세요');
+    let title = this.intraId;
     let calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
