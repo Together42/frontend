@@ -9,6 +9,20 @@ import { useSWRConfig } from 'swr';
 import 'react-calendar/dist/Calendar.css';
 import '@css/Rotation/New_Rotation.scss';
 
+export const getWeekNumber = (dateFrom = new Date()) => {
+  // 해당 날짜 (일)
+  const currentDate = dateFrom.getDate();
+
+  // 이번 달 1일로 지정
+  const startOfMonth = new Date(dateFrom.setDate(1));
+
+  // 이번 달 1일이 무슨 요일인지 확인
+  const weekDay = startOfMonth.getDay(); // 0: Sun ~ 6: Sat
+
+  // ((요일 - 1) + 해당 날짜) / 7일로 나누기 = N 주차
+  return Math.floor((weekDay - 1 + currentDate) / 7) + 1;
+};
+
 export const Rotate = () => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
@@ -37,6 +51,10 @@ export const Rotate = () => {
   };
 
   const onClickPostEvent = () => {
+    if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month, -2)) {
+      alert('신청기간이 아닙니다!');
+      return;
+    }
     if (getToken()) {
       axios
         .post(

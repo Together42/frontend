@@ -61,6 +61,10 @@ export default class Calendar extends React.Component {
 
   handleDateSelect = (selectInfo) => {
     let title = this.intraId;
+    if (title == null) {
+      alert('로그인을 먼저 해주세요!');
+      return;
+    }
     let calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
@@ -91,6 +95,11 @@ export default class Calendar extends React.Component {
   };
 
   handleEventClick = (clickInfo) => {
+    let title = this.intraId;
+    if (title == null) {
+      alert('로그인을 먼저 해주세요!');
+      return;
+    }
     if (confirm(`'${clickInfo.event.title}'를 삭제합니다`)) {
       axios
         .delete(`${getAddress()}/api/rotation/update`, {
@@ -133,6 +142,11 @@ function renderSidebarEvent(event) {
 }
 
 function handleDragAndDrop(eventDropInfo) {
+  var intraId = getAuth() ? getAuth().id : null;
+  if (intraId == null) {
+    alert('로그인을 먼저 해주세요!');
+    return;
+  }
   axios
     .patch(
       `${getAddress()}/api/rotation/update`,
