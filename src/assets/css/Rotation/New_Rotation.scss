@@ -52,6 +52,22 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  button {
+    background-color: $lightgrey;
+    border: none;
+    border-radius: 10px;
+    width: 130px;
+    height: 65px;
+    margin: 0 5px;
+    font-size: 14px;
+    transition: 0.5s ease;
+    @include medium_kor;
+    &:hover {
+      box-shadow: 2px 2px 4px rgba(183, 183, 183, 0.5), 2px 2px 4px rgba(183, 183, 183, 0.5);
+      -webkit-transform: translateY(-5px);
+      transform: translateY(-5px);
+    }
+  }
 }
 
 .rotation--wrapper button {
@@ -59,19 +75,6 @@
   margin-bottom: 5px;
 }
 
-.rotation--button button {
-  width: 130px;
-  height: 65px;
-  margin-left: 5px;
-  margin-right: 5px;
-  font-size: 14px;
-  @include medium_kor;
-
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-}
 
 .select-button {
   width: 100px;

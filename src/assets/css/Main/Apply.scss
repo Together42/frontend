@@ -29,7 +29,7 @@ $list_wrapper_padding: 20px;
 .main--apply--wrapper {
   position: relative;
   display: flex;
-  background-color: rgb(237, 238, 239);
+  background-color: $lightgrey;
   margin-bottom: 70px;
   @include desktop {
     width: 700px;
