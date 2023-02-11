@@ -1,0 +1,50 @@
+@import '@css/useful.scss';
+
+.dropdown {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  list-style-type: none;
+  margin: 0;
+  left: -18;
+  padding-left: 10;
+  width: 120px;
+}
+
+.menu > li {
+  background-color: white;
+}
+.menu li:first-child {
+  margin-top: 10px;
+}
+
+.menu > li:hover {
+  background-color: lightgray;
+}
+
+.menu > li > button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  background: none;
+  font-family: $kor_font_regular;
+  font-size: 14;
+  color: $darkgrey_default;
+  border: none;
+  padding-top: 10px;
+  margin: 0;
+}
+
+.dropdown button {
+  border: none;
+  background: inherit;
+  font-family: $kor_font_regular;
+  font-size: $default_medium_15;
+  color: $darkgrey_default;
+  &:hover {
+    cursor: pointer;
+    font-size: 16px;
+  }
+}
