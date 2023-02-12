@@ -128,7 +128,11 @@ export const Rotate = () => {
                   <span key={e}>{e} </span>
                 ))}
               </div>
-              <button onClick={resetDates}>reset</button>
+              <div className="rotation--reset">
+                <button onClick={resetDates}>
+                  <div>reset</div>
+                </button>
+              </div>
             </div>
             <button className="select-button" onClick={onClickPostEvent}>
               신청
