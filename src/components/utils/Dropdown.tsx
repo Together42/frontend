@@ -16,18 +16,18 @@ export const Dropdown = ({ title, menu }) => {
     <div className="dropdown" onMouseOver={handleOpen} onMouseLeave={handleClose}>
       {title}
       {isMenuDropDownOpen && (
-        <ul className="menu">
+        <div className="menu">
           {menu.map((menuItem, index) => (
-            <li key={index} className="menu-item">
+            <div>
               {React.cloneElement(menuItem, {
                 onClick: () => {
                   menuItem.props.onClick();
                   setMenuDropDownOpen(false);
                 },
               })}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

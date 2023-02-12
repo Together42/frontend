@@ -51,10 +51,10 @@ export const Rotate = () => {
   };
 
   const onClickPostEvent = () => {
-    if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month, -2)) {
-      alert('신청기간이 아닙니다!');
-      return;
-    }
+    // if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month, -2)) {
+    //   alert('신청기간이 아닙니다!');
+    //   return;
+    // }
     if (getToken()) {
       axios
         .post(

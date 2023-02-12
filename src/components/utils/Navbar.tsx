@@ -84,15 +84,9 @@ function Navbar() {
       <Dropdown
         title={<button>사서 로테이션</button>}
         menu={[
-          <button onClick={onClickRotation} style={{ textAlign: 'center' }}>
-            로테이션
-          </button>,
-          <button onClick={onClickRotationResult} style={{ textAlign: 'center' }}>
-            결과
-          </button>,
-          <button onClick={onClickCalendar} style={{ textAlign: 'center' }}>
-            사서 달력
-          </button>,
+          <button onClick={onClickRotation}>로테이션</button>,
+          <button onClick={onClickRotationResult}>결과</button>,
+          <button onClick={onClickCalendar}>사서 달력</button>,
         ]}
       />
       <span onClick={onClickAuthReview}>친스타그램</span>

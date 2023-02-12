@@ -49,6 +49,7 @@
 .rotation--reset {
   display: flex;
   justify-content: flex-end;
+  width: 100%;
   button {
     @include medium_kor;
     color: $pinkred;
