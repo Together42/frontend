@@ -100,6 +100,10 @@ export default class Calendar extends React.Component {
       alert('로그인을 먼저 해주세요!');
       return;
     }
+    if (title != clickInfo.event.title) {
+      alert('본인 일정만 삭제가 가능합니다.');
+      return;
+    }
     if (confirm(`'${clickInfo.event.title}'를 삭제합니다`)) {
       axios
         .delete(`${getAddress()}/api/rotation/update`, {
