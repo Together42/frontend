@@ -151,6 +151,10 @@ function handleDragAndDrop(eventDropInfo) {
     alert('로그인을 먼저 해주세요!');
     return;
   }
+  if (intraId != eventDropInfo.event.title) {
+    alert('본인 일정만 변경이 가능합니다.');
+    return;
+  }
   axios
     .patch(
       `${getAddress()}/api/rotation/update`,
