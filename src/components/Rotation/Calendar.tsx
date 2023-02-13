@@ -90,6 +90,7 @@ export default class Calendar extends React.Component {
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay,
+        color: '#e79f5a',
       });
     }
   };

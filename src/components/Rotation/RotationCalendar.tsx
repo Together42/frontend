@@ -4,8 +4,8 @@ import Calendar from './Calendar';
 
 export const RotationCalendar = () => {
   return (
-    <>
+    <div className="rotationCalendar--wrapper">
       <Calendar />
-    </>
+    </div>
   );
 };

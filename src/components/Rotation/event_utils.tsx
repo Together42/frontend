@@ -1,5 +1,6 @@
 import getAddress from '@globalObj/function/getAddress';
 import axios from 'axios';
+import { getAuth } from '@cert/AuthStorage';
 
 let eventGuid = 0;
 let todayStr = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
@@ -9,6 +10,7 @@ export function createEventId() {
 }
 
 function rotatedArrAllInfo(data) {
+  var intraId = getAuth() ? getAuth().id : null;
   const rotatedArr = [];
   let newdata = data.filter((e) => {
     return e.attendDate !== undefined && e.attendDate !== null;
@@ -19,7 +21,11 @@ function rotatedArrAllInfo(data) {
 
   newdata.map((e) => {
     e.attendDate.map((attendDate) => {
-      rotatedArr.push({ title: e.intraId, start: attendDate });
+      if (intraId == e.intraId) {
+        rotatedArr.push({ title: e.intraId, start: attendDate, color: '#e79f5a' });
+      } else {
+        rotatedArr.push({ title: e.intraId, start: attendDate, color: '#4992ce' });
+      }
     });
   });
   return rotatedArr;
