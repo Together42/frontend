@@ -60,16 +60,6 @@ function MobileNavber() {
     }
   };
 
-  const onClickAuthRotationResult = () => {
-    setModalOpen((prev) => !prev);
-    if (getToken()) {
-      navigate('/rotation/result');
-    } else {
-      alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
-    }
-  };
-
   const onClickRotationCalendar = () => {
     setModalOpen((prev) => !prev);
     navigate('/rotation/calendar');
@@ -92,7 +82,6 @@ function MobileNavber() {
             이벤트매칭
           </Link>
           <span onClick={onClickAuthRotation}>사서 로테 신청</span>
-          <span onClick={onClickAuthRotationResult}>사서 로테 결과</span>
           <span onClick={onClickRotationCalendar}>사서 달력</span>
           <span onClick={onClickAuthReview}>친스타그램</span>
           <span onClick={onClickAuthTimeline}>집현전실록</span>

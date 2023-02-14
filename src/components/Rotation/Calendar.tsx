@@ -90,6 +90,7 @@ export default class Calendar extends React.Component {
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay,
+        color: '#e79f5a',
       });
     }
   };
@@ -98,6 +99,10 @@ export default class Calendar extends React.Component {
     let title = this.intraId;
     if (title == null) {
       alert('로그인을 먼저 해주세요!');
+      return;
+    }
+    if (title != clickInfo.event.title) {
+      alert('본인 일정만 삭제가 가능합니다.');
       return;
     }
     if (confirm(`'${clickInfo.event.title}'를 삭제합니다`)) {
@@ -145,6 +150,10 @@ function handleDragAndDrop(eventDropInfo) {
   var intraId = getAuth() ? getAuth().id : null;
   if (intraId == null) {
     alert('로그인을 먼저 해주세요!');
+    return;
+  }
+  if (intraId != eventDropInfo.event.title) {
+    alert('본인 일정만 변경이 가능합니다.');
     return;
   }
   axios

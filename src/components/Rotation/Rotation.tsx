@@ -51,7 +51,7 @@ export const Rotate = () => {
   };
 
   const onClickPostEvent = () => {
-    if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month, -2)) {
+    if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month - 1, -1)) {
       alert('신청기간이 아닙니다!');
       return;
     }

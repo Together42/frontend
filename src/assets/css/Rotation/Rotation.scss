@@ -112,3 +112,9 @@
 .rotation--result-text > span {
   font-size: 15px;
 }
+
+.rotationCalendar--wrapper {
+  @include mobile {
+    @include basic--wrappers;
+  }
+}
