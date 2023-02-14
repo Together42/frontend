@@ -16,6 +16,7 @@
       "@auth/*": ["src/components/Auth/*"],
       "@review/*": ["src/components/Review/*"],
       "@timeline/*": ["src/components/Timeline/*"],
+      "@rotation/*": ["src/components/Rotation/*"],
       "@utils/*": ["src/components/utils/*"],
       "@recoil/*": ["src/recoil/*"],
       "@img/*": ["src/assets/img/*"],

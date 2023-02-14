@@ -7,6 +7,7 @@ $darkgrey_darker: #252323;
 $darkgrey_default: rgb(80, 80, 80);
 $darkgrey_medium: rgb(140, 140, 140);
 $darkgrey_light: rgb(184, 184, 184);
+$lightgrey: rgb(237, 238, 239);
 $white: white;
 $lightblue: #73b2ed;
 $pinkred: #ec7063;
@@ -63,3 +64,5 @@ $default_small_13: 13px;
 .black {
   color: black;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Rowdies&display=swap');

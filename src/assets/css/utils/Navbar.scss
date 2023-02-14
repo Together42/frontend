@@ -6,7 +6,7 @@
   justify-content: space-around;
   align-items: center;
   margin-top: 40px;
-  margin-bottom: 90px;
+  margin-bottom: 120px;
   height: 40px;
   border-top: 1px solid #8080807a;
   border-bottom: 1px solid #8080807a;
@@ -23,4 +23,11 @@
       font-size: 16px;
     }
   }
+}
+
+.navbar--wrapper > button {
+  border: none;
+  background: inherit;
+  font-size: inherit;
+  color: inherit;
 }
