@@ -59,15 +59,6 @@ function Navbar() {
     }
   };
 
-  const onClickRotationResult = () => {
-    if (getToken()) {
-      navigate('/rotation/result');
-    } else {
-      alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
-    }
-  };
-
   const onClickCalendar = () => {
     navigate('/rotation/calendar');
   };
@@ -85,7 +76,6 @@ function Navbar() {
         title={<button>사서 로테이션</button>}
         menu={[
           <button onClick={onClickRotation}>로테이션</button>,
-          <button onClick={onClickRotationResult}>결과</button>,
           <button onClick={onClickCalendar}>사서 달력</button>,
         ]}
       />

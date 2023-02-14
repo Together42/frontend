@@ -8,7 +8,6 @@ function Rotation() {
   return (
     <Routes>
       <Route path="/" element={<Rotate />} />
-      <Route path="/result" element={<RotateResult />} />
       <Route path="/calendar" element={<RotationCalendar />} />
     </Routes>
   );
