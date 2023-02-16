@@ -10,35 +10,19 @@ export function createEventId() {
 }
 
 function rotatedArrAllInfo(data) {
-  var intraId = getAuth() ? getAuth().id : null;
-  const rotatedArr = [];
-  let newdata = data.filter((e) => {
-    return e.attendDate !== undefined && e.attendDate !== null;
-  });
-  newdata.map((e) => {
-    e.attendDate = e.attendDate.split(',');
-  });
+  const intraId = getAuth() ? getAuth().id : null;
+  return data.filter(el => !!el.attendDate)
+    .map(el => el.attendDate.split(',')
+      .map(attendDate => ({
+        title: el.intraId,
+        start: attendDate,
+        color: intraId == el.intraId ? '#e79f5a' : '#4992ce'
+      }))).flat();
 
-  newdata.map((e) => {
-    e.attendDate.map((attendDate) => {
-      if (intraId == e.intraId) {
-        rotatedArr.push({ title: e.intraId, start: attendDate, color: '#e79f5a' });
-      } else {
-        rotatedArr.push({ title: e.intraId, start: attendDate, color: '#4992ce' });
-      }
-    });
-  });
-  return rotatedArr;
 }
 
 function rotatedArr(data) {
-  const rotatedArr = [];
-  data.map((e) => {
-    e.date.map((date) => {
-      rotatedArr.push({ title: e.intraId, start: date });
-    });
-  });
-  return rotatedArr;
+  return data.map(el => el.date.map(d => ({ title: el.intraId, start: d }))).flat();
 }
 
 export async function getRotationArr() {
