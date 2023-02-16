@@ -27,31 +27,24 @@ function rotatedArr(data) {
 
 export async function getRotationArr() {
   let rotationArr = [];
-  await axios
-    .get(`${getAddress()}/api/rotation`)
-    .then((res) => res.data)
-    .then((data) => {
-      const rotated = rotatedArrAllInfo(data);
-      rotationArr = rotated;
-    })
-    .catch((err) => console.log(err));
+  try {
+    const res = await axios.get(`${getAddress()}/api/rotation`);
+    const data = await res.data;
+    rotationArr = rotatedArrAllInfo(data);
+  } catch (error) {
+    console.log(error);
+  }
   return rotationArr;
 }
 
 export async function getRotationMonthArr(month, year) {
   let rotationArr = [];
-  await axios
-    .get(`${getAddress()}/api/rotation`, {
-      params: {
-        month: month,
-        year: year,
-      },
-    })
-    .then((res) => res.data)
-    .then((data) => {
-      const rotated = rotatedArr(data);
-      rotationArr = rotated;
-    })
-    .catch((err) => console.log(err));
-  return rotationArr;
+  try {
+    const res = await axios.get(`${getAddress()}/api/rotation`, {params: {month: month, year: year}});
+    const data = await res.data;
+    rotationArr = rotatedArr(data);
+  } catch (error) {
+    console.log(error);
+  }
+  return rotatedArr;
 }
