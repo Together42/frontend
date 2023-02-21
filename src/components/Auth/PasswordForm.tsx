@@ -56,7 +56,7 @@ function PasswordForm() {
         if (res.data.email === email) {
           setErrorMessage('');
           setId(res.data.id);
-          snedEmail();
+          sendEmail();
         } else setErrorMessage('등록된 이메일 정보가 다릅니다.');
       })
       .catch((error) => {
@@ -64,11 +64,15 @@ function PasswordForm() {
         else setErrorMessage('알 수 없는 에러..');
       });
   };
-  const snedEmail = () => {
+  const sendEmail = () => {
     axios
-      .post(`${getAddress()}/api/auth/mail`, {
-        sendEmail: email,
-      })
+      .post(
+        `${getAddress()}/api/auth/mail`,
+        {
+          sendEmail: email,
+        },
+        { withCredentials: true },
+      )
       .then((res) => {
         if (res.data.data === 'success') {
           setTime(300);
