@@ -29,7 +29,7 @@ const App = () => {
   }, [device, setDeviceMode]);
 
   return (
-    <Router basename={process.env.NODE_ENV === 'production' ? '' : ''}>
+    <Router>
       <Header />
       {device === 'desktop' ? <Navbar /> : <MobileNavber />}
       <Routes>
