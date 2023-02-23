@@ -4,7 +4,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const projectName = 'frontend';
+const projectName = '';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const config = {
@@ -81,7 +81,7 @@ const config = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
-    publicPath: isDevelopment ? '/' : `/${projectName}/`,
+    publicPath: isDevelopment ? '/' : `/${projectName}`,
   },
   devServer: {
     historyApiFallback: true,
