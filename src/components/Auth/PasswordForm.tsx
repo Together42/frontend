@@ -90,7 +90,6 @@ function PasswordForm() {
       });
   };
   const checkCertificate = () => {
-    setSendMailFlag(false);
     axios
       .post(
         `${getAddress()}/api/auth/cert`,
@@ -104,6 +103,7 @@ function PasswordForm() {
         if (res.data.result === 'success') {
           setCheckCert(true);
           setSubmitButton(true);
+          setSendMailFlag(false);
           alert('인증번호가 맞습니다.');
         } else {
           setErrorMessage('인증번호가 틀립니다.');
