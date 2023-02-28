@@ -28,6 +28,7 @@ export const Rotate = () => {
   const year = currentDate.getFullYear();
   const month = ((currentDate.getMonth() + 1) % 12) + 1;
   const intraId = getAuth() ? getAuth().id : null;
+  const isRotationApplicationPeriod = false;
   const [value, onChange] = useState(new Date());
   const [unavailableDates, setUnavailableDates] = useState([]);
   const [openSelectModal, setOpenSelectModal] = useState(false);
@@ -51,7 +52,8 @@ export const Rotate = () => {
   };
 
   const onClickPostEvent = () => {
-    if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month - 1, -1)) {
+    // if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month - 1, -1)) {
+    if (!isRotationApplicationPeriod) {
       alert('신청기간이 아닙니다!');
       return;
     }
@@ -78,6 +80,10 @@ export const Rotate = () => {
   };
 
   const onClickCancel = () => {
+    if (!isRotationApplicationPeriod) {
+      alert('신청기간이 아닙니다!');
+      return;
+    }
     axios
       .delete(`${getAddress()}/api/rotation/attend`, {
         headers: {
@@ -93,6 +99,15 @@ export const Rotate = () => {
       .catch((err) => errorAlert(err));
   };
 
+  if (!isRotationApplicationPeriod) {
+    return (
+      <div className="rotation--wrapper">
+        <div className="rotation--title">
+          현재 사서 로테이션 신청기간이 아닙니다.
+        </div>
+      </div>
+    );  
+  }
   return (
     <>
       <div className="rotation--wrapper">

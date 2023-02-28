@@ -34,7 +34,7 @@
     <img src="https://img.shields.io/badge/Slack-alert-4A154B?logo=Slack">
 </p>
 
-## 🏠 [HOME PAGE](https://together42.github.io/frontend/)
+## 🏠 [HOME PAGE](https://together.42jip.net/)
 
 정기적으로 **20명**이 넘는 동아리원(사서)님들을 무작위 매칭 후, 친해질 수 있는 활동을 함께 하도록 돕는 페이지입니다. 매칭에 대한 **후기를 SNS**처럼 남길 수도 있습니다. 현재 React 에 대한 경험이 없는 팀원들을 직접 가르쳐드리며, 프로젝트 참여를 독려 중입니다.
 
