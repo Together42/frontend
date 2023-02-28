@@ -102,10 +102,13 @@ function Result() {
   return (
     <>
       <div className="result">
-        <div className="result--guide">
-          <p>신청한 이벤트의 팀을 짤 수 있는 공간입니다!</p>
-          <p>팀 매칭은 이벤트를 생성한 분만 가능하시구요~</p>
+        <div className="result--tab">
+          <div>
+            <div>정기 사서 회의</div>
+            <div>사람 급구</div>
+          </div>
         </div>
+        {/* event list */}
         {eventObj && eventObj.EventList && eventObj.EventList.length > 0 && (
           <div className="result--event_list">
             {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => (
