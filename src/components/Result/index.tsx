@@ -104,8 +104,8 @@ function Result() {
       <div className="result">
         <div className="result--tab">
           <div>
-            <button className="result--tab--btn">정기 사서 회의</button>
-            <button className="result--tab--btn">사람 급구</button>
+            <button className="result--tab--btn">정기 회의</button>
+            <button className="result--tab--btn">기타 이벤트</button>
           </div>
         </div>
         {/* event list */}

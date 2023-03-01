@@ -68,15 +68,15 @@ function Navbar() {
       <Dropdown
         title={<button>이벤트</button>}
         menu={[
-          <button onClick={onClickEventCreate}>이벤트 생성</button>,
-          <button onClick={onClickEventMatching}>이벤트 매칭</button>,
+          <button onClick={onClickEventCreate}>생성하기</button>,
+          <button onClick={onClickEventMatching}>매칭하기</button>,
         ]}
       />
       <Dropdown
         title={<button>사서 로테이션</button>}
         menu={[
-          <button onClick={onClickRotation}>로테이션</button>,
-          <button onClick={onClickCalendar}>사서 달력</button>,
+          <button onClick={onClickRotation}>신청하기</button>,
+          <button onClick={onClickCalendar}>달력보기</button>,
         ]}
       />
       <span onClick={onClickAuthReview}>친스타그램</span>
