@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getAuth } from '@cert/AuthStorage';
 import Calendar from 'react-calendar';
 import getAddress from '@globalObj/function/getAddress';
@@ -8,6 +8,17 @@ import errorAlert from '@globalObj/function/errorAlert';
 import { useSWRConfig } from 'swr';
 import 'react-calendar/dist/Calendar.css';
 import '@css/Rotation/New_Rotation.scss';
+import {
+  createInitialObject,
+  getActiveStartDate,
+  getKoreaDate,
+  rules,
+  setLimitMaxDate,
+  setLimitMinDate,
+  setTileDisabled,
+} from './rotaion_utils';
+
+const DEFAULT_CALENDAR_TYPE = 'US';
 
 export const getWeekNumber = (dateFrom = new Date()) => {
   // 해당 날짜 (일)
@@ -24,31 +35,41 @@ export const getWeekNumber = (dateFrom = new Date()) => {
 };
 
 export const Rotate = () => {
-  const currentDate = new Date();
+  const currentDate = getKoreaDate();
+  const initialRecord = createInitialObject(currentDate);
   const year = currentDate.getFullYear();
   const month = ((currentDate.getMonth() + 1) % 12) + 1;
-  const intraId = getAuth() ? getAuth().id : null;
+  const intraId = getAuth()?.id ?? null;
   const isRotationApplicationPeriod = false;
-  const [value, onChange] = useState(new Date());
-  const [unavailableDates, setUnavailableDates] = useState([]);
+  const [value, onChange] = useState<null | Date>(null);
+  const [record, setRecord] = useState({ ...initialRecord });
+  const [unavailableDates, setUnavailableDates] = useState<number[]>([]);
   const [openSelectModal, setOpenSelectModal] = useState(false);
+
   const { mutate } = useSWRConfig();
 
-  const onClickDay = (value) => {
-    const date = value.getDate();
-    if (unavailableDates.indexOf(date) > -1) {
-      setUnavailableDates(unavailableDates.filter((e) => e != date));
-    } else {
-      setUnavailableDates([...unavailableDates, date]);
+  useEffect(() => {
+    if (value) {
+      const d = value.getDate();
+      setRecord((prev) => ({ ...prev, [d]: !prev[d] })); // 해당키에 하는 value만 반전
     }
-  };
+  }, [value]);
+
+  useEffect(() => {
+    setUnavailableDates(
+      Object.entries(record).reduce(
+        (prev, [date_key, selected]) => (selected ? [...prev, parseInt(date_key)] : prev),
+        [],
+      ),
+    );
+  }, [record]);
 
   const onClickSetDateModal = () => {
     setOpenSelectModal(!openSelectModal);
   };
 
   const resetDates = () => {
-    setUnavailableDates([]);
+    setUnavailableDates({ ...initialRecord });
   };
 
   const onClickPostEvent = () => {
@@ -102,11 +123,9 @@ export const Rotate = () => {
   if (!isRotationApplicationPeriod) {
     return (
       <div className="rotation--wrapper">
-        <div className="rotation--title">
-          현재 사서 로테이션 신청기간이 아닙니다.
-        </div>
+        <div className="rotation--title">현재 사서 로테이션 신청기간이 아닙니다.</div>
       </div>
-    );  
+    );
   }
   return (
     <>
@@ -131,9 +150,13 @@ export const Rotate = () => {
             </div>
             <div>
               <Calendar
-                activeStartDate={new Date(year, month - 1, 1)}
-                onClickDay={(value) => onClickDay(value)}
+                calendarType={DEFAULT_CALENDAR_TYPE}
+                activeStartDate={getActiveStartDate(currentDate)}
+                minDate={setLimitMinDate(currentDate)}
+                maxDate={setLimitMaxDate(currentDate)}
+                tileDisabled={setTileDisabled([rules.isWeekend])}
                 value={value}
+                onClickDay={onChange}
               ></Calendar>
             </div>
             <div className="rotation--viewSelectDates">
