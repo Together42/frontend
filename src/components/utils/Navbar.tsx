@@ -46,8 +46,12 @@ function Navbar() {
     navigate('/');
   };
 
+  const onClickShowLog = () => {
+    navigate('/event/log');
+  };
+
   const onClickEventMatching = () => {
-    navigate('/Result');
+    navigate('/event/match');
   };
 
   const onClickRotation = () => {
@@ -69,6 +73,7 @@ function Navbar() {
         title={<button>이벤트</button>}
         menu={[
           <button onClick={onClickEventCreate}>생성하기</button>,
+          <button onClick={onClickShowLog}>기록보기</button>,
           <button onClick={onClickEventMatching}>매칭하기</button>,
         ]}
       />
