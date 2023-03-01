@@ -25,10 +25,13 @@ export const rules = {
 export const getDaysInMonth = (date: Date, offsetMonth = 0) =>
   new Date(date.getFullYear(), date.getMonth() + 1 + offsetMonth, 0).getDate();
 export const getDaysInNextMonth = (date: Date) => getDaysInMonth(date, 1);
-export const getFirstDayOfMonth = (date: Date) => new Date(date.setDate(1)).getDay();
+export const getFirstDayOfMonth = (date: Date, offsetMonth = 0) =>
+  new Date(date.getFullYear(), date.getMonth() + 1 + offsetMonth, 0).getDay();
+export const getFirstDayOfNextMonth = (date: Date) => getFirstDayOfMonth(date, 1);
 export const getActiveStartDate = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 1);
 export const createWeekdays = (firstDayOfMonth: number, daysInMonth: number) =>
   new Array(daysInMonth)
     .fill(null)
-    .reduce((prev, idx) => (isWeekend(firstDayOfMonth + idx) ? prev : { ...prev, [idx + 1]: false }), {});
-export const createInitialObject = (date: Date) => createWeekdays(getFirstDayOfMonth(date), getDaysInNextMonth(date));
+    .reduce((prev, _el, idx) => (isWeekend(firstDayOfMonth + (idx % 7)) ? prev : { ...prev, [idx + 1]: false }), {});
+export const createInitialObject = (date: Date) =>
+  createWeekdays(getFirstDayOfNextMonth(date), getDaysInNextMonth(date));

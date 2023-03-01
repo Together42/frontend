@@ -10,6 +10,7 @@ import 'react-calendar/dist/Calendar.css';
 import '@css/Rotation/New_Rotation.scss';
 import {
   createInitialObject,
+  createWeekdays,
   getActiveStartDate,
   getKoreaDate,
   rules,
@@ -34,15 +35,21 @@ export const getWeekNumber = (dateFrom = new Date()) => {
   return Math.floor((weekDay - 1 + currentDate) / 7) + 1;
 };
 
+// console.log("test");
+// console.log(createWeekdays(0, 31));
+
 export const Rotate = () => {
+  // const currentDate = new Date();
   const currentDate = getKoreaDate();
-  const initialRecord = createInitialObject(currentDate);
+  // const initialRecord = createInitialObject(currentDate);
+  // console.log(initialRecord);
   const year = currentDate.getFullYear();
   const month = ((currentDate.getMonth() + 1) % 12) + 1;
   const intraId = getAuth()?.id ?? null;
-  const isRotationApplicationPeriod = false;
+  const isRotationApplicationPeriod = true;
   const [value, onChange] = useState<null | Date>(null);
-  const [record, setRecord] = useState({ ...initialRecord });
+  const [record, setRecord] = useState({});
+  // const [record, setRecord] = useState({ ...initialRecord });
   const [unavailableDates, setUnavailableDates] = useState<number[]>([]);
   const [openSelectModal, setOpenSelectModal] = useState(false);
 
@@ -56,6 +63,7 @@ export const Rotate = () => {
   }, [value]);
 
   useEffect(() => {
+    // console.log(record);
     setUnavailableDates(
       Object.entries(record).reduce(
         (prev, [date_key, selected]) => (selected ? [...prev, parseInt(date_key)] : prev),
@@ -69,7 +77,8 @@ export const Rotate = () => {
   };
 
   const resetDates = () => {
-    setUnavailableDates({ ...initialRecord });
+    // setUnavailableDates({ ...initialRecord });
+    setRecord({});
   };
 
   const onClickPostEvent = () => {
