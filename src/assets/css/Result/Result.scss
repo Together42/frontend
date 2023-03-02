@@ -70,12 +70,13 @@ $table_padding: 40px;
 .result--event {
   @include medium_kor;
   color: #5050508f;
+  padding-right: 10px;
+  height: 25px;
+  
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding-right: 10px;
-  text-align: center;
-  height: 25px;
   span {
     &:hover {
       cursor: pointer;
