@@ -10,6 +10,9 @@ export const MILLISEC_IN_MIN = SEC_IN_MIN * MILLISEC_IN_SEC;
 export const MILLISEC_IN_HOUR = MIN_IN_HOUR * MILLISEC_IN_MIN;
 export const KST_OFFSET = 9;
 
+export const MONTH_IN_YEAR = 12;
+export const DAY_IN_WEEK = 7;
+
 export const getKoreaDate = (date = new Date()) => {
   const utc = date.getTime() + date.getTimezoneOffset() * MILLISEC_IN_MIN;
   const KR_TIME_DIFF = KST_OFFSET * MILLISEC_IN_HOUR;
@@ -17,7 +20,7 @@ export const getKoreaDate = (date = new Date()) => {
   return koreaDate;
 };
 export const isWeekend = (day: Date | number) =>
-  typeof day === 'number' ? (day % 7) % 6 === 0 : day.getDay() % 6 === 0;
+  typeof day === 'number' ? (day % DAY_IN_WEEK) % 6 === 0 : day.getDay() % 6 === 0;
 
 /**
  * get...DateOfMonth: 특정달의 첫날 || 마지막날 리턴
@@ -49,5 +52,5 @@ export const getWeekNumber = (dateFrom = new Date()) => {
   const weekDay = startOfMonth.getDay(); // 0: Sun ~ 6: Sat
 
   // ((요일 - 1) + 해당 날짜) / 7일로 나누기 = N 주차
-  return Math.floor((weekDay - 1 + currentDate) / 7) + 1;
+  return Math.floor((weekDay - 1 + currentDate) / DAY_IN_WEEK) + 1;
 };

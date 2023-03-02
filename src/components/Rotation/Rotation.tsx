@@ -16,6 +16,8 @@ import {
   getDaysInMonth,
   getFirstDayOfMonth,
   isWeekend,
+  DAY_IN_WEEK,
+  MONTH_IN_YEAR,
 } from './rotation_utils';
 
 const DEFAULT_CALENDAR_TYPE = 'US';
@@ -65,14 +67,27 @@ const createUnavailableDates = (record) =>
     .filter(([_, selected]) => selected)
     .map(([date_key, _]) => parseInt(date_key));
 
+/**
+ * 마지막 전주인지 체크하여 신청기간 여부 판별.
+ * 이전에는 4주차가 기준이였다고 했는데
+ * 이 부분은 추후에 더 이야기 해볼 수도 있을듯.
+ * 초기값뿐만 아니라, axios 요청 전에도 함수를 통해 새롭게 계산한 결과도 같이 사용.
+ */
+const calculateRotationApplicationPeriod = (curr: Date) => {
+  const getLastSundayDate = (date: Date) => getLastDateOfMonth(date).getDate() - getLastDateOfMonth(date).getDay();
+  const lastSundayDate = getLastSundayDate(curr);
+  const todayDate = curr.getDate();
+  return lastSundayDate - DAY_IN_WEEK <= todayDate && todayDate < lastSundayDate;
+};
+
 export const Rotate = () => {
   const currentDate = new Date();
   // const currentDate = getKoreaDate(); //이것이 필요할까? 아직 잘 모르겠다.
   const initialRecord = createInitialObject(currentDate);
   const year = currentDate.getFullYear();
-  const month = ((currentDate.getMonth() + 1) % 12) + 1;
+  const month = ((currentDate.getMonth() + 1) % MONTH_IN_YEAR) + 1;
   const intraId = getAuth()?.id ?? null;
-  const isRotationApplicationPeriod = false;
+  const isRotationApplicationPeriod = calculateRotationApplicationPeriod(currentDate);
   const [value, onChange] = useState<null | Date>(null);
   const [record, setRecord] = useState({ ...initialRecord });
   const [unavailableDates, setUnavailableDates] = useState<number[]>([]);
@@ -102,7 +117,7 @@ export const Rotate = () => {
 
   const onClickPostEvent = () => {
     // if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month - 1, -1)) {
-    if (!isRotationApplicationPeriod) {
+    if (!isRotationApplicationPeriod || calculateRotationApplicationPeriod(new Date())) {
       alert('신청기간이 아닙니다!');
       return;
     }
@@ -148,7 +163,7 @@ export const Rotate = () => {
       .catch((err) => errorAlert(err));
   };
 
-  if (!isRotationApplicationPeriod) {
+  if (!isRotationApplicationPeriod || calculateRotationApplicationPeriod(new Date())) {
     return (
       <div className="rotation--wrapper">
         <div className="rotation--title">현재 사서 로테이션 신청기간이 아닙니다.</div>
