@@ -11,7 +11,8 @@ export const getKoreaDate = (date: Date = new Date()) => {
   const koreaDate = new Date(utc + KR_TIME_DIFF);
   return koreaDate;
 };
-export const isWeekend = (day: Date | number) => (typeof day === 'number' ? day % 6 === 0 : day.getDay() % 6 === 0);
+export const isWeekend = (day: Date | number) =>
+  typeof day === 'number' ? (day % 7) % 6 === 0 : day.getDay() % 6 === 0;
 export const setLimitMinDate = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 1);
 export const setLimitMaxDate = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 2, 0);
 
