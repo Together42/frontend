@@ -16,7 +16,7 @@ import {
   getDaysInMonth,
   getFirstDayOfMonth,
   isWeekend,
-} from './rotaion_utils';
+} from './rotation_utils';
 
 const DEFAULT_CALENDAR_TYPE = 'US';
 
