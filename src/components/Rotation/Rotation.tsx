@@ -72,7 +72,7 @@ export const Rotate = () => {
   const year = currentDate.getFullYear();
   const month = ((currentDate.getMonth() + 1) % 12) + 1;
   const intraId = getAuth()?.id ?? null;
-  const isRotationApplicationPeriod = true;
+  const isRotationApplicationPeriod = false;
   const [value, onChange] = useState<null | Date>(null);
   const [record, setRecord] = useState({ ...initialRecord });
   const [unavailableDates, setUnavailableDates] = useState<number[]>([]);
