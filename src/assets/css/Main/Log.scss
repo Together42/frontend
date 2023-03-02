@@ -5,33 +5,46 @@
     width: $basic_width;
     margin: 0 auto;
 
+    .title {
+        @include medium_kor;
+        font-size: 18px;
+        text-align: center;
+    }
+
     .medalList {
         display: flex;
         justify-content: space-between;
+        margin-top: 60px;
+
         img {
             width: 80px;
         }
+
         .profile {
             position: relative;
             padding: 20px 10px;
         }
+
         .point {
             @include small_kor;
             position: absolute;
-            top:0;
+            top: 0;
             left: 0;
             background-color: $lightgrey;
             padding: 3px 5px;
             border-radius: 10px;
         }
+
         .medal {
             position: absolute;
             right: 0;
-            top:0;
+            top: 0;
+
             img {
                 width: 30px;
             }
         }
+
         .intraId {
             @include medium_kor;
             text-align: center;
@@ -39,4 +52,3 @@
         }
     }
 }
-

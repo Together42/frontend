@@ -34,7 +34,9 @@ const Log = () => {
 
   return (
     <div className="eventLog">
-      <div>회의 참석 기록</div>
+      <div className="title">
+        <span>🎉 회의에 참여해주신 모든 분들께 감사드립니다 🎉</span>
+      </div>
       <div className="medalList">
         <div className="profile">
           <div className="point">{userList[0].point}회</div>
