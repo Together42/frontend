@@ -101,6 +101,8 @@ function Result() {
     if (eventObj && eventObj.EventList.length) setSelectedEvent(eventObj.EventList[0]);
   }, [eventObj]);
 
+  console.log(eventObj);
+
   return (
     eventObj?.EventList &&
     teamObj && (
