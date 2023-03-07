@@ -5,6 +5,7 @@ export interface EventType {
   createdId: number;
   intraId: string;
   isMatching: number;
+  categoryId: number;
 }
 
 export interface userData {

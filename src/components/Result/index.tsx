@@ -18,8 +18,10 @@ function Result() {
     intraId: null,
     createdId: null,
     isMatching: null,
+    categoryId: 1,
   });
   const [teamLen, setTeamLen] = useState('');
+  const [category, setCategory] = useState(1);
   const navigate = useNavigate();
   const { data: eventObj, mutate: mutateEvent } = useSWR<{ EventList: EventType[] }>(
     `${getAddress()}/api/together`,
@@ -99,25 +101,45 @@ function Result() {
     if (eventObj && eventObj.EventList.length) setSelectedEvent(eventObj.EventList[0]);
   }, [eventObj]);
 
+  console.log('eventObj', eventObj);
+
   return (
     <>
       <div className="result">
         <div className="result--tab">
           <div>
-            <button className="result--tab--btn">정기 회의</button>
-            <button className="result--tab--btn">기타 이벤트</button>
+            <button
+              className="result--tab--btn"
+              onClick={() => {
+                setCategory(1);
+              }}
+            >
+              정기 회의
+            </button>
+            <button
+              className="result--tab--btn"
+              onClick={() => {
+                setCategory(2);
+              }}
+            >
+              기타 이벤트
+            </button>
           </div>
         </div>
         {/* event list */}
-        {eventObj && eventObj.EventList && eventObj.EventList.length > 0 && (
+        {eventObj?.EventList?.length > 0 && (
           <div className="result--event_list">
-            {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => (
-              <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
-                <span id={e.id.toString()} onClick={onClickEvent}>
-                  {e.title}
-                </span>
-              </div>
-            ))}
+            {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => {
+              if (e.categoryId === category)
+                return (
+                  <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
+                    <span id={e.id.toString()} onClick={onClickEvent}>
+                      {e.title}
+                    </span>
+                  </div>
+                );
+              return <></>;
+            })}
           </div>
         )}
         <div
@@ -133,8 +155,7 @@ function Result() {
           {teamObj &&
           !Object.keys(teamObj.teamList).find((e) => e === 'null') &&
           Object.keys(teamObj.teamList).length &&
-          eventObj &&
-          eventObj.EventList.length ? (
+          eventObj?.EventList?.length ? (
             Object.entries(teamObj.teamList).map((elem, idx) => (
               <div key={elem[0]}>
                 <p className="result--team_name">{elem[0]}</p>
