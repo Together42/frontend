@@ -187,6 +187,7 @@ export const Rotate = () => {
         <div className="rotation--title">
           {intraId} 님, {year} {month}월 사서 로테이션에 참여하시나요 ?
         </div>
+        <div className="rotation--title">(신청기간: {periodToString(currentDate)})</div>
         <div className="rotation--button">
           <div>
             <button onClick={onClickSetDateModal}>Yes!</button>
