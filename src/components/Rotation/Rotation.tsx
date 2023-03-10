@@ -112,7 +112,7 @@ export const Rotate = () => {
       // 초기값 && 애초에 넘어오면 안 되는 날짜 정보가 넘어오는것 방지
       setRecord((prev) => ({ ...prev, [d]: !prev[d] })); // 해당키에 하는 value만 반전
     }
-  }, [value, initialRecord]);
+  }, [value]);
 
   useEffect(() => {
     setUnavailableDates(createUnavailableDates(record));
