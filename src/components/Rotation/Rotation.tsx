@@ -16,11 +16,19 @@ import {
   getDaysInMonth,
   getFirstDayOfMonth,
   isWeekend,
-  DAY_IN_WEEK,
   MONTH_IN_YEAR,
+  getFourthWeekPeriod,
+  getNextAttendPeriodString,
+  getNextAttendPeriodStrFunction,
 } from './rotation_utils';
 
 const DEFAULT_CALENDAR_TYPE = 'US';
+
+/**
+ * Type 관련 조언 by youkim
+ */
+type Tile = { date: Date; view: unknown };
+type TileRule = (tile: Tile) => boolean;
 
 /**
  * 사서 로테이션 신청은 특정 기간에 다음달에 대한것
@@ -41,44 +49,47 @@ const getLastDateOfNextMonth = (date: Date) => getLastDateOfMonth(date, 1);
  */
 const createInitialObject = (curr: Date) =>
   createWeekdaysObject(getFirstDayOfNextMonth(curr), getDaysInNextMonth(curr));
-const getActiveStartDate = (curr: Date) => getFirstDateOfNextMonth(curr);
-const setLimitMinDate = (curr: Date) => getFirstDateOfNextMonth(curr);
-const setLimitMaxDate = (curr: Date) => getLastDateOfNextMonth(curr);
+const getActiveStartDate = getFirstDateOfNextMonth;
+const setLimitMinDate = getFirstDateOfNextMonth;
+const setLimitMaxDate = getLastDateOfNextMonth;
 
 /**
  * 달력의 클릭 disable 여부 결정하는 함수
  * - 1일 ~ 말일 제한은 minDate && maxDate 속성을 통해 이루어짐
  * - 현재는 주말의 경우만 룰로서 활용중
+ * - 입력 ({ date, _view }
+ * - 출력 boolean { date: Date; _view: any }) => isWeekend(date),
  */
 const setTileDisabled =
-  (fns: Function[]) =>
-  ({ date, view }) =>
+  (fns: TileRule[]) =>
+  ({ date, view }: Tile) =>
     fns.some((fn) => fn({ date, view }));
+
 const rules = {
-  weekdayOnly: ({ date, _view }: { date: Date; _view: any }) => isWeekend(date),
-};
+  weekdayOnly: ({ date, view: _view }) => isWeekend(date),
+} as const satisfies Record<string, TileRule>;
 
 /**
  * 전체 평일에 대해 선택여부 정보를 가진 record 오브젝트에서
  * 선택된 날짜들로만 이루어진 number[] 추출
  */
-const createUnavailableDates = (record) =>
+const createUnavailableDates = (record: Record<string, boolean>) =>
   Object.entries(record)
     .filter(([_, selected]) => selected)
     .map(([date_key, _]) => parseInt(date_key));
 
 /**
- * 마지막 전주인지 체크하여 신청기간 여부 판별.
- * 이전에는 4주차가 기준이였다고 했는데
- * 이 부분은 추후에 더 이야기 해볼 수도 있을듯.
- * 초기값뿐만 아니라, axios 요청 전에도 함수를 통해 새롭게 계산한 결과도 같이 사용.
+ * 사서 로테이션 신청 기간: ISO기준 4주차 월요일 ~ 일요일
  */
-const calculateRotationApplicationPeriod = (curr: Date) => {
-  const getLastSundayDate = (date: Date) => getLastDateOfMonth(date).getDate() - getLastDateOfMonth(date).getDay();
-  const lastSundayDate = getLastSundayDate(curr);
+const getRotationApplicationPeriod = getFourthWeekPeriod;
+
+const calculateIsRotationApplicationPeriod = (curr: Date) => {
+  const [startDate, endDate] = getRotationApplicationPeriod(curr);
   const todayDate = curr.getDate();
-  return lastSundayDate - DAY_IN_WEEK <= todayDate && todayDate < lastSundayDate;
+  return startDate <= todayDate && todayDate <= endDate;
 };
+
+const periodToString = getNextAttendPeriodStrFunction(getRotationApplicationPeriod);
 
 export const Rotate = () => {
   const currentDate = new Date();
@@ -87,7 +98,7 @@ export const Rotate = () => {
   const year = currentDate.getFullYear();
   const month = ((currentDate.getMonth() + 1) % MONTH_IN_YEAR) + 1;
   const intraId = getAuth()?.id ?? null;
-  const isRotationApplicationPeriod = calculateRotationApplicationPeriod(currentDate);
+  const isRotationApplicationPeriod = calculateIsRotationApplicationPeriod(currentDate);
   const [value, onChange] = useState<null | Date>(null);
   const [record, setRecord] = useState({ ...initialRecord });
   const [unavailableDates, setUnavailableDates] = useState<number[]>([]);
@@ -116,8 +127,7 @@ export const Rotate = () => {
   };
 
   const onClickPostEvent = () => {
-    // if (getWeekNumber(currentDate) < 4 || currentDate > new Date(year, month - 1, -1)) {
-    if (!isRotationApplicationPeriod || calculateRotationApplicationPeriod(new Date())) {
+    if (!isRotationApplicationPeriod || !calculateIsRotationApplicationPeriod(new Date())) {
       alert('신청기간이 아닙니다!');
       return;
     }
@@ -144,7 +154,7 @@ export const Rotate = () => {
   };
 
   const onClickCancel = () => {
-    if (!isRotationApplicationPeriod) {
+    if (!isRotationApplicationPeriod || !calculateIsRotationApplicationPeriod(new Date())) {
       alert('신청기간이 아닙니다!');
       return;
     }
@@ -163,10 +173,11 @@ export const Rotate = () => {
       .catch((err) => errorAlert(err));
   };
 
-  if (!isRotationApplicationPeriod || calculateRotationApplicationPeriod(new Date())) {
+  if (!isRotationApplicationPeriod) {
     return (
       <div className="rotation--wrapper">
         <div className="rotation--title">현재 사서 로테이션 신청기간이 아닙니다.</div>
+        <div className="rotation--title">(다음 신청기간: {periodToString(currentDate)})</div>
       </div>
     );
   }
@@ -184,7 +195,7 @@ export const Rotate = () => {
             <button onClick={onClickCancel}>신청 취소</button>
           </div>
         </div>
-        {openSelectModal ? (
+        {openSelectModal || true ? (
           <div className="rotation--selectDates">
             <div className="rotation-selectDates-title">
               <p>참여가 어려운 날짜를 선택해주세요 !</p>

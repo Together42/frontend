@@ -13,6 +13,8 @@ export const KST_OFFSET = 9;
 export const MONTH_IN_YEAR = 12;
 export const DAY_IN_WEEK = 7;
 
+export const DAY_OF_THURSDAY = 4;
+
 export const getKoreaDate = (date = new Date()) => {
   const utc = date.getTime() + date.getTimezoneOffset() * MILLISEC_IN_MIN;
   const KR_TIME_DIFF = KST_OFFSET * MILLISEC_IN_HOUR;
@@ -53,4 +55,35 @@ export const getWeekNumber = (dateFrom = new Date()) => {
 
   // ((요일 - 1) + 해당 날짜) / 7일로 나누기 = N 주차
   return Math.floor((weekDay - 1 + currentDate) / DAY_IN_WEEK) + 1;
+};
+
+export const getFourthWeekPeriod = (date = new Date()) => {
+  const firstDay = getFirstDayOfMonth(date); // 첫째날 day
+  let dateOfThursdayOnFirstWeek: number; // 첫쨰주에 무조건 존재하는 목요일을 기준으로 탐색.
+  if (firstDay <= DAY_OF_THURSDAY) {
+    dateOfThursdayOnFirstWeek = 1 + DAY_OF_THURSDAY - firstDay;
+  } else {
+    dateOfThursdayOnFirstWeek = 1 + DAY_IN_WEEK + DAY_OF_THURSDAY - firstDay;
+  }
+  const dateOfThursdayOnFourthWeek = dateOfThursdayOnFirstWeek + 3 * DAY_IN_WEEK;
+  const dateOfMondayOnFourthWeek = dateOfThursdayOnFourthWeek - 3;
+  const dateOfSundayOnFourthWeek = dateOfThursdayOnFourthWeek + 3;
+  return [dateOfMondayOnFourthWeek, dateOfSundayOnFourthWeek];
+};
+
+export const getNextAttendPeriod = (curr: Date, getAttendPeriod: (date?: Date) => number[]) => {
+  const currDate = curr.getDate();
+  const endDate = getAttendPeriod(curr)[1];
+  const targetMonth = currDate <= endDate ? curr.getMonth() : curr.getMonth() + 1;
+  return getAttendPeriod(new Date(curr.setMonth(targetMonth)));
+};
+
+export const getAttendPeriodString = (date: Date, getAttendPeriod: (date?: Date) => number[]) => {
+  const [startDate, endDate] = getAttendPeriod(date);
+  return `${date.getMonth() + 1}월 ${startDate}일 ~ ${endDate}일`;
+};
+
+export const getNextAttendPeriodStrFunction = (getAttendPeriod: (date?: Date) => number[]) => (curr: Date) => {
+  const nextAttendPeriod = getNextAttendPeriod(curr, getAttendPeriod);
+  return `${curr.getMonth() + 1}월 ${nextAttendPeriod[0]}일 ~ ${nextAttendPeriod[1]}일`;
 };
