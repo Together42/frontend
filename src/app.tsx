@@ -11,6 +11,7 @@ import DeviceMode, { getDeviceMode } from '@recoil/DeviceMode';
 const Main = loadable(() => import('@main/index'));
 const Auth = loadable(() => import('@auth/index'));
 const Review = loadable(() => import('@review/routes'));
+const EventLog = loadable(() => import('@main/Log'));
 const Result = loadable(() => import('@result/index'));
 const Timeline = loadable(() => import('@timeline/index'));
 const Rotation = loadable(() => import('@rotation/routes'));
@@ -29,16 +30,17 @@ const App = () => {
   }, [device, setDeviceMode]);
 
   return (
-    <Router basename={process.env.NODE_ENV === 'production' ? 'frontend' : ''}>
+    <Router>
       <Header />
       {device === 'desktop' ? <Navbar /> : <MobileNavber />}
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/result" element={<Result />} />
-        <Route path="/auth" element={<Auth />} />
+        <Route path="/event/log" element={<EventLog />} />
+        <Route path="/event/match" element={<Result />} />
+        <Route path="/rotation/*" element={<Rotation />} />
         <Route path="/review/*" element={<Review />} />
         <Route path="/2022-timeline/" element={<Timeline />} />
-        <Route path="/rotation/*" element={<Rotation />} />
+        <Route path="/auth" element={<Auth />} />
       </Routes>
     </Router>
   );
