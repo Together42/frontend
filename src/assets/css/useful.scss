@@ -27,3 +27,9 @@ $desktop: 1024px;
   width: $basic_width;
   margin: 0 auto;
 }
+
+@mixin display-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

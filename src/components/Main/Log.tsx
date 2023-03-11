@@ -44,27 +44,52 @@ const Log = () => {
     userList && (
       <div className="eventLog">
         <div className="title">
-          <span>🎉 회의에 참여해주신 모든 분들께 감사드립니다 🎉</span>
+          <span>🎉 집현전 활동에 참여해주셔서 감사합니다 🎉</span>
         </div>
         <div className="medalList">
-          {(() => {
-            const renderer = [];
-            for (let i = 0; i <= 4; i++) {
-              renderer.push(
-                <div className="profile">
-                  <div className="point">{userList[i].point}회</div>
+          {userList.map((person, i) => {
+            if (i <= 4)
+              return (
+                <div className="profileBox">
+                  <div className="point">{person.totalPoint}회</div>
                   {getMedalComponent(i)}
-                  <div>
-                    <img src={userList[i].profile} alt="none"></img>
+                  <div className="profile">
+                    <img src={person.profile} alt="none"></img>
                   </div>
-                  <div className="intraId">{userList[i].intraId}</div>
-                </div>,
+                  <div>
+                    <div className="intraId">{person.intraId}</div>
+                    <div className="detailPoint">
+                      <span>{`회의${person.meetingPoint}/`}</span>
+                      <span>{`이벤트${person.eventPoint}`}</span>
+                    </div>
+                  </div>
+                </div>
               );
-            }
-            return renderer;
-          })()}
+            return <></>;
+          })}
         </div>
-        <div></div>
+        <div className="list">
+          {userList.map((person, i) => {
+            if (i <= 4) return <></>;
+            return (
+              <div className="box">
+                <div className="profile">
+                  <img src={person.profile} alt="none"></img>
+                </div>
+                <div className="infoBox">
+                  <div className="intraId">{person.intraId}</div>
+                  <div className="totalPoint">
+                    <span>{`${person.totalPoint}회 참여`}</span>
+                  </div>
+                  <div className="detailPoint">
+                    <span>{`${person.meetingPoint}/`}</span>
+                    <span>{`${person.eventPoint}`}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     )
   );

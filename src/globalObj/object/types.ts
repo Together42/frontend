@@ -12,8 +12,9 @@ export interface AttendPointType {
   userId: number;
   intraId: string;
   profile: string;
-  createdId: number;
-  point: number;
+  totalPoint: number;
+  meetingPoint: number;
+  eventPoint: number;
 }
 
 export interface userData {
