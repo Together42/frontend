@@ -8,6 +8,14 @@ export interface EventType {
   categoryId: number;
 }
 
+export interface AttendPointType {
+  userId: number;
+  intraId: string;
+  profile: string;
+  createdId: number;
+  point: number;
+}
+
 export interface userData {
   id: string;
   isLogin: boolean;
