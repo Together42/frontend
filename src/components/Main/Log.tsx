@@ -7,11 +7,15 @@ import GoldMedal from '@img/gold-medal.png';
 import SilverMedal from '@img/silver-medal.png';
 import BronzeMedal from '@img/bronze-medal.png';
 import { AttendPointType } from '@usefulObj/types';
+import { useRecoilValue } from 'recoil';
+import DeviceMode from '@recoil/DeviceMode';
 
 const Log = () => {
+  const deviceMode = useRecoilValue(DeviceMode);
   const { data: userList } = useSWR<AttendPointType[]>(`${getAddress()}/api/together/point`, fetcher, {
     dedupingInterval: 60000,
   });
+  const MEDAL_NUM = deviceMode === 'desktop' ? 4 : 2;
 
   const getMedalComponent = (i: number) => {
     const images = [GoldMedal, SilverMedal, BronzeMedal];
@@ -31,7 +35,7 @@ const Log = () => {
         </div>
         <div className="medalList">
           {userList.map((person, i) => {
-            if (i <= 4)
+            if (i <= MEDAL_NUM)
               return (
                 <div key={`medal ${person.intraId}`} className="profileBox">
                   <div className="point">{person.totalPoint}회</div>
@@ -53,7 +57,7 @@ const Log = () => {
         </div>
         <div className="list">
           {userList.map((person, i) => {
-            if (i <= 4) return <React.Fragment key={`list ${person.intraId}`}></React.Fragment>;
+            if (i <= MEDAL_NUM) return <React.Fragment key={`list ${person.intraId}`}></React.Fragment>;
             return (
               <div key={`list ${person.intraId}`} className="box">
                 <div className="profile">
