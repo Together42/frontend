@@ -102,115 +102,113 @@ function Result() {
     if (eventObj && eventObj.EventList.length) setSelectedEvent(eventObj.EventList[0]);
   }, [eventObj]);
 
+  if (!eventObj?.EventList || !teamListData) return <></>;
   return (
-    eventObj?.EventList &&
-    teamListData && (
-      <>
-        <div className="result">
-          <div className="result--tab">
-            <div>
-              <button
-                className="result--tab--btn"
-                onClick={() => {
-                  setCategory(1);
-                }}
-              >
-                정기 회의
-              </button>
-              <button
-                className="result--tab--btn"
-                onClick={() => {
-                  setCategory(2);
-                }}
-              >
-                기타 이벤트
-              </button>
-            </div>
+    <>
+      <div className="result">
+        <div className="result--tab">
+          <div>
+            <button
+              className="result--tab--btn"
+              onClick={() => {
+                setCategory(1);
+              }}
+            >
+              정기 회의
+            </button>
+            <button
+              className="result--tab--btn"
+              onClick={() => {
+                setCategory(2);
+              }}
+            >
+              기타 이벤트
+            </button>
           </div>
-          {/* event list */}
-          {eventObj.EventList.length > 0 && (
-            <div className="result--event_list">
-              {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => {
-                if (e.categoryId === category)
-                  return (
-                    <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
-                      <span id={e.id.toString()} onClick={onClickEvent}>
-                        {e.title}
-                      </span>
-                    </div>
-                  );
-                return <></>;
-              })}
-            </div>
-          )}
-          <div
-            className={`${
-              Object.keys(teamListData.teamList).find((e) => e === '1') ? 'result--table' : 'result--submit'
-            }`}
-          >
-            <div className="result--submit--delete_event" onClick={onClickDeleteEvent}>
-              삭제하기
-            </div>
-            {Object.keys(teamListData.teamList).find((e) => e === '1') ? (
-              Object.entries(teamListData.teamList).map((elem, idx) => (
-                <div key={elem[0]}>
-                  <p className="result--team_name">{elem[0]}</p>
-                  {elem[1].map((e, i) => (
-                    <p key={i} className="result--intra">
-                      {e.intraId}
-                    </p>
-                  ))}
-                </div>
-              ))
-            ) : Object.keys(teamListData.teamList).find((e) => e === 'null') ? (
-              <>
-                <div className="result--submit--info_wrapper">
-                  <p className="result--submit--event_title">{selectedEvent['title']}</p>
-                  <p className="result--submit--event_description">{selectedEvent['description']}</p>
-                  <hr className="result--submit--event_bot_line"></hr>
-                  {selectedEvent?.categoryId === 1 ? (
-                    <>
-                      <p className="result--submit--info">사서 로테이션은 매주 수요일 오전 10시에 모집 마감합니다!</p>
-                      <p className="result--submit--info">{`현재 신청 인원은 ${teamListData.teamList['null'].length}명입니다.`}</p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="result--submit--info">아직 팀매칭이 이루어지지 않았습니다.</p>
-                      <p className="result--submit--info">원하는 팀원수를 적고 매칭을 눌러주세요!</p>
-                      <p className="result--submit--info">{`현재 신청 인원은 ${teamListData.teamList['null'].length}명입니다.`}</p>
-                    </>
-                  )}
-                </div>
-                {selectedEvent?.categoryId === 2 && (
-                  <div className="result--submit--form_wrapper">
-                    <form onSubmit={onSubmitMatching} className="result--submit--form">
-                      <input className="result--submit--input" onChange={onChangeInput} value={teamLen}></input>
-                      <span className="result--submit--label">팀으로 </span>
-                      <button className="result--submit--button">매칭하기</button>
-                    </form>
+        </div>
+        {/* event list */}
+        {eventObj.EventList.length > 0 && (
+          <div className="result--event_list">
+            {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => {
+              if (e.categoryId === category)
+                return (
+                  <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
+                    <span id={e.id.toString()} onClick={onClickEvent}>
+                      {e.title}
+                    </span>
                   </div>
-                )}
-              </>
-            ) : (
+                );
+              return <></>;
+            })}
+          </div>
+        )}
+        <div
+          className={`${
+            Object.keys(teamListData.teamList).find((e) => e === '1') ? 'result--table' : 'result--submit'
+          }`}
+        >
+          <div className="result--submit--delete_event" onClick={onClickDeleteEvent}>
+            삭제하기
+          </div>
+          {Object.keys(teamListData.teamList).find((e) => e === '1') ? (
+            Object.entries(teamListData.teamList).map((elem, idx) => (
+              <div key={elem[0]}>
+                <p className="result--team_name">{elem[0]}</p>
+                {elem[1].map((e, i) => (
+                  <p key={i} className="result--intra">
+                    {e.intraId}
+                  </p>
+                ))}
+              </div>
+            ))
+          ) : Object.keys(teamListData.teamList).find((e) => e === 'null') ? (
+            <>
               <div className="result--submit--info_wrapper">
                 <p className="result--submit--event_title">{selectedEvent['title']}</p>
                 <p className="result--submit--event_description">{selectedEvent['description']}</p>
                 <hr className="result--submit--event_bot_line"></hr>
-                {selectedEvent?.categoryId === 2 ? (
-                  <p className="result--submit--info">신청하신 분이 없습니다..</p>
-                ) : (
+                {selectedEvent?.categoryId === 1 ? (
                   <>
                     <p className="result--submit--info">사서 로테이션은 매주 수요일 오전 10시에 모집 마감합니다!</p>
-                    <p className="result--submit--info">현재 아무도 신청하지 않았습니다.</p>
+                    <p className="result--submit--info">{`현재 신청 인원은 ${teamListData.teamList['null'].length}명입니다.`}</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="result--submit--info">아직 팀매칭이 이루어지지 않았습니다.</p>
+                    <p className="result--submit--info">원하는 팀원수를 적고 매칭을 눌러주세요!</p>
+                    <p className="result--submit--info">{`현재 신청 인원은 ${teamListData.teamList['null'].length}명입니다.`}</p>
                   </>
                 )}
               </div>
-            )}
-          </div>
+              {selectedEvent?.categoryId === 2 && (
+                <div className="result--submit--form_wrapper">
+                  <form onSubmit={onSubmitMatching} className="result--submit--form">
+                    <input className="result--submit--input" onChange={onChangeInput} value={teamLen}></input>
+                    <span className="result--submit--label">팀으로 </span>
+                    <button className="result--submit--button">매칭하기</button>
+                  </form>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="result--submit--info_wrapper">
+              <p className="result--submit--event_title">{selectedEvent['title']}</p>
+              <p className="result--submit--event_description">{selectedEvent['description']}</p>
+              <hr className="result--submit--event_bot_line"></hr>
+              {selectedEvent?.categoryId === 2 ? (
+                <p className="result--submit--info">신청하신 분이 없습니다..</p>
+              ) : (
+                <>
+                  <p className="result--submit--info">사서 로테이션은 매주 수요일 오전 10시에 모집 마감합니다!</p>
+                  <p className="result--submit--info">현재 아무도 신청하지 않았습니다.</p>
+                </>
+              )}
+            </div>
+          )}
         </div>
-        <Footer />
-      </>
-    )
+      </div>
+      <Footer />
+    </>
   );
 }
 

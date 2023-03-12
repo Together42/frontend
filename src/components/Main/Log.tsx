@@ -13,31 +13,14 @@ const Log = () => {
     dedupingInterval: 60000,
   });
 
-  console.log(userList);
-
   const getMedalComponent = (i: number) => {
-    switch (i) {
-      case 0:
-        return (
-          <div className="medal">
-            <img src={GoldMedal} alt="none"></img>
-          </div>
-        );
-      case 1:
-        return (
-          <div className="medal">
-            <img src={SilverMedal} alt="none"></img>
-          </div>
-        );
-      case 2:
-        return (
-          <div className="medal">
-            <img src={BronzeMedal} alt="none"></img>
-          </div>
-        );
-      default:
-        return <></>;
-    }
+    const images = [GoldMedal, SilverMedal, BronzeMedal];
+    if (i < 0 || i >= images.length) return <></>;
+    return (
+      <div className="medal">
+        <img src={images[i]} alt="none" />
+      </div>
+    );
   };
 
   return (
