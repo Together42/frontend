@@ -132,13 +132,13 @@ function Result() {
             {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => {
               if (e.categoryId === category)
                 return (
-                  <div className={`result--event ${e.id === selectedEvent.id && 'selected'}`} key={i}>
+                  <div key={`result ${i}`} className={`result--event ${e.id === selectedEvent.id && 'selected'}`}>
                     <span id={e.id.toString()} onClick={onClickEvent}>
                       {e.title}
                     </span>
                   </div>
                 );
-              return <></>;
+              return <React.Fragment key={`result ${i}`}></React.Fragment>;
             })}
           </div>
         )}

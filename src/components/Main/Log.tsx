@@ -33,7 +33,7 @@ const Log = () => {
           {userList.map((person, i) => {
             if (i <= 4)
               return (
-                <div className="profileBox">
+                <div key={`medal ${person.intraId}`} className="profileBox">
                   <div className="point">{person.totalPoint}회</div>
                   {getMedalComponent(i)}
                   <div className="profile">
@@ -48,14 +48,14 @@ const Log = () => {
                   </div>
                 </div>
               );
-            return <></>;
+            return <React.Fragment key={`medal ${person.intraId}`}></React.Fragment>;
           })}
         </div>
         <div className="list">
           {userList.map((person, i) => {
-            if (i <= 4) return <></>;
+            if (i <= 4) return <React.Fragment key={`list ${person.intraId}`}></React.Fragment>;
             return (
-              <div className="box">
+              <div key={`list ${person.intraId}`} className="box">
                 <div className="profile">
                   <img src={person.profile} alt="none"></img>
                 </div>

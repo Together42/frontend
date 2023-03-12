@@ -101,7 +101,9 @@ function Apply() {
         <div className="main--apply--list">
           <p className="main--apply--list--title">신청 가능 목록</p>
           {eventList && eventList.length > 0 ? (
-            eventList.map((elem, i) => <Event eventList={eventList} elem={elem} setCreateMode={setCreateMode} />)
+            eventList.map((elem, i) => (
+              <Event key={`event list ${i}`} eventList={eventList} elem={elem} setCreateMode={setCreateMode} />
+            ))
           ) : !createMode ? (
             <div className="main--apply--list--guide">
               <p>이벤트를 생성하고 신청할 수 있는 페이지입니다.</p>
