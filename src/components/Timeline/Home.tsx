@@ -25,13 +25,12 @@ export const Home = () => {
     <div className="timeline--wrapper">
       <div className="timeline--title">
         2022년 집현전 활동 내역을 확인해보세요!
-        <img className="timeline--title-img" src={brush} />
+        <img className="timeline--title-img" src={brush} alt="none" />
       </div>
-      <div className="timeline--chrono" style={{}}>
+      <div className="timeline--chrono">
         <Chrono
           items={items}
           scrollable={{ scrollbar: true }}
-          slideShow
           slideItemDuration={2000}
           allowDynamicUpdate={true}
           theme={{
