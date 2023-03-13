@@ -60,12 +60,12 @@ jobs:
 
       - name: Transfer to S3 for serving static
         run: |
-          aws s3 sync ./dist s3://{{ secrets.AWS_BUCKET_NAME }}  \
-            --region {{ secrets.AWS_BUCKET_REGION }} \
+          aws s3 sync ./dist s3://${{ secrets.AWS_BUCKET_NAME }}  \
+            --region ${{ secrets.AWS_BUCKET_REGION }} \
             --delete
 
       - name: Invalidate cache CloudFront
         run: |
           aws cloudfront create-invalidation \
-          --distribution-id {{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} \
+          --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} \
           --paths "/*"
