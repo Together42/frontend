@@ -7,37 +7,24 @@ import GoldMedal from '@img/gold-medal.png';
 import SilverMedal from '@img/silver-medal.png';
 import BronzeMedal from '@img/bronze-medal.png';
 import { AttendPointType } from '@usefulObj/types';
+import { useRecoilValue } from 'recoil';
+import DeviceMode from '@recoil/DeviceMode';
 
 const Log = () => {
+  const deviceMode = useRecoilValue(DeviceMode);
   const { data: userList } = useSWR<AttendPointType[]>(`${getAddress()}/api/together/point`, fetcher, {
     dedupingInterval: 60000,
   });
-
-  console.log(userList);
+  const MEDAL_NUM = deviceMode === 'desktop' ? 4 : 2;
 
   const getMedalComponent = (i: number) => {
-    switch (i) {
-      case 0:
-        return (
-          <div className="medal">
-            <img src={GoldMedal} alt="none"></img>
-          </div>
-        );
-      case 1:
-        return (
-          <div className="medal">
-            <img src={SilverMedal} alt="none"></img>
-          </div>
-        );
-      case 2:
-        return (
-          <div className="medal">
-            <img src={BronzeMedal} alt="none"></img>
-          </div>
-        );
-      default:
-        return <></>;
-    }
+    const images = [GoldMedal, SilverMedal, BronzeMedal];
+    if (i < 0 || i >= images.length) return <></>;
+    return (
+      <div className="medal">
+        <img src={images[i]} alt="none" />
+      </div>
+    );
   };
 
   return (
@@ -48,9 +35,9 @@ const Log = () => {
         </div>
         <div className="medalList">
           {userList.map((person, i) => {
-            if (i <= 4)
+            if (i <= MEDAL_NUM)
               return (
-                <div className="profileBox">
+                <div key={`medal ${person.intraId}`} className="profileBox">
                   <div className="point">{person.totalPoint}회</div>
                   {getMedalComponent(i)}
                   <div className="profile">
@@ -65,14 +52,14 @@ const Log = () => {
                   </div>
                 </div>
               );
-            return <></>;
+            return <React.Fragment key={`medal ${person.intraId}`}></React.Fragment>;
           })}
         </div>
         <div className="list">
           {userList.map((person, i) => {
-            if (i <= 4) return <></>;
+            if (i <= MEDAL_NUM) return <React.Fragment key={`list ${person.intraId}`}></React.Fragment>;
             return (
-              <div className="box">
+              <div key={`list ${person.intraId}`} className="box">
                 <div className="profile">
                   <img src={person.profile} alt="none"></img>
                 </div>

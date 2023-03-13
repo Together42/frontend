@@ -2,7 +2,13 @@
 @import '@css/useful.scss';
 
 .eventLog {
-    width: $basic_width;
+    @include desktop {
+        width: $basic_width;
+    }
+    @include mobile {
+        width: 100%;
+        padding: 0 10px;
+    }
     margin: 0 auto;
 
     .title {
@@ -73,12 +79,19 @@
 
     .list {
         display: grid;
-        grid-template-columns: repeat(4,1fr);
+        @include desktop {
+            grid-template-columns: repeat(4,1fr);
+            gap: 10px;
+        }
+        @include mobile {
+            grid-template-columns: repeat(2,1fr);
+            gap:7px;
+        }
         .box {
             display: flex;
             padding-left: 15px;
             margin-bottom: 30px;
-            border-left: 3px solid $lightgrey;
+            border: 3px solid $lightgrey;
             .profile {
                 img {
                     width: 45px;
@@ -94,12 +107,12 @@
             .totalPoint {
                 @include small_kor;
                 font-size: 12px;
-                color: $darkgrey_light;
+                // color: $darkgrey_light;
            
             }
             .detailPoint {
                 @include small_kor;
-                font-size: 12px;
+                font-size: 11px;
                 color: $darkgrey_light;
            
             }

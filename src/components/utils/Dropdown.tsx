@@ -18,7 +18,7 @@ export const Dropdown = ({ title, menu }) => {
       {isMenuDropDownOpen && (
         <div className="menu">
           {menu.map((menuItem, index) => (
-            <div>
+            <div key={`dropdown ${index}`}>
               {React.cloneElement(menuItem, {
                 onClick: () => {
                   menuItem.props.onClick();
