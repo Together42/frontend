@@ -12,26 +12,44 @@ $table_padding: 40px;
   }
 }
 
-.result--title {
-  @include main--titles;
+.result--tab {
+  display: flex;
+  & > div {
+    display: flex;
+    // box-shadow: 2px 2px 4px rgba(183, 183, 183, 0.5), 1px 1px 2px rgba(183, 183, 183, 0.2);
+  }
+
+  .result--tab--btn {
+    @include medium_kor;
+    color: rgb(140, 140, 140);
+    padding: 5px 8px;
+    background-color: #cdcaca3d;
+    border: none;
+  }
+  .result--tab--btn:first-child {
+    border-right: 1px solid #7372723d;
+
+  }
+  .result--tab--btn:hover{
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: #7372723d;
+    color: black;
+  }
 }
 
-.result--guide {
-  @include medium_kor;
-  text-align: center;
-  margin-bottom: 70px;
-}
 
 .result--event_list {
   display: grid;
   row-gap: 15px;
   margin-bottom: 70px;
   @include desktop {
+    margin-top: 30px;
     grid-template-columns: repeat(auto-fit, minmax(25%, auto));
   }
   @include mobile {
     grid-template-columns: repeat(auto-fit, minmax(50%, auto));
-    padding: 0 20px;
+    padding: 30px 20px 0 20px;
   }
 }
 
@@ -42,12 +60,13 @@ $table_padding: 40px;
 .result--event {
   @include medium_kor;
   color: #5050508f;
+  padding-right: 10px;
+  height: 25px;
+  
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding-right: 10px;
-  text-align: center;
-  height: 25px;
   span {
     &:hover {
       cursor: pointer;
@@ -74,6 +93,8 @@ $table_padding: 40px;
 
 .result--submit {
   background-color: #b2babb3d;
+  // border-radius: 20px;
+      // border: 3px solid #4992CE;
   position: relative;
   @include desktop {
     padding: 30px 100px;

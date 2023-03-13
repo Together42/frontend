@@ -117,6 +117,7 @@ function SliderBtnBox(props: { imageArr: imageType[] }) {
         {imageArr.map((image) => {
           return (
             <div
+              key={image['filePath']}
               className="review--btn_box_slider--image_wrapper"
               ref={imageRef}
               style={{

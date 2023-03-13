@@ -5,6 +5,16 @@ export interface EventType {
   createdId: number;
   intraId: string;
   isMatching: number;
+  categoryId: number;
+}
+
+export interface AttendPointType {
+  userId: number;
+  intraId: string;
+  profile: string;
+  totalPoint: number;
+  meetingPoint: number;
+  eventPoint: number;
 }
 
 export interface userData {

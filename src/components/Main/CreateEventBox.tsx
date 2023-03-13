@@ -27,6 +27,7 @@ function CreateEventBox(props: Props) {
           {
             title: createTitle,
             description: createDescription,
+            categoryId: 2,
           },
           {
             headers: {

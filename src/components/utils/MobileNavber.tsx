@@ -78,7 +78,10 @@ function MobileNavber() {
           <Link to={`/`} onClick={onClickModalShow}>
             이벤트생성
           </Link>
-          <Link to={`/Result`} onClick={onClickModalShow}>
+          <Link to={`/event/log`} onClick={onClickModalShow}>
+            이벤트기록
+          </Link>
+          <Link to={`/event/match`} onClick={onClickModalShow}>
             이벤트매칭
           </Link>
           <span onClick={onClickAuthRotation}>사서 로테 신청</span>

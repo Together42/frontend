@@ -119,7 +119,10 @@ function CommentModal(props: { boardId: number }) {
             <div className="review--detail--attendee_wrapper">
               <span className="review--detail--attendee">
                 {attendMems &&
-                  attendMems.map((e) => (e.intraId !== boardObj['intraId'] ? <span>{`#${e.intraId} `}</span> : null))}
+                  attendMems.map(
+                    (e, i) =>
+                      e.intraId !== boardObj['intraId'] && <span key={`attendee ${i}`}>{`#${e.intraId} `}</span>,
+                  )}
               </span>
             </div>
             {boardObj['comments'] &&
