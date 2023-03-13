@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
+        with:
+          ref: deploy
 
       - name: Setup Python for AWS CLI
         uses: actions/setup-python@v1
