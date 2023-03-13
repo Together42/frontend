@@ -10,38 +10,62 @@ jobs:
     runs-on: [ubuntu-latest]
 
     env:
-      AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_BUCKET_REGION }}
-      DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
+      DEPLOY_ADR: ${{ secrets.DEPLOY_ADR }}
 
     strategy:
       matrix:
         node-version: [14.15.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Setup Python for AWS CLI
+        uses: actions/setup-python@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          python-version: '3.x'
 
-      - name: Npm install
+      - name: Install AWS CLI
+        run: pip3 install awscli --upgrade --user
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          mask-aws-account-id: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Npm Install
         run: npm install
+      
+      - name: Create env file
+        run: |
+          touch .env
+          echo DEPLOY_ADR=${{secrets.DEPLOY_ADR}} >> .env
+          cat .env
 
       - name: Build
-        run: npm run build
+        run: npm run predeploy
 
       - name: Transfer to S3 for serving static
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          folder: dist
-          bucket: ${{ secrets.S3_BUCKET }}
-          args: --acl public-read --exclude '*' --include 'index.html'
-          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          invalidation: /*
+        run: |
+          aws s3 sync ./dist s3://{{ secrets.AWS_BUCKET_NAME }}  \
+            --region {{ secrets.AWS_BUCKET_REGION }} \
+            --delete
 
       - name: Invalidate cache CloudFront
-        uses: chetan/invalidate-cloudfront-action@master
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id {{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/*"
