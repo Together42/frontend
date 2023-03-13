@@ -81,15 +81,17 @@
         display: grid;
         @include desktop {
             grid-template-columns: repeat(4,1fr);
+            gap: 10px;
         }
         @include mobile {
             grid-template-columns: repeat(2,1fr);
+            gap:7px;
         }
         .box {
             display: flex;
             padding-left: 15px;
             margin-bottom: 30px;
-            border-left: 3px solid $lightgrey;
+            border: 3px solid $lightgrey;
             .profile {
                 img {
                     width: 45px;
