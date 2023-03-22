@@ -196,7 +196,7 @@ export const Rotate = () => {
             <button onClick={onClickCancel}>신청 취소</button>
           </div>
         </div>
-        {openSelectModal ? (
+        {openSelectModal && (
           <div className="rotation--selectDates">
             <div className="rotation-selectDates-title">
               <p>참여가 어려운 날짜를 선택해주세요 !</p>
@@ -231,7 +231,7 @@ export const Rotate = () => {
               신청
             </button>
           </div>
-        ) : null}
+        )}
       </div>
     </>
   );
