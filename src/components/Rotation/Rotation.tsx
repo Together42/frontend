@@ -94,7 +94,7 @@ const periodToString = getNextAttendPeriodStrFunction(getRotationApplicationPeri
 export const Rotate = () => {
   const currentDate = new Date();
   // const currentDate = getKoreaDate(); //이것이 필요할까? 아직 잘 모르겠다.
-  const initialRecord = createInitialObject(currentDate);
+  const initialRecord = createInitialObject(new Date(currentDate.setDate(26)));
   const year = currentDate.getFullYear();
   const month = ((currentDate.getMonth() + 1) % MONTH_IN_YEAR) + 1;
   const intraId = getAuth()?.id ?? null;
@@ -123,7 +123,7 @@ export const Rotate = () => {
   };
 
   const resetDates = () => {
-    setRecord({ ...initialRecord });
+    setRecord((_) => ({ ...initialRecord }));
   };
 
   const onClickPostEvent = () => {
@@ -196,7 +196,7 @@ export const Rotate = () => {
             <button onClick={onClickCancel}>신청 취소</button>
           </div>
         </div>
-        {openSelectModal || true ? (
+        {openSelectModal ? (
           <div className="rotation--selectDates">
             <div className="rotation-selectDates-title">
               <p>참여가 어려운 날짜를 선택해주세요 !</p>
