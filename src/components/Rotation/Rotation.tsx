@@ -91,6 +91,20 @@ const calculateIsRotationApplicationPeriod = (curr: Date) => {
 
 const periodToString = getNextAttendPeriodStrFunction(getRotationApplicationPeriod);
 
+// Attend
+// {
+//   "id": 78,
+//   "intraId": "gychoi",
+//   "attendLimit": "[5,12,19,26]",
+//   "month": 4,
+//   "year": 2023,
+//   "attendDate": "2023-04-04,2023-04-10,2023-04-13,2023-04-18,2023-04-20,2023-04-28,",
+//   "isSet": 1
+// }
+// GET /api/rotation: { data: Attend[] }
+const ALL_ROTATION_PATH = '/api/rotation';
+const ALL_USER_ROTATION_ATTEND_PATH = '/api/rotation/attend';
+
 export const Rotate = () => {
   const currentDate = new Date();
   // const currentDate = getKoreaDate(); //이것이 필요할까? 아직 잘 모르겠다.
@@ -103,6 +117,7 @@ export const Rotate = () => {
   const [record, setRecord] = useState({ ...initialRecord });
   const [unavailableDates, setUnavailableDates] = useState<number[]>([]);
   const [openSelectModal, setOpenSelectModal] = useState(false);
+  const [attended, setAttended] = useState(false);
 
   const { mutate } = useSWRConfig();
 
@@ -117,6 +132,27 @@ export const Rotate = () => {
   useEffect(() => {
     setUnavailableDates(createUnavailableDates(record));
   }, [record]);
+
+  useEffect(() => {
+    if (getToken()) {
+      axios
+        // TODO: 이것으로 바꾸어야함 ALL_USER_ROTATION_ATTEND_PATH
+        .get(getAddress() + ALL_ROTATION_PATH) // 임시: 로테 신청 => 로테이션 반영되는것 활용.
+        .then((res) => {
+          const data = res.data; // Rotation[];
+          const filtered = data.filter((rotation) => rotation.intraId === 'hyeonjan');
+          const nowAttend = filtered.some((rotation) => rotation.month === 3); // 이번달 3월 => 해당월 4월, 테스트용은 3월로
+          console.log('GET /api/rotation/attend 요청');
+          // console.log(res.data);
+          // console.log(filtered);
+          console.log(nowAttend);
+          setAttended(nowAttend); // 신청 여부를 통해 뷰를 변화 시키기 위함.
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   const onClickSetDateModal = () => {
     setOpenSelectModal((prev) => !prev);
@@ -134,7 +170,7 @@ export const Rotate = () => {
     if (getToken()) {
       axios
         .post(
-          `${getAddress()}/api/rotation/attend`,
+          `${getAddress()}/api/rotation/attend}`,
           {
             intraId: intraId,
             attendLimit: unavailableDates,
@@ -196,7 +232,7 @@ export const Rotate = () => {
             <button onClick={onClickCancel}>신청 취소</button>
           </div>
         </div>
-        {openSelectModal && (
+        {attended && (
           <div className="rotation--selectDates">
             <div className="rotation-selectDates-title">
               <p>참여가 어려운 날짜를 선택해주세요 !</p>
@@ -212,6 +248,13 @@ export const Rotate = () => {
                 tileDisabled={setTileDisabled([rules.weekdayOnly])}
                 value={value}
                 onClickDay={onChange}
+                tileClassName={({ date }) => {
+                  // const isSameMonth = currentDate.getMonth() + 1 === date.getMonth();
+                  const isSameMonth = 3 === date.getMonth();
+                  const isClicked = unavailableDates.some((d) => d === date.getDate());
+                  console.log(date.getMonth(), date.getDate(), isSameMonth, isClicked, unavailableDates);
+                  return isSameMonth && isClicked ? 'selected' : '';
+                }}
               ></Calendar>
             </div>
             <div className="rotation--viewSelectDates">
