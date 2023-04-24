@@ -9,9 +9,10 @@
 }
 
 .rotation--title {
-  margin-bottom: 30px;
+  text-align: center;
   font-size: 22px;
   font-family: 'Rowdies';
+
 }
 
 .rotation--selectUserTitle {
@@ -116,5 +117,6 @@
 .rotationCalendar--wrapper {
   @include mobile {
     @include basic--wrappers;
+    overflow-y: auto;
   }
 }
