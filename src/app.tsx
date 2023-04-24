@@ -7,6 +7,7 @@ import Header from '@utils/Header';
 import Navbar from '@utils/Navbar';
 import MobileNavber from '@utils/MobileNavber';
 import DeviceMode, { getDeviceMode } from '@recoil/DeviceMode';
+import EventAttend from '@result/EventAttend';
 
 const Main = loadable(() => import('@main/index'));
 const Auth = loadable(() => import('@auth/index'));
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/" element={<Main />} />
         <Route path="/event/log" element={<EventLog />} />
         <Route path="/event/match" element={<Result />} />
+        <Route path="/event/attend/:eventId" element={<EventAttend />} />
         <Route path="/rotation/*" element={<Rotation />} />
         <Route path="/review/*" element={<Review />} />
         <Route path="/2022-timeline/" element={<Timeline />} />
