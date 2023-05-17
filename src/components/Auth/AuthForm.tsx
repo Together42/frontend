@@ -6,7 +6,7 @@ import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import axios from 'axios';
 import { saveToken } from '@cert/TokenStorage';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import SignUpProfileState from '@recoil/SignUpProfileState';
 import { saveAuth } from '@cert/AuthStorage';
 import getAddress from '@globalObj/function/getAddress';
@@ -27,7 +27,7 @@ function AuthForm(props: Props) {
   const setLoginState = useSetRecoilState(GlobalLoginState);
   const profileImageState = useRecoilValue(SignUpProfileState);
   const navigate = useNavigate();
-
+  const location = useLocation();
   const login = () => {
     axios
       .post(`${getAddress()}/api/auth/login`, {
@@ -47,7 +47,7 @@ function AuthForm(props: Props) {
           saveToken(res.data.token);
           saveAuth({ id, url: res.data.url });
           alert('로그인 되셨습니다');
-          navigate('/');
+          navigate(location.state?.from?.pathname || '/');
         } else {
           setErrorMessage('토큰 받아오기 실패');
         }
