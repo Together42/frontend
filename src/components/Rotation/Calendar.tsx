@@ -133,9 +133,10 @@ export default class Calendar extends React.Component {
     }
 
     if (title !== info.event.title) {
-      window.alert('본인 일정만 변경이 가능합니다.');
-      info.revert();
-      return;
+      if (!window.confirm(`본인의 일정이 아닌 ${info.event.title}의 일정을 수정하는 것이 맞습니까?`)) {
+        info.revert();
+        return;
+      }
     }
 
     /* revert를 사용하더라도 eventChange 훅이 동작한다. 따라서 훅을 이용하지 않고 직접 this.requestChange 함수를 호출하여 사용한다. */
@@ -215,8 +216,8 @@ export default class Calendar extends React.Component {
         data: { intraId: info.event.title, before: info.oldEvent.startStr, after: info.event.startStr },
         headers: { Authorization: `Bearer ${getToken()}` },
       },
-      `사서 로테이션 일정<${info.oldEvent.startStr}>이 <${info.event.startStr}>으로 성공적으로 변경되었습니다.`,
-      `사서 로테이션 일정<${info.oldEvent.startStr}>을 <${info.event.startStr}>로 변경에 실패했습니다.`,
+      `${info.oldEvent.title}의 사서 로테이션 일정<${info.oldEvent.startStr}>이 <${info.event.startStr}>으로 성공적으로 변경되었습니다.`,
+      `${info.oldEvent.title}의 사서 로테이션 일정<${info.oldEvent.startStr}>을 <${info.event.startStr}>로 변경에 실패했습니다.`,
     );
   };
 }
