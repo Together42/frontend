@@ -71,6 +71,12 @@ export const getFourthWeekPeriod = (date = new Date()) => {
   return [dateOfMondayOnFourthWeek, dateOfSundayOnFourthWeek];
 };
 
+export const getFourthWeekFromMondayToFridayPeriod = (date = new Date()) => {
+  const [dateOfMondayOnFourthWeek, dateOfSundayOnFourthWeek] = getFourthWeekPeriod(date);
+  const dateOfFridayOnFourthWeek = dateOfSundayOnFourthWeek - 2;
+  return [dateOfMondayOnFourthWeek, dateOfFridayOnFourthWeek]
+};
+
 export const getNextAttendPeriod = (curr: Date, getAttendPeriod: (date?: Date) => number[]) => {
   const currDate = curr.getDate();
   const endDate = getAttendPeriod(curr)[1];

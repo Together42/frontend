@@ -11,14 +11,13 @@ import 'react-calendar/dist/Calendar.css';
 import '@css/Rotation/New_Rotation.scss';
 import {
   createWeekdaysObject,
-  getKoreaDate,
   getFirstDateOfMonth,
   getLastDateOfMonth,
   getDaysInMonth,
   getFirstDayOfMonth,
   isWeekend,
   MONTH_IN_YEAR,
-  getFourthWeekPeriod,
+  getFourthWeekFromMondayToFridayPeriod,
   getNextAttendPeriodStrFunction,
 } from './rotation_utils';
 
@@ -108,9 +107,10 @@ const createUnavailableDates = (record: Record<string, boolean>) =>
     .map(([date_key, _]) => parseInt(date_key));
 
 /**
- * 사서 로테이션 신청 기간: ISO기준 4주차 월요일 ~ 일요일
+ * 사서 로테이션 신청 기간: ISO기준 4주차 월요일 ~ 금요일 (23.06.27 업데이트 이전 월요일 ~ 일요일)
  */
-const getRotationApplicationPeriod = getFourthWeekPeriod;
+// const getRotationApplicationPeriod = getFourthWeekPeriod;
+const getRotationApplicationPeriod = getFourthWeekFromMondayToFridayPeriod;
 
 const calculateIsRotationApplicationPeriod = (curr: Date) => {
   const [startDate, endDate] = getRotationApplicationPeriod(curr);
@@ -271,6 +271,7 @@ export const Rotate = () => {
   const isRotationApplicationPeriod = calculateIsRotationApplicationPeriod(currentDate);
   const [record, setRecord] = useState(() => ({ ...initialRecord }));
   const [isSubmit, setIsSumbit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // pageReload 관련하여 추가, 아지 관련 기능 완전 업데이트 X
   const { mutate } = useSWRConfig();
 
   /**
@@ -307,6 +308,16 @@ export const Rotate = () => {
 
   const resetDates = () => setRecord({ ...initialRecord });
 
+  const pageReload = () => {
+    if (!isLoading) {
+      window.location.reload();
+      // 아래 코드는 추후 보완하여 업데이트
+      // setRecord(() => ({ ...initialRecord }));
+      // setIsSumbit(false);
+      // setIsLoading(true);
+    }
+  };
+
   const onClickPostEvent = async () => {
     if (!checkIsPeriod() || !checkTokenAndRedirect()) {
       return;
@@ -316,6 +327,7 @@ export const Rotate = () => {
         const res = await postAttend(intraId, record);
         alert('성공적으로 신청되었습니다');
         mutate(`${getAddress()}/api/rotation/attend`);
+        pageReload();
       } catch (error) {
         errorAlert(error);
       }
@@ -330,6 +342,7 @@ export const Rotate = () => {
       try {
         const res = await deleteAttend(intraId);
         alert('성공적으로 신청 취소되었습니다');
+        pageReload();
       } catch (error) {
         errorAlert(error);
       }
@@ -357,9 +370,12 @@ export const Rotate = () => {
           errorAlert(error);
         }
       }
+      setIsLoading(false);
     };
-    fetchAttendLimit(intraId, currentDate);
-  }, []);
+    if (isLoading) {
+      fetchAttendLimit(intraId, currentDate);
+    }
+  }, [isLoading]);
 
   return (
     <div className="rotation--wrapper">
