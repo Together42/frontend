@@ -271,6 +271,7 @@ export const Rotate = () => {
   const isRotationApplicationPeriod = calculateIsRotationApplicationPeriod(currentDate);
   const [record, setRecord] = useState(() => ({ ...initialRecord }));
   const [isSubmit, setIsSumbit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // pageReload 관련하여 추가, 아지 관련 기능 완전 업데이트 X
   const { mutate } = useSWRConfig();
 
   /**
@@ -307,6 +308,16 @@ export const Rotate = () => {
 
   const resetDates = () => setRecord({ ...initialRecord });
 
+  const pageReload = () => {
+    if (!isLoading) {
+      window.location.reload();
+      // 아래 코드는 추후 보완하여 업데이트
+      // setRecord(() => ({ ...initialRecord }));
+      // setIsSumbit(false);
+      // setIsLoading(true);
+    }
+  };
+
   const onClickPostEvent = async () => {
     if (!checkIsPeriod() || !checkTokenAndRedirect()) {
       return;
@@ -316,6 +327,7 @@ export const Rotate = () => {
         const res = await postAttend(intraId, record);
         alert('성공적으로 신청되었습니다');
         mutate(`${getAddress()}/api/rotation/attend`);
+        pageReload();
       } catch (error) {
         errorAlert(error);
       }
@@ -330,6 +342,7 @@ export const Rotate = () => {
       try {
         const res = await deleteAttend(intraId);
         alert('성공적으로 신청 취소되었습니다');
+        pageReload();
       } catch (error) {
         errorAlert(error);
       }
@@ -357,9 +370,12 @@ export const Rotate = () => {
           errorAlert(error);
         }
       }
+      setIsLoading(false);
     };
-    fetchAttendLimit(intraId, currentDate);
-  }, []);
+    if (isLoading) {
+      fetchAttendLimit(intraId, currentDate);
+    }
+  }, [isLoading]);
 
   return (
     <div className="rotation--wrapper">
