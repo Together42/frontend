@@ -11,14 +11,13 @@ import 'react-calendar/dist/Calendar.css';
 import '@css/Rotation/New_Rotation.scss';
 import {
   createWeekdaysObject,
-  getKoreaDate,
   getFirstDateOfMonth,
   getLastDateOfMonth,
   getDaysInMonth,
   getFirstDayOfMonth,
   isWeekend,
   MONTH_IN_YEAR,
-  getFourthWeekPeriod,
+  getFourthWeekFromMondayToFridayPeriod,
   getNextAttendPeriodStrFunction,
 } from './rotation_utils';
 
@@ -108,9 +107,10 @@ const createUnavailableDates = (record: Record<string, boolean>) =>
     .map(([date_key, _]) => parseInt(date_key));
 
 /**
- * 사서 로테이션 신청 기간: ISO기준 4주차 월요일 ~ 일요일
+ * 사서 로테이션 신청 기간: ISO기준 4주차 월요일 ~ 금요일 (23.06.27 업데이트 이전 월요일 ~ 일요일)
  */
-const getRotationApplicationPeriod = getFourthWeekPeriod;
+// const getRotationApplicationPeriod = getFourthWeekPeriod;
+const getRotationApplicationPeriod = getFourthWeekFromMondayToFridayPeriod;
 
 const calculateIsRotationApplicationPeriod = (curr: Date) => {
   const [startDate, endDate] = getRotationApplicationPeriod(curr);
