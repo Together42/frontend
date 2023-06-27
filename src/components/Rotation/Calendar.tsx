@@ -96,8 +96,8 @@ export default class Calendar extends React.Component {
     
     const { currentEvents, auth } = this.state;
     const title = auth?.id;
-    
-    if (title === null) {
+
+    if (!title) {
       window.alert('로그인을 먼저 해주세요!');
       return;
     }
@@ -126,7 +126,7 @@ export default class Calendar extends React.Component {
     const { auth } = this.state;
     const title = auth?.id;
 
-    if (title === null) {
+    if (!title) {
       window.alert('로그인을 먼저 해주세요!');
       info.revert();
       return;
@@ -151,7 +151,7 @@ export default class Calendar extends React.Component {
     const { auth } = this.state;
     const title = auth?.id;
 
-    if (title === null) {
+    if (!title) {
       window.alert('로그인을 먼저 해주세요!');
       return;
     }
