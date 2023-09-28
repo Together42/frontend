@@ -16,6 +16,7 @@ import {
   getDaysInMonth,
   getFirstDayOfMonth,
   isWeekend,
+  isSunday,
   MONTH_IN_YEAR,
   getFourthWeekFromMondayToFridayPeriod,
   getNextAttendPeriodStrFunction,
@@ -95,6 +96,7 @@ const setTileDisabled =
 
 const rules = {
   weekdayOnly: ({ date, view: _view }) => isWeekend(date),
+  exceptSunday: ({ date, view: _view }) => !isSunday(date),
 } as const satisfies Record<string, TileRule>;
 
 /**
@@ -244,7 +246,7 @@ const SelectDateBox = ({
           activeStartDate={getActiveStartDate(currentDate)}
           minDate={setLimitMinDate(currentDate)}
           maxDate={setLimitMaxDate(currentDate)}
-          tileDisabled={setTileDisabled([rules.weekdayOnly])}
+          tileDisabled={setTileDisabled([rules.exceptSunday])}
           tileClassName={setTileClassName}
           onClickDay={onClickDay}
         ></Calendar>
