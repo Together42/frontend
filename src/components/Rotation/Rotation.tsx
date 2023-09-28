@@ -96,7 +96,7 @@ const setTileDisabled =
 
 const rules = {
   weekdayOnly: ({ date, view: _view }) => isWeekend(date),
-  exceptSunday: ({ date, view: _view }) => !isSunday(date),
+  exceptSunday: ({ date, view: _view }) => isSunday(date),
 } as const satisfies Record<string, TileRule>;
 
 /**
