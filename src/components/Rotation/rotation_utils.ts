@@ -14,6 +14,7 @@ export const MONTH_IN_YEAR = 12;
 export const DAY_IN_WEEK = 7;
 
 export const DAY_OF_THURSDAY = 4;
+export const DAY_OF_SUNDAY = 0;
 
 export const getKoreaDate = (date = new Date()) => {
   const utc = date.getTime() + date.getTimezoneOffset() * MILLISEC_IN_MIN;
@@ -23,6 +24,8 @@ export const getKoreaDate = (date = new Date()) => {
 };
 export const isWeekend = (day: Date | number) =>
   typeof day === 'number' ? (day % DAY_IN_WEEK) % 6 === 0 : day.getDay() % 6 === 0;
+export const isSunday = (day: Date | number) =>
+  typeof day === 'number' ? (day % DAY_IN_WEEK) === DAY_OF_SUNDAY : day.getDay() === DAY_OF_SUNDAY;
 
 /**
  * get...DateOfMonth: 특정달의 첫날 || 마지막날 리턴
