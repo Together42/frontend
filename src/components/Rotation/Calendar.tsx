@@ -11,6 +11,7 @@ import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import '@css/Rotation/Calendar.scss';
 import { getAuth } from '@cert/AuthStorage';
+import { DAY_OF_SUNDAY } from './rotation_utils';
 
 const COLOR = {
   me: '#e79f5a',
@@ -65,15 +66,16 @@ export default class Calendar extends React.Component {
   /*
     동일 달 여부 => 기본적으로 같은 달안에서 이루어진다.
     주말 여부 => 0인 일요일과 6인 토요일은 6으로 나누면 0
+    => 2024.09.29: 일요일 여부로 수정
     중복 여부(해당일자에 이미 사서 추가된 상태) => 날짜 & title(인트라id)를 비교
     공휴일 여부 => 하고 싶다면 공휴일 정보는 미리 가져와서 추가 해야됨
   */
   dropEventAllowHandler = (dropInfo, draggedEvent) => {
     const { currentEvents } = this.state;
     const isSameMonth = draggedEvent.start.getMonth() === dropInfo.start.getMonth();
-    const isWeekend = dropInfo.start.getDay() % 6 === 0;
+    const isSunday = dropInfo.start.getDay() === DAY_OF_SUNDAY;
     const isDuplicated = currentEvents.some((e) => e.startStr === dropInfo.startStr && e.title === draggedEvent.title);
-    return isSameMonth && !isWeekend && !isDuplicated;
+    return isSameMonth && !isSunday && !isDuplicated;
   };
 
   handleWeekendsToggle = () => {
@@ -89,8 +91,8 @@ export default class Calendar extends React.Component {
   };
 
   handleDateClick = (info) => {
-    const isWeekend = info.date.getDay() % 6 === 0;
-    if (isWeekend) {
+    const isSunday = info.date.getDay() === DAY_OF_SUNDAY;
+    if (isSunday) {
       return;
     }
     

@@ -246,7 +246,7 @@ const SelectDateBox = ({
           activeStartDate={getActiveStartDate(currentDate)}
           minDate={setLimitMinDate(currentDate)}
           maxDate={setLimitMaxDate(currentDate)}
-          tileDisabled={setTileDisabled([rules.exceptSunday])}
+          tileDisabled={setTileDisabled([rules.weekdayOnly])}
           tileClassName={setTileClassName}
           onClickDay={onClickDay}
         ></Calendar>
