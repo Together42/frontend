@@ -25,14 +25,14 @@ function AttendeeListProfile(props: Props) {
   const cancleEventAttend = useCallback(
     (eventId: number) => {
       axios
-        .delete(`${getAddress()}/api/together/unregister/${eventId}`, {
+        .delete(`${getAddress()}/meetups/attendance/${eventId}`, {
           headers: {
             Authorization: 'Bearer ' + getToken(),
           },
         })
         .then(() => {
           alert('삭제되었습니다');
-          mutate(`${getAddress()}/api/together/${selectedEvent.id}`);
+          mutate(`${getAddress()}/meetups/${selectedEvent.id}`);
         })
         .catch((err) => errorAlert(err));
     },

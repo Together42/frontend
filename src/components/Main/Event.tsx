@@ -21,7 +21,7 @@ function Event(props: {
   const [selectedEvent, setSelectedEvent] = useRecoilState(SelectedEvent);
   const deviceMode = useRecoilValue(DeviceMode);
   const [xmarkVisible, setXmarkVisible] = useState(false);
-  const { mutate: mutateEvent } = useSWR<{ EventList: EventType[] }>(`${getAddress()}/api/together`, fetcher, {
+  const { mutate: mutateEvent } = useSWR<EventType[]>(`${getAddress()}/meetups`, fetcher, {
     dedupingInterval: 600000,
   });
 
@@ -32,7 +32,7 @@ function Event(props: {
 
   const deleteEvent = useCallback(() => {
     axios
-      .delete(`${getAddress()}/api/together/${elem['id']}`, {
+      .delete(`${getAddress()}/meetups/${elem['id']}`, {
         headers: {
           Authorization: 'Bearer ' + getToken(),
         },

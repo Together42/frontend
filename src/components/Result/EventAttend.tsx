@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import '@css/Result/Result.scss';
 import axios from 'axios';
 import errorAlert from '@globalObj/function/errorAlert';
@@ -11,8 +11,8 @@ function EventAttend() {
   const { eventId } = useParams();
 
   const requestRegister = async (eventId: string) => {
-    const url = `${getAddress()}/api/together/register`;
-    const data =  { eventId };
+    const url = `${getAddress()}/meetups/attendance`;
+    const data = { eventId };
     const config = { headers: { Authorization: 'Bearer ' + getToken() } };
     try {
       const resp = await axios.post(url, data, config);
@@ -22,20 +22,18 @@ function EventAttend() {
     } catch (error) {
       errorAlert(error);
     }
-    navigate("/");
-  }
+    navigate('/');
+  };
   useEffect(() => {
     if (!getToken()) {
       alert('로그인을 하셔야 신청 가능합니다!');
-      navigate("/auth", { state: { from: { pathname: `/event/attend/${eventId}` } } });
+      navigate('/auth', { state: { from: { pathname: `/event/attend/${eventId}` } } });
       return;
     }
     requestRegister(eventId);
-  }, [])
+  }, []);
 
-  return (
-    <></>
-  );
+  return <></>;
 }
 
 export default EventAttend;

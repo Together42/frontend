@@ -23,7 +23,7 @@ function CreateEventBox(props: Props) {
     if (getToken()) {
       axios
         .post(
-          `${getAddress()}/api/together`,
+          `${getAddress()}/meetups`,
           {
             title: createTitle,
             description: createDescription,
@@ -38,7 +38,7 @@ function CreateEventBox(props: Props) {
         .then((res) => {
           alert('생성되었습니다');
           registerEvent(res.data.event);
-          mutate(`${getAddress()}/api/together`);
+          mutate(`${getAddress()}/meetups`);
           setCreateDescription('');
           setCreateTitle('');
           setCreateMode(false);

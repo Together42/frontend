@@ -24,10 +24,10 @@ function Apply() {
   const { data: teamList, mutate: mutateTeamList } = useSWR<{
     event: EventType;
     teamList: { [x: string]: teamMemInfo[] };
-  }>(globalSelectedEvent ? `${getAddress()}/api/together/${globalSelectedEvent.id}` : null, fetcher, {
+  }>(globalSelectedEvent ? `${getAddress()}/meetups/${globalSelectedEvent.id}` : null, fetcher, {
     dedupingInterval: 600000,
   });
-  const { data: allEventList } = useSWR<{ EventList: EventType[] }>(`${getAddress()}/api/together`, fetcher, {
+  const { data: allEventList } = useSWR<EventType[]>(`${getAddress()}/meetups`, fetcher, {
     dedupingInterval: 600000,
   });
   const isTeamListExist = teamList && teamList.teamList && teamList.teamList.null && Object.keys(teamList.teamList);
@@ -37,7 +37,7 @@ function Apply() {
       if (getToken()) {
         axios
           .post(
-            `${getAddress()}/api/together/register`,
+            `${getAddress()}/meetups/attendance`,
             {
               eventId: eventId,
             },
@@ -76,8 +76,8 @@ function Apply() {
   };
 
   useEffect(() => {
-    if (allEventList && allEventList.EventList.length > 0) {
-      setEventList(allEventList.EventList.filter((e) => !e['isMatching']));
+    if (allEventList && allEventList.length > 0) {
+      setEventList(allEventList.filter((e) => !e['isMatching']));
     }
   }, [allEventList]);
 
