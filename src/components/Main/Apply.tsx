@@ -36,17 +36,11 @@ function Apply() {
     (eventId: number) => {
       if (getToken()) {
         axios
-          .post(
-            `${getAddress()}/meetups/attendance`,
-            {
-              eventId: eventId,
+          .post(`${getAddress()}/meetups/${eventId}/attendance`, {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
             },
-            {
-              headers: {
-                Authorization: 'Bearer ' + getToken(),
-              },
-            },
-          )
+          })
           .then(() => {
             alert('신청되셨습니다');
             mutateTeamList();
@@ -146,7 +140,7 @@ function Apply() {
             )}
           </div>
         ) : createMode ? (
-          <CreateEventBox setCreateMode={setCreateMode} registerEvent={registerEvent} />
+          <CreateEventBox setCreateMode={setCreateMode} />
         ) : null}
       </div>
     </div>

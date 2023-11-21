@@ -25,7 +25,7 @@ function AttendeeListProfile(props: Props) {
   const cancleEventAttend = useCallback(
     (eventId: number) => {
       axios
-        .delete(`${getAddress()}/meetups/attendance/${eventId}`, {
+        .delete(`${getAddress()}/meetups/${eventId}/attendance`, {
           headers: {
             Authorization: 'Bearer ' + getToken(),
           },

@@ -29,17 +29,16 @@ function Result() {
   const { data: eventDetailData, mutate: mutateTeam } = useSWR<{
     event: EventType;
     teamList: { [x: string]: teamMemInfo[] };
-  }>(`${getAddress()}/meetups/${selectedEvent.id}`, fetcher, {
+  }>(`${getAddress()}/meetups/${selectedEvent.id ?? 0}`, fetcher, {
     dedupingInterval: 600000,
   });
 
   const postMatching = () => {
     axios
       .post(
-        `${getAddress()}/meetups/matching`,
+        `${getAddress()}/meetups/${selectedEvent.id}/matching`,
         {
-          eventId: selectedEvent.id,
-          teamNum: teamLen,
+          teamNum: +teamLen,
         },
         {
           headers: {
@@ -77,11 +76,12 @@ function Result() {
 
   const onSubmitMatching = (e: any) => {
     e.preventDefault();
-    if (teamLen !== '' && getToken()) postMatching();
-    else if (!getToken()) {
+    if (!getToken()) {
       alert('로그인 하셔야 사용 가능합니다');
       navigate('/auth');
     } else if (teamLen === '') alert('몇 명으로 매칭하실 건지 적어주세요');
+    else if (isNaN(+teamLen)) alert('팀 개수 형식이 잘못되었습니다.');
+    else postMatching();
   };
 
   const onChangeInput = (e: any) => {

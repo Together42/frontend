@@ -11,11 +11,10 @@ function EventAttend() {
   const { eventId } = useParams();
 
   const requestRegister = async (eventId: string) => {
-    const url = `${getAddress()}/meetups/attendance`;
-    const data = { eventId };
+    const url = `${getAddress()}/meetups/${eventId}/attendance`;
     const config = { headers: { Authorization: 'Bearer ' + getToken() } };
     try {
-      const resp = await axios.post(url, data, config);
+      const resp = await axios.post(url, config);
       const { attend } = resp.data;
       console.log(attend);
       alert('이벤트 참여에 신청되셨습니다');
