@@ -40,15 +40,15 @@ function MobileNavber() {
     }
   };
 
-  const onClickAuthReview = () => {
-    setModalOpen((prev) => !prev);
-    if (getToken()) {
-      navigate('/review/');
-    } else {
-      alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
-    }
-  };
+  //   const onClickAuthReview = () => {
+  //     setModalOpen((prev) => !prev);
+  //     if (getToken()) {
+  //       navigate('/review/');
+  //     } else {
+  //       alert('로그인을 먼저 해주세요!');
+  //       navigate('/auth');
+  //     }
+  //   };
 
   const onClickAuthRotation = () => {
     setModalOpen((prev) => !prev);
@@ -86,7 +86,7 @@ function MobileNavber() {
           </Link>
           <span onClick={onClickAuthRotation}>사서 로테 신청</span>
           <span onClick={onClickRotationCalendar}>사서 달력</span>
-          <span onClick={onClickAuthReview}>친스타그램</span>
+          {/* <span onClick={onClickAuthReview}>친스타그램</span> */}
           <span onClick={onClickAuthTimeline}>집현전실록</span>
           {getToken() ? (
             <span onClick={onClickLogOut}>로그아웃</span>
