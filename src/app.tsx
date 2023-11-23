@@ -11,7 +11,7 @@ import EventAttend from '@result/EventAttend';
 
 const Main = loadable(() => import('@main/index'));
 const Auth = loadable(() => import('@auth/index'));
-const Review = loadable(() => import('@review/routes'));
+// const Review = loadable(() => import('@review/routes'));
 const EventLog = loadable(() => import('@main/Log'));
 const Result = loadable(() => import('@result/index'));
 const Timeline = loadable(() => import('@timeline/index'));
@@ -40,7 +40,7 @@ const App = () => {
         <Route path="/event/match" element={<Result />} />
         <Route path="/event/attend/:eventId" element={<EventAttend />} />
         <Route path="/rotation/*" element={<Rotation />} />
-        <Route path="/review/*" element={<Review />} />
+        {/* <Route path="/review/*" element={<Review />} /> */}
         <Route path="/2022-timeline/" element={<Timeline />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
