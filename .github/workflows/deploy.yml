@@ -56,6 +56,7 @@ jobs:
         run: |
           touch .env
           echo DEPLOY_ADR=${{secrets.DEPLOY_ADR}} >> .env
+          echo IMAGE_SERVER_ADR=${{secrets.IMAGE_SERVER_ADR}} >> .env
           cat .env
 
       - name: Build
