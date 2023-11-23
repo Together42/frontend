@@ -1,26 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Chrono } from 'react-chrono';
 import '@css/Timeline/Home.scss';
 import brush from '@img/paint-brush.png';
 import items from './items';
-import axios from 'axios';
-import getAddress from '@globalObj/function/getAddress';
+import images from './images';
 
 export const Home = () => {
-  const [ImgArr, setImgArr] = useState(null);
-
-  const getImg = () => {
-    axios
-      .get(`${getAddress()}/api/timeline`)
-      .then((res) => res.data.img)
-      .then((res2) => setImgArr(res2))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    getImg();
-  }, []);
-
   return (
     <div className="timeline--wrapper">
       <div className="timeline--title">
@@ -43,8 +28,8 @@ export const Home = () => {
           }}
           fontSizes={{ cardSubtitle: '0.85rem', cardText: '0.8rem', cardTitle: '1rem', title: '1.3rem' }}
         >
-          {ImgArr
-            ? ImgArr.map((elem) => (
+          {images
+            ? images.map((elem) => (
                 <div>
                   <img className="timeline--img" src={elem['url']} alt={elem['url']}></img>
                 </div>

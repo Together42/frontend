@@ -16,6 +16,7 @@ jobs:
       AWS_BUCKET_REGION: ${{ secrets.AWS_BUCKET_REGION }}
       AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
       DEPLOY_ADR: ${{ secrets.DEPLOY_ADR }}
+      IMAGE_SERVER_ADR: ${{ secrets.IMAGE_SERVER_ADR }}
 
     strategy:
       matrix:
