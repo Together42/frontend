@@ -11,24 +11,26 @@ export function createEventId() {
 
 function rotatedArrAllInfo(data) {
   const intraId = getAuth() ? getAuth().id : null;
-  return data.filter(el => !!el.attendDate)
-    .map(el => el.attendDate.split(',')
-      .map(attendDate => ({
-        title: el.intraId,
-        start: attendDate,
-        color: intraId == el.intraId ? '#e79f5a' : '#4992ce'
-      }))).flat();
-
+  return data.filter(el => !!el.year && !!el.month && !!el.day)
+    .map(el => ({
+      title: el.intraId,
+      start: `${el.year}-${el.month}-${el.day}`,
+      color: intraId === el.intraId ? '#e79f5a' : '#4992ce'
+    }));
 }
 
 function rotatedArr(data) {
-  return data.map(el => el.date.map(d => ({ title: el.intraId, start: d }))).flat();
+  return data.map(el => ({
+    title: el.intraId,
+    start: `${el.year}-${el.month}-${el.day}`
+  }));
 }
 
+// 일단 다음 달 로테이션만 반환
 export async function getRotationArr() {
   let rotationArr = [];
   try {
-    const res = await axios.get(`${getAddress()}/api/rotation`);
+    const res = await axios.get(`${getAddress()}/rotations/`);
     const data = await res.data;
     rotationArr = rotatedArrAllInfo(data);
   } catch (error) {
@@ -40,7 +42,7 @@ export async function getRotationArr() {
 export async function getRotationMonthArr(month, year) {
   let rotationArr = [];
   try {
-    const res = await axios.get(`${getAddress()}/api/rotation`, {params: {month: month, year: year}});
+    const res = await axios.get(`${getAddress()}/rotations/`, {params: {month: month, year: year}});
     const data = await res.data;
     rotationArr = rotatedArr(data);
   } catch (error) {

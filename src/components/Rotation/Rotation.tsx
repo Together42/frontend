@@ -52,13 +52,22 @@ type NumberKey = string | number;
 type UpdateValueFunc<T> = (key: NumberKey, value: T, obj: OneTypeObject<T>) => T;
 type UpdateObjectOneValueFunc<T> = (key: NumberKey, obj: OneTypeObject<T>, updateFunc: UpdateValueFunc<T>) => OneTypeObject<T>;
 
-interface AttendLimitData {
+interface FrontendAttendLimitData {
   attendDate: string; // "2023-04-12,2023-04-27,2023-04-28,"
   attendLimit: string; // "[3,4,5,6,7,10,11,13,14,17,18,19,20,21,24,25,26]"
   id: number; // 102
   intraId: string; // "jim"
   isSet: number; // 1
 }
+
+interface BackendAttendLimitData {
+  id: number;
+  intraId: string;
+  year: number;
+  month: number;
+  attendLimit: number[]; // [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+}
+
 /**
  * 사서 로테이션 신청은 특정 기간에 다음달에 대한것
  * - import 해온 util 함수들을 활용하여
@@ -126,18 +135,31 @@ const periodToString = getNextAttendPeriodStrFunction(getRotationApplicationPeri
  * Axios 요청
  */
 const getAttendLimit = async (intraId: string, currDate: Date) => {
-  const nextMonthDate = new Date(currDate.getFullYear(), currDate.getMonth() + 1);
-  const [year, month] = [nextMonthDate.getFullYear(), nextMonthDate.getMonth() + 1];
-  const url = `${getAddress()}/api/rotation/attend?intraId=${intraId}&year=${year}&month=${month}`
+  const url = `${getAddress()}/rotations/attendance`
   const headers = { Authorization: 'Bearer ' + getToken() }
-  const { data } = await axios.get<AttendLimitData[]>(url, { headers });
-  return data;
+  const { data } = await axios.get<BackendAttendLimitData[]>(url, { headers });
+
+  const newData: FrontendAttendLimitData[] = data.map((item: BackendAttendLimitData) => {
+    const year = item.year;
+    const month = item.month;
+    const attendLimit = item.attendLimit.map(day => `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`).join(',');
+
+    return {
+      id: item.id,
+      intraId: item.intraId,
+      attendDate: attendLimit + ",",
+      attendLimit: '[' + item.attendLimit.join(',') + ']',
+      isSet: 1, // 모두 참석 가능하다고 가정 (일단...)
+    };
+  });
+
+
+  return newData;
 }
 
 const postAttend = async (intraId: string, record: Record<string, boolean>) =>
-  await axios.post(`${getAddress()}/api/rotation/attend`,
+  await axios.post(`${getAddress()}/rotations/attendance`,
     {
-      intraId: intraId,
       attendLimit: createUnavailableDates(record),
     },
     {
@@ -145,13 +167,11 @@ const postAttend = async (intraId: string, record: Record<string, boolean>) =>
         Authorization: 'Bearer ' + getToken(),
       },
     })
-const deleteAttend = async (intraId: string) =>
-  await axios.delete(`${getAddress()}/api/rotation/attend`, {
+
+const deleteAttend = async () =>
+  await axios.delete(`${getAddress()}/attendance`, {
     headers: {
       Authorization: 'Bearer ' + getToken(),
-    },
-    data: {
-      intraId: intraId,
     },
   })
 
@@ -295,7 +315,7 @@ export const Rotate = () => {
       if (alertMessage !== null) {
         alert(alertMessage);
       }
-      navigate("/auth", { state: { from: { pathname: `/rotation` } } });
+      navigate("/auth", { state: { from: { pathname: `/rotations` } } });
       return false;
     }
     return true;
@@ -328,7 +348,7 @@ export const Rotate = () => {
       try {
         const res = await postAttend(intraId, record);
         alert('성공적으로 신청되었습니다');
-        mutate(`${getAddress()}/api/rotation/attend`);
+        mutate(`${getAddress()}/rotations/attendance`);
         pageReload();
       } catch (error) {
         errorAlert(error);
@@ -342,7 +362,7 @@ export const Rotate = () => {
     }
     if (window.confirm('사서 로테이션 참석을 취소하시겠습니까?')) {
       try {
-        const res = await deleteAttend(intraId);
+        const res = await deleteAttend();
         alert('성공적으로 신청 취소되었습니다');
         pageReload();
       } catch (error) {
