@@ -24,7 +24,10 @@ const AuthSignUp = () => {
     api.post('/auth/signup', {
       nickname: e.target[0].value,
       slackId: e.target[1].value,
-    }).catch((err) => {
+    }).then((res) => {
+      console.log('success', res);
+    }
+    ).catch((err) => {
       console.log(err);
     });
   };

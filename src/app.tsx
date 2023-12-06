@@ -11,6 +11,8 @@ import EventAttend from '@result/EventAttend';
 
 const Main = loadable(() => import('@main/index'));
 const Auth = loadable(() => import('@auth/index'));
+const AuthCallback = loadable(() => import('@auth/AuthCallback'));
+const AuthSignUp = loadable(() => import('@auth/AuthSignUp'));
 const Review = loadable(() => import('@review/routes'));
 const EventLog = loadable(() => import('@main/Log'));
 const Result = loadable(() => import('@result/index'));
@@ -43,6 +45,8 @@ const App = () => {
         <Route path="/review/*" element={<Review />} />
         <Route path="/2022-timeline/" element={<Timeline />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/auth/callback/" element={<AuthCallback />} />
+        <Route path="/auth/signup" element={<AuthSignUp />} />
       </Routes>
     </Router>
   );
