@@ -182,12 +182,18 @@ export default class Calendar extends React.Component {
   };
 
   requestAdd = async (info) => {
+    const dateString: string = info.event.startStr;
+    const dateParts: string[] = dateString.split('-');
+    const year: number = parseInt(dateParts[0]);
+    const month: number = parseInt(dateParts[1]);
+    const day: number = parseInt(dateParts[2]);
+
     await this.requestRotationUpdate(
       info,
       {
-        method: 'patch',
-        url: `${getAddress()}/api/rotation/update`,
-        data: { intraId: info.event.title, before: '', after: info.event.startStr },
+        method: 'post',
+        url: `${getAddress()}/rotations/`,
+        data: { attendDate: [day], year: year, month: month },
         headers: { Authorization: `Bearer ${getToken()}` },
       },
       `사서 로테이션 일정<${info.event.startStr}>이 성공적으로 추가되었습니다.`,
@@ -196,12 +202,18 @@ export default class Calendar extends React.Component {
   };
 
   requestRemove = async (info) => {
+    const dateString: string = info.event.startStr;
+    const dateParts: string[] = dateString.split('-');
+    const year: number = parseInt(dateParts[0]);
+    const month: number = parseInt(dateParts[1]);
+    const day: number = parseInt(dateParts[2]);
+
     await this.requestRotationUpdate(
       info,
       {
         method: 'delete',
-        url: `${getAddress()}/api/rotation/update`,
-        data: { intraId: info.event.title, date: info.event.startStr },
+        url: `${getAddress()}/rotations/`,
+        data: { day: day, year: year, month: month },
         headers: { Authorization: `Bearer ${getToken()}` },
       },
       `사서 로테이션 일정<${info.event.startStr}>이 성공적으로 제거되었습니다.`,
@@ -210,12 +222,24 @@ export default class Calendar extends React.Component {
   };
 
   requestChange = async (info) => {
+    const oldDateString: string = info.oldEvent.startStr;
+    const oldDateParts: string[] = oldDateString.split('-');
+    const oldYear: number = parseInt(oldDateParts[0]);
+    const oldMonth: number = parseInt(oldDateParts[1]);
+    const oldDay: number = parseInt(oldDateParts[2]);
+
+    const newDateString: string = info.event.startStr;
+    const newDateParts: string[] = newDateString.split('-');
+    const newYear: number = parseInt(newDateParts[0]);
+    const newMonth: number = parseInt(newDateParts[1]);
+    const newDay: number = parseInt(newDateParts[2]);
+
     await this.requestRotationUpdate(
       info,
       {
         method: 'patch',
-        url: `${getAddress()}/api/rotation/update`,
-        data: { intraId: info.event.title, before: info.oldEvent.startStr, after: info.event.startStr },
+        url: `${getAddress()}/rotations/${info.event.title}`,
+        data: { attendDate: [oldDay], updateDate: newDay, year: newYear, month: newMonth },
         headers: { Authorization: `Bearer ${getToken()}` },
       },
       `${info.oldEvent.title}의 사서 로테이션 일정<${info.oldEvent.startStr}>이 <${info.event.startStr}>으로 성공적으로 변경되었습니다.`,
