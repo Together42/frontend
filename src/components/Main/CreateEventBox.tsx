@@ -9,11 +9,10 @@ import { useNavigate } from 'react-router';
 
 interface Props {
   setCreateMode: React.Dispatch<React.SetStateAction<boolean>>;
-  registerEvent: (eventId: number) => void;
 }
 
 function CreateEventBox(props: Props) {
-  const { setCreateMode, registerEvent } = props;
+  const { setCreateMode } = props;
   const navigate = useNavigate();
   const [createTitle, setCreateTitle] = useState('');
   const [createDescription, setCreateDescription] = useState('');
@@ -23,7 +22,7 @@ function CreateEventBox(props: Props) {
     if (getToken()) {
       axios
         .post(
-          `${getAddress()}/api/together`,
+          `${getAddress()}/meetups`,
           {
             title: createTitle,
             description: createDescription,
@@ -37,8 +36,7 @@ function CreateEventBox(props: Props) {
         )
         .then((res) => {
           alert('생성되었습니다');
-          registerEvent(res.data.event);
-          mutate(`${getAddress()}/api/together`);
+          mutate(`${getAddress()}/meetups`);
           setCreateDescription('');
           setCreateTitle('');
           setCreateMode(false);
@@ -48,7 +46,7 @@ function CreateEventBox(props: Props) {
       alert('로그인을 하셔야 생성 가능합니다!');
       navigate('/auth');
     }
-  }, [createDescription, createTitle, mutate, navigate, registerEvent, setCreateMode]);
+  }, [createDescription, createTitle, mutate, navigate, setCreateMode]);
 
   const onSubmitCreate = (e: any) => {
     e.preventDefault();

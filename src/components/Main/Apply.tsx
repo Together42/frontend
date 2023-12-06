@@ -24,10 +24,10 @@ function Apply() {
   const { data: teamList, mutate: mutateTeamList } = useSWR<{
     event: EventType;
     teamList: { [x: string]: teamMemInfo[] };
-  }>(globalSelectedEvent ? `${getAddress()}/api/together/${globalSelectedEvent.id}` : null, fetcher, {
+  }>(globalSelectedEvent ? `${getAddress()}/meetups/${globalSelectedEvent.id}` : null, fetcher, {
     dedupingInterval: 600000,
   });
-  const { data: allEventList } = useSWR<{ EventList: EventType[] }>(`${getAddress()}/api/together`, fetcher, {
+  const { data: allEventList } = useSWR<EventType[]>(`${getAddress()}/meetups`, fetcher, {
     dedupingInterval: 600000,
   });
   const isTeamListExist = teamList && teamList.teamList && teamList.teamList.null && Object.keys(teamList.teamList);
@@ -36,17 +36,11 @@ function Apply() {
     (eventId: number) => {
       if (getToken()) {
         axios
-          .post(
-            `${getAddress()}/api/together/register`,
-            {
-              eventId: eventId,
+          .post(`${getAddress()}/meetups/${eventId}/attendance`, {
+            headers: {
+              Authorization: 'Bearer ' + getToken(),
             },
-            {
-              headers: {
-                Authorization: 'Bearer ' + getToken(),
-              },
-            },
-          )
+          })
           .then(() => {
             alert('신청되셨습니다');
             mutateTeamList();
@@ -76,8 +70,8 @@ function Apply() {
   };
 
   useEffect(() => {
-    if (allEventList && allEventList.EventList.length > 0) {
-      setEventList(allEventList.EventList.filter((e) => !e['isMatching']));
+    if (allEventList && allEventList.length > 0) {
+      setEventList(allEventList.filter((e) => !e['isMatching']));
     }
   }, [allEventList]);
 
@@ -146,7 +140,7 @@ function Apply() {
             )}
           </div>
         ) : createMode ? (
-          <CreateEventBox setCreateMode={setCreateMode} registerEvent={registerEvent} />
+          <CreateEventBox setCreateMode={setCreateMode} />
         ) : null}
       </div>
     </div>
