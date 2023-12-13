@@ -40,7 +40,7 @@ interface SelectDateBoxProps {
   isSubmit: boolean;
   currentDate: Date;
   handleOnClick: DateCallback;
-  record: { [x: string]: boolean; };
+  record: { [x: string]: boolean };
   resetDates: () => void;
   onClickCancel: () => void;
   onClickPostEvent: () => void;
@@ -50,18 +50,22 @@ interface OneTypeObject<T> {
 }
 type NumberKey = string | number;
 type UpdateValueFunc<T> = (key: NumberKey, value: T, obj: OneTypeObject<T>) => T;
-type UpdateObjectOneValueFunc<T> = (key: NumberKey, obj: OneTypeObject<T>, updateFunc: UpdateValueFunc<T>) => OneTypeObject<T>;
+type UpdateObjectOneValueFunc<T> = (
+  key: NumberKey,
+  obj: OneTypeObject<T>,
+  updateFunc: UpdateValueFunc<T>,
+) => OneTypeObject<T>;
 
 interface FrontendAttendLimitData {
   attendDate: string; // "2023-04-12,2023-04-27,2023-04-28,"
-  attendLimit: string; // "[3,4,5,6,7,10,11,13,14,17,18,19,20,21,24,25,26]"
+  attendLimit: number[]; // "[3,4,5,6,7,10,11,13,14,17,18,19,20,21,24,25,26]"
   id: number; // 102
   intraId: string; // "jim"
   isSet: number; // 1
 }
 
 interface BackendAttendLimitData {
-  id: number;
+  userId: number;
   intraId: string;
   year: number;
   month: number;
@@ -100,8 +104,8 @@ const setLimitMaxDate = getLastDateOfNextMonth;
  */
 const setTileDisabled =
   (fns: TileRule[]) =>
-    ({ date, view }: Tile) =>
-      fns.some((fn) => fn({ date, view }));
+  ({ date, view }: Tile) =>
+    fns.some((fn) => fn({ date, view }));
 
 const rules = {
   weekdayOnly: ({ date, view: _view }) => isWeekend(date),
@@ -135,30 +139,32 @@ const periodToString = getNextAttendPeriodStrFunction(getRotationApplicationPeri
  * Axios 요청
  */
 const getAttendLimit = async (intraId: string, currDate: Date) => {
-  const url = `${getAddress()}/rotations/attendance`
-  const headers = { Authorization: 'Bearer ' + getToken() }
-  const { data } = await axios.get<BackendAttendLimitData[]>(url, { headers });
+  const url = `${getAddress()}/rotations/attendance`;
+  const headers = { Authorization: 'Bearer ' + getToken() };
+  const { data } = await axios.get<BackendAttendLimitData>(url, { headers });
 
-  const newData: FrontendAttendLimitData[] = data.map((item: BackendAttendLimitData) => {
-    const year = item.year;
-    const month = item.month;
-    const attendLimit = item.attendLimit.map(day => `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`).join(',');
+  const year = data.year;
+  const month = data.month;
+  const attendDate = JSON.stringify(
+    data.attendLimit
+      .map((day) => `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`)
+      .join(','),
+  );
 
-    return {
-      id: item.id,
-      intraId: item.intraId,
-      attendDate: attendLimit + ",",
-      attendLimit: '[' + item.attendLimit.join(',') + ']',
-      isSet: 1, // 모두 참석 가능하다고 가정 (일단...)
-    };
-  });
-
+  const newData: FrontendAttendLimitData = {
+    id: data.userId,
+    intraId: data.intraId,
+    attendDate: attendDate,
+    attendLimit: data.attendLimit,
+    isSet: 1,
+  };
 
   return newData;
-}
+};
 
 const postAttend = async (intraId: string, record: Record<string, boolean>) =>
-  await axios.post(`${getAddress()}/rotations/attendance`,
+  await axios.post(
+    `${getAddress()}/rotations/attendance`,
     {
       attendLimit: createUnavailableDates(record),
     },
@@ -166,14 +172,15 @@ const postAttend = async (intraId: string, record: Record<string, boolean>) =>
       headers: {
         Authorization: 'Bearer ' + getToken(),
       },
-    })
+    },
+  );
 
 const deleteAttend = async () =>
-  await axios.delete(`${getAddress()}/attendance`, {
+  await axios.delete(`${getAddress()}/rotations/attendance`, {
     headers: {
       Authorization: 'Bearer ' + getToken(),
     },
-  })
+  });
 
 /**
  *  updateRecord: Axios 요청을 통해 받은 attendLimit를 적용시킨 Record 반환
@@ -183,53 +190,58 @@ const updateOneValue = <T,>(key: NumberKey, obj: OneTypeObject<T>, updateFunc: U
     obj[key] = updateFunc(key, obj[key], obj);
   }
   return obj;
-}
+};
 
 const toggleValue: UpdateValueFunc<boolean> = (_key, value, _obj) => !value;
 
 const updateRecord = (initialRecord: OneTypeObject<boolean>, attendLimit: number[]) =>
-  attendLimit.reduce((record, date) => updateOneValue(date, record, toggleValue), { ...initialRecord })
+  attendLimit.reduce((record, date) => updateOneValue(date, record, toggleValue), { ...initialRecord });
 
 const TitleBox = ({ isRotationApplicationPeriod, isSubmit, intraId, currentDate }: TitleBoxProps) => {
   const nextMonth = ((currentDate.getMonth() + 1) % MONTH_IN_YEAR) + 1;
-  const titleMessage = !isRotationApplicationPeriod ? "현재 사서 로테이션 신청기간이 아닙니다."
-                        : isSubmit ? `${intraId} 님, ${nextMonth}월 사서 로테이션 참여 감사합니다 😀`
-                                  : `${intraId} 님, ${nextMonth}월 사서 로테이션에 참여해주세요 !`
-  const periodMessage = isRotationApplicationPeriod ? `(신청기간: ${periodToString(currentDate)})`
-                                                    : `(다음 신청기간: ${periodToString(currentDate)})`
+  const titleMessage = !isRotationApplicationPeriod
+    ? '현재 사서 로테이션 신청기간이 아닙니다.'
+    : isSubmit
+    ? `${intraId} 님, ${nextMonth}월 사서 로테이션 참여 감사합니다 😀`
+    : `${intraId} 님, ${nextMonth}월 사서 로테이션에 참여해주세요 !`;
+  const periodMessage = isRotationApplicationPeriod
+    ? `(신청기간: ${periodToString(currentDate)})`
+    : `(다음 신청기간: ${periodToString(currentDate)})`;
   return (
     <div className="rotation--title">
       <p>{titleMessage}</p>
       <p>{periodMessage}</p>
     </div>
   );
-}
+};
 
-const SelectDateNoticeBox = ({ isSubmit }: {isSubmit: boolean}) => (
+const SelectDateNoticeBox = ({ isSubmit }: { isSubmit: boolean }) => (
   <div className="rotation-selectDates-title">
-    {
-      isSubmit ? (
-        <>
-          <p>신청기간내 로테이션 참여를 취소할 수 있습니다.</p>
-          <p>(수정이 필요한 경우에는 취소후 재신청 !!!)</p>
-        </>
-        
-      ) : (
-        <>
-          <p>참여가 어려운 날짜를 선택해주세요 !</p>
-          <p>해당 날짜를 고려해서 랜덤 매칭이 이루어집니다</p>
-          <p>(필수 사항은 아닙니다)</p>
-        </>
-      )
-    }
-    
+    {isSubmit ? (
+      <>
+        <p>신청기간내 로테이션 참여를 취소할 수 있습니다.</p>
+        <p>(수정이 필요한 경우에는 취소후 재신청 !!!)</p>
+      </>
+    ) : (
+      <>
+        <p>참여가 어려운 날짜를 선택해주세요 !</p>
+        <p>해당 날짜를 고려해서 랜덤 매칭이 이루어집니다</p>
+        <p>(필수 사항은 아닙니다)</p>
+      </>
+    )}
   </div>
-)
+);
 
 const SelectDateBox = ({
-  isSubmit, currentDate, handleOnClick, record, resetDates, onClickCancel, onClickPostEvent
+  isSubmit,
+  currentDate,
+  handleOnClick,
+  record,
+  resetDates,
+  onClickCancel,
+  onClickPostEvent,
 }: SelectDateBoxProps) => {
-  const onClickDay = isSubmit ? undefined : handleOnClick // 제출된 상태에서는 캘린더는 확인용
+  const onClickDay = isSubmit ? undefined : handleOnClick; // 제출된 상태에서는 캘린더는 확인용
   /**
    * setTileClassName(): 각 Tile에 CSS로 적절한 배경색을 부여하는 코드
    * - disabled: (1일 ~ 말일 && 평일 && 기타 조건)에 해당하지 않는 날짜에 적용
@@ -243,23 +255,23 @@ const SelectDateBox = ({
     const dDate = date.getDate();
     const dMonth = date.getMonth();
     if (nextMonth !== dMonth || !(dDate in record)) {
-      classNames.push("disabled");
+      classNames.push('disabled');
       return classNames;
     }
     if (!isSubmit) {
-      classNames.push("selectable");
+      classNames.push('selectable');
     }
     if (isSubmit && record[dDate]) {
-      classNames.push("attendLimited");
-    } 
+      classNames.push('attendLimited');
+    }
     if (!isSubmit && record[dDate]) {
-      classNames.push("selected"); 
+      classNames.push('selected');
     }
     return classNames;
-  }
+  };
   return (
     <div className="rotation--selectDates">
-      <SelectDateNoticeBox isSubmit={isSubmit}/>
+      <SelectDateNoticeBox isSubmit={isSubmit} />
       <div>
         <Calendar
           calendarType={DEFAULT_CALENDAR_TYPE}
@@ -272,18 +284,30 @@ const SelectDateBox = ({
         ></Calendar>
       </div>
       <div className="rotation--viewSelectDates">
-        <div className="rotation-viewSelectDates-title">{isSubmit ? "불가능하다고 제출한 날짜" : "불가능한 날짜"}</div>
+        <div className="rotation-viewSelectDates-title">{isSubmit ? '불가능하다고 제출한 날짜' : '불가능한 날짜'}</div>
         <div className="rotation--selectDates-box">
-          {createUnavailableDates(record).map((date, i) => (<span key={i}>{date}</span>))}
+          {createUnavailableDates(record).map((date, i) => (
+            <span key={i}>{date}</span>
+          ))}
         </div>
-        {!isSubmit && <div className="rotation--reset"><button onClick={resetDates}>reset</button></div>}
+        {!isSubmit && (
+          <div className="rotation--reset">
+            <button onClick={resetDates}>reset</button>
+          </div>
+        )}
       </div>
-      {isSubmit ?
-        (<button className="select-button" onClick={onClickCancel}>신청 취소</button>) :
-        (<button className="select-button" onClick={onClickPostEvent}>신청</button>)}
+      {isSubmit ? (
+        <button className="select-button" onClick={onClickCancel}>
+          신청 취소
+        </button>
+      ) : (
+        <button className="select-button" onClick={onClickPostEvent}>
+          신청
+        </button>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export const Rotate = () => {
   const navigate = useNavigate();
@@ -308,25 +332,27 @@ export const Rotate = () => {
       return false;
     }
     return true;
-  }
+  };
 
-  const checkTokenAndRedirect = (alertMessage: string | null = '토큰이 유효하지 않습니다! 로그인 페이지로 리다이렉트 됩니다.') => {
+  const checkTokenAndRedirect = (
+    alertMessage: string | null = '토큰이 유효하지 않습니다! 로그인 페이지로 리다이렉트 됩니다.',
+  ) => {
     if (getToken() === null) {
       if (alertMessage !== null) {
         alert(alertMessage);
       }
-      navigate("/auth", { state: { from: { pathname: `/rotations` } } });
+      navigate('/auth', { state: { from: { pathname: `/rotations` } } });
       return false;
     }
     return true;
-  }
+  };
 
   const handleOnClick: DateCallback = (value, _) => {
     const date = value.getDate();
     if (date in initialRecord) {
       setRecord((prev) => ({ ...prev, [date]: !prev[date] }));
     }
-  }
+  };
 
   const resetDates = () => setRecord({ ...initialRecord });
 
@@ -377,23 +403,24 @@ export const Rotate = () => {
    * - attendLimitData: 로테이션 참석을 신청한 상태라면 [ AttendLimitData ] 형태
    * - attendLimit: "[1,2,3]" 배열이 문자열화 되어있으므로 JSON.parse로 파싱
    * - 로테이션 참석을 신청한 상태라면 attendLimit 셋하고, isSubmit을 true로 놓는다.
+   * [update 23.12.12]
+   * - attendLimitData를 객체 배열이 아닌 단일 객체 배열을 받아서 처리하는 것으로 가정.
+   * - 따라서 반환값도 단일 객체가 된다.
    */
   useEffect(() => {
     async function fetchAttendLimit(intraId: string, currDate: Date) {
       if (checkIsPeriod(null) && checkTokenAndRedirect(null) && intraId) {
         try {
           const attendLimitData = await getAttendLimit(intraId, currDate);
-          if (attendLimitData.length) {
-            const attendLimit = JSON.parse(attendLimitData[0].attendLimit) as number[];
-            setIsSumbit(true);
-            setRecord(updateRecord(initialRecord, attendLimit));
-          }
+          const attendLimit = attendLimitData.attendLimit;
+          setIsSumbit(true);
+          setRecord(updateRecord(initialRecord, attendLimit));
         } catch (error) {
           errorAlert(error);
         }
       }
       setIsLoading(false);
-    };
+    }
     if (isLoading) {
       fetchAttendLimit(intraId, currentDate);
     }
