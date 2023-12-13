@@ -23,7 +23,7 @@ function MobileNavber() {
     });
     setModalOpen((prev) => !prev);
     alert('로그아웃 되셨습니다!');
-    navigate('/auth');
+    navigate('/');
   };
 
   const onClickModalShow = () => {
