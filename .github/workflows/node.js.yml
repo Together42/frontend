@@ -1,53 +1,53 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
+# name: Node.js CI
 
-on:
-  push:
-    branches: ['deploy']
-  pull_request:
-    branches: ['deploy']
+# on:
+#   push:
+#     branches: ['deploy']
+#   pull_request:
+#     branches: ['deploy']
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@master
+#     steps:
+#       - name: Checkout source code
+#         uses: actions/checkout@master
 
-      - name: Set up Node.js
-        uses: actions/setup-node@master
-        with:
-          node-version: 16.13.2
+#       - name: Set up Node.js
+#         uses: actions/setup-node@master
+#         with:
+#           node-version: 16.13.2
 
-      - name: Cache node modules # node modules 캐싱
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-master-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
+#       - name: Cache node modules # node modules 캐싱
+#         uses: actions/cache@v2
+#         with:
+#           path: node_modules
+#           key: ${{ runner.OS }}-master-build-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.OS }}-build-
+#             ${{ runner.OS }}-
 
-      - name: Generate Environment Variables File for Production
-        run: |
-          echo "DEPLOY_ADR=$DEPLOY_ADR" >> .env
-        env:
-          DEPLOY_ADR: ${{ secrets.DEPLOY_ADR }}
+#       - name: Generate Environment Variables File for Production
+#         run: |
+#           echo "DEPLOY_ADR=$DEPLOY_ADR" >> .env
+#         env:
+#           DEPLOY_ADR: ${{ secrets.DEPLOY_ADR }}
 
-      - name: Install Dependencies # node module install
-        run: npm install
+#       - name: Install Dependencies # node module install
+#         run: npm install
 
-      - name: Build # project build
-        run: npm run build
+#       - name: Build # project build
+#         run: npm run build
 
-      - name: Add 404 File
-        run: cp dist/index.html dist/404.html
+#       - name: Add 404 File
+#         run: cp dist/index.html dist/404.html
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./dist
+#       - name: Deploy
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+#           publish_dir: ./dist

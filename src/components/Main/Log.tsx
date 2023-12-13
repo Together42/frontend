@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import getAddress from '@globalObj/function/getAddress';
@@ -12,7 +12,7 @@ import DeviceMode from '@recoil/DeviceMode';
 
 const Log = () => {
   const deviceMode = useRecoilValue(DeviceMode);
-  const { data: userList } = useSWR<AttendPointType[]>(`${getAddress()}/api/together/point`, fetcher, {
+  const { data: userList } = useSWR<AttendPointType[]>(`${getAddress()}/meetups/ranking`, fetcher, {
     dedupingInterval: 60000,
   });
   const MEDAL_NUM = deviceMode === 'desktop' ? 4 : 2;

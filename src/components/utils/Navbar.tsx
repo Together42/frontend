@@ -55,14 +55,14 @@ function Navbar() {
     }
   };
 
-  const onClickAuthReview = () => {
-    if (getToken()) {
-      navigate('/review/');
-    } else {
-      alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
-    }
-  };
+  //   const onClickAuthReview = () => {
+  //     if (getToken()) {
+  //       navigate('/review/');
+  //     } else {
+  //       alert('로그인을 먼저 해주세요!');
+  //       navigate('/auth');
+  //     }
+  //   };
 
   const onClickEventCreate = () => {
     navigate('/');
@@ -106,7 +106,7 @@ function Navbar() {
           <button onClick={onClickCalendar}>달력보기</button>,
         ]}
       />
-      <span onClick={onClickAuthReview}>친스타그램</span>
+      {/* <span onClick={onClickAuthReview}>친스타그램</span> */}
       <span onClick={onClickAuthTimeline}>집현전실록</span>
       {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <a href={url}>구글 로그인</a>}
     </div>

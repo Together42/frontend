@@ -23,28 +23,22 @@ function Result() {
   const [teamLen, setTeamLen] = useState('');
   const [category, setCategory] = useState(1);
   const navigate = useNavigate();
-  const { data: eventObj, mutate: mutateEvent } = useSWR<{ EventList: EventType[] }>(
-    `${getAddress()}/api/together`,
-    fetcher,
-    {
-      dedupingInterval: 600000,
-    },
-  );
-  const { data: teamListData, mutate: mutateTeam } = useSWR<{ teamList: { [x: string]: teamMemInfo[] } }>(
-    `${getAddress()}/api/together/matching/${selectedEvent.id}`,
-    fetcher,
-    {
-      dedupingInterval: 600000,
-    },
-  );
+  const { data: eventList, mutate: mutateEvent } = useSWR<EventType[]>(`${getAddress()}/meetups`, fetcher, {
+    dedupingInterval: 600000,
+  });
+  const { data: eventDetailData, mutate: mutateTeam } = useSWR<{
+    event: EventType;
+    teamList: { [x: string]: teamMemInfo[] };
+  }>(`${getAddress()}/meetups/${selectedEvent.id ?? 0}`, fetcher, {
+    dedupingInterval: 600000,
+  });
 
   const postMatching = () => {
     axios
       .post(
-        `${getAddress()}/api/together/matching`,
+        `${getAddress()}/meetups/${selectedEvent.id}/matching`,
         {
-          eventId: selectedEvent.id,
-          teamNum: teamLen,
+          teamNum: +teamLen,
         },
         {
           headers: {
@@ -61,7 +55,7 @@ function Result() {
 
   const deleteEvent = useCallback(() => {
     axios
-      .delete(`${getAddress()}/api/together/${selectedEvent['id']}`, {
+      .delete(`${getAddress()}/meetups/${selectedEvent['id']}`, {
         headers: {
           Authorization: 'Bearer ' + getToken(),
         },
@@ -74,19 +68,20 @@ function Result() {
   }, [mutateEvent, selectedEvent]);
 
   const onClickEvent = (e: any) => {
-    if (eventObj) {
-      const clickedEvent = eventObj.EventList.find((ev) => ev.id === parseInt(e.target.id, 10));
+    if (eventList) {
+      const clickedEvent = eventList.find((ev) => ev.id === parseInt(e.target.id, 10));
       setSelectedEvent(clickedEvent);
     }
   };
 
   const onSubmitMatching = (e: any) => {
     e.preventDefault();
-    if (teamLen !== '' && getToken()) postMatching();
-    else if (!getToken()) {
+    if (!getToken()) {
       alert('로그인 하셔야 사용 가능합니다');
       navigate('/auth');
     } else if (teamLen === '') alert('몇 명으로 매칭하실 건지 적어주세요');
+    else if (isNaN(+teamLen)) alert('팀 개수 형식이 잘못되었습니다.');
+    else postMatching();
   };
 
   const onChangeInput = (e: any) => {
@@ -99,10 +94,10 @@ function Result() {
 
   // 선택된 이벤트가 없으면 맨 처음 이벤트를 자동 선택
   useEffect(() => {
-    if (eventObj && eventObj.EventList.length) setSelectedEvent(eventObj.EventList[0]);
-  }, [eventObj]);
+    if (eventList && eventList.length) setSelectedEvent(eventList[0]);
+  }, [eventList]);
 
-  if (!eventObj?.EventList || !teamListData) return <></>;
+  if (!eventList || !eventDetailData) return <></>;
   return (
     <>
       <div className="result">
@@ -127,31 +122,33 @@ function Result() {
           </div>
         </div>
         {/* event list */}
-        {eventObj.EventList.length > 0 && (
+        {eventList.length > 0 && (
           <div className="result--event_list">
-            {eventObj.EventList.sort((a, b) => b.id - a.id).map((e, i) => {
-              if (e.categoryId === category)
-                return (
-                  <div key={`result ${i}`} className={`result--event ${e.id === selectedEvent.id && 'selected'}`}>
-                    <span id={e.id.toString()} onClick={onClickEvent}>
-                      {e.title}
-                    </span>
-                  </div>
-                );
-              return <React.Fragment key={`result ${i}`}></React.Fragment>;
-            })}
+            {eventList
+              .sort((a, b) => b.id - a.id)
+              .map((e, i) => {
+                if (e.categoryId === category)
+                  return (
+                    <div key={`result ${i}`} className={`result--event ${e.id === selectedEvent.id && 'selected'}`}>
+                      <span id={e.id.toString()} onClick={onClickEvent}>
+                        {e.title}
+                      </span>
+                    </div>
+                  );
+                return <React.Fragment key={`result ${i}`}></React.Fragment>;
+              })}
           </div>
         )}
         <div
           className={`${
-            Object.keys(teamListData.teamList).find((e) => e === '1') ? 'result--table' : 'result--submit'
+            Object.keys(eventDetailData.teamList).find((e) => e === '1') ? 'result--table' : 'result--submit'
           }`}
         >
           <div className="result--submit--delete_event" onClick={onClickDeleteEvent}>
             삭제하기
           </div>
-          {Object.keys(teamListData.teamList).find((e) => e === '1') ? (
-            Object.entries(teamListData.teamList).map((elem, idx) => (
+          {Object.keys(eventDetailData.teamList).find((e) => e === '1') ? (
+            Object.entries(eventDetailData.teamList).map((elem, idx) => (
               <div key={elem[0]}>
                 <p className="result--team_name">{elem[0]}</p>
                 {elem[1].map((e, i) => (
@@ -161,7 +158,7 @@ function Result() {
                 ))}
               </div>
             ))
-          ) : Object.keys(teamListData.teamList).find((e) => e === 'null') ? (
+          ) : Object.keys(eventDetailData.teamList).find((e) => e === 'null') ? (
             <>
               <div className="result--submit--info_wrapper">
                 <p className="result--submit--event_title">{selectedEvent['title']}</p>
@@ -170,13 +167,13 @@ function Result() {
                 {selectedEvent?.categoryId === 1 ? (
                   <>
                     <p className="result--submit--info">사서 로테이션은 매주 수요일 오전 10시에 모집 마감합니다!</p>
-                    <p className="result--submit--info">{`현재 신청 인원은 ${teamListData.teamList['null'].length}명입니다.`}</p>
+                    <p className="result--submit--info">{`현재 신청 인원은 ${eventDetailData.teamList['null'].length}명입니다.`}</p>
                   </>
                 ) : (
                   <>
                     <p className="result--submit--info">아직 팀매칭이 이루어지지 않았습니다.</p>
                     <p className="result--submit--info">원하는 팀원수를 적고 매칭을 눌러주세요!</p>
-                    <p className="result--submit--info">{`현재 신청 인원은 ${teamListData.teamList['null'].length}명입니다.`}</p>
+                    <p className="result--submit--info">{`현재 신청 인원은 ${eventDetailData.teamList['null'].length}명입니다.`}</p>
                   </>
                 )}
               </div>

@@ -10,9 +10,9 @@ import DeviceMode, { getDeviceMode } from '@recoil/DeviceMode';
 import EventAttend from '@result/EventAttend';
 
 const Main = loadable(() => import('@main/index'));
+// const Review = loadable(() => import('@review/routes'));
 const AuthCallback = loadable(() => import('@auth/AuthCallback'));
 const AuthSignUp = loadable(() => import('@auth/AuthSignUp'));
-const Review = loadable(() => import('@review/routes'));
 const EventLog = loadable(() => import('@main/Log'));
 const Result = loadable(() => import('@result/index'));
 const Timeline = loadable(() => import('@timeline/index'));
@@ -41,7 +41,7 @@ const App = () => {
         <Route path="/event/match" element={<Result />} />
         <Route path="/event/attend/:eventId" element={<EventAttend />} />
         <Route path="/rotation/*" element={<Rotation />} />
-        <Route path="/review/*" element={<Review />} />
+        {/* <Route path="/review/*" element={<Review />} /> */}
         <Route path="/2022-timeline/" element={<Timeline />} />
         <Route path="/auth/callback/" element={<AuthCallback />} />
         <Route path="/auth/signup" element={<AuthSignUp />} />
