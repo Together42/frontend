@@ -11,18 +11,19 @@ export function createEventId() {
 
 function rotatedArrAllInfo(data) {
   const intraId = getAuth() ? getAuth().id : null;
-  return data.filter(el => !!el.year && !!el.month && !!el.day)
-    .map(el => ({
+  return data
+    .filter((el) => !!el.year && !!el.month && !!el.day)
+    .map((el) => ({
       title: el.intraId,
-      start: `${el.year}-${el.month}-${el.day}`,
-      color: intraId === el.intraId ? '#e79f5a' : '#4992ce'
+      start: `${el.year}-${String(el.month).padStart(2, '0')}-${String(el.day).padStart(2, '0')}`,
+      color: intraId === el.intraId ? '#e79f5a' : '#4992ce',
     }));
 }
 
 function rotatedArr(data) {
-  return data.map(el => ({
+  return data.map((el) => ({
     title: el.intraId,
-    start: `${el.year}-${el.month}-${el.day}`
+    start: `${el.year}-${el.month}-${el.day}`,
   }));
 }
 
@@ -42,7 +43,7 @@ export async function getRotationArr() {
 export async function getRotationMonthArr(month, year) {
   let rotationArr = [];
   try {
-    const res = await axios.get(`${getAddress()}/rotations/`, {params: {month: month, year: year}});
+    const res = await axios.get(`${getAddress()}/rotations/`, { params: { month: month, year: year } });
     const data = await res.data;
     rotationArr = rotatedArr(data);
   } catch (error) {
