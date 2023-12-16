@@ -12,7 +12,7 @@ import DeviceMode from '@recoil/DeviceMode';
 
 const Log = () => {
   const deviceMode = useRecoilValue(DeviceMode);
-  const { data: userList } = useSWR<AttendPointType[]>(`${getAddress()}/meetups/ranking`, fetcher, {
+  const { data: userList } = useSWR<AttendPointType[]>(`${getAddress()}/users/ranking`, fetcher, {
     dedupingInterval: 60000,
   });
   const MEDAL_NUM = deviceMode === 'desktop' ? 4 : 2;
