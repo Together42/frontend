@@ -111,7 +111,9 @@ function Apply() {
               <>
                 <p className="main--apply--eventInfo--title_wrapper">
                   <span className="main--apply--eventInfo--title"> {globalSelectedEvent.title}</span>
-                  <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['intraId']}`}</span>
+                  {globalSelectedEvent['intraId'] && (
+                    <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['intraId']}`}</span>
+                  )}
                 </p>
                 <div className="main--apply--eventInfo--description">
                   <span>{globalSelectedEvent.description}</span>
