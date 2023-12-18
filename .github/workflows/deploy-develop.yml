@@ -1,0 +1,62 @@
+name: front-auto-deploy-develop
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  deploy-develop:
+    name: Build, Deploy Develop to S3 bucket
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          ref: deploy-develop
+
+      - name: Setup Python for AWS CLI
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+
+      - name: Install AWS CLI
+        run: pip3 install awscli --upgrade --user
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_BUCKET_REGION }}
+          mask-aws-account-id: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Npm Install
+        run: npm install
+      
+      - name: Create env file
+        run: |
+          touch .env
+          echo DEPLOY_ADR=${{ secrets.DEPLOY_ADR_DEV }} >> .env
+          echo IMAGE_SERVER_ADR=${{ secrets.IMAGE_SERVER_ADR }} >> .env
+          cat .env
+
+      - name: Build
+        run: npm run predeploy
+
+      - name: Transfer to S3 for serving static
+        run: |
+          aws s3 sync ./dist s3://${{ secrets.AWS_BUCKET_NAME_DEV }}  \
+            --region ${{ secrets.AWS_BUCKET_REGION }} \
+            --delete
+
+      - name: Invalidate cache CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID_DEV }} \
+          --paths "/*"
