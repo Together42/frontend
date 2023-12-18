@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { clearToken, getToken } from '@cert/TokenStorage';
+import { removeAuth } from '@cert/AuthStorage';
 import { Dropdown } from './Dropdown';
 import getAddress from '@globalObj/function/getAddress';
 import apiClient from '@service/apiClient';
@@ -14,36 +15,25 @@ function Navbar() {
   const url = `${getAddress()}/auth/google`;
 
   const onClickLogOut = () => {
-    // apiClient
-    //   .post('/auth/logout')
-    //   .then((res) => {
-    //     console.log('logout', res);
-    //     clearToken();
-    //     setLoginState(() => {
-    //       return {
-    //         id: '',
-    //         isLogin: false,
-    //         isAdmin: false,
-    //         profileUrl: '',
-    //       };
-    //     });
-    //     alert('로그아웃 되셨습니다!');
-    //     navigate('/');
-    //   })
-    //   .catch((err) => {
-    //     console.log('logout error', err);
-    //   });
-    clearToken();
-    setLoginState(() => {
-      return {
-        id: '',
-        isLogin: false,
-        isAdmin: false,
-        profileUrl: '',
-      };
-    });
-    alert('로그아웃 되셨습니다!');
-    navigate('/');
+    apiClient
+      .post('/auth/logout')
+      .then((res) => {
+        removeAuth();
+        clearToken();
+        setLoginState(() => {
+          return {
+            id: '',
+            isLogin: false,
+            isAdmin: false,
+            profileUrl: '',
+          };
+        });
+        alert('로그아웃 되셨습니다!');
+        navigate('/');
+      })
+      .catch((err) => {
+        alert('로그아웃에 실패했습니다.');
+      });
   };
 
   const onClickAuthTimeline = () => {
