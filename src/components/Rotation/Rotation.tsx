@@ -31,12 +31,22 @@ const DEFAULT_CALENDAR_TYPE = 'US';
 type Tile = { date: Date; view: unknown };
 type TileRule = (tile: Tile) => boolean;
 type DateCallback = (value: Date, event: MouseEvent<HTMLButtonElement>) => void; // react-calendar's
+/*
+ * [update 23.12.18]
+ * - 4주차 로테이션 제한 삭제를 위해 주석 처리 후 수정
+ */
+// interface TitleBoxProps {
+//   isRotationApplicationPeriod: boolean;
+//   isSubmit: boolean;
+//   intraId: string;
+//   currentDate: Date;
+// }
 interface TitleBoxProps {
-  isRotationApplicationPeriod: boolean;
   isSubmit: boolean;
   intraId: string;
   currentDate: Date;
 }
+
 interface SelectDateBoxProps {
   isSubmit: boolean;
   currentDate: Date;
@@ -46,9 +56,11 @@ interface SelectDateBoxProps {
   onClickCancel: () => void;
   onClickPostEvent: () => void;
 }
+
 interface OneTypeObject<T> {
   [key: string]: T;
 }
+
 type NumberKey = string | number;
 type UpdateValueFunc<T> = (key: NumberKey, value: T, obj: OneTypeObject<T>) => T;
 type UpdateObjectOneValueFunc<T> = (
@@ -178,29 +190,48 @@ const toggleValue: UpdateValueFunc<boolean> = (_key, value, _obj) => !value;
 const updateRecord = (initialRecord: OneTypeObject<boolean>, attendLimit: number[]) =>
   attendLimit.reduce((record, date) => updateOneValue(date, record, toggleValue), { ...initialRecord });
 
-const TitleBox = ({ isRotationApplicationPeriod, isSubmit, intraId, currentDate }: TitleBoxProps) => {
+/*
+ * [update 23.12.18]
+ * 4주차 로테이션 제한 삭제를 위해 주석 처리 후 수정
+ */
+// const TitleBox = ({ isRotationApplicationPeriod, isSubmit, intraId, currentDate }: TitleBoxProps) => {
+//   const nextMonth = ((currentDate.getMonth() + 1) % MONTH_IN_YEAR) + 1;
+//   const titleMessage = !isRotationApplicationPeriod
+//     ? '현재 사서 로테이션 신청기간이 아닙니다.'
+//     : isSubmit
+//     ? `${intraId} 님, ${nextMonth}월 사서 로테이션 참여 감사합니다 😀`
+//     : `${intraId} 님, ${nextMonth}월 사서 로테이션에 참여해주세요 !`;
+//   const periodMessage = isRotationApplicationPeriod
+//     ? `(신청기간: ${periodToString(currentDate)})`
+//     : `(다음 신청기간: ${periodToString(currentDate)})`;
+//   return (
+//     <div className="rotation--title">
+//       <p>{titleMessage}</p>
+//       <p>{periodMessage}</p>
+//     </div>
+//   );
+// };
+const TitleBox = ({ isSubmit, intraId, currentDate }: TitleBoxProps) => {
   const nextMonth = ((currentDate.getMonth() + 1) % MONTH_IN_YEAR) + 1;
-  const titleMessage = !isRotationApplicationPeriod
-    ? '현재 사서 로테이션 신청기간이 아닙니다.'
-    : isSubmit
+  const titleMessage = isSubmit
     ? `${intraId} 님, ${nextMonth}월 사서 로테이션 참여 감사합니다 😀`
     : `${intraId} 님, ${nextMonth}월 사서 로테이션에 참여해주세요 !`;
-  const periodMessage = isRotationApplicationPeriod
-    ? `(신청기간: ${periodToString(currentDate)})`
-    : `(다음 신청기간: ${periodToString(currentDate)})`;
   return (
     <div className="rotation--title">
       <p>{titleMessage}</p>
-      <p>{periodMessage}</p>
     </div>
   );
 };
 
+/*
+ * [update 23.12.18]
+ * 4주차 로테이션 제한 삭제를 위해 주석 처리
+ */
 const SelectDateNoticeBox = ({ isSubmit }: { isSubmit: boolean }) => (
   <div className="rotation-selectDates-title">
     {isSubmit ? (
       <>
-        <p>신청기간내 로테이션 참여를 취소할 수 있습니다.</p>
+        {/* <p>신청기간내 로테이션 참여를 취소할 수 있습니다.</p> */}
         <p>(수정이 필요한 경우에는 취소후 재신청 !!!)</p>
       </>
     ) : (
@@ -304,16 +335,18 @@ export const Rotate = () => {
   /**
    * axios 요청 단계에서 신청기간 여부를 한번더 체크하는 이유
    * - 신청 기간내 페이지 진입 후, 신청기간이 지날 수 있기때문
+   * [update 23.12.18]
+   * 4주차 로테이션 제한 삭제를 위해 주석 처리
    */
-  const checkIsPeriod = (alertMessage: string | null = '신청기간이 아닙니다!') => {
-    if (!isRotationApplicationPeriod || !calculateIsRotationApplicationPeriod(new Date())) {
-      if (alertMessage !== null) {
-        alert(alertMessage);
-      }
-      return false;
-    }
-    return true;
-  };
+  // const checkIsPeriod = (alertMessage: string | null = '신청기간이 아닙니다!') => {
+  //   if (!isRotationApplicationPeriod || !calculateIsRotationApplicationPeriod(new Date())) {
+  //     if (alertMessage !== null) {
+  //       alert(alertMessage);
+  //     }
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const checkTokenAndRedirect = (
     alertMessage: string | null = '토큰이 유효하지 않습니다! 로그인 페이지로 리다이렉트 됩니다.',
@@ -347,8 +380,15 @@ export const Rotate = () => {
     }
   };
 
+  /*
+   * [update 23.12.18]
+   * 4주차 로테이션 제한 삭제를 위해 주석 처리 후 수정
+   */
   const onClickPostEvent = async () => {
-    if (!checkIsPeriod() || !checkTokenAndRedirect()) {
+    // if (!checkIsPeriod() || !checkTokenAndRedirect()) {
+    //   return;
+    // }
+    if (!checkTokenAndRedirect()) {
       return;
     }
     if (window.confirm('사서 로테이션 참석 신청하시겠습니까?')) {
@@ -368,8 +408,15 @@ export const Rotate = () => {
     }
   };
 
+  /*
+   * [update 23.12.18]
+   * 4주차 로테이션 제한 삭제를 위해 주석 처리 후 수정
+   */
   const onClickCancel = async () => {
-    if (!checkIsPeriod() || !checkTokenAndRedirect()) {
+    // if (!checkIsPeriod() || !checkTokenAndRedirect()) {
+    //   return;
+    // }
+    if (!checkTokenAndRedirect()) {
       return;
     }
     if (window.confirm('사서 로테이션 참석을 취소하시겠습니까?')) {
@@ -397,12 +444,24 @@ export const Rotate = () => {
    * - attendLimit: "[1,2,3]" 배열이 문자열화 되어있으므로 JSON.parse로 파싱
    * - 로테이션 참석을 신청한 상태라면 attendLimit 셋하고, isSubmit을 true로 놓는다.
    * [update 23.12.12]
-   * - attendLimitData를 객체 배열이 아닌 단일 객체 배열을 받아서 처리하는 것으로 가정.
+   * - attendLimitData를 단 하나의 객체가 들어있는 객체 배열 아닌, 단일 객체를 받아서 처리하는 것으로 가정.
    * - 따라서 반환값도 단일 객체가 된다.
+   * [update 23.12.18]
+   * - 4주차 로테이션 제한 삭제를 위해 주석 처리 후 수정
    */
   useEffect(() => {
     async function fetchAttendLimit(intraId: string, currDate: Date) {
-      if (checkIsPeriod(null) && checkTokenAndRedirect(null) && intraId) {
+      // if (checkIsPeriod(null) && checkTokenAndRedirect(null) && intraId) {
+      //   try {
+      //     const attendLimitData = await getAttendLimit(intraId, currDate);
+      //     const attendLimit = attendLimitData.attendLimit;
+      //     setIsSumbit(true);
+      //     setRecord(updateRecord(initialRecord, attendLimit));
+      //   } catch (error) {
+      //     errorAlert(error);
+      //   }
+      // }
+      if (checkTokenAndRedirect(null) && intraId) {
         try {
           const attendLimitData = await getAttendLimit(intraId, currDate);
           const attendLimit = attendLimitData.attendLimit;
@@ -419,25 +478,43 @@ export const Rotate = () => {
     }
   }, [isLoading]);
 
+  /*
+   * [update 23.12.18]
+   * - 4주차 로테이션 제한 삭제를 위해 주석 처리 후 수정
+   */
+  // return (
+  //   <div className="rotation--wrapper">
+  //     <TitleBox
+  //       isRotationApplicationPeriod={isRotationApplicationPeriod}
+  //       isSubmit={isSubmit}
+  //       intraId={intraId}
+  //       currentDate={currentDate}
+  //     />
+  //     {isRotationApplicationPeriod && (
+  //       <SelectDateBox
+  //         isSubmit={isSubmit}
+  //         currentDate={currentDate}
+  //         handleOnClick={handleOnClick}
+  //         record={record}
+  //         resetDates={resetDates}
+  //         onClickCancel={onClickCancel}
+  //         onClickPostEvent={onClickPostEvent}
+  //       />
+  //     )}
+  //   </div>
+  // );
   return (
     <div className="rotation--wrapper">
-      <TitleBox
-        isRotationApplicationPeriod={isRotationApplicationPeriod}
+      <TitleBox isSubmit={isSubmit} intraId={intraId} currentDate={currentDate} />
+      <SelectDateBox
         isSubmit={isSubmit}
-        intraId={intraId}
         currentDate={currentDate}
+        handleOnClick={handleOnClick}
+        record={record}
+        resetDates={resetDates}
+        onClickCancel={onClickCancel}
+        onClickPostEvent={onClickPostEvent}
       />
-      {isRotationApplicationPeriod && (
-        <SelectDateBox
-          isSubmit={isSubmit}
-          currentDate={currentDate}
-          handleOnClick={handleOnClick}
-          record={record}
-          resetDates={resetDates}
-          onClickCancel={onClickCancel}
-          onClickPostEvent={onClickPostEvent}
-        />
-      )}
     </div>
   );
 };
