@@ -1,11 +1,11 @@
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import getAddress from '@globalObj/function/getAddress';
-import axios from 'axios';
 import React, { useCallback, useState } from 'react';
 import '@css/Main/CreateEventBox.scss';
 import { useSWRConfig } from 'swr';
 import { useNavigate } from 'react-router';
+import apiClient from '@service/apiClient';
 
 interface Props {
   setCreateMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,20 +20,12 @@ function CreateEventBox(props: Props) {
 
   const postCreateEvent = useCallback(() => {
     if (getToken()) {
-      axios
-        .post(
-          `${getAddress()}/meetups`,
-          {
-            title: createTitle,
-            description: createDescription,
-            categoryId: 2,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
-            },
-          },
-        )
+      apiClient
+        .post('/meetups', {
+          title: createTitle,
+          description: createDescription,
+          categoryId: 2,
+        })
         .then((res) => {
           alert('생성되었습니다');
           mutate(`${getAddress()}/meetups`);
@@ -41,10 +33,12 @@ function CreateEventBox(props: Props) {
           setCreateTitle('');
           setCreateMode(false);
         })
-        .catch((err) => errorAlert(err));
+        .catch((err) => {
+          errorAlert(err);
+        });
     } else {
       alert('로그인을 하셔야 생성 가능합니다!');
-      navigate('/auth');
+      navigate('/');
     }
   }, [createDescription, createTitle, mutate, navigate, setCreateMode]);
 

@@ -4,13 +4,12 @@ import '@css/Main/Event.scss';
 import { EventType } from '@usefulObj/types';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import SelectedEvent from '@recoil/MainSelectedEvent';
-import axios from 'axios';
 import getAddress from '@globalObj/function/getAddress';
-import { getToken } from '@cert/TokenStorage';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import errorAlert from '@globalObj/function/errorAlert';
 import DeviceMode from '@recoil/DeviceMode';
+import apiClient from '@service/apiClient';
 
 function Event(props: {
   eventList: EventType[];
@@ -31,18 +30,16 @@ function Event(props: {
   };
 
   const deleteEvent = useCallback(() => {
-    axios
-      .delete(`${getAddress()}/meetups/${elem['id']}`, {
-        headers: {
-          Authorization: 'Bearer ' + getToken(),
-        },
-      })
+    apiClient
+      .delete(`/meetups/${elem['id']}`)
       .then(() => {
         alert('삭제되었습니다');
         mutateEvent();
         setSelectedEvent(null);
       })
-      .catch((err) => errorAlert(err));
+      .catch((err) => {
+        errorAlert(err);
+      });
   }, [elem, mutateEvent, setSelectedEvent]);
 
   const onClickDeleteEvent = () => {

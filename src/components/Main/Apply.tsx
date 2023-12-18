@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import '@css/Main/Apply.scss';
-import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
@@ -13,6 +12,7 @@ import CreateEventBox from './CreateEventBox';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import Event from './Event';
+import apiClient from '@service/apiClient';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
@@ -35,20 +35,18 @@ function Apply() {
   const registerEvent = useCallback(
     (eventId: number) => {
       if (getToken()) {
-        axios
-          .post(`${getAddress()}/meetups/${eventId}/attendance`, {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
-            },
-          })
+        apiClient
+          .post(`/meetups/${eventId}/attendance`)
           .then(() => {
             alert('신청되셨습니다');
             mutateTeamList();
           })
-          .catch((err) => errorAlert(err));
+          .catch((err) => {
+            errorAlert(err);
+          });
       } else {
         alert('로그인을 하셔야 신청 가능합니다!');
-        navigate('/auth');
+        navigate('/');
       }
     },
     [mutateTeamList, navigate],
@@ -65,7 +63,7 @@ function Apply() {
       setGlobalSelectedEvent(null);
     } else {
       alert('로그인을 하셔야 생성 가능합니다!');
-      navigate('/auth');
+      navigate('/');
     }
   };
 
