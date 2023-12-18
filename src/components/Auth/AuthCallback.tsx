@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { saveAuth, getAuth } from '@cert/AuthStorage';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useSetRecoilState } from 'recoil';
-import { set } from 'date-fns';
 
 const AuthCallback = () => {
   const location = useLocation();
