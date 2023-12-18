@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import '@css/Result/Result.scss';
 import Footer from '@result/Footer';
-import axios from 'axios';
 import { EventType, teamMemInfo } from '@globalObj/object/types';
 import errorAlert from '@globalObj/function/errorAlert';
 import { getToken } from '@cert/TokenStorage';
@@ -9,6 +8,7 @@ import getAddress from '@globalObj/function/getAddress';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import { useNavigate } from 'react-router';
+import apiClient from '@service/apiClient';
 
 function Result() {
   const [selectedEvent, setSelectedEvent] = useState<EventType>({
@@ -34,37 +34,29 @@ function Result() {
   });
 
   const postMatching = () => {
-    axios
-      .post(
-        `${getAddress()}/meetups/${selectedEvent.id}/matching`,
-        {
-          teamNum: +teamLen,
-        },
-        {
-          headers: {
-            Authorization: 'Bearer ' + getToken(),
-          },
-        },
-      )
+    apiClient
+      .post(`/meetups/${selectedEvent.id}/matching`, {
+        teamNum: +teamLen,
+      })
       .then(() => {
         alert('매칭성공');
         mutateTeam();
       })
-      .catch((err) => errorAlert(err));
+      .catch((err) => {
+        errorAlert(err);
+      });
   };
 
   const deleteEvent = useCallback(() => {
-    axios
-      .delete(`${getAddress()}/meetups/${selectedEvent['id']}`, {
-        headers: {
-          Authorization: 'Bearer ' + getToken(),
-        },
-      })
+    apiClient
+      .delete(`/meetups/${selectedEvent['id']}`)
       .then(() => {
         alert('삭제되었습니다');
         mutateEvent();
       })
-      .catch((err) => errorAlert(err));
+      .catch((err) => {
+        errorAlert(err);
+      });
   }, [mutateEvent, selectedEvent]);
 
   const onClickEvent = (e: any) => {
@@ -78,7 +70,7 @@ function Result() {
     e.preventDefault();
     if (!getToken()) {
       alert('로그인 하셔야 사용 가능합니다');
-      navigate('/auth');
+      navigate('/');
     } else if (teamLen === '') alert('몇 명으로 매칭하실 건지 적어주세요');
     else if (isNaN(+teamLen)) alert('팀 개수 형식이 잘못되었습니다.');
     else postMatching();

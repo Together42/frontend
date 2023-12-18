@@ -3,12 +3,11 @@ import Xmark from '@img/xmark-solid.svg';
 import '@css/Main/AttendeeListProfile.scss';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 import SelectedEvent from '@recoil/MainSelectedEvent';
-import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import getAddress from '@globalObj/function/getAddress';
 import { useSWRConfig } from 'swr';
+import apiClient from '@service/apiClient';
 
 interface Props {
   intraID: string;
@@ -24,17 +23,15 @@ function AttendeeListProfile(props: Props) {
 
   const cancleEventAttend = useCallback(
     (eventId: number) => {
-      axios
-        .delete(`${getAddress()}/meetups/${eventId}/attendance`, {
-          headers: {
-            Authorization: 'Bearer ' + getToken(),
-          },
-        })
+      apiClient
+        .delete(`/meetups/${eventId}/attendance`)
         .then(() => {
           alert('삭제되었습니다');
           mutate(`${getAddress()}/meetups/${selectedEvent.id}`);
         })
-        .catch((err) => errorAlert(err));
+        .catch((err) => {
+          errorAlert(err);
+        });
     },
     [mutate, selectedEvent.id],
   );

@@ -41,7 +41,7 @@ function CommentBox(props: { intraId: string; comments: string; commentId: numbe
         .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 하셔야 댓글 수정이 가능합니다');
-      navigate('/auth');
+      navigate('/');
     }
   }, [boardId, commentId, comments, mutate, myComment, navigate]);
 

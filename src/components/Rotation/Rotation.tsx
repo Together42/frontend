@@ -21,6 +21,7 @@ import {
   getFourthWeekFromMondayToFridayPeriod,
   getNextAttendPeriodStrFunction,
 } from './rotation_utils';
+import apiClient from '@service/apiClient';
 
 const DEFAULT_CALENDAR_TYPE = 'US';
 
@@ -161,26 +162,6 @@ const getAttendLimit = async (intraId: string, currDate: Date) => {
 
   return newData;
 };
-
-const postAttend = async (intraId: string, record: Record<string, boolean>) =>
-  await axios.post(
-    `${getAddress()}/rotations/attendance`,
-    {
-      attendLimit: createUnavailableDates(record),
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getToken(),
-      },
-    },
-  );
-
-const deleteAttend = async () =>
-  await axios.delete(`${getAddress()}/rotations/attendance`, {
-    headers: {
-      Authorization: 'Bearer ' + getToken(),
-    },
-  });
 
 /**
  *  updateRecord: Axios 요청을 통해 받은 attendLimit를 적용시킨 Record 반환
@@ -371,14 +352,19 @@ export const Rotate = () => {
       return;
     }
     if (window.confirm('사서 로테이션 참석 신청하시겠습니까?')) {
-      try {
-        const res = await postAttend(intraId, record);
-        alert('성공적으로 신청되었습니다');
-        mutate(`${getAddress()}/rotations/attendance`);
-        pageReload();
-      } catch (error) {
-        errorAlert(error);
-      }
+      await apiClient
+        .post(`/rotations/`, {
+          intraId: intraId,
+          attendDate: createUnavailableDates(record),
+        })
+        .then(() => {
+          alert('성공적으로 신청되었습니다');
+          mutate(`${getAddress()}/rotations/attendance`);
+          pageReload();
+        })
+        .catch((err) => {
+          errorAlert(err);
+        });
     }
   };
 
@@ -387,13 +373,20 @@ export const Rotate = () => {
       return;
     }
     if (window.confirm('사서 로테이션 참석을 취소하시겠습니까?')) {
-      try {
-        const res = await deleteAttend();
-        alert('성공적으로 신청 취소되었습니다');
-        pageReload();
-      } catch (error) {
-        errorAlert(error);
-      }
+      await apiClient
+        .delete(`/rotations/`, {
+          data: {
+            intraId: intraId,
+          },
+        })
+        .then(() => {
+          alert('성공적으로 신청 취소되었습니다');
+          mutate(`${getAddress()}/rotations/attendance`);
+          pageReload();
+        })
+        .catch((err) => {
+          errorAlert(err);
+        });
     }
   };
 

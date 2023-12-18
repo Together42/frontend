@@ -1,6 +1,7 @@
 import getAddress from '@globalObj/function/getAddress';
-import axios from 'axios';
 import { getAuth } from '@cert/AuthStorage';
+import apiClient from '@service/apiClient';
+import errorAlert from '@globalObj/function/errorAlert';
 
 let eventGuid = 0;
 let todayStr = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
@@ -30,24 +31,30 @@ function rotatedArr(data) {
 // 일단 다음 달 로테이션만 반환
 export async function getRotationArr() {
   let rotationArr = [];
-  try {
-    const res = await axios.get(`${getAddress()}/rotations/`);
-    const data = await res.data;
-    rotationArr = rotatedArrAllInfo(data);
-  } catch (error) {
-    console.log(error);
-  }
+  apiClient
+    .get(`/rotations/`)
+    .then((res) => {
+      const data = res.data;
+      rotationArr = rotatedArr(data);
+    })
+    .catch((err) => {
+      errorAlert(err);
+    });
   return rotationArr;
 }
 
 export async function getRotationMonthArr(month, year) {
   let rotationArr = [];
-  try {
-    const res = await axios.get(`${getAddress()}/rotations/`, { params: { month: month, year: year } });
-    const data = await res.data;
-    rotationArr = rotatedArr(data);
-  } catch (error) {
-    console.log(error);
-  }
+  apiClient
+    .get(`/rotations/`, {
+      params: { month: month, year: year },
+    })
+    .then((res) => {
+      const data = res.data;
+      rotationArr = rotatedArr(data);
+    })
+    .catch((err) => {
+      errorAlert(err);
+    });
   return rotatedArr;
 }

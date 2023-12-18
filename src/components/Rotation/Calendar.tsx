@@ -12,6 +12,7 @@ import errorAlert from '@globalObj/function/errorAlert';
 import '@css/Rotation/Calendar.scss';
 import { getAuth } from '@cert/AuthStorage';
 import { DAY_OF_SUNDAY } from './rotation_utils';
+import apiClient from '@service/apiClient';
 
 const COLOR = {
   me: '#e79f5a',
@@ -170,6 +171,11 @@ export default class Calendar extends React.Component {
     }
   };
 
+  /*
+  todo
+  1. use apiClient
+  2. 인자를 들어오는 데이터들을 간소화
+  */
   requestRotationUpdate = async (info, config, successMsg, errorMsg) => {
     try {
       const res = await axios(config);

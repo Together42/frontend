@@ -41,7 +41,7 @@ function Navbar() {
       navigate('/2022-timeline');
     } else {
       alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
+      navigate('/');
     }
   };
 
@@ -50,7 +50,7 @@ function Navbar() {
   //       navigate('/review/');
   //     } else {
   //       alert('로그인을 먼저 해주세요!');
-  //       navigate('/auth');
+  //       navigate('/');
   //     }
   //   };
 
@@ -71,7 +71,7 @@ function Navbar() {
       navigate('/rotation/');
     } else {
       alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
+      navigate('/');
     }
   };
 
