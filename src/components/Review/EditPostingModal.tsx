@@ -114,7 +114,7 @@ function NewEditPostingModal(props: { boardId: number }) {
       postEditPosting();
     } else {
       alert('로그인을 하셔야 포스팅 하실 수 있습니다');
-      navigate('/auth');
+      navigate('/');
     }
   };
 

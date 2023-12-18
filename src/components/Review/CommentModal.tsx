@@ -58,7 +58,7 @@ function CommentModal(props: { boardId: number }) {
         .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 해주셔야 댓글 달 수 있습니다');
-      navigate('/auth');
+      navigate('/');
     }
   }, [boardObj, mutateBoard, myComment, navigate]);
 
@@ -71,7 +71,7 @@ function CommentModal(props: { boardId: number }) {
     if (LoginState['id'] !== '') postComment();
     else {
       alert('로그인을 하셔야 이용 가능합니다.');
-      navigate('/auth');
+      navigate('/');
     }
   };
 
