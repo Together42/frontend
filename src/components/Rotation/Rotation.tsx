@@ -404,7 +404,7 @@ export const Rotate = () => {
    * - attendLimit: "[1,2,3]" 배열이 문자열화 되어있으므로 JSON.parse로 파싱
    * - 로테이션 참석을 신청한 상태라면 attendLimit 셋하고, isSubmit을 true로 놓는다.
    * [update 23.12.12]
-   * - attendLimitData를 객체 배열이 아닌 단일 객체를 받아서 처리하는 것으로 가정.
+   * - attendLimitData를 단 하나의 객체가 들어있는 객체 배열 아닌, 단일 객체를 받아서 처리하는 것으로 가정.
    * - 따라서 반환값도 단일 객체가 된다.
    */
   useEffect(() => {
