@@ -13,7 +13,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
-          ref: deploy-develop
+          ref: develop
 
       - name: Setup Python for AWS CLI
         uses: actions/setup-python@v1
