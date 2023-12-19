@@ -32,7 +32,6 @@ const AuthSignUp = () => {
         imageUrl: profileImage,
       })
       .then((res) => {
-        console.log('success', res.data);
         saveToken(res.data.access_token);
         saveAuth(res.data.access_token);
         setLoginState(() => {
@@ -43,13 +42,6 @@ const AuthSignUp = () => {
             profileUrl: res.data.url,
           };
         });
-        apiClient
-          .post('/rotations/attendance', {
-            attendLimit: [],
-          })
-          .catch((err) => {
-            throw err;
-          });
         navigate('/');
       })
       .catch((err) => {
