@@ -9,19 +9,6 @@ jobs:
     name: Build, Deploy to S3 bucket
     runs-on: [ubuntu-latest]
 
-    env:
-      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_BUCKET_REGION: ${{ secrets.AWS_BUCKET_REGION }}
-      AWS_CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
-      DEPLOY_ADR: ${{ secrets.DEPLOY_ADR }}
-      IMAGE_SERVER_ADR: ${{ secrets.IMAGE_SERVER_ADR }}
-
-    strategy:
-      matrix:
-        node-version: [14.15.x]
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
