@@ -1,10 +1,8 @@
-import getAddress from '@globalObj/function/getAddress';
 import { getAuth } from '@cert/AuthStorage';
 import apiClient from '@service/apiClient';
 import errorAlert from '@globalObj/function/errorAlert';
 
 let eventGuid = 0;
-let todayStr = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
 
 export function createEventId() {
   return String(eventGuid++);
@@ -20,13 +18,6 @@ function rotatedArrAllInfo(data) {
       color: intraId === el.intraId ? '#e79f5a' : '#4992ce',
     }));
 }
-
-// function rotatedArr(data) {
-//   return data.map((el) => ({
-//     title: el.intraId,
-//     start: `${el.year}-${el.month}-${el.day}`,
-//   }));
-// }
 
 // DB 내 전체 로테이션 반환
 export async function getRotationArr() {
