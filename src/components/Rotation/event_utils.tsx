@@ -21,21 +21,21 @@ function rotatedArrAllInfo(data) {
     }));
 }
 
-function rotatedArr(data) {
-  return data.map((el) => ({
-    title: el.intraId,
-    start: `${el.year}-${el.month}-${el.day}`,
-  }));
-}
+// function rotatedArr(data) {
+//   return data.map((el) => ({
+//     title: el.intraId,
+//     start: `${el.year}-${el.month}-${el.day}`,
+//   }));
+// }
 
-// 일단 다음 달 로테이션만 반환
+// DB 내 전체 로테이션 반환
 export async function getRotationArr() {
   let rotationArr = [];
-  apiClient
+  await apiClient
     .get(`/rotations/`)
     .then((res) => {
       const data = res.data;
-      rotationArr = rotatedArr(data);
+      rotationArr = rotatedArrAllInfo(data);
     })
     .catch((err) => {
       errorAlert(err);
@@ -43,18 +43,19 @@ export async function getRotationArr() {
   return rotationArr;
 }
 
+// month와 year에 해당하는 로테이션 반환
 export async function getRotationMonthArr(month, year) {
   let rotationArr = [];
-  apiClient
+  await apiClient
     .get(`/rotations/`, {
       params: { month: month, year: year },
     })
     .then((res) => {
       const data = res.data;
-      rotationArr = rotatedArr(data);
+      rotationArr = rotatedArrAllInfo(data);
     })
     .catch((err) => {
       errorAlert(err);
     });
-  return rotatedArr;
+  return rotationArr;
 }
