@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth } from '@cert/AuthStorage';
 import Calendar, { CalendarTileProperties } from 'react-calendar';
 import getAddress from '@globalObj/function/getAddress';
-import axios from 'axios';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import { useSWRConfig } from 'swr';
@@ -151,10 +150,15 @@ const periodToString = getNextAttendPeriodStrFunction(getRotationApplicationPeri
 /**
  * Axios 요청
  */
-const getAttendLimit = async (intraId: string, currDate: Date) => {
-  const url = `${getAddress()}/rotations/attendance`;
-  const headers = { Authorization: 'Bearer ' + getToken() };
-  const { data } = await axios.get<BackendAttendLimitData>(url, { headers });
+const getAttendLimit = async () => {
+  const data: BackendAttendLimitData = await apiClient
+    .get(`/rotations/attendance`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
 
   const year = data.year;
   const month = data.month;
@@ -463,7 +467,7 @@ export const Rotate = () => {
       // }
       if (checkTokenAndRedirect(null) && intraId) {
         try {
-          const attendLimitData = await getAttendLimit(intraId, currDate);
+          const attendLimitData = await getAttendLimit();
           const attendLimit = attendLimitData.attendLimit;
           setIsSumbit(true);
           setRecord(updateRecord(initialRecord, attendLimit));
