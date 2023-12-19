@@ -32,7 +32,6 @@ const AuthSignUp = () => {
         imageUrl: profileImage,
       })
       .then((res) => {
-        console.log('success', res.data);
         saveToken(res.data.access_token);
         saveAuth(res.data.access_token);
         setLoginState(() => {

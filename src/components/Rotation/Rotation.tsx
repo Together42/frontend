@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth } from '@cert/AuthStorage';
 import Calendar, { CalendarTileProperties } from 'react-calendar';
 import getAddress from '@globalObj/function/getAddress';
-import axios from 'axios';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import { useSWRConfig } from 'swr';
@@ -151,16 +150,21 @@ const periodToString = getNextAttendPeriodStrFunction(getRotationApplicationPeri
 /**
  * Axios 요청
  */
-const getAttendLimit = async (intraId: string, currDate: Date) => {
-  const url = `${getAddress()}/rotations/attendance`;
-  const headers = { Authorization: 'Bearer ' + getToken() };
-  const { data } = await axios.get<BackendAttendLimitData>(url, { headers });
+const getAttendLimit = async () => {
+  const data: BackendAttendLimitData = await apiClient
+    .get(`/rotations/attendance`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
 
   const year = data.year;
   const month = data.month;
   const attendDate = JSON.stringify(
     data.attendLimit
-      .map((day) => `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`)
+      ?.map((day) => `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`)
       .join(','),
   );
 
@@ -263,24 +267,25 @@ const SelectDateBox = ({
    */
   const setTileClassName = ({ activeStartDate, date, view }: CalendarTileProperties) => {
     const classNames: string[] = [];
-    const nextMonth = currentDate.getMonth() + 1;
-    const dDate = date.getDate();
-    const dMonth = date.getMonth();
-    if (nextMonth !== dMonth || !(dDate in record)) {
+    const nextMonth = currentDate.getMonth() + 2 > 12 ? 1 : currentDate.getMonth() + 2;
+    const _currentDate = date.getDate();
+    const _currentMonth = date.getMonth() + 1;
+    if (nextMonth !== _currentMonth) {
       classNames.push('disabled');
       return classNames;
     }
     if (!isSubmit) {
       classNames.push('selectable');
     }
-    if (isSubmit && record[dDate]) {
+    if (isSubmit && record[_currentDate]) {
       classNames.push('attendLimited');
     }
-    if (!isSubmit && record[dDate]) {
+    if (!isSubmit && record[_currentDate]) {
       classNames.push('selected');
     }
     return classNames;
   };
+
   return (
     <div className="rotation--selectDates">
       <SelectDateNoticeBox isSubmit={isSubmit} />
@@ -328,7 +333,7 @@ export const Rotate = () => {
   const intraId = getAuth()?.id ?? null;
   const isRotationApplicationPeriod = calculateIsRotationApplicationPeriod(currentDate);
   const [record, setRecord] = useState(() => ({ ...initialRecord }));
-  const [isSubmit, setIsSumbit] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // pageReload 관련하여 추가, 아지 관련 기능 완전 업데이트 X
   const { mutate } = useSWRConfig();
 
@@ -392,10 +397,10 @@ export const Rotate = () => {
       return;
     }
     if (window.confirm('사서 로테이션 참석 신청하시겠습니까?')) {
-      await apiClient
-        .post(`/rotations/`, {
-          intraId: intraId,
-          attendDate: createUnavailableDates(record),
+      const attendDate = createUnavailableDates(record);
+      apiClient
+        .post('/rotations/attendance', {
+          attendLimit: attendDate,
         })
         .then(() => {
           alert('성공적으로 신청되었습니다');
@@ -421,11 +426,7 @@ export const Rotate = () => {
     }
     if (window.confirm('사서 로테이션 참석을 취소하시겠습니까?')) {
       await apiClient
-        .delete(`/rotations/`, {
-          data: {
-            intraId: intraId,
-          },
-        })
+        .delete(`/rotations/attendance`)
         .then(() => {
           alert('성공적으로 신청 취소되었습니다');
           mutate(`${getAddress()}/rotations/attendance`);
@@ -463,12 +464,12 @@ export const Rotate = () => {
       // }
       if (checkTokenAndRedirect(null) && intraId) {
         try {
-          const attendLimitData = await getAttendLimit(intraId, currDate);
+          const attendLimitData = await getAttendLimit();
           const attendLimit = attendLimitData.attendLimit;
-          setIsSumbit(true);
+          setIsSubmit(true);
           setRecord(updateRecord(initialRecord, attendLimit));
         } catch (error) {
-          errorAlert(error);
+          setIsSubmit(false);
         }
       }
       setIsLoading(false);
