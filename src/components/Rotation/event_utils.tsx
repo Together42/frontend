@@ -1,4 +1,4 @@
-import { getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 import apiClient from '@service/apiClient';
 import errorAlert from '@globalObj/function/errorAlert';
 
@@ -9,7 +9,7 @@ export function createEventId() {
 }
 
 function rotatedArrAllInfo(data) {
-  const intraId = getAuth() ? getAuth().id : null;
+  const intraId = getDecodedToken() ? getDecodedToken().id : null;
   return data
     .filter((el) => !!el.year && !!el.month && !!el.day)
     .map((el) => ({

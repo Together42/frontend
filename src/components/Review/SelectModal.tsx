@@ -12,7 +12,7 @@ import useSWR from 'swr';
 import getAddress from '@globalObj/function/getAddress';
 import fetcher from '@globalObj/function/fetcher';
 import EmptyEvent from '@globalObj/object/EmptyEvent';
-import { getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 
 function SelectModal(prop: { mode: string }) {
   const { data: eventList, mutate: mutateAllEvent } = useSWR<ReviewSelectedEventType[]>(
@@ -66,7 +66,7 @@ function SelectModal(prop: { mode: string }) {
       setSelectedTeam({ [event]: memArr });
       setEventListModalShow(false);
     } else {
-      setSelectedTeam({ [event]: [{ intraId: getAuth().id, profile: getAuth().url, teamId: -1 }] });
+      setSelectedTeam({ [event]: [{ intraId: getDecodedToken().id, profile: getDecodedToken().url, teamId: -1 }] });
       setEventListModalShow(false);
     }
   };

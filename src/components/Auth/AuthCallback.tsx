@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { saveToken } from '@cert/TokenStorage';
 import { useNavigate } from 'react-router-dom';
-import { saveAuth, getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useSetRecoilState } from 'recoil';
 
@@ -15,13 +15,12 @@ const AuthCallback = () => {
 
   useEffect(() => {
     saveToken(token);
-    saveAuth(token);
     setLoginState(() => {
       return {
-        id: getAuth().id,
+        id: getDecodedToken().id,
         isLogin: true,
         isAdmin: false,
-        profileUrl: getAuth().url,
+        profileUrl: getDecodedToken().url,
       };
     });
     navigate('/');

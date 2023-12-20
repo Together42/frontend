@@ -1,4 +1,4 @@
-import { getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 import { ReviewSelectedEventType } from './types';
 
 function EmptyEvent(): ReviewSelectedEventType {
@@ -9,7 +9,7 @@ function EmptyEvent(): ReviewSelectedEventType {
     createdId: 1,
     intraId: 'tkim',
     isMatching: 1,
-    teamList: { 사서: [{ intraId: getAuth().id, profile: getAuth().url, teamId: -1 }] },
+    teamList: { 사서: [{ intraId: getDecodedToken().id, profile: getDecodedToken().url, teamId: -1 }] },
   };
 }
 

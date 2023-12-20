@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { clearToken, getToken } from '@cert/TokenStorage';
-import { removeAuth } from '@cert/AuthStorage';
 import { Dropdown } from './Dropdown';
 import getAddress from '@globalObj/function/getAddress';
 import apiClient from '@service/apiClient';
@@ -18,7 +17,6 @@ function Navbar() {
     apiClient
       .post('/auth/logout')
       .then((res) => {
-        removeAuth();
         clearToken();
         setLoginState(() => {
           return {
