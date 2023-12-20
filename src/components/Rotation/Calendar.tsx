@@ -1,14 +1,9 @@
 import React from 'react';
-import { formatDate } from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { createEventId, getRotationArr } from './event_utils';
-import axios from 'axios';
-import getAddress from '@globalObj/function/getAddress';
-import { getToken } from '@cert/TokenStorage';
-import errorAlert from '@globalObj/function/errorAlert';
 import '@css/Rotation/Calendar.scss';
 import { getDecodedToken } from '@cert/TokenStorage';
 import { DAY_OF_SUNDAY } from './rotation_utils';
@@ -96,7 +91,6 @@ export default class Calendar extends React.Component {
     if (isSunday) {
       return;
     }
-    
     const { currentEvents, auth } = this.state;
     const title = auth?.id;
 
@@ -171,22 +165,6 @@ export default class Calendar extends React.Component {
     }
   };
 
-  /*
-  todo
-  1. use apiClient
-  2. 인자를 들어오는 데이터들을 간소화
-  */
-  requestRotationUpdate = async (info, config, successMsg, errorMsg) => {
-    try {
-      const res = await axios(config);
-      window.alert(successMsg);
-    } catch (err) {
-      window.alert(errorMsg);
-      info.revert();
-      console.error(err);
-    }
-  };
-
   requestAdd = async (info) => {
     const dateString: string = info.event.startStr;
     const dateParts: string[] = dateString.split('-');
@@ -194,17 +172,18 @@ export default class Calendar extends React.Component {
     const month: number = parseInt(dateParts[1]);
     const day: number = parseInt(dateParts[2]);
 
-    await this.requestRotationUpdate(
-      info,
-      {
-        method: 'post',
-        url: `${getAddress()}/rotations/`,
-        data: { attendDate: [day], year: year, month: month },
-        headers: { Authorization: `Bearer ${getToken()}` },
-      },
-      `사서 로테이션 일정<${info.event.startStr}>이 성공적으로 추가되었습니다.`,
-      `사서 로테이션 일정<${info.event.startStr}>추가에 실패했습니다.`,
-    );
+    apiClient
+      .post(`/rotations/`, {
+        attendDate: [day],
+        year: year,
+        month: month,
+      })
+      .then((res) => {
+        window.alert(`사서 로테이션 일정<${info.event.startStr}>이 성공적으로 추가되었습니다.`);
+      })
+      .catch(() => {
+        window.alert(`사서 로테이션 일정<${info.event.startStr}>추가에 실패했습니다.`);
+      });
   };
 
   requestRemove = async (info) => {
@@ -214,17 +193,16 @@ export default class Calendar extends React.Component {
     const month: number = parseInt(dateParts[1]);
     const day: number = parseInt(dateParts[2]);
 
-    await this.requestRotationUpdate(
-      info,
-      {
-        method: 'delete',
-        url: `${getAddress()}/rotations/`,
+    apiClient
+      .delete(`/rotations/`, {
         data: { day: day, year: year, month: month },
-        headers: { Authorization: `Bearer ${getToken()}` },
-      },
-      `사서 로테이션 일정<${info.event.startStr}>이 성공적으로 제거되었습니다.`,
-      `사서 로테이션 일정<${info.event.startStr}>제거에 실패했습니다.`,
-    );
+      })
+      .then(() => {
+        window.alert(`사서 로테이션 일정<${info.event.startStr}>이 성공적으로 제거되었습니다.`);
+      })
+      .catch(() => {
+        window.alert(`사서 로테이션 일정<${info.event.startStr}>제거에 실패했습니다.`);
+      });
   };
 
   requestChange = async (info) => {
@@ -240,17 +218,21 @@ export default class Calendar extends React.Component {
     const newMonth: number = parseInt(newDateParts[1]);
     const newDay: number = parseInt(newDateParts[2]);
 
-    await this.requestRotationUpdate(
-      info,
-      {
-        method: 'patch',
-        url: `${getAddress()}/rotations/${info.event.title}`,
-        data: { attendDate: [oldDay], updateDate: newDay, year: newYear, month: newMonth },
-        headers: { Authorization: `Bearer ${getToken()}` },
-      },
-      `${info.oldEvent.title}의 사서 로테이션 일정<${info.oldEvent.startStr}>이 <${info.event.startStr}>으로 성공적으로 변경되었습니다.`,
-      `${info.oldEvent.title}의 사서 로테이션 일정<${info.oldEvent.startStr}>을 <${info.event.startStr}>로 변경에 실패했습니다.`,
-    );
+    apiClient
+      .patch(`/rotations/${info.event.title}`, {
+        attendDate: [oldDay],
+        updateDate: newDay,
+        year: newYear,
+        month: newMonth,
+      })
+      .then(() => {
+        window.alert(
+          `사서 로테이션 일정<${info.oldEvent.title}>이 <${info.event.startStr}>으로 성공적으로 변경되었습니다.`
+        );
+      })
+      .catch(() => {
+        window.alert(`사서 로테이션 일정<${info.oldEvent.title}>을 <${info.event.startStr}>로 변경에 실패했습니다.`);
+      });
   };
 }
 
