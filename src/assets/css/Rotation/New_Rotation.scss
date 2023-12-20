@@ -28,7 +28,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 }
 
 .rotation-viewSelectDates-title {
@@ -56,12 +56,13 @@
     color: $pinkred;
     font-weight: bold;
     cursor: pointer;
-    font-size: 13px;
-    border: none;
+    font-size: 20px;
+    border: 1px solid $pinkred;
     border-radius: 10px;
     transition: 0.5s ease;
     display: flex;
     align-items: center;
+    text-align: center;
     background: none;
   }
   button:hover {
@@ -128,8 +129,8 @@
   }
   button[disabled] { background: #f0f0f0 !important;}
   button:not([disabled]) {
-    background: none !important;
-    &.selected, &.attendLimited { background: #01BABC !important; }
+    background: rgb(53, 218, 196)!important;
+    &.selected, &.attendLimited { background: rgb(237, 89, 89) !important; }
     &:not(.selectable):hover { cursor: default !important;}
   }
 }

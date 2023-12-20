@@ -301,12 +301,6 @@ const SelectDateBox = ({
         ></Calendar>
       </div>
       <div className="rotation--viewSelectDates">
-        <div className="rotation-viewSelectDates-title">{isSubmit ? '불가능하다고 제출한 날짜' : '불가능한 날짜'}</div>
-        <div className="rotation--selectDates-box">
-          {createUnavailableDates(record).map((date, i) => (
-            <span key={i}>{date}</span>
-          ))}
-        </div>
         {!isSubmit && (
           <div className="rotation--reset">
             <button onClick={resetDates}>reset</button>
@@ -430,6 +424,7 @@ export const Rotate = () => {
         .then(() => {
           alert('성공적으로 신청 취소되었습니다');
           mutate(`${getAddress()}/rotations/attendance`);
+          setIsSubmit(false);
           pageReload();
         })
         .catch((err) => {
@@ -452,21 +447,11 @@ export const Rotate = () => {
    */
   useEffect(() => {
     async function fetchAttendLimit(intraId: string, currDate: Date) {
-      // if (checkIsPeriod(null) && checkTokenAndRedirect(null) && intraId) {
-      //   try {
-      //     const attendLimitData = await getAttendLimit(intraId, currDate);
-      //     const attendLimit = attendLimitData.attendLimit;
-      //     setIsSumbit(true);
-      //     setRecord(updateRecord(initialRecord, attendLimit));
-      //   } catch (error) {
-      //     errorAlert(error);
-      //   }
-      // }
       if (checkTokenAndRedirect(null) && intraId) {
         try {
           const attendLimitData = await getAttendLimit();
           const attendLimit = attendLimitData.attendLimit;
-          setIsSubmit(true);
+          setIsSubmit(false);
           setRecord(updateRecord(initialRecord, attendLimit));
         } catch (error) {
           setIsSubmit(false);

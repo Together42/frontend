@@ -12,6 +12,7 @@ import CreateEventBox from './CreateEventBox';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import Event from './Event';
+import { getDecodedToken } from '@cert/TokenStorage';
 import apiClient from '@service/apiClient';
 
 function Apply() {
@@ -84,7 +85,7 @@ function Apply() {
   return (
     <div className="main--apply">
       <p className="main--apply--title" ref={ListWrapperRef}>
-        {getToken() ? `${LoginState.id}님, 신청하시죠?` : '로그인 후 신청 가능!'}
+        {getToken() ? `${getDecodedToken().id}님, 신청하시죠?` : '로그인 후 신청 가능!'}
       </p>
       <div className="main--apply--wrapper">
         <div className="main--apply--create_modal_button">
