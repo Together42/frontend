@@ -1,5 +1,3 @@
-import { decodeToken } from './AuthStorage';
-
 const TOKEN = 'token';
 
 const JWT_PART_LENGTH = 3;
@@ -75,3 +73,25 @@ export function getToken() {
   }
   return token;
 }
+
+export function getAuth(): { id: string; url: string } {
+  const token = localStorage.getItem(TOKEN);
+  if (!token) {
+    return { id: null, url: null };
+  }
+  const decoded = decodeToken(token);
+  return { id: decoded.username, url: decoded.imageUrl };
+}
+
+const decodeToken = (token: string) => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split('')
+      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+      .join(''),
+  );
+
+  return JSON.parse(jsonPayload);
+};

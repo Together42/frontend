@@ -5,7 +5,6 @@ import { useSetRecoilState, useRecoilValue } from 'recoil';
 import errorAlert from '@globalObj/function/errorAlert';
 import apiClient from '@service/apiClient';
 import { saveToken } from '@cert/TokenStorage';
-import { saveAuth } from '@cert/AuthStorage';
 import ProfileChangeModalShow from '@recoil/ProfileChangeModalShow';
 import SignUpProfileState from '@recoil/SignUpProfileState';
 import ProfileModal from '@auth/ProfileModal';
@@ -34,7 +33,6 @@ const AuthSignUp = () => {
       .then((res) => {
         console.log('success', res.data);
         saveToken(res.data.access_token);
-        saveAuth(res.data.access_token);
         setLoginState(() => {
           return {
             id: res.data.id,
