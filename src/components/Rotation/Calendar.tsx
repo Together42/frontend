@@ -10,7 +10,7 @@ import getAddress from '@globalObj/function/getAddress';
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import '@css/Rotation/Calendar.scss';
-import { getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 import { DAY_OF_SUNDAY } from './rotation_utils';
 import apiClient from '@service/apiClient';
 
@@ -21,7 +21,7 @@ const COLOR = {
 
 export default class Calendar extends React.Component {
   state = {
-    auth: getAuth(),
+    auth: getDecodedToken(),
     weekendsVisible: true,
     currentEvents: [],
   };

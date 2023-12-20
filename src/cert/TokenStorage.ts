@@ -74,7 +74,7 @@ export function getToken() {
   return token;
 }
 
-export function getAuth(): { id: string; url: string } {
+export function getDecodedToken(): { id: string; url: string } {
   const token = localStorage.getItem(TOKEN);
   if (!token) {
     return { id: null, url: null };

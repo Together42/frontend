@@ -1,6 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 import Calendar, { CalendarTileProperties } from 'react-calendar';
 import getAddress from '@globalObj/function/getAddress';
 import axios from 'axios';
@@ -325,7 +325,7 @@ export const Rotate = () => {
   const navigate = useNavigate();
   const currentDate = new Date();
   const initialRecord = createInitialObject(currentDate);
-  const intraId = getAuth()?.id ?? null;
+  const intraId = getDecodedToken()?.id ?? null;
   const isRotationApplicationPeriod = calculateIsRotationApplicationPeriod(currentDate);
   const [record, setRecord] = useState(() => ({ ...initialRecord }));
   const [isSubmit, setIsSumbit] = useState(false);
