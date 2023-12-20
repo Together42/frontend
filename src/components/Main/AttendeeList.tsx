@@ -13,7 +13,7 @@ function AttendeeList() {
   const { data: teamList } = useSWR<{
     event: EventType;
     teamList: { [x: string]: teamMemInfo[] };
-  }>(selectedEvent ? `${getAddress()}/api/together/${selectedEvent.id}` : null, fetcher, {
+  }>(selectedEvent ? `${getAddress()}/meetups/${selectedEvent.id}` : null, fetcher, {
     dedupingInterval: 600000,
   });
   const showAttendeeList =

@@ -1,27 +1,37 @@
 import React from 'react';
 import '@css/utils/Navbar.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { clearToken, getToken } from '@cert/TokenStorage';
 import { Dropdown } from './Dropdown';
+import getAddress from '@globalObj/function/getAddress';
+import apiClient from '@service/apiClient';
 
 function Navbar() {
   const setLoginState = useSetRecoilState(GlobalLoginState);
   const navigate = useNavigate();
+  const url = `${getAddress()}/auth/google`;
 
   const onClickLogOut = () => {
-    clearToken();
-    setLoginState(() => {
-      return {
-        id: '',
-        isLogin: false,
-        isAdmin: false,
-        profileUrl: '',
-      };
-    });
-    alert('로그아웃 되셨습니다!');
-    navigate('/auth');
+    apiClient
+      .post('/auth/logout')
+      .then((res) => {
+        clearToken();
+        setLoginState(() => {
+          return {
+            id: '',
+            isLogin: false,
+            isAdmin: false,
+            profileUrl: '',
+          };
+        });
+        alert('로그아웃 되셨습니다!');
+        navigate('/');
+      })
+      .catch((err) => {
+        alert('로그아웃에 실패했습니다.');
+      });
   };
 
   const onClickAuthTimeline = () => {
@@ -29,7 +39,7 @@ function Navbar() {
       navigate('/2022-timeline');
     } else {
       alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
+      navigate('/');
     }
   };
 
@@ -38,7 +48,7 @@ function Navbar() {
   //       navigate('/review/');
   //     } else {
   //       alert('로그인을 먼저 해주세요!');
-  //       navigate('/auth');
+  //       navigate('/');
   //     }
   //   };
 
@@ -59,7 +69,7 @@ function Navbar() {
       navigate('/rotation/');
     } else {
       alert('로그인을 먼저 해주세요!');
-      navigate('/auth');
+      navigate('/');
     }
   };
 
@@ -86,7 +96,7 @@ function Navbar() {
       />
       {/* <span onClick={onClickAuthReview}>친스타그램</span> */}
       <span onClick={onClickAuthTimeline}>집현전실록</span>
-      {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <Link to={`/auth`}>로그인하기</Link>}
+      {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <a href={url}>구글 로그인</a>}
     </div>
   );
 }

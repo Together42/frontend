@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "cross-env webpack serve --env development",
     "build": "cross-env NODE_ENV=production webpack",
-    "deploy": "gh-pages -d dist",
     "predeploy": "npm run build; cp dist/index.html dist/404.html"
   },
   "repository": {
@@ -46,7 +45,7 @@
     "react-spinners": "^0.13.7",
     "react-textarea-autosize": "^8.4.0",
     "recoil": "^0.7.6",
-    "sass": "^1.57.1",
+    "sass": "^1.69.5",
     "style-loader": "^3.3.1",
     "swr": "^2.0.0",
     "ts-node": "^10.9.1",
@@ -71,7 +70,6 @@
     "eslint-plugin-react": "^7.31.11",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
-    "node-sass": "^8.0.0",
     "prettier": "^2.8.1",
     "react-refresh": "^0.14.0",
     "sass-loader": "^13.2.0",

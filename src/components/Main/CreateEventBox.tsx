@@ -1,19 +1,18 @@
 import { getToken } from '@cert/TokenStorage';
 import errorAlert from '@globalObj/function/errorAlert';
 import getAddress from '@globalObj/function/getAddress';
-import axios from 'axios';
 import React, { useCallback, useState } from 'react';
 import '@css/Main/CreateEventBox.scss';
 import { useSWRConfig } from 'swr';
 import { useNavigate } from 'react-router';
+import apiClient from '@service/apiClient';
 
 interface Props {
   setCreateMode: React.Dispatch<React.SetStateAction<boolean>>;
-  registerEvent: (eventId: number) => void;
 }
 
 function CreateEventBox(props: Props) {
-  const { setCreateMode, registerEvent } = props;
+  const { setCreateMode } = props;
   const navigate = useNavigate();
   const [createTitle, setCreateTitle] = useState('');
   const [createDescription, setCreateDescription] = useState('');
@@ -21,34 +20,27 @@ function CreateEventBox(props: Props) {
 
   const postCreateEvent = useCallback(() => {
     if (getToken()) {
-      axios
-        .post(
-          `${getAddress()}/api/together`,
-          {
-            title: createTitle,
-            description: createDescription,
-            categoryId: 2,
-          },
-          {
-            headers: {
-              Authorization: 'Bearer ' + getToken(),
-            },
-          },
-        )
+      apiClient
+        .post('/meetups', {
+          title: createTitle,
+          description: createDescription,
+          categoryId: 2,
+        })
         .then((res) => {
           alert('생성되었습니다');
-          registerEvent(res.data.event);
-          mutate(`${getAddress()}/api/together`);
+          mutate(`${getAddress()}/meetups`);
           setCreateDescription('');
           setCreateTitle('');
           setCreateMode(false);
         })
-        .catch((err) => errorAlert(err));
+        .catch((err) => {
+          errorAlert(err);
+        });
     } else {
       alert('로그인을 하셔야 생성 가능합니다!');
-      navigate('/auth');
+      navigate('/');
     }
-  }, [createDescription, createTitle, mutate, navigate, registerEvent, setCreateMode]);
+  }, [createDescription, createTitle, mutate, navigate, setCreateMode]);
 
   const onSubmitCreate = (e: any) => {
     e.preventDefault();

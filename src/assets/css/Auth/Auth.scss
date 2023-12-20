@@ -2,22 +2,13 @@
 
 .auth--wrapper {
   @include medium_kor;
-  min-height: 450px;
+  min-height: 300px;
   @include desktop {
     @include basic--wrappers;
   }
   @include mobile {
     width: 100%;
   }
-}
-
-.auth--hello {
-  @include medium_kor;
-  text-align: center;
-}
-
-.signup {
-  margin-bottom: 100px;
 }
 
 .auth--profile {
@@ -38,18 +29,59 @@
   }
 }
 
-.auth--guide {
-  @include medium_kor;
+.auth--signup_form {
   text-align: center;
   margin-top: 50px;
 }
 
-.auth--mode_change {
-  @include medium_kor;
+.authForm {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 50px;
+  @include desktop {
+    width: 300px;
+  }
+  @include mobile {
+    width: 80%;
+  }
   text-align: center;
-  color: #1e4df5 !important;
+}
+
+.authForm--input {
+  height: 24px;
+  border: none;
+  border-bottom: 1px solid $darkgrey_default;
+  font-size: $default_small_13;
+  text-align: center;
+  &:focus {
+    outline: none;
+  }
+  @include desktop {
+    width: 240px;
+    margin-left: 10px;
+  }
+  @include mobile {
+    width: 75%;
+  }
+}
+
+.authForm--button {
+  padding: 0;
+  border: none;
+  color: $darkgrey_default;
+  background-color: lavender;
+  padding: 5px;
+  border-radius: 10px;
+  margin-top: 10px;;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
   }
+}
+
+.authForm--error_message {
+  @include medium_kor;
+  color: $pinkred;
+  display: flex;
+  align-items: center;
 }

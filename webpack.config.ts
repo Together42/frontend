@@ -27,6 +27,7 @@ const config = {
       '@types': path.resolve(__dirname, 'src/assets/usefulObj/types'),
       '@cert': path.resolve(__dirname, 'src/cert'),
       '@globalObj': path.resolve(__dirname, 'src/globalObj'),
+      '@service': path.resolve(__dirname, 'src/service'),
     },
   },
   entry: {

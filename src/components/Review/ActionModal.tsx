@@ -48,7 +48,7 @@ function ActionModal(props: {
         .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 하셔야 삭제 가능합니다');
-      navigate('/auth');
+      navigate('/');
     }
   }, [boardId, mutate, navigate, selectedEvent]);
 
@@ -67,7 +67,7 @@ function ActionModal(props: {
         .catch((err) => errorAlert(err));
     } else {
       alert('로그인을 하셔야 삭제 가능합니다');
-      navigate('/auth');
+      navigate('/');
     }
   }, [boardId, commentId, mutate, navigate]);
 

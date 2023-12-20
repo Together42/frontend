@@ -1,13 +1,13 @@
 import { atom } from 'recoil';
 import { userData } from '@globalObj/object/types';
-import { getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 
-const value = getAuth()
+const value = getDecodedToken()
   ? {
       isLogin: true,
-      isAdmin: getAuth()['id'] === 'tkim',
-      id: getAuth()['id'],
-      profileUrl: getAuth()['url'],
+      isAdmin: getDecodedToken()['id'] === 'tkim',
+      id: getDecodedToken()['id'],
+      profileUrl: getDecodedToken()['url'],
     }
   : {
       isLogin: false,

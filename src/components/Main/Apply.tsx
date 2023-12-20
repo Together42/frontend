@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import '@css/Main/Apply.scss';
-import axios from 'axios';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getToken } from '@cert/TokenStorage';
@@ -13,6 +12,8 @@ import CreateEventBox from './CreateEventBox';
 import useSWR from 'swr';
 import fetcher from '@globalObj/function/fetcher';
 import Event from './Event';
+import { getDecodedToken } from '@cert/TokenStorage';
+import apiClient from '@service/apiClient';
 
 function Apply() {
   const LoginState = useRecoilValue(GlobalLoginState);
@@ -24,10 +25,10 @@ function Apply() {
   const { data: teamList, mutate: mutateTeamList } = useSWR<{
     event: EventType;
     teamList: { [x: string]: teamMemInfo[] };
-  }>(globalSelectedEvent ? `${getAddress()}/api/together/${globalSelectedEvent.id}` : null, fetcher, {
+  }>(globalSelectedEvent ? `${getAddress()}/meetups/${globalSelectedEvent.id}` : null, fetcher, {
     dedupingInterval: 600000,
   });
-  const { data: allEventList } = useSWR<{ EventList: EventType[] }>(`${getAddress()}/api/together`, fetcher, {
+  const { data: allEventList } = useSWR<EventType[]>(`${getAddress()}/meetups`, fetcher, {
     dedupingInterval: 600000,
   });
   const isTeamListExist = teamList && teamList.teamList && teamList.teamList.null && Object.keys(teamList.teamList);
@@ -35,26 +36,18 @@ function Apply() {
   const registerEvent = useCallback(
     (eventId: number) => {
       if (getToken()) {
-        axios
-          .post(
-            `${getAddress()}/api/together/register`,
-            {
-              eventId: eventId,
-            },
-            {
-              headers: {
-                Authorization: 'Bearer ' + getToken(),
-              },
-            },
-          )
+        apiClient
+          .post(`/meetups/${eventId}/attendance`)
           .then(() => {
             alert('신청되셨습니다');
             mutateTeamList();
           })
-          .catch((err) => errorAlert(err));
+          .catch((err) => {
+            errorAlert(err);
+          });
       } else {
         alert('로그인을 하셔야 신청 가능합니다!');
-        navigate('/auth');
+        navigate('/');
       }
     },
     [mutateTeamList, navigate],
@@ -71,13 +64,13 @@ function Apply() {
       setGlobalSelectedEvent(null);
     } else {
       alert('로그인을 하셔야 생성 가능합니다!');
-      navigate('/auth');
+      navigate('/');
     }
   };
 
   useEffect(() => {
-    if (allEventList && allEventList.EventList.length > 0) {
-      setEventList(allEventList.EventList.filter((e) => !e['isMatching']));
+    if (allEventList && allEventList.length > 0) {
+      setEventList(allEventList.filter((e) => !e['isMatching']));
     }
   }, [allEventList]);
 
@@ -92,7 +85,7 @@ function Apply() {
   return (
     <div className="main--apply">
       <p className="main--apply--title" ref={ListWrapperRef}>
-        {getToken() ? `${LoginState.id}님, 신청하시죠?` : '로그인 후 신청 가능!'}
+        {getToken() ? `${getDecodedToken().id}님, 신청하시죠?` : '로그인 후 신청 가능!'}
       </p>
       <div className="main--apply--wrapper">
         <div className="main--apply--create_modal_button">
@@ -117,7 +110,9 @@ function Apply() {
               <>
                 <p className="main--apply--eventInfo--title_wrapper">
                   <span className="main--apply--eventInfo--title"> {globalSelectedEvent.title}</span>
-                  <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['intraId']}`}</span>
+                  {globalSelectedEvent['intraId'] && (
+                    <span className="main--apply--eventInfo--maker">{`생성자 : ${globalSelectedEvent['intraId']}`}</span>
+                  )}
                 </p>
                 <div className="main--apply--eventInfo--description">
                   <span>{globalSelectedEvent.description}</span>
@@ -146,7 +141,7 @@ function Apply() {
             )}
           </div>
         ) : createMode ? (
-          <CreateEventBox setCreateMode={setCreateMode} registerEvent={registerEvent} />
+          <CreateEventBox setCreateMode={setCreateMode} />
         ) : null}
       </div>
     </div>

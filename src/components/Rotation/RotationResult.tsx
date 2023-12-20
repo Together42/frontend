@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LoadingSpinner from './Loading';
 import { RotateUserResult } from './RotateUserResult';
 import { getRotationMonthArr } from './event_utils';
-import { getAuth } from '@cert/AuthStorage';
+import { getDecodedToken } from '@cert/TokenStorage';
 import '@css/Rotation/Rotation.scss';
 
 export const RotateResult = () => {
@@ -13,7 +13,7 @@ export const RotateResult = () => {
   date < new Date(year, nextmonth, -1) ? (month = nextmonth - 1) : nextmonth;
   const [Loading, setLoading] = useState(true);
   const [arr, setArr] = useState([]);
-  const intraId = getAuth() ? getAuth().id : null;
+  const intraId = getDecodedToken() ? getDecodedToken().id : null;
 
   const mainApi = async () => {
     setLoading(true); // api 호출 전에 true로 변경하여 로딩화면 띄우기
