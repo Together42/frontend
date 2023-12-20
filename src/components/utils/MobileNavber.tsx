@@ -5,25 +5,35 @@ import { useSetRecoilState } from 'recoil';
 import GlobalLoginState from '@recoil/GlobalLoginState';
 import { clearToken, getToken } from '@cert/TokenStorage';
 import hambergImg from '@img/bars-solid-white.svg';
+import getAddress from '@globalObj/function/getAddress';
+import apiClient from '@service/apiClient';
 
 function MobileNavber() {
   const navigate = useNavigate();
   const setLoginState = useSetRecoilState(GlobalLoginState);
   const [modalOpen, setModalOpen] = useState(false);
+  const url = `${getAddress()}/auth/google`;
 
   const onClickLogOut = () => {
-    clearToken();
-    setLoginState(() => {
-      return {
-        id: '',
-        isLogin: false,
-        isAdmin: false,
-        profileUrl: '',
-      };
-    });
-    setModalOpen((prev) => !prev);
-    alert('로그아웃 되셨습니다!');
-    navigate('/');
+    apiClient
+      .post('/auth/logout')
+      .then(() => {
+        clearToken();
+        setLoginState(() => {
+          return {
+            id: '',
+            isLogin: false,
+            isAdmin: false,
+            profileUrl: '',
+          };
+        });
+        setModalOpen((prev) => !prev);
+        alert('로그아웃 되셨습니다!');
+        navigate('/');
+      })
+      .catch((err) => {
+        alert('로그아웃에 실패했습니다.');
+      });
   };
 
   const onClickModalShow = () => {
@@ -88,13 +98,7 @@ function MobileNavber() {
           <span onClick={onClickRotationCalendar}>사서 달력</span>
           {/* <span onClick={onClickAuthReview}>친스타그램</span> */}
           <span onClick={onClickAuthTimeline}>집현전실록</span>
-          {getToken() ? (
-            <span onClick={onClickLogOut}>로그아웃</span>
-          ) : (
-            <Link to={`/auth`} onClick={onClickModalShow}>
-              로그인하기
-            </Link>
-          )}
+          {getToken() ? <span onClick={onClickLogOut}>로그아웃</span> : <a href={url}>구글 로그인</a>}
         </div>
       )}
     </div>
