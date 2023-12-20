@@ -14,7 +14,7 @@ export function removeAuth() {
   localStorage.removeItem(AUTH);
 }
 
-const decodeToken = (token: string) => {
+export const decodeToken = (token: string) => {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(

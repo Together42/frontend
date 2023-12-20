@@ -1,3 +1,5 @@
+import { decodeToken } from './AuthStorage';
+
 const TOKEN = 'token';
 
 const JWT_PART_LENGTH = 3;
@@ -10,7 +12,6 @@ enum JWTPart {
 }
 export interface JWTPayload {
   id: string;
-  isAdmin: number; // 또는 boolean, 상황에 따라 적절한 타입을 선택하세요.
   iat: number;
   exp: number;
 }
@@ -28,9 +29,7 @@ export function isValidJWTPayload(object: any): object is JWTPayload {
     object !== null &&
     typeof object === 'object' &&
     'id' in object &&
-    typeof object.id === 'string' &&
-    'isAdmin' in object &&
-    typeof object.isAdmin === 'number' &&
+    typeof object.id === 'number' &&
     'iat' in object &&
     typeof object.iat === 'number' &&
     'exp' in object &&
@@ -40,7 +39,7 @@ export function isValidJWTPayload(object: any): object is JWTPayload {
 
 export function parseJWTPayload(token: string): JWTPayload {
   try {
-    const payload = JSON.parse(getJWTPart(token, JWTPart.Payload));
+    const payload = decodeToken(token);
     if (!isValidJWTPayload(payload)) {
       throw new Error('Invalid JWTPayload');
     }
