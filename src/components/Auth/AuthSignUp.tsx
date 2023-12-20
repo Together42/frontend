@@ -20,6 +20,12 @@ const AuthSignUp = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    const nickname = e.target[0].value;
+    const nicknameRegex = /^[a-zA-Z0-9-]+$/;
+    if (!nicknameRegex.test(nickname)) {
+      setNicknameError(true);
+      return;
+    }
     if (!e.target[0].value) {
       setNicknameError(true);
       return;
@@ -27,17 +33,17 @@ const AuthSignUp = () => {
     apiClient
       .post('/auth/signup', {
         nickname: e.target[0].value,
-        slackId: e.target[1].value,
+        slackId: '',
         imageUrl: profileImage,
       })
       .then((res) => {
         saveToken(res.data.access_token);
         setLoginState(() => {
           return {
-            id: res.data.id,
+            id: e.target[0].value,
             isLogin: true,
             isAdmin: false,
-            profileUrl: res.data.url,
+            profileUrl: profileImage,
           };
         });
         navigate('/');
@@ -61,9 +67,7 @@ const AuthSignUp = () => {
         {openProfileModal && <ProfileModal />}
         <form className={`authForm`} onSubmit={handleSubmit}>
           <input type="text" placeholder="닉네임을 입력해주세요" maxLength={10} className={`authForm--input`} />
-          {nicknameError && <p className={`authForm--error_message`}>닉네임을 입력해주세요.</p>}
-          <br />
-          <input type="text" placeholder="slack id" maxLength={20} className={`authForm--input`} />
+          {nicknameError && <p className={`authForm--error_message`}>닉네임은 영어대소문자, 숫자 그리고 '-'만 허용합니다.</p>}
           <br />
           <button className={`authForm--button`}>Sign Up</button>
         </form>
