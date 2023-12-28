@@ -19,21 +19,6 @@
     <img src="https://img.shields.io/badge/Webpack-v5.70.0-8DD6F9?logo=Webpack">
 </p>
 
-<p align='center'>
-<span>🔐 For Server</sapn>
-</p>
-
-<p align='center'>
-    <img src="https://img.shields.io/badge/node.js-v14.15.1-green?logo=Node.js"/>
-    <img src="https://img.shields.io/badge/JavaScript-deploy-F7DF1E?logo=JavaScript"/>
-    <img src="https://img.shields.io/badge/Express-v4.17.3-green?style=flat&logo=Express&logoColor=white"/>
-    <img src="https://img.shields.io/badge/Amazon AWS-deploy-FF9900?logo=Amazon AWS">
-    <img src="https://img.shields.io/badge/JSON Web Tokens-deploy-CC2927?logo=JSON Web Tokens">
-    <img src="https://img.shields.io/badge/MySQL-v8.0.28-4479A1?logo=MySQL">
-    <img src="https://img.shields.io/badge/GitHub Actions-deploy-5B0BB5?logo=GitHub Actions">
-    <img src="https://img.shields.io/badge/Slack-alert-4A154B?logo=Slack">
-</p>
-
 ## 🏠 [HOME PAGE](https://together.42jip.net/)
 
 정기적으로 **20명**이 넘는 동아리원(사서)님들을 무작위 매칭 후, 친해질 수 있는 활동을 함께 하도록 돕는 페이지입니다. 매칭에 대한 **후기를 SNS**처럼 남길 수도 있습니다. 현재 React 에 대한 경험이 없는 팀원들을 직접 가르쳐드리며, 프로젝트 참여를 독려 중입니다.
@@ -79,47 +64,26 @@
 
 프론트 코드와 백엔드 코드 모두 클론합니다.
 
-[백엔드 코드](https://github.com/Together42/backend)
+**1. DB 및 백엔드**
 
-**1. MySQL 다운로드 후 워크벤치에 DB 스키마 설계 후 실행**
+- [DB 및 백엔드 실행 방법](https://github.com/Together42/nest-backend?tab=readme-ov-file#%EC%8B%A4%ED%96%89%20%EB%B0%A9%EB%B2%95)
 
-**2. 백엔드**
-- 백엔드 환경 변수 설정
-  - backend폴더 바로 안에 .env 파일 생성
-  - .env 예시
-    ```
-    DB_DATABASE=...
-    DB_USER=...
-    DB_PASSWORD=...
-    DB_HOST=...
-    DB_PORT=...
-    JWT_SECRET=...
-    JWT_EXPIRES_SEC=...
-    BCRYPT_SALT_ROUNDS=...
-    HOST_PORT=...
-    HOSTNAME=...
-    ACCESS_KEY_ID=...
-    SECRET_ACCESS_KEY=...
-    REGION=...
-    NAVER_ID=...
-    NAVER_PW=...
-    BOT_USER_OAUTH_ACCESS_TOKEN=...
-    SLACK_JIP=...
-    SLACK_TKIM=...
-    ```
-  - 실행
-    ```jsx
-    npm install
-    npm run dev
-    ```
-
-**3. 프론트엔드**
+**2. 프론트엔드**
 - 프론트엔드 환경 변수 설정
    - 폴더에 .env 파일 생성
    - .env 예시
       ```
-      DEPLOY_ADR=...
+      # 프론트엔드 실행 포트, 디폴트는 3050
+      FRONT_PORT=http://localhost:{백엔드 실행 포트}
+
+      # 개발 시 사용하는 백엔드 주소. 프론트를 로컬 환경에서 실행 시 백엔드도 로컬 환경 실행 추천
       DEV_ADR=...
+
+      # 이미지 서버 주소
+      IMAGE_SERVER_ADR=https://together-fileserver.s3.ap-northeast-2.amazonaws.com
+
+      # 배포된 서버 주소, NODE_ENV가 'production' 일 때만 필요
+      DEPLOY_ADR=...
       ```
   - 실행
     ```jsx
