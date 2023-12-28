@@ -68,7 +68,7 @@
 
 - [DB 및 백엔드 실행 방법](https://github.com/Together42/nest-backend?tab=readme-ov-file#%EC%8B%A4%ED%96%89%20%EB%B0%A9%EB%B2%95)
 
-**3. 프론트엔드**
+**2. 프론트엔드**
 - 프론트엔드 환경 변수 설정
    - 폴더에 .env 파일 생성
    - .env 예시
