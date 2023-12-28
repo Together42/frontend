@@ -85,7 +85,7 @@ const config = {
   },
   devServer: {
     historyApiFallback: true,
-    port: 3050,
+    port: +process.env.FRONT_PORT || 3050,
   },
 };
 
